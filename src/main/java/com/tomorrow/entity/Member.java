@@ -12,7 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.tomorrow.constant.Role;
+import com.tomorrow.dto.MemberFormDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -50,4 +53,18 @@ public class Member {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
 	private Shop shop;					// 매장코드 FK
+	
+	public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		Member member = new Member();
+		member.setUserNm(memberFormDto.getUserNm());
+		member.setUserId(memberFormDto.getUserId());
+		member.setPNum(memberFormDto.getPNum());
+		
+		String password = passwordEncoder.encode(memberFormDto.getPassword()); //비밀번호 암호화
+		member.setPassword(password);
+		
+		member.setRole(Role.USER);
+		
+		return member;
+	}
 }

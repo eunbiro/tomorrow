@@ -22,6 +22,8 @@ public class QBoardImg extends EntityPathBase<BoardImg> {
 
     public static final QBoardImg boardImg = new QBoardImg("boardImg");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
     public final QBoard board;
 
     public final StringPath boImgNm = createString("boImgNm");
@@ -30,7 +32,19 @@ public class QBoardImg extends EntityPathBase<BoardImg> {
 
     public final StringPath boOriImgNm = createString("boOriImgNm");
 
+    //inherited
+    public final StringPath createdBy = _super.createdBy;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final StringPath modifiedBy = _super.modifiedBy;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> regTime = _super.regTime;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> upDateTime = _super.upDateTime;
 
     public QBoardImg(String variable) {
         this(BoardImg.class, forVariable(variable), INITS);
