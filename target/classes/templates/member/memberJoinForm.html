@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link th:href="@{/css/layout1.css}" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/layout1.css">
+    <!-- bootstrap js, popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+    <!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+	    //회원가입이 실패했을때
+		$(document).ready(function(){
+        	var errorMessage = [[${errorMessage}]];
+        	if(errorMessage != null){
+            	alert(errorMessage);
+        	}
+    	});
+	</script>
+</th:block>
+
+<!-- 각 페이지의 CSS가 작성될 위치 -->
+<th:block layout:fragment="css">
+	<style>
+		.fieldError {
+			color: #bd2130;
+		}
+	</style>
+</th:block>
+</head>
+<body class="joinBody">
+    <div class="container-lg">
+        <form action="" role="form" action="/member/new" method="post" th:object="${memberFormDto}">
+            <div class="join-input">
+                <div>
+                    <p style="font-size: 1.5em;">회원가입</p>
+                    <a href="#"><img src="img/joinImg.png" style="width:120px" /></a>
+                </div>
+                <p style="font-weight: bold;">이름</p>
+                <input type="text" />
+                <p th:if="${fields.hasError('userNm')}" th:errors="*{userNm}" class="fieldError">Incorrect Data</p>
+                <p style="font-weight: bold;">아이디</p>
+                <input type="text" />
+                <p th:if="${fields.hasError('userId')}" th:errors="*{userId}" class="fieldError">Incorrect Data</p>
+                <p style="font-weight: bold;">비밀번호</p>
+                <input type="password" />
+                <p th:if="${fields.hasError('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
+                <p style="font-weight: bold;">전화번호</p>
+                <input type="text" />
+                <p th:if="${fields.hasError('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
+                <button type="button" onclick="location.href='/member/new'">가입하기</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
