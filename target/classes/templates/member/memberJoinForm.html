@@ -20,7 +20,7 @@
 	<script th:inline="javascript">
 	    //회원가입이 실패했을때
 		$(document).ready(function(){
-        	var errorMessage = [[${errorMessage}]];
+			var errorMessage = [[${errorMessage}]];
         	if(errorMessage != null){
             	alert(errorMessage);
         	}
@@ -46,16 +46,16 @@
                     <a href="#"><img src="img/joinImg.png" style="width:120px" /></a>
                 </div>
                 <p style="font-weight: bold;">이름</p>
-                <input type="text" />
+                <input type="text" th:field="*{userNm}" />
                 <p th:if="${fields.hasError('userNm')}" th:errors="*{userNm}" class="fieldError">Incorrect Data</p>
                 <p style="font-weight: bold;">아이디</p>
-                <input type="text" />
+                <input type="text" th:field="*{userId}" />
                 <p th:if="${fields.hasError('userId')}" th:errors="*{userId}" class="fieldError">Incorrect Data</p>
                 <p style="font-weight: bold;">비밀번호</p>
-                <input type="password" />
+                <input type="password" th:field="*{password}" />
                 <p th:if="${fields.hasError('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
                 <p style="font-weight: bold;">전화번호</p>
-                <input type="text" />
+                <input type="text" th:field="*{pNum}" />
                 <p th:if="${fields.hasError('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
                 <button type="button" onclick="location.href='/member/new'">가입하기</button>
             </div>

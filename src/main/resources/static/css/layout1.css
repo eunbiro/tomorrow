@@ -24,3 +24,29 @@ footer {
 .content {
 	margin: 50px 200px 100px 200px;
 }
+
+
+
+/*======================매장메뉴CSS======================*/
+.profile-img {
+	
+	width: 10%;
+	height: 10%;
+	padding: 0;
+}
+
+.notice {
+	
+	border: none;
+	border-radius: 5px;
+	background-color: #F1F1F1;
+	position: relative;
+}
+
+.notice-icon {
+	
+	position: absolute;
+	top: 120px;
+	left: 100px;
+	transform: translate(280%, 50%);
+}
