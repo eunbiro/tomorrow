@@ -16,16 +16,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "notice")
+@Table(name = "hire")
 @Getter
 @Setter
 @ToString
-public class Notice extends BaseEntity {
+public class Hire extends BaseEntity {
 
 	@Id
-	@Column(name = "notice_id")
+	@Column(name = "hire_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;						// 매장공지 식별번호
+	private Long id;						// 구인공고 식별번호
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
@@ -35,7 +35,10 @@ public class Notice extends BaseEntity {
 	@JoinColumn(name = "manager_id")
 	private Manager manager;				// 관리자 아이디 FK
 	
+	@Column(length = 50, nullable = false)
+	private String hireTitle;				// 구인공고제목
+	
 	@Lob
 	@Column(nullable = false)
-	private String noticeCont;				// 공지내용
+	private String hireCont;				// 구인공고내용
 }

@@ -15,7 +15,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "shop")	// 테이블명 (설정안하면 클래스이름으로 설정됨)
+@Table(name = "shop")
 @Getter
 @Setter
 @ToString
@@ -24,24 +24,24 @@ public class Shop {
 	@Id
 	@Column(name = "shop_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;			// 매장코드
+	private Long id;					// 매장코드
 	
 	@Column(length = 30, nullable = false)
-	private String shopNm;		// 매장 이름
+	private String shopNm;				// 매장 이름
 	
 	@Column(length = 20)
-	private String shopTime;	// 매장 영업시간
+	private String shopTime;			// 매장 영업시간
 	
 	@Column(nullable = false)
-	private int businessId;		// 사업자번호
+	private int businessId;				// 사업자번호
 	
 	@Column(length = 30, nullable = false)
-	private String shopPlace;	// 매장위치
+	private String shopPlace;			// 매장위치
 	
 	@Column(length = 30, nullable = false)
-	private String shopType;	// 매장업종
+	private String shopType;			// 매장업종
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "manager_id")
-	private Manager manager;	// 관리자 아이디
+	private Manager manager;			// 관리자 아이디 FK
 }

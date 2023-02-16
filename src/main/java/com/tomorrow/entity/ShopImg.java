@@ -24,16 +24,15 @@ public class ShopImg {
 	@Id
 	@Column(name = "sh_img_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;			// 이미지 번호
+	private Long id;					// 이미지 번호
 	
-	@Column(nullable = false)
-	private String shImgNm;		// 이미지명
+	private String shImgNm;				// 이미지명
 	
-	private String shOriImgNm;	// 원본 이미지명
+	private String shOriImgNm;			// 원본 이미지명
 	
-	private String shImgUrl;	// 이미지경로
+	private String shImgUrl;			// 이미지경로
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
-	private Shop shop;			// 매장코드
+	private Shop shop;					// 매장코드 FK
 }

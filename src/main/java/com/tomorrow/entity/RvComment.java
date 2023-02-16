@@ -16,26 +16,26 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "notice")
+@Table(name = "rv_comment")
 @Getter
 @Setter
 @ToString
-public class Notice extends BaseEntity {
+public class RvComment extends BaseEntity {
 
 	@Id
-	@Column(name = "notice_id")
+	@Column(name = "rv_cmt_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;						// 매장공지 식별번호
+	private Long id;						// 매장리뷰댓글 식별번호
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "shop_id")
-	private Shop shop;						// 매장코드 FK
+	@JoinColumn(name = "review_id")
+	private Review review;					// 매장리뷰 식별번호 FK
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "manager_id")
-	private Manager manager;				// 관리자 아이디 FK
+	@JoinColumn(name = "member_id")
+	private Member member;					// 회원 식별번호 FK
 	
 	@Lob
 	@Column(nullable = false)
-	private String noticeCont;				// 공지내용
+	private String rvCmtText;				// 댓글내용
 }

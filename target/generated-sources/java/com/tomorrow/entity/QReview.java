@@ -11,16 +11,16 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QNoticeComment is a Querydsl query type for NoticeComment
+ * QReview is a Querydsl query type for Review
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QNoticeComment extends EntityPathBase<NoticeComment> {
+public class QReview extends EntityPathBase<Review> {
 
-    private static final long serialVersionUID = -355797736L;
+    private static final long serialVersionUID = -331283513L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QNoticeComment noticeComment = new QNoticeComment("noticeComment");
+    public static final QReview review = new QReview("review");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
@@ -34,36 +34,40 @@ public class QNoticeComment extends EntityPathBase<NoticeComment> {
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
 
-    public final QNotice notice;
-
-    public final StringPath notiCmtText = createString("notiCmtText");
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regTime = _super.regTime;
+
+    public final StringPath reviewCont = createString("reviewCont");
+
+    public final NumberPath<Integer> reviewGrade = createNumber("reviewGrade", Integer.class);
+
+    public final StringPath reviewTitle = createString("reviewTitle");
+
+    public final QShop shop;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> upDateTime = _super.upDateTime;
 
-    public QNoticeComment(String variable) {
-        this(NoticeComment.class, forVariable(variable), INITS);
+    public QReview(String variable) {
+        this(Review.class, forVariable(variable), INITS);
     }
 
-    public QNoticeComment(Path<? extends NoticeComment> path) {
+    public QReview(Path<? extends Review> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QNoticeComment(PathMetadata metadata) {
+    public QReview(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QNoticeComment(PathMetadata metadata, PathInits inits) {
-        this(NoticeComment.class, metadata, inits);
+    public QReview(PathMetadata metadata, PathInits inits) {
+        this(Review.class, metadata, inits);
     }
 
-    public QNoticeComment(Class<? extends NoticeComment> type, PathMetadata metadata, PathInits inits) {
+    public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
-        this.notice = inits.isInitialized("notice") ? new QNotice(forProperty("notice"), inits.get("notice")) : null;
+        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop"), inits.get("shop")) : null;
     }
 
 }

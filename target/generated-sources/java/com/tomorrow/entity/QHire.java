@@ -11,59 +11,61 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QNoticeComment is a Querydsl query type for NoticeComment
+ * QHire is a Querydsl query type for Hire
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QNoticeComment extends EntityPathBase<NoticeComment> {
+public class QHire extends EntityPathBase<Hire> {
 
-    private static final long serialVersionUID = -355797736L;
+    private static final long serialVersionUID = -389465309L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QNoticeComment noticeComment = new QNoticeComment("noticeComment");
+    public static final QHire hire = new QHire("hire");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
     //inherited
     public final StringPath createdBy = _super.createdBy;
 
+    public final StringPath hireCont = createString("hireCont");
+
+    public final StringPath hireTitle = createString("hireTitle");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QMember member;
+    public final QManager manager;
 
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
 
-    public final QNotice notice;
-
-    public final StringPath notiCmtText = createString("notiCmtText");
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regTime = _super.regTime;
+
+    public final QShop shop;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> upDateTime = _super.upDateTime;
 
-    public QNoticeComment(String variable) {
-        this(NoticeComment.class, forVariable(variable), INITS);
+    public QHire(String variable) {
+        this(Hire.class, forVariable(variable), INITS);
     }
 
-    public QNoticeComment(Path<? extends NoticeComment> path) {
+    public QHire(Path<? extends Hire> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QNoticeComment(PathMetadata metadata) {
+    public QHire(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QNoticeComment(PathMetadata metadata, PathInits inits) {
-        this(NoticeComment.class, metadata, inits);
+    public QHire(PathMetadata metadata, PathInits inits) {
+        this(Hire.class, metadata, inits);
     }
 
-    public QNoticeComment(Class<? extends NoticeComment> type, PathMetadata metadata, PathInits inits) {
+    public QHire(Class<? extends Hire> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
-        this.notice = inits.isInitialized("notice") ? new QNotice(forProperty("notice"), inits.get("notice")) : null;
+        this.manager = inits.isInitialized("manager") ? new QManager(forProperty("manager")) : null;
+        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop"), inits.get("shop")) : null;
     }
 
 }
