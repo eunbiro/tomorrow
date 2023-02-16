@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,11 +18,15 @@ public class QShop extends EntityPathBase<Shop> {
 
     private static final long serialVersionUID = -389138651L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QShop shop = new QShop("shop");
 
     public final NumberPath<Integer> businessId = createNumber("businessId", Integer.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final QManager manager;
 
     public final StringPath shopNm = createString("shopNm");
 
@@ -32,15 +37,24 @@ public class QShop extends EntityPathBase<Shop> {
     public final StringPath shopType = createString("shopType");
 
     public QShop(String variable) {
-        super(Shop.class, forVariable(variable));
+        this(Shop.class, forVariable(variable), INITS);
     }
 
     public QShop(Path<? extends Shop> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QShop(PathMetadata metadata) {
-        super(Shop.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QShop(PathMetadata metadata, PathInits inits) {
+        this(Shop.class, metadata, inits);
+    }
+
+    public QShop(Class<? extends Shop> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.manager = inits.isInitialized("manager") ? new QManager(forProperty("manager")) : null;
     }
 
 }

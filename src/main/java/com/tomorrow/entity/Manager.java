@@ -21,6 +21,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Manager {
+	
 	@Id
 	@Column(name = "manager_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
