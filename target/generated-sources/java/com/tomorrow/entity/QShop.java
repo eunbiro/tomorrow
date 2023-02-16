@@ -29,6 +29,8 @@ public class QShop extends EntityPathBase<Shop> {
 
     public final StringPath shopTime = createString("shopTime");
 
+    public final StringPath shopType = createString("shopType");
+
     public QShop(String variable) {
         super(Shop.class, forVariable(variable));
     }
