@@ -28,4 +28,6 @@ public class Shop {
 	private String shopTime;	// 매장 영업시간
 	
 	private int businessId;		// 매장
+	
+	private String shopPlace;	// 매장위치
 }
