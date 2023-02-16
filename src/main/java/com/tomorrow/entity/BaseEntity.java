@@ -19,4 +19,6 @@ public class BaseEntity extends BaseTimeEntity {
 	
 	@LastModifiedBy
 	private String modifiedBy;	// 수정자
+	
+	// TODO 안녕 언니? 내 꿈은 언니야. 
 }
