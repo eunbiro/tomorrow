@@ -22,7 +22,18 @@ public class QShopImg extends EntityPathBase<ShopImg> {
 
     public static final QShopImg shopImg = new QShopImg("shopImg");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
+    //inherited
+    public final StringPath createdBy = _super.createdBy;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final StringPath modifiedBy = _super.modifiedBy;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> regTime = _super.regTime;
 
     public final StringPath shImgNm = createString("shImgNm");
 
@@ -31,6 +42,9 @@ public class QShopImg extends EntityPathBase<ShopImg> {
     public final QShop shop;
 
     public final StringPath shOriImgNm = createString("shOriImgNm");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> upDateTime = _super.upDateTime;
 
     public QShopImg(String variable) {
         this(ShopImg.class, forVariable(variable), INITS);

@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BoardImg {
+public class BoardImg extends BaseEntity {
 
 	@Id
 	@Column(name = "bo_img_id")
