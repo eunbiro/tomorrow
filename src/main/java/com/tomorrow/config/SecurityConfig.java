@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.myshop.service.MemberService;
+import com.tomorrow.service.MemberService;
 
 @Configuration		// 스프링에서 설정 클래스로 사용하겠다.
 @EnableWebSecurity	// SpringSecurityFilterChain이 자동으로 포함됨

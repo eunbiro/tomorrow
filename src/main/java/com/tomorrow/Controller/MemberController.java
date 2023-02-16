@@ -1,4 +1,4 @@
-package com.tomorrow.controller;
+package com.tomorrow.Controller;
 
 
 import org.springframework.stereotype.Controller;
