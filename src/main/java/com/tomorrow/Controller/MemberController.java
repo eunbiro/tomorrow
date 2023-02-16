@@ -10,5 +10,5 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
-
+	/*test*/
 }
