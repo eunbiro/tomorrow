@@ -18,55 +18,46 @@
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
-		//쿠키를 이용한 아이디 기억
-		$(document).ready(function() {
-			var userInputId = getCookie("userInputId");
-			var setCookieYN = getCookie("setCookieYN");
-
-			if (setCookieYN == 'Y') {
-				$("#id_save").prop("checked", true);
-				$("#email").val(userInputId);
-			} else {
-				$("#id_save").prop("checked", false);
-			}
-
-			//로그인 버튼 클릭
-			$('#loginbtn').click(function() {
-				if ($("#id_save").is(":checked")) {
-					var userInputId = $("#email").val();
-					setCookie("userInputId", userInputId, 60);
-					setCookie("setCookieYN", "Y", 60);
-				} else {
-					deleteCookie("userInputId");
-					deleteCookie("setCookieYN");
-				}
-			});
-		});
+	    //회원가입이 실패했을때
+		$(document).ready(function(){
+        	var errorMessage = [[${errorMessage}]];
+        	if(errorMessage != null){
+            	alert(errorMessage);
+        	}
+    	});
 	</script>
 </th:block>
+
+<!-- 각 페이지의 CSS가 작성될 위치 -->
 <th:block layout:fragment="css">
-  <style>
-     .error {
-        color: #bd2130;
-     }
-  </style>
+	<style>
+		.fieldError {
+			color: #bd2130;
+		}
+	</style>
 </th:block>
 </head>
-<body>
+<body class="joinBody">
     <div class="container-lg">
-        <form action="">
-            <div class="login-logo">
-                <img src="img/Logo.png" />
-            </div>
-            <div class="login-p-input">
+        <form action="" role="form" action="/member/new" method="post" th:object="${memberFormDto}">
+            <div class="join-input">
+                <div>
+                    <p style="font-size: 1.5em;">회원가입</p>
+                    <a href="#"><img src="img/joinImg.png" style="width:120px" /></a>
+                </div>
+                <p style="font-weight: bold;">이름</p>
+                <input type="text" />
+                <p th:if="${fields.hasError('userNm')}" th:errors="*{userNm}" class="fieldError">Incorrect Data</p>
                 <p style="font-weight: bold;">아이디</p>
-                <input type="text" placeholder="아이디를 입력하세요" />
+                <input type="text" />
+                <p th:if="${fields.hasError('userId')}" th:errors="*{userId}" class="fieldError">Incorrect Data</p>
                 <p style="font-weight: bold;">비밀번호</p>
-                <input type="password" placeholder="비밀번호 4자~16자" />
-                <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
-                <label><input type="checkbox" name="id_save" id="id_save" />아이디 저장</label>
-                <button type="submit">로그인</button>
-                <button type="button" onclick="location.href='/member/join'">회원가입</button>
+                <input type="password" />
+                <p th:if="${fields.hasError('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
+                <p style="font-weight: bold;">전화번호</p>
+                <input type="text" />
+                <p th:if="${fields.hasError('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
+                <button type="button" onclick="location.href='/member/new'">가입하기</button>
             </div>
         </form>
     </div>
