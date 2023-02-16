@@ -56,7 +56,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop")) : null;
+        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop"), inits.get("shop")) : null;
     }
 
 }
