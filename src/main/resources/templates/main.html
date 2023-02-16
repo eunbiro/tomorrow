@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	<div layout:fragment="content">
 	main
-	야발
+	git push test 입니다
+		content area
 	<input type="button" onclick="location='/member/join'" value="테스트 버튼" />
+	</div>
 </body>
 </html>
