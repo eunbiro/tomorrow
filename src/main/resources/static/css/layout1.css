@@ -22,31 +22,95 @@ footer {
 }
 
 .content {
-	margin: 50px 200px 100px 200px;
+	width : 60%;
+	margin: 0 auto;
 }
 
 
 
 /*======================매장메뉴CSS======================*/
-.profile-img {
+.noti-wrap > div {
 	
+	width: 35rem;
+}
+
+.noti-title {
+	
+}
+
+.profile-img {
+<<<<<<< HEAD
 	width: 10%;
 	height: 10%;
+=======
+	
+	width: 2rem;
+	height: 2rem;
+>>>>>>> 4ec72f7d922cd484ae221799114d0c9173f99a70
 	padding: 0;
 }
 
 .notice {
-	
 	border: none;
 	border-radius: 5px;
 	background-color: #F1F1F1;
-	position: relative;
+	width: 35rem;
+}
+
+.notice-ipt {
+	
+	background-color: #F1F1F1;
+	border: none;
 }
 
 .notice-icon {
-	
+<<<<<<< HEAD
 	position: absolute;
 	top: 120px;
 	left: 100px;
 	transform: translate(280%, 50%);
 }
+
+/*======================로그인CSS======================*/
+=======
+	
+}
+
+/*======================boardList======================*/
+.header{
+	display: flex;
+}
+
+.home{
+ line-height: 250px;
+}
+header .logo-img{
+	width: 250px;
+	margin: 20px auto ;
+}
+
+.board-list-title{
+	margin: 0px;
+	font-size: 48px;
+}
+
+.board-table{
+	width: 1000px;
+	margin: 0 auto;
+	border-collapse: collapse;
+} 
+thead{
+	background: #D9D9D9;
+}
+
+.board-table th, td{
+	font-size: 30px;
+	text-align: center;
+}
+
+.board-table tr{
+	height: 50px;
+}
+
+>>>>>>> 4ec72f7d922cd484ae221799114d0c9173f99a70
+
