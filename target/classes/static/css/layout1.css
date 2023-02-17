@@ -40,7 +40,7 @@ footer {
 }
 
 .noti-wrap > form > div {
-	width: 35rem;
+	width: 40rem;
 }
 
 .noti-title {
@@ -67,7 +67,7 @@ footer {
 	border: none;
 	border-radius: 5px;
 	background-color: #F1F1F1;
-	width: 35rem;
+	width: 40em;
 }
 
 .notice-ipt {
@@ -77,10 +77,8 @@ footer {
 }
 
 .notice-icon {
-	position: absolute;
-	top: 120px;
-	left: 100px;
-	transform: translate(280%, 50%);
+	background: none;
+	border: none;
 }
 
 /*======================로그인CSS======================*/

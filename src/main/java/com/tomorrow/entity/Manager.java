@@ -9,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.tomorrow.constant.Role;
+import com.tomorrow.dto.MemberFormDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -43,4 +46,20 @@ public class Manager {
 	private Role role;					// 유저 권한등급 > 기본 회원가입 시 무조건 USER 등급
 	
 	private String userProfile;			// 유저 회원가입 시 선택적으로 입력하는 프로필 이미지
+	
+	public static Manager createManager(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		
+		Manager manager = new Manager();
+		
+		manager.setUserNm(memberFormDto.getUserNm());
+		manager.setUserId(memberFormDto.getUserId());
+		manager.setPNum(memberFormDto.getPNum());
+		
+		String password = passwordEncoder.encode(memberFormDto.getPassword()); //비밀번호 암호화
+		manager.setPassword(password);
+		
+		manager.setRole(Role.ADMIN);
+		
+		return manager;
+	}
 }

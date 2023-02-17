@@ -16,4 +16,8 @@ public class NoticeDto {
 	private LocalDateTime regTime;
 	
 	private int likeNoti;
+	
+	private ShopDto shopDto;
+	
+	private Long noticeId;
 }
