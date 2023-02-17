@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<!-- <body> -->
+	<div layout:fragment="content">	
+	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
+   			<hr>
+	   		<form method="post" >
+	   			<div class="post-title d-flex">
+					<p>제목 : 점심 관련 공지</p>
+	   			</div>
+	   			<hr>
+	   			<div class="comment-list">
+	   				<table class="comment-list-table">
+	   					<tr>
+	   						<td class="col-2">권수경 </td>
+	   						<td class="col-1">|</td>
+	   						<td class="col-4 text-start" >회식 쌉좋아</td>
+	   						<td class="col-3">등록일 : 2023.02.16</td>
+	   						<td class="col-2"><a href="#">삭제</a></td>
+	   					</tr>
+	   					<tr>
+	   						<td class="col-2">김정환</td>
+	   						<td class="col-1">|</td>
+	   						<td class="col-4 text-start">응애 나 애기 정환</td>
+	   						<td class="col-3">등록일 : 2023.02.16</td>
+	   						<td class="col-2"><a href="#">삭제</a></td>
+	   					</tr>
+	   					<tr>
+	   						<td class="col-2">신초아</td>
+	   						<td class="col-1">|</td>
+	   						<td class="col-4 text-start">고구마 좀 드실 분</td>
+	   						<td class="col-3">등록일 : 2023.02.16</td>
+	   						<td class="col-2"><a href="#">삭제</a></td>
+	   					</tr>
+	   					<tr>
+	   						<td class="col-2">김경범</td>
+	   						<td class="col-1">|</td>
+	   						<td class="col-4 text-start">로그인... 어려워요...</td>
+	   						<td class="col-3">등록일 : 2023.02.16</td>
+	   						<td class="col-2"><a href="#">삭제</a></td>
+	   					</tr>
+	   					<tr>
+	   						<td class="col-2">박민우</td>
+ 	   						<td class="col-1">|</td>
+	   						<td class="col-4 text-start">맥북 팝니다</td>
+	   						<td class="col-3">등록일 : 2023.02.16</td>
+	   						<td class="col-2"><a href="#">삭제</a></td>
+	   					</tr>
+	   				</table>
+	   			</div>
+	   			<div class="input-comment">
+	   				<textarea>
+	   				
+	   				</textarea>
+	   				<button>댓글 쓰기</button>
+	   			</div>
+	   			<div class="post-buttons">
+	   				<button class="post-btns m-1" type="button" onclick="location.href='/board/comment/board_id'">댓글 보기</button>
+	   				<button class="post-btns m-1" type="button" onclick="location.href='/board/list'">목록</button>
+	   			</div>
+	   		</form>
+	   </div>
+	    
+    </div>
+</body>
+
+</html>

@@ -329,3 +329,77 @@ thead{
 
 
 /*======================직원정보 끝======================*/
+
+*======================게시글 작성폼 CSS======================*/
+
+.post-frm p{
+	font-size: 36px;
+}
+
+.post-frm a{
+	line-height: 36px;	
+}
+
+.post-title{
+	justify-content: space-between;
+}
+.post-title a{
+	color: red;
+	font-size: 36px;
+}
+
+.post-text textarea{
+	height: 300px;
+	font-size: 24px;
+}
+
+.reg-date{
+	position:relative;
+}
+.reg-date p{
+	font-size: 18px;
+	opacity: 50%;baco
+
+}
+
+.post-btns{
+	width: 240px;
+	height: 60px;
+	font-size: 36px;
+	border-radius: 20px;
+	background: #13223D;
+	color: white;
+}
+
+.post-buttons{
+	float: right;
+}
+
+/* boardForm */
+.post-title label{
+	font-size: 36px;
+	margin: 10px;
+}
+
+.board-textarea{
+	border:none;
+}
+
+/*boardComment*/
+.comment-list-table{
+	width: 1000px;
+}
+
+.comment-list tr td{
+
+	font-size: 24px;
+}
+
+.input-comment{
+	width: 700px;
+	height: 300px;
+}
+
+.input-comment textarea{
+	width: 700px;
+	
