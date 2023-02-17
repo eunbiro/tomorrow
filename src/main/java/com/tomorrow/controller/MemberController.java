@@ -1,10 +1,11 @@
 package com.tomorrow.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,19 +39,20 @@ public class MemberController {
 
 	// 회원가입 경로
 	@GetMapping(value = "/join")
-	public String joinForm(@Validated MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+	public String joinForm(Model model) {
+		model.addAttribute("memberFormDto", new MemberFormDto());
 		return "/member/memberJoinForm";
 	}
 	
 	//회원가입 버튼을 눌렀을때 실행되는 메소드
 	@PostMapping(value = "/new")
-	public String memberForm(@Validated MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+	public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 		//@Valid : 유효성을 검증하려는 객체 앞에 붙인다.
 		//bindingResult: 유효성 검증후에 결과를 넣어준다.
 		
 		//에러가 있다면 회원가입 페이지로 이동
 		if(bindingResult.hasErrors()) {
-			return "member/memberLoginForm";
+			return "member/memberJoinForm";
 		}
 		
 		try {			
@@ -58,7 +60,7 @@ public class MemberController {
 			memberService.saveMember(member);
 		} catch (IllegalStateException e) {
 			model.addAttribute("errorMessage", e.getMessage());
-			return "member/memberForm";
+			return "member/memberJoinForm";
 		}
 		
 		return "redirect:/";
