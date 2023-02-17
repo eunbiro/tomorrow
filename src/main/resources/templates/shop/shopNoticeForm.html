@@ -8,23 +8,30 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container-lg d-flex flex-column text-center">
+		<div class="container-lg d-flex flex-column text-center noti-wrap">
 		
-			<div class="w-50 mx-auto text-start fs-3 fw-bold ps-2">
+			<div class="noti-title mx-auto text-start fs-3 fw-bold ps-2 my-2">
 				<a>매장공지</a>
 			</div>
 			
 			<!-- create부분 -->
-			<div class="w-75 mx-auto">
-				<input class="notice w-75 m-2 py-2 ps-2" type="text" placeholder="공지사항 작성"/>
-				<a class="col-2 text-end notice-icon" style="color: #000; cursor: pointer;"><i class="fa-sharp fa-solid fa-file-pen"></i></a>
+			<div class="mx-auto">
+				<div class="row notice mx-auto my-2">
+					<div class="col-2 p-1">
+						<img class="my-auto profile-img" alt="profile" src="/images/profile01.png">
+					</div>
+					<input class="col-8 py-2 ps-2 notice-ipt" type="text" placeholder="공지사항 작성"/>
+					<a class="col-2 notice-icon fs-3" style="color: #000; cursor: pointer;"><i class="fa-sharp fa-solid fa-file-pen"></i></a>
+				</div>
 			</div>
 			
 			<!-- read부분 -->
-			<div class="w-75 mx-auto">
+			<div class="mx-auto">
 				<!-- 프로필부분 -->
-				<div class="w-75 mx-auto row py-3">
-					<img class="col-2 profile-img" alt="profile" src="/images/profile01.png">
+				<div class="mx-auto row py-3">
+					<div class="col-2">
+						<img class="my-auto profile-img" alt="profile" src="/images/profile01.png">
+					</div>
 					
 					<div class="col-8 text-start d-flex flex-column">
 						<div class="mt-auto text-bottom fs-5 fw-bold">내일</div>
@@ -34,12 +41,12 @@
 					<a class="col-2 text-end" style="color: #000; cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 				</div>
 				<!-- 내용부분 -->
-				<div class="w-75 mx-auto text-start py-3">
+				<div class="text-start p-3">
 					이번주 금요일 이젠삼겹살에서 회식있습니다.<br />
 					필참.
 				</div>
 				<!-- 하단부분 -->
-				<div class="d-flex py-3 fs-6 justify-content-between w-75 mx-auto">
+				<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
 					<div class="row pt-auto">
 						<a class="col-5 text-end" style="color: red; cursor: pointer;"><i class="fa-regular fa-heart"></i></a>
 						<span class="col-7 text-start">1명</span>
@@ -52,10 +59,12 @@
 			</div>
 			
 			<!-- read부분 -->
-			<div class="w-75 mx-auto">
+			<div class="mx-auto">
 				<!-- 프로필부분 -->
-				<div class="w-75 mx-auto row py-3">
-					<img class="col-2 profile-img" alt="profile" src="/images/profile01.png">
+				<div class="mx-auto row py-3">
+					<div class="col-2 ">
+						<img class="profile-img" alt="profile" src="/images/profile01.png">
+					</div>
 					
 					<div class="col-8 text-start d-flex flex-column">
 						<div class="mt-auto text-bottom fs-5 fw-bold">내일</div>
@@ -65,7 +74,7 @@
 					<a class="col-2 text-end" style="color: #000; cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 				</div>
 				<!-- 내용부분 -->
-				<div class="w-75 mx-auto text-start py-3">
+				<div class="mx-auto text-start py-3">
 					오늘 하루 고생했습니다.<br />
 					다름이 아니라 내일부터 일주일간 T-DAY 30% 할인행사에 들어갑니다^^<br />
 					아침부터 사람 몰릴 것으로 예상되오니 오전근무자들 오후근무자에게 인수인계 제대로 해주시고요~<br />
