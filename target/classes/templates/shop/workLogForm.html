@@ -8,7 +8,29 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		근무일지폼
+		<div class="container-lg d-flex flex-column text-center noti-wrap">
+			
+				<div class="noti-title mx-auto text-start fs-3 fw-bold ps-2 my-2">
+					<a>매장 근무일지</a>
+				</div>
+				<!-- create부분 -->
+				<div class="mx-auto">
+					<div class="row notice mx-auto my-2">
+						<div class="col-2 p-2">
+							<img class="my-auto profile-img" alt="profile" src="/images/profile01.png">
+						</div>
+						<textarea class="col-8 py-2 ps-2 notice-ipt" placeholder="근무일지 작성"></textarea>
+						<button type="submit" class="col-2 notice-icon fs-3">
+							<i class="fa-sharp fa-solid fa-file-pen"></i>
+						</button>
+					</div>
+				</div>
+				
+				<!-- read부분 -->
+				<div class="mx-auto">
+				</div>
+				
+		</div>
 	</div>
 </body>
 </html>

@@ -35,6 +35,10 @@ footer {
 
 
 /*======================매장메뉴CSS======================*/
+.noti-wrap {
+	margin-top: 60px;
+}
+
 .noti-wrap > div {
 	width: 35rem;
 }
@@ -44,8 +48,14 @@ footer {
 }
 
 .profile-img {
-	width: 2rem;
-	height: 2rem;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+}
+
+.profile-cont-img {
+	width: 3rem;
+	height: 3rem;
 	padding: 0;
 }
 
@@ -58,6 +68,10 @@ footer {
 
 .notice-ipt {
 	background-color: #F1F1F1;
+	border: none;
+}
+
+.notice-icon {
 	border: none;
 }
 
