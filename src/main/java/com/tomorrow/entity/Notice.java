@@ -38,4 +38,6 @@ public class Notice extends BaseEntity {
 	@Lob
 	@Column(nullable = false)
 	private String noticeCont;				// 공지내용
+	
+	private int likeNoti;					// 공지 좋아요
 }
