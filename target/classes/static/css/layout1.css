@@ -39,7 +39,7 @@ footer {
 	margin-top: 60px;
 }
 
-.noti-wrap > div {
+.noti-wrap > form > div {
 	width: 35rem;
 }
 
@@ -69,10 +69,35 @@ footer {
 .notice-ipt {
 	background-color: #F1F1F1;
 	border: none;
+	resize: none;
 }
 
 .notice-icon {
 	border: none;
+}
+/*======================매장근무기록CSS======================*/
+
+.work-log {
+	width: 40rem;
+}
+
+.work-log-ipt {
+	border-radius: 5px;
+	box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
+	-webkit-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
+	-moz-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
+	border: 1px solid #A9A9A9;
+	resize: none;
+}
+
+.work-log-btn {
+	border-radius: 5px;
+	background: none;
+	width: 5rem;
+	border: 1px solid #A9A9A9;
+	box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
+	-webkit-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
+	-moz-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
 }
 
 /*======================로그인CSS======================*/

@@ -37,6 +37,13 @@ public class ShopController {
 		return "shop/workLogForm";
 	}
 	
+	// 근무일지폼
+	@PostMapping(value = "/shop/log/{shop_id}")
+	public String shopLogUpdate(Model model) {
+		
+		return "shop/workLogForm";
+	}
+	
 	// 직원정보폼
 	@GetMapping(value = "/shop/employeeInfo")
 	public String employeeInfo(Model model) {
