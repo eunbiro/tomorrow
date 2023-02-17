@@ -25,4 +25,11 @@ public class ShopController {
 		
 		return "shop/workLogForm";
 	}
+	
+	// 직원정보폼
+	@GetMapping(value = "/shop/employeeInfo")
+	public String employeeInfo(Model model) {
+		
+		return "shop/employeeInfoForm";
+	}
 }
