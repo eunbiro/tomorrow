@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>매장생성</title>
+<th:block layout:fragment="css">
+	<style>
+.create-shop {
+	margin: 0 auto; 
+}
+
+.email-must{
+	color: red;
+	text-decoration: none;
+	font-size:0.3rem;
+}
+</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container-lg d-flex flex-column text-center"
+			style="margin-top: 60px;">
+			<div class="noti-title mx-auto text-start fs-3 fw-bold ps-2 my-2">
+				<a>매장생성</a>
+			</div>
+
+			<!-- shopCreate부분 -->
+			<form class="create-shop">
+				<div class="row mb-3">
+					<label for="inputEmail3" class="col-sm-3 col-form-label text-end " id="shop-name">매장명</label>
+					<a class="col-sm-2 email-must my-auto">(필수)</a>
+					<div class="col-sm-7">
+						<input type="email" class="form-control w-50" id="inputEmail3">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="inputPassword3" class="col-sm-3
+					 col-form-label">위치</label>
+					<div class="col-sm-5">
+						<input type="password" class="form-control" id="inputPassword3">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="inputEmail3" class="col-sm-3 col-form-label">노은비</label>
+					<div class="col-sm-5">
+						<input type="email" class="form-control" id="inputEmail3">
+					</div>
+				</div>
+				<div class="row mb-3">
+					<label for="formFile" class="col-12 form-label text-start w-50">사진 첨부</label>
+					<input class="form-control col-12 " type="file" id="formFile">
+				</div>
+
+				<div class="row mb-3">
+					<label for="inputEmail3" class="col-sm-3 col-form-label">권수경</label>
+					<div class="col-sm-5">
+						<input type="email" class="form-control" id="inputEmail3">
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Sign in</button>
+			</form>
+
+		</div>
+	</div>
+</body>
+</html>
