@@ -1,4 +1,10 @@
 @charset "UTF-8";
+@font-face {
+    font-family: 'SEBANG_Gothic_Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 html {
 	position: relative;
@@ -30,23 +36,16 @@ footer {
 
 /*======================매장메뉴CSS======================*/
 .noti-wrap > div {
-	
 	width: 35rem;
 }
 
 .noti-title {
-	
+    font-family: 'SEBANG_Gothic_Bold';
 }
 
 .profile-img {
-<<<<<<< HEAD
-	width: 10%;
-	height: 10%;
-=======
-	
 	width: 2rem;
 	height: 2rem;
->>>>>>> 4ec72f7d922cd484ae221799114d0c9173f99a70
 	padding: 0;
 }
 
@@ -58,23 +57,11 @@ footer {
 }
 
 .notice-ipt {
-	
 	background-color: #F1F1F1;
 	border: none;
 }
 
-.notice-icon {
-<<<<<<< HEAD
-	position: absolute;
-	top: 120px;
-	left: 100px;
-	transform: translate(280%, 50%);
-}
-
 /*======================로그인CSS======================*/
-=======
-	
-}
 
 /*======================boardList======================*/
 .header{
@@ -111,6 +98,4 @@ thead{
 .board-table tr{
 	height: 50px;
 }
-
->>>>>>> 4ec72f7d922cd484ae221799114d0c9173f99a70
 
