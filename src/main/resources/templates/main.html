@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
@@ -8,10 +9,12 @@
 </head>
 <body>
 	<div layout:fragment="content">
-	main
-	git push test 입니다
+		main
+		git push test 입니다
 		content area
-	<input type="button" onclick="location='/member/join'" value="테스트 버튼" />
+		<input type="button" onclick="location='/member/join'" value="테스트 회원가입 버튼" />
+		<input type="button" onclick="location='/member/login'" value="테스트 로그인 버튼" sec:authorize="isAnonymous()" />
+		<input type="button" onclick="location='/member/logout'" value="테스트 로그아웃 버튼" sec:authorize="isAuthenticated()" />
 	</div>
 </body>
 </html>
