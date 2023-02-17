@@ -12,9 +12,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WorkController {
 
-	    // 급여일지 폼 
-		@GetMapping(value = "/pay")
-		public String pay(Model model) {			
-			return "work/payForm";
-		}
+	// 급여일지 폼
+	@GetMapping(value = "/pay")
+	public String pay(Model model) {
+		return "work/payForm";
+	}
+
+	// 출퇴근기록 폼
+	@GetMapping(value = "/commute")
+	public String commute(Model model) {
+		return "work/commuteForm";
+	}
 }

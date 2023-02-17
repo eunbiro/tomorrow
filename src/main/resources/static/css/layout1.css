@@ -22,7 +22,8 @@ footer {
 }
 
 .content {
-	margin: 50px 200px 100px 200px;
+	width : 60%;
+	margin: 0 auto;
 }
 
 

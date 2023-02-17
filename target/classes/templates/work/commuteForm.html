@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>춡퇴근기록</title>
+<style>
+.commute-wrap{
+ background-color : pink;
+ margin: 0 auto;
+}
+
+/* .commute-select{
+width : 30vw;
+float: left;
+}
+
+.commute-btn-wrap{   
+ margin-left: 30px;
+ width : 20vw;
+ float: left;
+}
+
+.btn-bg-color{
+  background-color: 13223D;
+} */
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div  class="commute-wrap">
+			<select class="form-select commute-select" aria-label="Default select example">
+				<option selected>매장을 선택하세요</option>
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				<option value="3">Three</option>
+			</select>
+
+			<div class="commute-btn-wrap">
+				<button class="btn btn-primary btn-bg-color" type="submit">출근</button>
+				<button class="btn btn-primary" type="submit">퇴근</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
