@@ -7,6 +7,15 @@
 <title>직원정보</title>
 <!-- 각 페이지에 css가 작성될 위치 -->
 <th:block layout:fragment="css">
+	<style>
+.emp-info-page {
+	text-align: center;
+}	
+	
+li {
+	display: inline;
+}
+</style>
 </th:block>
 </head>
 <body>
@@ -39,7 +48,7 @@
 							<th scope="col">권한</th>
 						</tr>
 					</thead>
-					<tbody >
+					<tbody>
 						<tr>
 							<td scope="row">권수경</td>
 							<td>오전</td>
@@ -106,6 +115,21 @@
 					</tbody>
 				</table>
 			</div>
+		</div>
+		<!-- 페이징 버튼 -->
+		<div class="emp-info-page">
+			<ul class="emp-info-pgeList">
+				<li><a>&lt;&lt;</a></li>
+				<li><a>&lt;</a></li>
+				<li><a>1</a></li>
+				<li><a>2</a></li>
+				<li><a>3</a></li>
+				<li><a>4</a></li>
+				<li><a>5</a></li>
+				<li><a>&gt;</a></li>
+				<li><a>&gt;&gt;</a></li>
+
+			</ul>
 		</div>
 	</div>
 </body>

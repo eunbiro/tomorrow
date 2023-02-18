@@ -34,5 +34,12 @@ public class BoardImg extends BaseEntity {
 	
 	private String boOriImgNm;				// 원본이미지명
 	
-	private String boImgUrl;				// 이미지경로
+	private String boImgUrl;	
+	
+	//원본 이미지 파일명, 업데이트 할 이미지 파일명, 이미지 경로를 파라메터로 받아서 이미지 정보를 업데이트하는 메소드
+	public void updateBoardImg(String boOriImgNm, String boImgNm, String boImgUrl){
+		this.boOriImgNm = boOriImgNm; 
+		this.boImgNm = boImgNm;
+		this.boImgUrl = boImgUrl;
+	}
 }

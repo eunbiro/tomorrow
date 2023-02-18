@@ -7,14 +7,50 @@
 <title>매장생성</title>
 <th:block layout:fragment="css">
 	<style>
-.create-shop {
-	margin: 0 auto; 
+.noti-title{
+	text-align: left;
+	width:500px;
+	margin:0 auto;
+}	
+	
+.shop-create {
+	margin: 0 auto;
+	width: 500px;
+	height: 500px;
+	text-align: left;
 }
 
-.email-must{
+#shop-must {
 	color: red;
-	text-decoration: none;
-	font-size:0.3rem;
+	font-size: 0.3rem;
+}
+#shop-mustpic{
+	color:yellow;
+	font-size: 0.3rem;
+	margin-left: 10px;
+}
+
+.shop-item {
+	width: 100px;
+	float: left;
+}
+
+.shop-info {
+	float: left;
+	width: 100%;
+	margin-top: 30px;
+}
+
+input {
+	width: 300px;
+}
+
+.shop-createbtn {
+	float: left;
+	width: 80%;
+	margin-top: 30px;
+	
+	text-align: center;
 }
 </style>
 </th:block>
@@ -23,45 +59,47 @@
 	<div layout:fragment="content">
 		<div class="container-lg d-flex flex-column text-center"
 			style="margin-top: 60px;">
-			<div class="noti-title mx-auto text-start fs-3 fw-bold ps-2 my-2">
+			<div class="noti-title   fs-3 fw-bold  my-2 ps-4">
 				<a>매장생성</a>
 			</div>
 
 			<!-- shopCreate부분 -->
-			<form class="create-shop">
-				<div class="row mb-3">
-					<label for="inputEmail3" class="col-sm-3 col-form-label text-end " id="shop-name">매장명</label>
-					<a class="col-sm-2 email-must my-auto">(필수)</a>
-					<div class="col-sm-7">
-						<input type="email" class="form-control w-50" id="inputEmail3">
+			<form class="shop-create ps-4">
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>매장명</label> <a id="shop-must">(필수)</a>
 					</div>
-				</div>
-				<div class="row mb-3">
-					<label for="inputPassword3" class="col-sm-3
-					 col-form-label">위치</label>
-					<div class="col-sm-5">
-						<input type="password" class="form-control" id="inputPassword3">
-					</div>
-				</div>
-				<div class="row mb-3">
-					<label for="inputEmail3" class="col-sm-3 col-form-label">노은비</label>
-					<div class="col-sm-5">
-						<input type="email" class="form-control" id="inputEmail3">
-					</div>
-				</div>
-				<div class="row mb-3">
-					<label for="formFile" class="col-12 form-label text-start w-50">사진 첨부</label>
-					<input class="form-control col-12 " type="file" id="formFile">
+					<input placeholder="업체의 명칭을 입력해주세요">
 				</div>
 
-				<div class="row mb-3">
-					<label for="inputEmail3" class="col-sm-3 col-form-label">권수경</label>
-					<div class="col-sm-5">
-						<input type="email" class="form-control" id="inputEmail3">
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>위치</label> <a id="shop-must">(필수)</a>
 					</div>
+					<input placeholder="여기를 눌러 위치를 검색해주세요   >">
 				</div>
 
-				<button type="submit" class="btn btn-primary">Sign in</button>
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>업종</label> <a id="shop-must"></a>
+					</div>
+					<input placeholder="예) 음식점, PC방, 스토어">
+				</div>
+				<div class="mb-3 shop-info">
+					<label for="formFile" class="form-label">사진첨부</label><a id="shop-mustpic">(명함, 가게, 메뉴, 간판 등)</a>
+					 <input
+						class="form-control " style="width: 80%" type="file" id="formFile">
+				</div>
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>사업자 번호</label> <a id="shop-must"></a>
+					</div>
+					<input placeholder="예) 음식점, PC방, 스토어">
+				</div>
+				<div class="shop-createbtn">
+					<button type="button" class="btn btn-info " style="width:30%; left:0;">등록</button>
+					<button type="button" class="btn btn-info " style="width:30%; right:0;">취소</button>
+				</div>
 			</form>
 
 		</div>
