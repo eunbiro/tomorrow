@@ -40,7 +40,7 @@ footer {
 }
 
 .noti-wrap > form > div {
-	width: 35rem;
+	width: 40rem;
 }
 
 .noti-title {
@@ -48,6 +48,10 @@ footer {
 }
 
 .profile-img {
+	width: 10%;
+	height: 10%;
+	width: 2rem;
+	height: 2rem;
 	width: 2.5rem;
 	height: 2.5rem;
 	padding: 0;
@@ -63,7 +67,7 @@ footer {
 	border: none;
 	border-radius: 5px;
 	background-color: #F1F1F1;
-	width: 35rem;
+	width: 40em;
 }
 
 .notice-ipt {
@@ -73,7 +77,136 @@ footer {
 }
 
 .notice-icon {
+	background: none;
 	border: none;
+}
+
+/*======================로그인CSS======================*/
+.login-logo {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.login-logo img {
+    margin: 30px 0;
+    width: 20%;
+}
+
+.login-label-input {
+    margin: 0 auto;
+    width: 350px;
+    text-align: center;
+}
+
+.login-label-input > label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: 900;
+	text-align: left;
+}
+
+.login-label-input > input {
+    box-shadow: 0 4px 4px -4px black;
+    border-radius: 4px;
+    width : 350px;
+    line-height: 50px;
+    padding: 0 15px;
+}
+
+.login-label-input > input:nth-of-type(1), input:nth-of-type(2) {
+    margin-bottom: 25px;
+}
+
+.login-label-input > label {
+	font-weight: bold;
+    font-size: 1.2em;
+}
+
+.login-label-input > label:nth-of-type(1) {
+	margin-right: 280px;
+}
+
+.login-label-input > label:nth-of-type(2) {
+	margin-right: 260px;
+}
+
+.login-label-input > label:nth-of-type(3) {
+	margin-right: 200px;
+}
+
+.login-label-input > ul > li:nth-of-type(1) {
+	font-size: 1.4em;
+	text-align: left;
+	margin-left: 40px;
+	line-height: 50px;
+	height: 50px;
+	padding: auto 0;
+	list-style: none;
+}
+
+.login-label-input > ul {
+	overflow: hidden;
+}
+
+.login-label-input > ul > li:nth-of-type(2) {
+	font-size: 1.4em;
+	text-align: left;
+	margin-left: 57px;
+	line-height: 50px;
+	height: 50px;
+	padding: auto 0;
+	list-style: none;
+}
+
+input[type="checkbox"] {
+  	 	zoom: 1.5;
+   		margin-right: 7px;
+    	vertical-align: middle;
+    	box-shadow: inset 3px 3px 5px -3px black;
+}
+
+.login_btn {
+	width : 100%;
+	height: 40px;
+	font-weight:900;
+	font-size: 1.2em;
+	border-radius: 10px;
+	background: #13223D;
+	color: white;
+}
+
+.join_btn {
+	margin-right: 39px;
+	width : 100%;
+	height: 40px;
+	font-weight:900;
+	font-size: 1.2em;
+	border-radius: 10px;
+	background: #13223D;
+	color: white;
+}
+	
+/*======================회원가입CSS======================*/
+.joinBody {
+    background-color:#0B173B;
+}
+
+.join-input {
+    align-items: center;
+    text-align: center;
+    border-radius: 10px;
+    background-color: white;
+    margin: 0 auto;
+    align-items: center;
+    width: 600px;
+}
+
+.join-input > input {
+    box-shadow: 0 4px 4px -4px black;
+    width : 85%;
+    line-height: 50px;
+    padding: 0 15px;
+    border-radius: 4px;
 }
 /*======================매장근무기록CSS======================*/
 
@@ -99,8 +232,6 @@ footer {
 	-webkit-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
 	-moz-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
 }
-
-/*======================로그인CSS======================*/
 
 /*======================boardList======================*/
 .header{
@@ -198,3 +329,77 @@ thead{
 
 
 /*======================직원정보 끝======================*/
+
+*======================게시글 작성폼 CSS======================*/
+
+.post-frm p{
+	font-size: 36px;
+}
+
+.post-frm a{
+	line-height: 36px;	
+}
+
+.post-title{
+	justify-content: space-between;
+}
+.post-title a{
+	color: red;
+	font-size: 36px;
+}
+
+.post-text textarea{
+	height: 300px;
+	font-size: 24px;
+}
+
+.reg-date{
+	position:relative;
+}
+.reg-date p{
+	font-size: 18px;
+	opacity: 50%;baco
+
+}
+
+.post-btns{
+	width: 240px;
+	height: 60px;
+	font-size: 36px;
+	border-radius: 20px;
+	background: #13223D;
+	color: white;
+}
+
+.post-buttons{
+	float: right;
+}
+
+/* boardForm */
+.post-title label{
+	font-size: 36px;
+	margin: 10px;
+}
+
+.board-textarea{
+	border:none;
+}
+
+/*boardComment*/
+.comment-list-table{
+	width: 1000px;
+}
+
+.comment-list tr td{
+
+	font-size: 24px;
+}
+
+.input-comment{
+	width: 700px;
+	height: 300px;
+}
+
+.input-comment textarea{
+	width: 700px;
+	

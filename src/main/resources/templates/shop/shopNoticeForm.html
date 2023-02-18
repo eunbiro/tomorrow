@@ -27,10 +27,10 @@
 				<div class="noti-title mx-auto text-start fs-3 fw-bold ps-2 my-2">
 					<a>매장공지</a>
 				</div>
-				<!-- create부분 -->
+				<!-- create부분  sec:authorize="hasAnyAuthority('ROLE_ADMIN')" -->
 				<div class="mx-auto">
 					<div class="row notice mx-auto my-2">
-						<div class="col-2 p-2">
+						<div class="col-2 p-2 align-middle">
 							<img class="my-auto profile-img" alt="profile" src="/images/profile01.png">
 						</div>
 						<textarea class="col-8 py-2 ps-2 notice-ipt" th:field="*{noticeCont}" placeholder="공지사항 작성"></textarea>
@@ -41,7 +41,7 @@
 				</div>
 				
 				<!-- read부분 -->
-				<div class="mx-auto">
+				<div class="mx-auto" th:if="${##lists.isEmpty(getNoticeList)}" th:each="notice : ${getNoticeList}">
 					<!-- 프로필부분 -->
 					<div class="mx-auto row py-3">
 						<div class="col-2 my-auto">
@@ -49,64 +49,26 @@
 						</div>
 						
 						<div class="col-8 text-start d-flex flex-column">
-							<div class="mt-auto text-bottom fs-5 fw-bold">내일</div>
-							<div class="mb-auto text-top" style="color: #A6A6A6;">@tomorrow</div>
+							<div class="mt-auto text-bottom fs-5 fw-bold" th:text="${notice.managerDto.userNm}">내일</div>
+							<div class="mb-auto text-top" th:text="'@' + ${notice.managerDto.userId}" style="color: #A6A6A6;">@tomorrow</div>
 						</div>
 						
 						<a class="col-2 text-end" style="color: #000; cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 					</div>
 					<!-- 내용부분 -->
-					<div class="text-start py-3 px-5">
-						이번주 금요일 이젠삼겹살에서 회식있습니다.<br />
-						필참.
-					</div>
+					<div class="text-start py-3 px-5" th:text="${notice.noticeCont}">내용</div>
 					<!-- 하단부분 -->
 					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
 						<div class="row pt-auto">
 							<a class="col-5 text-end" style="color: red; cursor: pointer;"><i class="fa-regular fa-heart"></i></a>
-							<span class="col-7 text-start">1명</span>
+							<span class="col-7 text-start" th:text="${notice.likeNoti} + '명'">1명</span>
 						</div>
-						<div class="pt-auto">
-							<a>2023-02-15</a>
-						</div>
-					</div>
-					<hr>
-				</div>
-				
-				<!-- read부분 -->
-				<div class="mx-auto">
-					<!-- 프로필부분 -->
-					<div class="mx-auto row py-3">
-						<div class="col-2 my-auto">
-							<img class="profile-cont-img" alt="profile" src="/images/profile01.png">
-						</div>
-						
-						<div class="col-8 text-start d-flex flex-column">
-							<div class="mt-auto text-bottom fs-5 fw-bold">내일</div>
-							<div class="mb-auto text-top" style="color: #A6A6A6;">@tomorrow</div>
-						</div>
-						
-						<a class="col-2 text-end" style="color: #000; cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></a>
-					</div>
-					<!-- 내용부분 -->
-					<div class="text-start py-3 px-5">
-						오늘 하루 고생했습니다.<br />
-						다름이 아니라 내일부터 일주일간 T-DAY 30% 할인행사에 들어갑니다^^<br />
-						아침부터 사람 몰릴 것으로 예상되오니 오전근무자들 오후근무자에게 인수인계 제대로 해주시고요~<br />
-						상품 결재 시 누락되는 사항 없도록 더욱더 신경써주시기 바랍니다~<br />
-					</div>
-					<!-- 하단부분 -->
-					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
-						<div class="row pt-auto">
-							<a class="col-5 text-end" style="color: red; cursor: pointer;"><i class="fa-regular fa-heart"></i></a>
-							<span class="col-7 text-start">0명</span>
-						</div>
-						<div class="pt-auto">
-							<a>2023-02-12</a>
+						<div class="pt-auto" th:text="${notice.regTime}">
 						</div>
 					</div>
 					<hr>
 				</div>
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 			</form>
 			
 		</div>
