@@ -8,7 +8,51 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		근무일지폼
+		<div class="container-lg d-flex flex-column text-center noti-wrap">
+			<form class="noti-form my-4 mx-auto" action="/shop/log" method="post">
+				<div class="noti-title mx-auto text-start fs-3 fw-bold my-2 justify-content-between d-flex">
+					<a>매장 근무일지</a>
+					<button type="button" class="btn position-relative" onclick="location.href='/shop/info'">
+						<i class="fa-solid fa-bell fs-3"></i>
+						<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+							<span class="visually-hidden">New alerts</span>
+						</span>
+					</button>
+				</div>
+				
+				<!-- create부분 -->
+				<div class="mx-auto w-100">
+					<div class="work-log mx-auto my-2 d-flex justify-content-around">
+						<textarea class="w-75 py-2 ps-2 work-log-ipt" placeholder="내용을 입력하세요"></textarea>
+						<button type="submit" class="work-log-btn fs-6">입력</button>
+					</div>
+				</div>
+				
+				<!-- read부분 -->
+				<div class="mx-auto my-4 w-100">
+					<table class="table work-log align-middle mx-auto">
+						<thead class="table-light">
+							<tr>
+								<th class="col-2">일자</th>
+								<th class="col-2">파트타임</th>
+								<th colspan="2" class="col-8">업무내용</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="fs-6">
+									<i class="fa-regular fa-calendar"></i>
+									23.02.16
+								</td>
+								<td class="fs-6">오후 마감</td>
+								<td class="fs-6 text-start">테이블 위 바닥 청소 끝냈습니다. 다음 오전근무자분 아침에 식기 정리 부탁드립니다.</td>
+								<td class="fs-6 align-top"><a class="col-2 text-end" style="color: #000; cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

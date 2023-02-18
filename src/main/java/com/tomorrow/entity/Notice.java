@@ -11,6 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.tomorrow.dto.NoticeDto;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -38,4 +40,15 @@ public class Notice extends BaseEntity {
 	@Lob
 	@Column(nullable = false)
 	private String noticeCont;				// 공지내용
+	
+	private int likeNoti;					// 공지 좋아요
+
+	public static Notice createNotice(NoticeDto noticeDto, Manager manager) {
+		
+		Notice notice = new Notice();
+		
+		notice.setManager(manager);
+		notice.setNoticeCont(noticeDto.getNoticeCont());
+		return notice;
+	}
 }

@@ -29,6 +29,8 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final NumberPath<Integer> likeNoti = createNumber("likeNoti", Integer.class);
+
     public final QManager manager;
 
     //inherited

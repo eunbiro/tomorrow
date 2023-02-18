@@ -1,10 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>직원정보</title>
+<!-- 각 페이지에 css가 작성될 위치 -->
+<th:block layout:fragment="css">
+	<style>
+.emp-info-page {
+	text-align: center;
+}	
+	
+li {
+	display: inline;
+}
+</style>
+</th:block>
 </head>
 <body>
+	<div layout:fragment="content">
+		<div class="wrap">
+			<div class="row my-4">
+				<div class="col-lg-4">
+					<select class="form-select w-75 my-3 "
+						aria-label="Default select example">
+						<option selected>매장 선택</option>
+						<option value="1">One</option>
+						<option value="2">Two</option>
+						<option value="3">Three</option>
+					</select>
+				</div>
+				<div class="emp-info-title col-lg-4 text-center fs-1 fw-bold">근무자
+					정보</div>
+				<div class="col-lg-4"></div>
+			</div>
+			<div>
+				<table class="table table-hover text-center">
+					<thead class="fs-6">
+						<tr>
+							<th scope="col">이름</th>
+							<th scope="col">파트</th>
+							<th scope="col">근무시간</th>
+							<th scope="col">전화번호</th>
+							<th scope="col">비고</th>
+							<th scope="col">엑셀보기</th>
+							<th scope="col">권한</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td scope="row">권수경</td>
+							<td>오전</td>
+							<td>08:00~12:00</td>
+							<td>010-0000-0803</td>
+							<td>휴직</td>
+							<td><a href="#">확인</a></td>
+							<td><a href="#">직원</a></td>
+						</tr>
+						<tr>
+							<td scope="row">김정환</td>
+							<td>풀타임</td>
+							<td>08:00~19:00</td>
+							<td>010-0000-0000</td>
+							<td>노예</td>
+							<td><a href="#">확인</a></td>
+							<td><a href="#">직원</a></td>
+						</tr>
+						<tr>
+							<td scope="row">노은비</td>
+							<td>오전</td>
+							<td>08:00~12:00</td>
+							<td>010-0000-0000</td>
+							<td>근속</td>
+							<td><a href="#">확인</a></td>
+							<td><a href="#">직원</a></td>
+						</tr>
+						<tr>
+							<td scope="row">신초아</td>
+							<td>오전</td>
+							<td>08:00~12:00</td>
+							<td>010-0000-0000</td>
+							<td>근속</td>
+							<td><a href="#">확인</a></td>
+							<td><a href="#">직원</a></td>
+						</tr>
+						<tr>
+							<td scope="row">김경범</td>
+							<td>오후</td>
+							<td>17:00~22:00</td>
+							<td>010-0000-0000</td>
+							<td>근속</td>
+							<td><a href="#">확인</a></td>
+							<td><a href="#">승인필요</a></td>
+						</tr>
+						<tr>
+							<td scope="row">박민우</td>
+							<td>오후</td>
+							<td>17:00~22:00</td>
+							<td>010-0000-0000</td>
+							<td>근속</td>
+							<td><a href="#">확인</a></td>
+							<td><a href="#">직원</a></td>
+						</tr>
+						<tr>
+							<td scope="row">조욱진</td>
+							<td>오후</td>
+							<td>17:00~22:00</td>
+							<td>010-0000-0000</td>
+							<td>사장</td>
+							<td><a href="#">확인</a></td>
+							<td><a href="#">직원</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- 페이징 버튼 -->
+		<div class="emp-info-page">
+			<ul class="emp-info-pgeList">
+				<li><a>&lt;&lt;</a></li>
+				<li><a>&lt;</a></li>
+				<li><a>1</a></li>
+				<li><a>2</a></li>
+				<li><a>3</a></li>
+				<li><a>4</a></li>
+				<li><a>5</a></li>
+				<li><a>&gt;</a></li>
+				<li><a>&gt;&gt;</a></li>
 
+			</ul>
+		</div>
+	</div>
 </body>
 </html>
