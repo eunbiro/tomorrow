@@ -19,15 +19,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShopController {
 
-	private final ShopService shopService;
 	
 	// GET매장공지폼
 	@GetMapping(value = "/shop/info")
 	public String shopInfo(Model model, Principal principal) {
 		
-		List<NoticeDto> getNoticeList = shopService.getNoticeList(principal.getName());
 		
-		model.addAttribute("getNoticeList", getNoticeList);
 		model.addAttribute("noticeDto", new NoticeDto());
 		return "shop/shopNoticeForm";
 	}
@@ -36,17 +33,19 @@ public class ShopController {
 	@PostMapping(value = "/shop/info")
 	public String shopInfoUpdate(Model model, NoticeDto noticeDto, Principal principal) {
 		
-		Manager manager = shopService.setManager(principal.getName());
-		Notice notice = Notice.createNotice(noticeDto, manager);
-		shopService.saveNotice(notice);
+//		Manager manager = shopService.findManager(principal.getName());
+//		Notice notice = Notice.createNotice(noticeDto, manager);
+//		shopService.saveNotice(notice);
 		
 		return "shop/shopNoticeForm";
 	}
 
 	// GET근무일지폼
 	@GetMapping(value = {"/shop/log", "/shop/log/{shop_id}"})
-	public String shopLog(Model model) {
-
+	public String shopLog(Model model, Principal principal) {
+		
+		// TODO 현재 로그인한 회원의 매장번호를 조회해서 매장코드로 업무내용 불러옴
+		
 		return "shop/workLogForm";
 	}
 	

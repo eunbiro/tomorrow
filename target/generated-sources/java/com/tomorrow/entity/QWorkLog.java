@@ -22,13 +22,25 @@ public class QWorkLog extends EntityPathBase<WorkLog> {
 
     public static final QWorkLog workLog = new QWorkLog("workLog");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
+    //inherited
+    public final StringPath createdBy = _super.createdBy;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath logCont = createString("logCont");
 
     public final QMember member;
 
-    public final StringPath partTime = createString("partTime");
+    //inherited
+    public final StringPath modifiedBy = _super.modifiedBy;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> regTime = _super.regTime;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> upDateTime = _super.upDateTime;
 
     public QWorkLog(String variable) {
         this(WorkLog.class, forVariable(variable), INITS);

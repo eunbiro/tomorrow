@@ -20,7 +20,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class NoticeComment extends BaseEntity {
+public class NoticeLike extends BaseEntity {
 
 	@Id
 	@Column(name = "noti_cmt_id")
@@ -35,7 +35,6 @@ public class NoticeComment extends BaseEntity {
 	@JoinColumn(name = "notice_id")
 	private Notice notice;					// 매장공지 식별번호 FK
 	
-	@Lob
 	@Column(nullable = false)
-	private String notiCmtText;				// 댓글내용
+	private int likeCount;				// 좋아요 카운트
 }
