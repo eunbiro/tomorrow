@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>인트로</title>
+<style type="text/css">
+	.intro-wrap {
+		width: 66%;
+		margin: 0 auto;
+		text-align: center;
+	}
+	
+	.intro-text {
+		font-size: 3rem;
+		font-weight: bold;
+		color: #4B4B4B;
+		text-shadow: 0px 5px 3px rgba(0,0,0,0.39);
+		letter-spacing: 2px;
+		margin-bottom: 3rem;
+	}
+	
+	.intro-text-dot {
+		font-size: 3rem;
+		font-weight: bold;
+		color: #FCA211;
+		letter-spacing: 2px;
+	}
+	
+	.intro-btn {
+		border: none;
+		background: #13223D;
+		color: #fff;
+		margin-top: 2rem;
+		padding: 1.4rem 12rem;
+		border-radius: 10px;
+		font-size: 2.5rem;
+		font-weight: bold;
+	}
+	
+	.intro-dot {
+		background: #FCA211;
+		border-radius: 50%;
+		width: 1.6rem;
+		height: 1.6rem;
+		position: absolute;
+		top: -1.5rem;
+		left: 20rem;
+	}
+	
+	.dot-wrap {
+		display: flex;
+		justify-content: center;
+		width: 66%;
+		margin: 0 auto;
+		position: relative;
+	}
+</style>
+</head>
+<body>
+	<div class="intro-wrap">
+		<img alt="intro_logo" src="/images/intro_img.jpg">
+		<div class="intro_text">
+			<div class="dot-wrap">
+				<div class="intro-dot" style="transform: translate(-15.4rem, 0%);"></div>
+				<div class="intro-dot" style="transform: translate(-12rem, 0%);"></div>
+				<div class="intro-dot" style="transform: translate(6.6rem, 0%);"></div>
+				<div class="intro-dot" style="transform: translate(11.2rem, 0%);"></div>
+			</div>
+			<div class="intro-text">내일을 위하여, 내 일 관리하기</div>
+		</div>
+		<button class="intro-btn" onclick="location='/member/login'">시작하기</button>
+	</div>
+</body>
+</html>

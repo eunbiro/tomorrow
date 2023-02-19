@@ -1,6 +1,9 @@
 package com.tomorrow.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,13 +14,15 @@ public class NoticeDto {
 
 	private ManagerDto managerDto;
 	
+	@NotNull(message = "공지내용은 필수 입력 값입니다.")
 	private String noticeCont;
 	
 	private LocalDateTime regTime;
 	
-	private int likeNoti;
-	
+	@NotNull(message = "매장은 필수 입력 값입니다.")
 	private ShopDto shopDto;
 	
 	private Long noticeId;
+	
+	private List<NoticeLikeDto> noticeLikeDto;
 }
