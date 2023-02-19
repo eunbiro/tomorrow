@@ -14,6 +14,4 @@
 //	
 //	List<Board> findByBoardTitle(String boardTitle);
 //	
-//	
-//
 //}
