@@ -1,5 +1,3 @@
-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
-
 package com.tomorrow.controller;
 
 import java.util.List;
@@ -24,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommunityController {
 	
-	private final BoardService boardService;
+//	private final BoardService boardService;
 	
 	//게시물 리스트 화면 진입
 	@GetMapping(value = "/board/list")
@@ -45,29 +43,29 @@ public class CommunityController {
 		return "community/boardForm";
 	}
 	
-	@PostMapping(value = "/board/new")
-	public String boardNew(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, 
-			Model model, @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList) {
-		
-		if(bindingResult.hasErrors()) {
-			return "community/boardForm";
-		}
-		
-		//첫번째 이미지가 있는지 검사(첫번째 이미지는 필수 입력값이기 때문에)
-		if(boardImgFileList.get(0).isEmpty() && boardFormDto.getId() == null) {
-			model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값 입니다.");
-			return "community/boardForm";
-		}
-		
-		try {
-//			boardService.saveItem(boardFormDto, boardImgFileList);
-		} catch (Exception e) {
-			model.addAttribute("errorMessage", "상품 등록 중 에러가 발생했습니다.");
-			return "community/boardForm";
-		}
-		
-		return "redirect:/";
-	}
+//	@PostMapping(value = "/board/new")
+//	public String boardNew(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, 
+//			Model model, @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList) {
+//		
+//		if(bindingResult.hasErrors()) {
+//			return "community/boardForm";
+//		}
+//		
+//		//첫번째 이미지가 있는지 검사(첫번째 이미지는 필수 입력값이기 때문에)
+//		if(boardImgFileList.get(0).isEmpty() && boardFormDto.getId() == null) {
+//			model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값 입니다.");
+//			return "community/boardForm";
+//		}
+//	
+//		try {
+//			boardService.saveBoard(boardFormDto, boardImgFileList);
+//		} catch (Exception e) {
+//			model.addAttribute("errorMessage", "상품 등록 중 에러가 발생했습니다.");
+//			return "community/boardForm";
+//		}
+//		
+//		return "redirect:/";
+//	}
 	
 	//수정화면 진입
 	@GetMapping(value = "/board/update/{boardId}")
