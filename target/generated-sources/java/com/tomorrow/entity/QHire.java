@@ -33,7 +33,7 @@ public class QHire extends EntityPathBase<Hire> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QManager manager;
+    public final QMember member;
 
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
@@ -64,8 +64,8 @@ public class QHire extends EntityPathBase<Hire> {
 
     public QHire(Class<? extends Hire> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.manager = inits.isInitialized("manager") ? new QManager(forProperty("manager")) : null;
-        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop"), inits.get("shop")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
+        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop")) : null;
     }
 
 }

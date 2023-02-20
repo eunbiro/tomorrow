@@ -26,7 +26,6 @@ public class UserProfileService {
 	private final UserProfileRepository userProfileRepository;
 
 	private final FileService fileService;
-/*
 	public void saveProfileImg(UserProfile profileImg, MultipartFile profileImgFile) throws Exception {
 		String oriImgName = profileImgFile.getOriginalFilename(); // 파일 이름
 		String imgName = "";
@@ -65,6 +64,5 @@ public class UserProfileService {
 			savedProfileImg.updateUserImg(oriImgName, imgName, imgUrl);
 		}
 	}
-	*/
 
 }

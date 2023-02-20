@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.NoticeDto;
 import com.tomorrow.dto.ShopDto;
-import com.tomorrow.entity.Manager;
+import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
 import com.tomorrow.service.ShopService;
 
@@ -33,7 +34,7 @@ public class ShopController {
 	@GetMapping(value = "/shop/info")
 	public String shopInfo(Model model, Principal principal) {
 		
-		List<ShopDto> myShopList = shopService.getMyShop(principal.getName());
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("noticeDto", new NoticeDto());
@@ -41,11 +42,15 @@ public class ShopController {
 	}
 	
 	// GET매장 선택 시 공지내역가져옴
-	@GetMapping(value = "/shop/noti/{shopId}")
-	public String shopGetNoti(@PathVariable("shopId") String shopId, NoticeDto noticeDto, Model model, Principal principal) {
+	@GetMapping(value = "/shop/info/{shopId}")
+	public String shopGetNoti(@PathVariable("shopId") String shopId, Model model, Principal principal) {
 		
 		List<NoticeDto> notiList = shopService.getNoticeList(shopId);
-		List<ShopDto> myShopList = shopService.getMyShop(principal.getName());
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		NoticeDto noticeDto = new NoticeDto();
+		ShopDto shopDto = new ShopDto();
+		shopDto.setShopId(Long.parseLong(shopId));
+		noticeDto.setShopDto(shopDto);
 		
 		model.addAttribute("notiList", notiList);
 		model.addAttribute("myShopList", myShopList);
@@ -53,13 +58,13 @@ public class ShopController {
 		return "shop/shopNoticeForm";
 	}
 	
-	// POST매장공지폼
+	// POST매장공지 등록 시
 	@PostMapping(value = "/shop/info")
 	public String shopInfoUpdate(@Valid NoticeDto noticeDto, Model model, BindingResult bindingResult, Principal principal) {
 		
 		if (bindingResult.hasErrors()) {
 			
-			List<ShopDto> myShopList = shopService.getMyShop(principal.getName());
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 			
 			model.addAttribute("myShopList", myShopList);
 			return "shop/shopNoticeForm";
@@ -67,21 +72,23 @@ public class ShopController {
 		
 		try {
 			
-			Manager manager = shopService.findManager(principal.getName());
-			Notice notice = Notice.createNotice(noticeDto, manager, noticeDto.getShopDto().getShopId());
+			Member member = shopService.findMember(principal.getName());
+			Long ShopId = noticeDto.getShopDto().getShopId();
+			Notice notice = Notice.createNotice(noticeDto, member, shopService.findShop(ShopId));
 			shopService.saveNotice(notice);
+			
 		} catch (Exception e) {
 			
 			model.addAttribute("errorMessage", "공지등록 중 에러가 발생했습니다.");
-			List<ShopDto> myShopList = shopService.getMyShop(principal.getName());
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 			
 			model.addAttribute("myShopList", myShopList);
 			model.addAttribute("noticeDto", noticeDto);
-			return "shop/shopNoticeForm";
+			return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
 		}
 		
 		
-		return "redirect:/shop/shopNoticeForm";
+		return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
 	}
 
 	// GET근무일지폼
@@ -100,7 +107,7 @@ public class ShopController {
 		return "shop/workLogForm";
 	}
 	
-	// 직원정보폼
+	// 직원정보(employeeInfoForm.html - 수경)
 	@GetMapping(value = "/shop/employeeInfo")
 	public String employeeInfo(Model model) {
 
@@ -112,5 +119,23 @@ public class ShopController {
 	public String createShop(Model model) {
 		return "shop/shopCreateForm";
 		
+	}
+	
+	// 출퇴근조회(commuteListForAdmin.html - 수경)
+	@GetMapping(value = "/shop/commuteList")
+	public String commuteListForAdmin() {
+		return "shop/commuteListForAdmin";
+	}
+	
+	// 급여관리(payrollManagement.html - 수경)
+	@GetMapping(value = "/shop/payroll")
+	public String payrollManagement() {
+		return "shop/payrollManagement";
+	}
+	
+	// 매장정보(shopInfo.html - 수경)
+	@GetMapping(value = "/shop/shopInfo")
+	public String shopInfo() {
+		return "shop/shopInfo";
 	}
 }

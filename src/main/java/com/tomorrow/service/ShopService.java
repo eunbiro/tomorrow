@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tomorrow.constant.Role;
-import com.tomorrow.dto.ManagerDto;
+import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.NoticeDto;
 import com.tomorrow.dto.NoticeLikeDto;
 import com.tomorrow.dto.ShopDto;
-import com.tomorrow.entity.Manager;
+import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
 import com.tomorrow.entity.NoticeLike;
 import com.tomorrow.entity.Shop;
-import com.tomorrow.repository.ManagerRepository;
+import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
 import com.tomorrow.repository.NoticeLikeRepository;
 import com.tomorrow.repository.ShopRepository;
@@ -34,8 +34,9 @@ public class ShopService {
 
 	private final noticeRepository noticeRepository;
 	private final NoticeLikeRepository noticeLikeRepository;
-	private final ManagerRepository managerRepository;
+	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
+	private final MemShopMapRepository mapRepository;
 	
 	// 매장공지 내용을 가져옴
 	@Transactional(readOnly = true)
@@ -46,7 +47,7 @@ public class ShopService {
 		 * 		3. 가져와야할 데이터 프로필, 관리자 이름, 관리자 아이디, 공지내용, 좋아요, 작성일
 		*/
 		
-		List<Notice> noticList = noticeRepository.findByShopId(Long.parseLong(shopId));
+		List<Notice> noticList = noticeRepository.findByShopIdOrderByIdDesc(Long.parseLong(shopId));
 		List<NoticeDto> noticeDtoList = new ArrayList<>();
 
 		for (Notice notice : noticList) {
@@ -54,7 +55,7 @@ public class ShopService {
 			NoticeDto noticeDto  = new NoticeDto();
 			
 			noticeDto.setNoticeId(notice.getId());
-			noticeDto.setManagerDto(getManager(notice.getManager()));
+			noticeDto.setMemberFormDto(getMember(notice.getMember()));
 			noticeDto.setNoticeCont(notice.getNoticeCont());
 			noticeDto.setNoticeLikeDto(getNotiLike(notice.getId()));
 			noticeDto.setRegTime(notice.getRegTime());
@@ -84,28 +85,17 @@ public class ShopService {
 	}
 	
 	// 내가 가지고 있는 매장정보를 불러옴
-	public List<ShopDto> getMyShop(String userId) {
+	public List<MemShopMappingDto> getMyShop(String userId) {
 		
-		Manager manager = findManager(userId);
-		List<ShopDto> myShopList = getShop(manager.getId());
+		Member member = findMember(userId);
+		List<MemShopMappingDto> myShopList = getMapping(member.getId());
 		return myShopList;
 	}
 	
 	// 현재 접속해있는 관리자정보를 불러옴 
-	public Manager findManager(String userId) {
+	public Member findMember(String userId) {
 		
-		return managerRepository.findByUserId(userId);
-	}
-	
-	// 관리자 정보 DTO저장
-	public ManagerDto getManager(Manager manager) {
-		
-		ManagerDto managerDto = new ManagerDto();
-		managerDto.setUserId(manager.getUserId());
-		managerDto.setUserNm(manager.getUserNm());
-		managerDto.setUserProfile(manager.getUserProfile());
-		
-		return managerDto;
+		return memberRepository.findByUserId(userId);
 	}
 	
 	// 회원 정보 DTO저장
@@ -114,29 +104,42 @@ public class ShopService {
 		MemberFormDto memberFormDto = new MemberFormDto();
 		memberFormDto.setUserId(member.getUserId());
 		memberFormDto.setUserNm(member.getUserNm());
-//		memberFormDto.setUserProfile(member.getUserProfile());
 		
 		return memberFormDto;
 	}
 	
-	// 매장 정보 DTO저장
-	public List<ShopDto> getShop(Long managerId) {
+	// shop 정보 DTO 저장
+	public ShopDto getShop(Shop shop) {
 		
-		List<Shop> shopList = shopRepository.findByManagerId(managerId);
-		List<ShopDto> shopDtoList = new ArrayList<>();
+		ShopDto shopDto = new ShopDto();
 		
-		for (Shop shop : shopList) {
+		shopDto.setShopId(shop.getId());
+		shopDto.setShopNm(shop.getShopNm());
+		
+		return shopDto;
+	}
+	
+	// 매핑정보 DTO저장
+	public List<MemShopMappingDto> getMapping(Long memberId) {
+		
+		List<MemShopMapping> memShopMappingList = mapRepository.findByMemberId(memberId);
+		List<MemShopMappingDto> memShopMappingDtoList = new ArrayList<>();
+		
+		for (MemShopMapping mapping : memShopMappingList) {
 			
-			ShopDto shopDto = new ShopDto();
+			MemShopMappingDto memShopMappingDto = new MemShopMappingDto();
 			
-			shopDto.setShopId(shop.getId());
-			shopDto.setShopNm(shop.getShopNm());
-			shopDto.setManager(shop.getManager());
 			
-			shopDtoList.add(shopDto);
+			memShopMappingDto.setShopDto(getShop(mapping.getShop()));
+			memShopMappingDto.setMemberFormDto(getMember(mapping.getMember()));
+			memShopMappingDto.setPartTime(mapping.getPartTime());
+			memShopMappingDto.setTimePay(mapping.getTimePay());
+			memShopMappingDto.setWorkStatus(mapping.getWorkStatus());
+			
+			memShopMappingDtoList.add(memShopMappingDto);
 		}
 		
-		return shopDtoList;
+		return memShopMappingDtoList;
 	}
 	
 	// 매장공지 내용을 insert
@@ -145,6 +148,9 @@ public class ShopService {
 		return noticeRepository.save(notice);
 	}
 	
-	
+	public Shop findShop(Long ShopId) {
+		
+		return shopRepository.findById(ShopId).orElseThrow(EntityNotFoundException::new);
+	}
 	
 }

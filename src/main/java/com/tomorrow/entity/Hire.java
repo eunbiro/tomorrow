@@ -32,8 +32,8 @@ public class Hire extends BaseEntity {
 	private Shop shop;						// 매장코드 FK
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "manager_id")
-	private Manager manager;				// 관리자 아이디 FK
+	@JoinColumn(name = "member_id")
+	private Member member;					// 회원 아이디 FK
 	
 	@Column(length = 50, nullable = false)
 	private String hireTitle;				// 구인공고제목

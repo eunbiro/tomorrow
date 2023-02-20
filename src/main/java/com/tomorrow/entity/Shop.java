@@ -40,8 +40,4 @@ public class Shop {
 	
 	@Column(length = 30, nullable = false)
 	private String shopType;			// 매장업종
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "manager_id")
-	private Manager manager;			// 관리자 아이디 FK
 }
