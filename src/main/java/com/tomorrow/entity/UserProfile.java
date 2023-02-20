@@ -30,15 +30,12 @@ public class UserProfile {
 	@JoinColumn(name = "member_id")
 	private Member member;	//회원식별
 	
-	private String userProNm;	//프로필명
-	
 	private String proOriImgNm;	//원본 이미지명
 	
 	private String proImgUrl; //이미지경로
 	
-	public void updateUserImg(String proOriImgNm, String userProNm, String proImgUrl) {
+	public void updateUserImg(String proOriImgNm, String proImgUrl) {
 		this.proOriImgNm = proOriImgNm;
-		this.userProNm = userProNm;
 		this.proImgUrl = proImgUrl;
 	}
 }

@@ -38,7 +38,8 @@
 									</div>
 								</div>
 								<div class="side-logout">
-									<a href="#">로그아웃</a>
+									<a href="/member/login" sec:authorize="isAnonymous()">로그인</a>
+									<a href="/member/logout" sec:authorize="isAuthenticated()">로그아웃</a>
 								</div>	
 							</li>
 							<li>

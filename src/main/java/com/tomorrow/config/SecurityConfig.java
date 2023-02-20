@@ -37,7 +37,8 @@ public class SecurityConfig {
 		// 페이지의 접근에 관한 설정
 		http.authorizeRequests()
 			.mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()	// 모든 사용자가 로그인(인증) 없이 접근할 수 있도록 설정
-			.mvcMatchers("/", "/member/**", "/item/**", "/images/**", "/shop/**", "/library/**", "/board/**", "/work/**", "/intro").permitAll()	// 모든 사용자가 로그인(인증) 없이 접근할 수 있도록 설정
+//			.mvcMatchers("/", "/member/**", "/item/**", "/images/**", "/shop/**", "/library/**", "/board/**", "/work/**", "/intro").permitAll()	// 모든 사용자가 로그인(인증) 없이 접근할 수 있도록 설정
+			.mvcMatchers("/intro", "/member/**").permitAll()	// 모든 사용자가 로그인(인증) 없이 접근할 수 있도록 설정
 			.mvcMatchers("/admin/**").hasRole("ADMIN")	// '/admin'으로 시작하는 경로페이지는 role이 ADMIN인 사용자만 접근 가능 할 수 있도록 설정
 			.anyRequest().authenticated();				// 그 외의 페이지는 모두 로그인(인증)을 받아야 한다.
 		

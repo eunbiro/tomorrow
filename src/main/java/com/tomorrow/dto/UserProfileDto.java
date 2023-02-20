@@ -13,8 +13,6 @@ public class UserProfileDto {
 
 	private Long id; // 회원식별
 
-	private String userProNm; // 프로필명
-
 	private String proOriImgNm; // 원본 이미지명
 
 	private String proImgUrl; // 이미지경로
