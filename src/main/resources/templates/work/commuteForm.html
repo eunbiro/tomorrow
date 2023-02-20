@@ -4,39 +4,84 @@
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
-<title>춡퇴근기록</title>
+<title>출퇴근기록</title>
 <style>
-.commute-wrap{
- background-color : pink;
- margin: 0 auto;
+.commute-wrap {
+	margin: 100px auto;
 }
 
- .commute-select{
- width: 60%;
-float: left;
-margin: 10px;
+.commute-select {
+	width: 60%;
+	float: left;
+	margin: 10px;
 }
 
-.commute-btn-wrap{   
- float: right;
-  width: 30%;
+.commute-btn-wrap {
+	float: right;
+	width: 30%;
 }
+
 .commute-btn-wrap .btn {
-margin: 10px;
+	margin: 10px;
 }
 
+.commute-table {
+	width: 100%;
+}
 
-/*
+.commute-table th {
+	text-align: center;
+}
 
-.btn-bg-color{
-  background-color: 13223D;
-} */
+.commute-table td {
+	padding: 20px;
+}
+
+.page-link {
+	border: none;
+	color: black;
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.page-link:hover {
+	text-decoration: underline;
+	color: gray;
+}
+
+.commute-time {
+	float: left;
+}
+
+.commute-time label {
+	font-size: 1.4rem;
+	font-weight: bold;
+}
+
+.commute-time input {
+    width: 100px;	
+}
+
+.btn-primary {
+	background-color: #13223D;
+	border: none;
+}
+
+.btn-primary:hover {
+	background-color: #13223D;
+	opacity: 0.5;
+}
+
+.commute-select {
+   box-shadow: 0px 3px 5px gray;
+}
 </style>
 </head>
 <body>
 	<div layout:fragment="content">
-		<div  class="commute-wrap">
-			<select class="form-select commute-select" aria-label="Default select example">
+		<div class="commute-wrap">
+			<select class="form-select commute-select"
+				aria-label="Default select example">
 				<option selected>매장을 선택하세요</option>
 				<option value="1">One</option>
 				<option value="2">Two</option>
@@ -44,10 +89,78 @@ margin: 10px;
 			</select>
 
 			<div class="commute-btn-wrap">
-				<button class="btn btn-primary btn-bg-color" type="submit">출근</button>
+				<button class="btn btn-primary" type="submit">출근</button>
 				<button class="btn btn-primary" type="submit">퇴근</button>
 			</div>
+
+
+			<div class="commute-time" style="padding: 10px;">
+				<label for="working-time"
+					style="border-right: 3px solid black; padding-right: 20px;">출근
+					시간</label> <input type="text" style="margin-left: 20px; border: none;"
+					placeholder="13:00" readonly> <label for="work-hours"
+					style="border-right: 3px solid black; padding-right: 20px;">퇴근
+					시간</label> <input type="text" style="margin-left: 20px; border: none;"
+					placeholder="22:00" readonly>
+			</div>
+
+			<table class="commute-table">
+				<thead>
+					<tr style="border-bottom: 1px solid grey;">
+						<th>날짜</th>
+						<th>출근시간</th>
+						<th>퇴근시간</th>
+						<th>상태</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style="border-bottom: 1px solid grey;">
+						<td></td>
+						<td style="border: 1px solid grey;"></td>
+						<td style="border: 1px solid grey;"></td>
+						<td></td>
+					</tr>
+					<tr style="border-bottom: 1px solid grey;">
+						<td></td>
+						<td style="border: 1px solid grey;"></td>
+						<td style="border: 1px solid grey;"></td>
+						<td></td>
+					</tr>
+					<tr style="border-bottom: 1px solid grey;">
+						<td></td>
+						<td style="border: 1px solid grey;"></td>
+						<td style="border: 1px solid grey;"></td>
+						<td></td>
+					</tr>
+					<tr style="border-bottom: 1px solid grey;">
+						<td></td>
+						<td style="border: 1px solid grey;"></td>
+						<td style="border: 1px solid grey;"></td>
+						<td></td>
+					</tr>
+					<tr style="border-bottom: 1px solid grey;">
+						<td></td>
+						<td style="border: 1px solid grey;"></td>
+						<td style="border: 1px solid grey;"></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+
 		</div>
+		<nav style="margin-top: 20px;">
+			<ul class="pagination justify-content-center">
+				<li class="page-item"><a class="page-link">&lt;&lt;</a></li>
+				<li class="page-item"><a class="page-link">&lt;</a></li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item"><a class="page-link" href="#">4</a></li>
+				<li class="page-item"><a class="page-link" href="#">5</a></li>
+				<li class="page-item"><a class="page-link" href="#">&gt;</a></li>
+				<li class="page-item"><a class="page-link" href="#">&gt;&gt;</a></li>
+			</ul>
+		</nav>
 	</div>
 </body>
 </html>

@@ -3,10 +3,14 @@ package com.tomorrow.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
+
+import com.tomorrow.entity.UserProfile;
 
 @Getter
 @Setter
@@ -26,4 +30,6 @@ public class MemberFormDto {
 	private String pNum;	//회원 전화번호
 	
 	private String userProfile;	//회원 이미지
+	
+	private List<UserProfile> userProfileImg;	//유저의 프로필 이미지를 저장함
 }

@@ -6,16 +6,148 @@
 <head>
 <meta charset="UTF-8">
 <title>메인페이지</title>
+<style>
 
+.clock-wrap{
+    display:flex; 
+    justify-content: center; 
+    align-items: center; 
+    min-height:80vh; 
+    flex-direction: column; 
+}
+
+.clock{
+    width:350px; 
+    height:350px; 
+    display:flex; 
+    justify-content: center; 
+    margin: 0 auto;
+    align-items: center; 
+    background: url("/images/clock.png");
+    background-size: cover;
+    border: 4px solid #091921;
+    box-shadow: 0 -15px 15px rgba(255,255,255,0.05),
+                inset 0 -15px 15px rgba(255,255,255,0.05),
+                0 -5px 15px rgba(0,0,0,0.3),
+                inset 0 15px 15px rgba(0,0,0,0.3);
+    border-radius: 50%;
+}
+
+.clock:before {
+    content: '';
+    position: absolute;
+    width:15px;
+    height:15px;    
+    background:black;
+    border-radius: 50%;
+    z-index : 10;
+}
+
+.clock .hour,
+.clock .min,
+.clock .sec{
+    position: absolute;
+}
+
+.clock .hour .hr{
+    width : 160px;
+    height : 160px;
+}
+
+.clock .min .mn{
+    width : 190px;
+    height : 190px;
+}
+
+.clock .sec .sc{
+    width : 230px;
+    height : 230px;
+}
+
+.hr, .mn, .sc{
+    display:flex; 
+    justify-content: center; 
+    /* position: absolute; */
+    border-radius: 50%;
+}
+
+.hr:before{
+    content: '';
+    position: absolute;
+    width:8px;
+    height:80px;    
+    background:black;
+    z-index : 10;
+    border-radius: 6px 6px 0 0;
+}
+
+.mn:before{
+    content: '';
+    position: absolute;
+    width:4px;
+    height:90px;    
+    background:black;
+    z-index : 10;
+    border-radius: 6px 6px 0 0;
+}
+
+.sc:before{
+    content: '';
+    position: absolute;
+    width:2px;
+    height:150px;    
+    background:#ff105e;
+    z-index : 10;
+    border-radius: 6px 6px 0 0;
+}
+
+.clock-bottom{
+     text-align: center;
+     font-size: 1.3rem;
+     font-weight: bold;
+     padding: 30px;
+
+}
+
+.main-btn {
+     width: 220px;
+     height: 40px;
+     border: none;
+     border-radius: 5px;
+     color: white;
+     background-color: #13223D;
+     font-size: 1.2rem;
+     margin-top: 30px;
+     font-weight: bold;
+}
+
+.main-btn:hover {
+   opacity: 0.8;
+}
+</style>
 </head>
 <body>
 	<div layout:fragment="content" style="margin-top: 60px;">
-		main
-		git push test 입니다
-		content area
-		<input type="button" onclick="location='/member/join'" value="테스트 회원가입 버튼" />
-		<input type="button" onclick="location='/member/login'" value="테스트 로그인 버튼" sec:authorize="isAnonymous()" />
-		<input type="button" onclick="location='/member/logout'" value="테스트 로그아웃 버튼" sec:authorize="isAuthenticated()" />
+		 <div class="clock-wrap">
+    <div class="clock">
+        <div class="hour">
+            <div id="hr" class="hr"></div>
+        </div>
+        <div class="min">
+            <div id="mn" class="mn"></div>
+        </div>
+        <div class="sec">
+            <div id="sc" class="sc"></div>
+        </div>
+    </div>
+    <div class="clock-bottom">
+        <div class="date"></div>
+        
+        <button class="main-btn">출근</button>
+    </div>
+</div>
+
+    <script src="./js/clock.js"></script>
 	</div>
 </body>
 </html>
