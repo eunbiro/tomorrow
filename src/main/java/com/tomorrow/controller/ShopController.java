@@ -100,7 +100,7 @@ public class ShopController {
 		return "shop/workLogForm";
 	}
 	
-	// 직원정보폼
+	// 직원정보(employeeInfoForm.html - 수경)
 	@GetMapping(value = "/shop/employeeInfo")
 	public String employeeInfo(Model model) {
 
@@ -112,5 +112,23 @@ public class ShopController {
 	public String createShop(Model model) {
 		return "shop/shopCreateForm";
 		
+	}
+	
+	// 출퇴근조회(commuteListForAdmin.html - 수경)
+	@GetMapping(value = "/shop/commuteList")
+	public String commuteListForAdmin() {
+		return "shop/commuteListForAdmin";
+	}
+	
+	// 급여관리(payrollManagement.html - 수경)
+	@GetMapping(value = "/shop/payroll")
+	public String payrollManagement() {
+		return "shop/payrollManagement";
+	}
+	
+	// 매장정보(shopInfo.html - 수경)
+	@GetMapping(value = "/shop/shopInfo")
+	public String shopInfo() {
+		return "shop/shopInfo";
 	}
 }
