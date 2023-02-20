@@ -8,7 +8,7 @@ import com.tomorrow.entity.Board;
 
 public interface BoardRepositoryCustom {
 	
-	Page<Board> getAdminBoardPage(BoardSearchDto boardSearchDto, Pageable pageable);
+//	Page<Board> getAdminBoardPage(BoardSearchDto boardSearchDto, Pageable pageable);
 	
 	
 
