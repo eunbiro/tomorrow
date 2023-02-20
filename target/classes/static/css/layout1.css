@@ -318,7 +318,7 @@ thead{
 .board-table tr{
 	height: 50px;
 }
-/* 사이드바 css 시작============================================*/
+/* 헤더 안에 사이드바 css 시작============================================*/
 .box {
     width: 100px;
     height: 100px; 
@@ -345,8 +345,9 @@ thead{
 }
 .side-name{
 	margin: auto;
-	
-	
+}
+.navbar{
+	z-index: -10;
 }
 
 .side-logout{
@@ -363,6 +364,7 @@ thead{
 .profile-menu{
 	list-style: none;
 }
+
 /* 사이드바 끝==================================================== */
 
 /*======================직원정보======================*/
@@ -412,8 +414,7 @@ thead{
 }
 .reg-date p{
 	font-size: 18px;
-	opacity: 50%;baco
-
+	opacity: 50%;
 }
 
 .post-btns{
@@ -456,4 +457,4 @@ thead{
 
 .input-comment textarea{
 	width: 700px;
-	
+}
