@@ -5,12 +5,16 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.BoardImgDto;
+import com.tomorrow.dto.BoardListDto;
+import com.tomorrow.dto.BoardSearchDto;
 import com.tomorrow.entity.Board;
 import com.tomorrow.entity.BoardImg;
 import com.tomorrow.repository.BoardImgRepository;
@@ -80,4 +84,10 @@ public class BoardService {
 			return board.getId();
 		}
 
+	//게시글 리스트 가져오기
+		@Transactional(readOnly = true)
+		public Page<BoardListDto> getBoardListPage(BoardSearchDto boardSearchDto, Pageable pageable){
+			return boardRepository.getBoardListPage(boardSearchDto, pageable);
+		}
+		
 }

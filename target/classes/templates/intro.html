@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>인트로</title>
@@ -74,7 +75,8 @@
 			<!-- 수경: 스타일 따로 줘서 강조점 표시해가지고 필요 없어진 코드 지웠습니다! -->
 			<div class="intro-text"><span class="intro-point">내</span><span class="intro-point">일</span>을 위하여, <span class="intro-point">내</span> <span class="intro-point">일</span> 관리하기</div>
 		</div>
-		<button class="intro-btn" onclick="location='/member/login'">시작하기</button>
+		<button class="intro-btn" onclick="location='/member/login'" sec:authorize="isAnonymous()">시작하기</button>
+		<button class="intro-btn" onclick="location='/'" sec:authorize="isAuthenticated()">시작하기</button>
 	</div>
 </body>
 </html>

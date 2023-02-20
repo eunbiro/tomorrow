@@ -1,9 +1,13 @@
 package com.tomorrow.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.dto.BoardFormDto;
+import com.tomorrow.dto.BoardListDto;
+import com.tomorrow.dto.BoardSearchDto;
 import com.tomorrow.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +32,14 @@ public class CommunityController {
 	
 	//게시물 리스트 화면 진입
 	@GetMapping(value = "/board/list")
-	public String boardList() {
+	public String boardList(BoardSearchDto boardSearchDto, Optional<Integer> page, Model model) {
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+		Page<BoardListDto> boards = boardService.getBoardListPage(boardSearchDto, pageable);
+		
+		model.addAttribute("boards",boards);
+		model.addAttribute("boardSearchDto",boardSearchDto);
+		model.addAttribute("maxPage", 5);
+		
 		return "community/boardList";
 	}
 	
