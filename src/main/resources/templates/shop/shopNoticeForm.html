@@ -36,9 +36,48 @@
 			
 			$('#noti-like').off().on("click", function() {
 				
-				var url = "/shop/info/" + shopId;
+				var token = $("meta[name='_csrf']").attr("content");	/* content 어트리뷰트를 토큰값에 넣어서 가져온다? */
+				var header = $("meta[name='_csrf_header']").attr("content");
 				
-				$(location).attr('href', url);
+				var shopId = $('#shopId').val;
+				var url = "/shop/info/like/" + shopId;
+				var noticeId = $('#noti-like').val();
+				
+				var paramData = {
+						
+						noticeId : noticeId
+				};
+				
+				var param = JSON.stringify(paramData);
+				
+				$.ajax({
+					url			: url,
+					type		: "POST",
+					contentType : "application/json",
+					data		: param,
+					beforeSend	: function(xhr) {
+						/* 데이터 전송 전에 헤더에 csrf 값을 설정 */
+						xhr.setRequestHeader(header, token);
+					},
+					dataType	: "json",
+					cache		: false,
+					success		: function(result, status) {
+						
+						location.href = '/shop/info/' + shopId;
+					},
+					error		: function(jqXHR, status, error) {
+						
+						if (jqXHR.status == '401') {
+							
+							alert('로그인 후 이용하시오.');
+							location.href = '/members/login';
+						} else {
+							
+							alert(jqXHR.responseText);
+						}
+					}
+				});
+	        }
 			});
 		});
 		
@@ -96,8 +135,8 @@
 						</div>
 						
 						<div class="col-8 text-start d-flex flex-column">
-							<div class="mt-auto text-bottom fs-5 fw-bold" id="managerNm" th:text="${noti.managerDto.userNm}">내일</div>
-							<div class="mb-auto text-top" style="color: #A6A6A6;" id="managerId" th:text="'@' + ${noti.managerDto.userId}">@tomorrow</div>
+							<div class="mt-auto text-bottom fs-5 fw-bold" id="managerNm" th:text="${noti.MemberFormDto.userNm}">내일</div>
+							<div class="mb-auto text-top" style="color: #A6A6A6;" id="managerId" th:text="'@' + ${noti.MemberFormDto.userId}">@tomorrow</div>
 						</div>
 						
 						<a class="col-2 text-end" style="color: #000; cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></a>
@@ -107,7 +146,7 @@
 					<!-- 하단부분 -->
 					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
 						<div class="row pt-auto">
-							<a class="col-5 text-end" id="noti-like" style="color: red; cursor: pointer;"><i class="fa-regular fa-heart"></i></a>
+							<a class="col-5 text-end" th:value=${noti.noticeId} id="noti-like" style="color: red; cursor: pointer;"><i class="fa-regular fa-heart"></i></a>
 							<span class="col-7 text-start" th:text="${#lists.size(noti.noticeLikeDto)} + '명'">1명</span>
 						</div>
 						<div class="pt-auto" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
