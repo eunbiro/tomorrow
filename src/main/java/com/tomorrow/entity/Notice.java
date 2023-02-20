@@ -34,21 +34,19 @@ public class Notice extends BaseEntity {
 	private Shop shop;						// 매장코드 FK
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "manager_id")
-	private Manager manager;				// 관리자 아이디 FK
+	@JoinColumn(name = "member_id")
+	private Member member;					// 회원 아이디 FK
 	
 	@Lob
 	@Column(nullable = false)
 	private String noticeCont;				// 공지내용
 
-	public static Notice createNotice(NoticeDto noticeDto, Manager manager, Long shopId) {
+	public static Notice createNotice(NoticeDto noticeDto, Member member, Shop shop) {
 		
 		Notice notice = new Notice();
-		Shop shop = new Shop();
-		shop.setId(shopId);
 		
 		notice.setShop(shop);
-		notice.setManager(manager);
+		notice.setMember(member);
 		notice.setNoticeCont(noticeDto.getNoticeCont());
 		return notice;
 	}

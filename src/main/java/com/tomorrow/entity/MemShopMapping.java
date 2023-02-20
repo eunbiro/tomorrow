@@ -15,25 +15,25 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "pay")
+@Table(name = "mem_shop_mapping")
 @Getter
 @Setter
 @ToString
-public class shopEmpl {
+public class MemShopMapping {
 	
-	/* 시급 테이블을 알바관리 테이블로 변경했음
+	/* 시급 테이블을 매장회원 다대다 매핑 테이블로 변경했음
 	 * 
 	 * 이유 : 시급이랑 근무타입을 저장할 수 있는 테이블이 필요했음
 	 * 		 그걸 회원테이블에 넣자니 매장이 여러개일 때 관리가 안되기 때문에 관리 테이블로 따로 변경했습니다.
 	 */
 
 	@Id
-	@Column(name = "pay_id")
+	@Column(name = "map_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;						// 시급 식별번호
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "manager_id")
+	@JoinColumn(name = "member_id")
 	private Member member;					// 관리자 아이디 FK
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -45,4 +45,6 @@ public class shopEmpl {
 	
 	@Column(length = 30, nullable = false)
 	private String partTime;				// 파트타임(오전,오후,야간)
+	
+	private int workStatus;					// 알바 상태 0: 관리자, 1: 승인대기, 2: 승인완료, 3: 퇴사, 4: 휴직
 }
