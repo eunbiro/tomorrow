@@ -30,8 +30,6 @@ public class QUserProfile extends EntityPathBase<UserProfile> {
 
     public final StringPath proOriImgNm = createString("proOriImgNm");
 
-    public final StringPath userProNm = createString("userProNm");
-
     public QUserProfile(String variable) {
         this(UserProfile.class, forVariable(variable), INITS);
     }
