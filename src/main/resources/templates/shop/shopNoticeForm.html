@@ -17,23 +17,30 @@
 			}
 		});
 		
-		// TODO : select에서 선택한 매장id를 받아서 매장id를 가지고 있는 공지내용List를 가져온다. ajax
-		
-		
+		// 매장선택 시 해당 매장정보 불러옴
 		$(function() {
 			
 			$('.noti-sel-shop').off().on("change", function() {
 				
 				var shopId = $('.noti-sel-shop').val();
 				
-				var url = "/shop/noti/" + shopId;
+				var url = "/shop/info/" + shopId;
 				
 				$(location).attr('href', url);
 			});
 		});
 			
+		// 좋아요 insert
+		
+		$(function() {
 			
-			
+			$('#noti-like').off().on("click", function() {
+				
+				var url = "/shop/info/" + shopId;
+				
+				$(location).attr('href', url);
+			});
+		});
 		
 		// TODO : 수정버튼 confirm true일 경우 공지id 가지고 와서 select > id랑 내용 가져오고 해당 위치에 내보낸다.
 		
@@ -59,15 +66,15 @@
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">매장공지</a>
 					<!-- TODO : 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
-					<select class="noti-sel-shop fs-6 px-2 me-2" th:field="*{shopDto.ShopId}" id="mainCtg">
+					<select class="noti-sel-shop fs-6 px-2 me-2" th:field="*{shopDto.ShopId}" id="shopId">
 						<option value="">매장선택</option>
-						<th:block th:each="myShop : ${myShopList}" th:value="${myShop.ShopId}">
-							<option th:value="${myShop.ShopId}" th:text="${myShop.shopNm}"></option>
+						<th:block th:each="myShop : ${myShopList}" th:value="${myShop.shopDto.ShopId}">
+							<option th:value="${myShop.shopDto.ShopId}" th:text="${myShop.shopDto.shopNm}"></option>
 						</th:block>
 					</select>
 				</div>
 				<!-- create부분  sec:authorize="hasAnyAuthority('ROLE_ADMIN')" -->
-				<div class="mx-auto" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+				<div class="mx-auto">
 					<div class="row notice mx-auto my-2">
 						<div class="col-2 p-2 align-middle">
 							<img class="my-auto profile-img" alt="profile" src="/images/profile01.png">
@@ -81,7 +88,7 @@
 				</div>
 				
 				<!-- read부분 -->
-				<div class="mx-auto">
+				<div class="mx-auto" th:if="${not #lists.isEmpty(notiList)}" th:each="noti : ${notiList}">
 					<!-- 프로필부분 -->
 					<div class="mx-auto row py-3">
 						<div class="col-2 my-auto">
@@ -89,21 +96,21 @@
 						</div>
 						
 						<div class="col-8 text-start d-flex flex-column">
-							<div class="mt-auto text-bottom fs-5 fw-bold" id="managerNm">내일</div>
-							<div class="mb-auto text-top" style="color: #A6A6A6;" id="managerId">@tomorrow</div>
+							<div class="mt-auto text-bottom fs-5 fw-bold" id="managerNm" th:text="${noti.managerDto.userNm}">내일</div>
+							<div class="mb-auto text-top" style="color: #A6A6A6;" id="managerId" th:text="'@' + ${noti.managerDto.userId}">@tomorrow</div>
 						</div>
 						
 						<a class="col-2 text-end" style="color: #000; cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 					</div>
 					<!-- 내용부분 -->
-					<div class="text-start py-3 px-5">내용</div>
+					<div class="text-start py-3 px-5" th:text="${noti.noticeCont}">내용</div>
 					<!-- 하단부분 -->
 					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
 						<div class="row pt-auto">
-							<a class="col-5 text-end" style="color: red; cursor: pointer;"><i class="fa-regular fa-heart"></i></a>
-							<span class="col-7 text-start">1명</span>
+							<a class="col-5 text-end" id="noti-like" style="color: red; cursor: pointer;"><i class="fa-regular fa-heart"></i></a>
+							<span class="col-7 text-start" th:text="${#lists.size(noti.noticeLikeDto)} + '명'">1명</span>
 						</div>
-						<div class="pt-auto">
+						<div class="pt-auto" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
 							23-02-12
 						</div>
 					</div>
