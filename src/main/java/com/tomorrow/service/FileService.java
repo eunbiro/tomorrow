@@ -27,6 +27,7 @@ public class FileService {
 		return savedFileName;
 	}
 	
+	/*
 	//파일 삭제
 	public void deleteFile(String filePath) throws Exception {
 		File deleteFile = new File(filePath); // 파일이 저장된 경로를 이용해서 파일 객체를 생성
@@ -38,4 +39,5 @@ public class FileService {
 			log.info("파일이 존재하지 않습니다.");
 		}
 	}
+	*/
 }
