@@ -11,6 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.tomorrow.dto.BoardFormDto;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -37,4 +39,11 @@ public class Board extends BaseEntity {
 	@Lob
 	@Column(nullable = false)
 	private String boardCont;				// 커뮤니티 내용
+	
+	public void updateBoard(BoardFormDto boardFormDto) {
+		this.boardTitle = boardFormDto.getBoardTitle();
+		this.boardCont = boardFormDto.getBoardCont();
+	}
 }
+
+

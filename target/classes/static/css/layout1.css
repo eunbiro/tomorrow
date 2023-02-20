@@ -45,6 +45,8 @@ footer {
 
 .noti-title {
     font-family: 'SEBANG_Gothic_Bold';
+    text-decoration: none;
+    color: #000;
 }
 
 .profile-img {
