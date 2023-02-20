@@ -50,8 +50,6 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath userNm = createString("userNm");
 
-    public final StringPath userProfile = createString("userProfile");
-
     public QMember(String variable) {
         this(Member.class, forVariable(variable), INITS);
     }
@@ -70,7 +68,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop"), inits.get("shop")) : null;
+        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop")) : null;
     }
 
 }

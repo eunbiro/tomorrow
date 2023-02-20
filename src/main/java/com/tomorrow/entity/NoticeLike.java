@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -15,25 +16,25 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "pay")
+@Table(name = "notice_like")
 @Getter
 @Setter
 @ToString
-public class Pay {
+public class NoticeLike extends BaseEntity {
 
 	@Id
-	@Column(name = "pay_id")
+	@Column(name = "noti_like_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;						// 시급 식별번호
+	private Long id;						// 공지댓글 식별번호
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "manager_id")
-	private Manager manager;				// 관리자 아이디 FK
+	@JoinColumn(name = "member_id")
+	private Member member;					// 회원 아이디 FK
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pay_list_id")
-	private PayList payList;				// 급여일지 식별번호 FK
+	@JoinColumn(name = "notice_id")
+	private Notice notice;					// 매장공지 식별번호 FK
 	
 	@Column(nullable = false)
-	private int timePay;					// 시급
+	private int likeCount;					// 좋아요 카운트
 }

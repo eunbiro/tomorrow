@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.data.annotation.CreatedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,17 +25,25 @@ import lombok.ToString;
 @ToString
 public class Commute {
 
+	/* 출근 퇴근 자동으로 입력되는 컬럼 일반 date 컬럼으로 변경
+	 * 
+	 * 이유 : 테이블이 생성될 때 자동으로 입력되는 컬럼이기 때문에 출근 테이블과 퇴근테이블을 따로 만들기엔 부담이 있어서
+	 * 		 date컬럼으로 만들었음
+	 * 		 나중에 입력할때 출근 insert 시 localdatetime.now()로 입력하고
+	 * 		 퇴근은 update로 (컨트롤러에서 날짜수정해서 localdatetime.now()로) 입력하면 될 것 같습니다.
+	 */
+	
 	@Id
 	@Column(name = "commute_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;						// 출퇴근 식별번호
 	
-	@CreatedDate							// 엔티티가 생성 후 저장될 때 시간을 자동으로 저장
-	@Column(updatable = false)				// 이 컬럼은 등록만 되고 수정은 불가
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(nullable = false)
 	private LocalDateTime working;			// 출근날짜시간
 	
-	@CreatedDate
-	@Column(updatable = false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(nullable = false)
 	private LocalDateTime leaving;			// 퇴근날짜시간
 	
 	@ManyToOne(fetch = FetchType.LAZY)

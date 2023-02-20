@@ -44,6 +44,8 @@ public class QBoard extends EntityPathBase<Board> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> upDateTime = _super.upDateTime;
 
+    public final NumberPath<Integer> viewCount = createNumber("viewCount", Integer.class);
+
     public QBoard(String variable) {
         this(Board.class, forVariable(variable), INITS);
     }

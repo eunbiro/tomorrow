@@ -20,15 +20,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class WorkLog {
+public class WorkLog extends BaseEntity  {
 
 	@Id
 	@Column(name = "log_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;						//  근무일지 식별번호
-	
-	@Column(length = 30, nullable = false)
-	private String partTime;				// 파트타임(오전,오후,야간)
 	
 	@Lob
 	@Column(nullable = false)

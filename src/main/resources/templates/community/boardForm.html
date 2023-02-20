@@ -31,6 +31,19 @@
         }
 	</script>
 </th:block>
+<th:block layout:fragment="css">
+	<style>
+		.input-group {
+            margin-bottom : 15px
+        }
+        .img-div {
+            margin-bottom : 10px
+        }
+        .fieldError {
+            color: #bd2130;
+        }
+	</style>
+</th:block>
 </head>
 <!-- <body> -->
 	<div layout:fragment="content">	
@@ -41,10 +54,10 @@
 	   			<div class="post-title d-flex">
 	   				<label for="board_id">제목 : <input type="text" id="board_id" th:field="*{boardTitle}" placeholder="제목을 입력해주세요."/></label>
 	   				<p th:if="${#fields.hasErrors('boardTitle')}" th:errors="*{boardTitle}" class="fieldError">Incorrect Data</p>
-	   				<hr>
 	   			</div>
+   				<hr>
 	   			<div class="post-text">
-	   				<textarea class="w-100 h-40 board-textarea" th:field="*{boardCont}">
+	   				<textarea class="w-100 h-40 board-textarea" th:field="*{boardCont}" placeholder="내용을 입력해주세요.">
 
 	   				</textarea>
 	   				<p th:if="${#fields.hasErrors('boardCont')}" th:errors="*{boardCont}" class="fieldError">Incorrect Data</p>

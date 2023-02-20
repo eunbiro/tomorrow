@@ -29,9 +29,7 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Integer> likeNoti = createNumber("likeNoti", Integer.class);
-
-    public final QManager manager;
+    public final QMember member;
 
     //inherited
     public final StringPath modifiedBy = _super.modifiedBy;
@@ -64,8 +62,8 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public QNotice(Class<? extends Notice> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.manager = inits.isInitialized("manager") ? new QManager(forProperty("manager")) : null;
-        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop"), inits.get("shop")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
+        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop")) : null;
     }
 
 }

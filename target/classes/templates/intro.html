@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>인트로</title>
+<style type="text/css">
+	/* 수경: css 수정하면서 필요 없어진 class 주석처리해서 정리했습니다! */
+	.intro-wrap {
+		width: 66%;
+		margin: 0 auto;
+		text-align: center;
+	}
+	
+	.intro-text {
+		font-size: 3rem;
+		font-weight: bold;
+		color: #4B4B4B;
+		text-shadow: 0px 5px 3px rgba(0,0,0,0.39);
+		letter-spacing: 2px;
+		margin-bottom: 3rem;
+	}
+	
+/* 	.intro-text-dot {
+		font-size: 3rem;
+		font-weight: bold;
+		color: #FCA211;
+		letter-spacing: 2px;
+	} */
+	
+	.intro-btn {
+		border: none;
+		background: #13223D;
+		color: #fff;
+		margin-top: 2rem;
+		padding: 1.4rem 12rem;
+		border-radius: 10px;
+		font-size: 2.5rem;
+		font-weight: bold;
+	}
+	
+/* 	.intro-dot {
+		background: #FCA211;
+		border-radius: 50%;
+		width: 1.6rem;
+		height: 1.6rem;
+		position: absolute;
+		top: -1.5rem;
+		left: 20rem;
+	} */
+	
+/* 	.dot-wrap {
+		display: flex;
+		justify-content: center;
+		width: 66%;
+		margin: 0 auto;
+		position: relative;
+	} */
+	
+	/* 귀신 아니라 수경이가 수정했어요 놀라지 마세요 */
+	.intro-line {
+		white-space: nowrap;
+	}
+	
+	.intro-point {
+		text-emphasis-style : circle;
+		text-emphasis-color: #FCA211;
+	}
+</style>
+</head>
+<body>
+	<div class="intro-wrap">
+		<img alt="intro_logo" src="/images/intro_img.jpg">
+		<div class="intro-line">
+			<!-- 수경: 스타일 따로 줘서 강조점 표시해가지고 필요 없어진 코드 지웠습니다! -->
+			<div class="intro-text"><span class="intro-point">내</span><span class="intro-point">일</span>을 위하여, <span class="intro-point">내</span> <span class="intro-point">일</span> 관리하기</div>
+		</div>
+		<button class="intro-btn" onclick="location='/member/login'" sec:authorize="isAnonymous()">시작하기</button>
+		<button class="intro-btn" onclick="location='/'" sec:authorize="isAuthenticated()">시작하기</button>
+	</div>
+</body>
+</html>

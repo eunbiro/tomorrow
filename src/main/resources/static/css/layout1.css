@@ -45,6 +45,8 @@ footer {
 
 .noti-title {
     font-family: 'SEBANG_Gothic_Bold';
+    text-decoration: none;
+    color: #000;
 }
 
 .profile-img {
@@ -134,28 +136,8 @@ footer {
 	margin-right: 200px;
 }
 
-.login-label-input > ul > li:nth-of-type(1) {
-	font-size: 1.4em;
-	text-align: left;
-	margin-left: 40px;
-	line-height: 50px;
-	height: 50px;
-	padding: auto 0;
-	list-style: none;
-}
-
-.login-label-input > ul {
-	overflow: hidden;
-}
-
-.login-label-input > ul > li:nth-of-type(2) {
-	font-size: 1.4em;
-	text-align: left;
-	margin-left: 57px;
-	line-height: 50px;
-	height: 50px;
-	padding: auto 0;
-	list-style: none;
+.login-label-input > input:nth-of-type(1), input:nth-of-type(2) {
+	border : 3px solid gray;
 }
 
 input[type="checkbox"] {
@@ -167,28 +149,44 @@ input[type="checkbox"] {
 
 .login_btn {
 	width : 100%;
-	height: 40px;
+	height: 55px;
 	font-weight:900;
-	font-size: 1.2em;
-	border-radius: 10px;
-	background: #13223D;
+	font-size: 1.5em;
+	border-radius: 8px;
+	background: black;
 	color: white;
+	margin-bottom: 7px;
 }
 
 .join_btn {
-	margin-right: 39px;
+	border: 1px solid #13223D;
+	margin : 7px 0 7px 0; 
 	width : 100%;
 	height: 40px;
 	font-weight:900;
 	font-size: 1.2em;
-	border-radius: 10px;
+	border-radius: 8px;
 	background: #13223D;
 	color: white;
+}
+
+.login_word {
+	font-size : 1.4em;
+	color: gray;
+	font-weight: bold;
+}
+
+.kakao_btn {
+	margin-bottom: 10px;
+}
+
+.login-total {
+	transform: translate(0%, 8%);
 }
 	
 /*======================회원가입CSS======================*/
 .joinBody {
-    background-color:#0B173B;
+    background-color:black;
 }
 
 .join-input {
@@ -201,12 +199,64 @@ input[type="checkbox"] {
     width: 600px;
 }
 
-.join-input > input {
-    box-shadow: 0 4px 4px -4px black;
-    width : 85%;
-    line-height: 50px;
+.join-input-top {
+	transform: translate(0%, 28%);
+}
+
+.join_input_info {
+	transform: translate(0%, 5%);
+	width: 400px;
+	display: inline-block;
+}
+
+.join_input_info > input {
+	box-shadow: 0 4px 4px -4px black;
+    line-height: 40px;
     padding: 0 15px;
+    border: 3px solid gray;
     border-radius: 4px;
+	padding : 0px 15px;
+	width: 100%;
+	margin: 10px 0 10px 0;
+}
+
+.join_input_info > label {
+	margin-bottom : -7px;
+	float: left;
+	font-size: 1.15em;
+	font-weight: 800;
+}
+
+.join_input_info > p {
+	font-weight: 600;
+	font-size: 1.1em;
+}
+
+.join_input_info > p:nth-of-type(1), p:nth-of-type(2), p:nth-of-type(4) {
+	margin-bottom: -3px;
+}
+
+.join_input_info > p:nth-of-type(3) {
+	margin-bottom: 2px;
+}
+
+.join_word {
+	margin: 50px 0 10px 0;
+	font-weight: bold;
+	font-size: 1.6em;
+}
+
+.join_new {
+	border: 1px solid #13223D;
+	margin : 25px 0 100px 0; 
+	width : 100%;
+	line-height: 50px;
+	height: 55px;
+	font-weight:700;
+	font-size: 1.5em;
+	border-radius: 8px;
+	background: #13223D;
+	color: white;
 }
 /*======================매장근무기록CSS======================*/
 
