@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 // 업로드한 파일을 읽어올 경로 설정
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-/*
 	@Value("${uploadPath}")	//프로퍼티의 값을 읽어온다.	
 	String uploadPath;
 
@@ -19,7 +18,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addResourceLocations(uploadPath);
 		
 	}
-	*/
 
 //	@Value("${uploadPath}")	//프로퍼티의 값을 읽어온다.	
 //	String uploadPath;

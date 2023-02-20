@@ -6,5 +6,5 @@ import com.tomorrow.entity.UserProfile;
 
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
 	
-	UserProfile findByUserProfileId(Long profileName);
+//	UserProfile findByUserProfileNm(String profileName);
 }
