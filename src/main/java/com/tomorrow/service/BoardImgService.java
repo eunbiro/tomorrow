@@ -52,7 +52,7 @@ public class BoardImgService {
 				}
 				
 				//수정된 이미지 파일 업로드
-				String oriImgName = boardImgFile.getOriginalFilename(); 
+				String oriImgName = boardImgFile.getOriginalFilename();
 				String imgName = fileService.uploadFile(boardImgLocation, oriImgName, boardImgFile.getBytes());
 				String imgUrl = "/images/board/" + imgName;
 				

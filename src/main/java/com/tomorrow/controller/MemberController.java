@@ -59,7 +59,6 @@ public class MemberController {
 		if(bindingResult.hasErrors()) {
 			return "member/memberJoinForm";
 		}
-		
 		try {			
 			Member member = Member.createMember(memberFormDto, passwordEncoder);
 			memberService.saveMember(member);
