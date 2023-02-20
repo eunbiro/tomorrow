@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>매장생성</title>
+<th:block layout:fragment="css">
+	<style>
+.wrap {
+	margin-top: 70px;
+}
+
+.emp-info-title {
+	font-family: 'SEBANG_Gothic_Bold';
+}
+
+.shop-item {
+	width: 100px;
+	float: left;
+}
+
+.shop-info {
+	float: left;
+	width: 100%;
+	margin-top: 30px;
+}
+
+.commute-btn-wrap {
+	float: right;
+	width: 30%;
+}
+
+.commute-btn-wrap .btn {
+	margin: 10px;
+}
+
+.btn-primary {
+	background-color: #13223D;
+	border: none;
+}
+
+.btn-primary:hover {
+	background-color: #13223D;
+	opacity: 0.5;
+}
+
+</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="wrap">
+			<div class="fs-1 fw-bold emp-info-title">매장정보</div>
+			<form action="" method="get">
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>매장명</label>
+					</div>
+					<input />
+				</div>
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>위치</label>
+					</div>
+					<input />
+				</div>
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>업종</label>
+					</div>
+					<input />
+				</div>
+				<div class="shop-info">
+					<div id="carouselExampleControls" class="carousel slide"
+						data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img src="..." class="d-block w-100" alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="..." class="d-block w-100" alt="...">
+							</div>
+							<div class="carousel-item">
+								<img src="..." class="d-block w-100" alt="...">
+							</div>
+						</div>
+						<button class="carousel-control-prev" type="button"
+							data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button>
+						<button class="carousel-control-next" type="button"
+							data-bs-target="#carouselExampleControls" data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
+					</div>
+				</div>
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>사업자번호</label>
+					</div>
+					<input />
+				</div>
+				<div class="shop-info">
+					<div class="shop-item">
+						<label>매장번호</label>
+					</div>
+					<input />
+				</div>
+
+				<div class="commute-btn-wrap">
+					<button class="btn btn-primary" type="submit">출근</button>
+					<button class="btn btn-primary" type="submit">퇴근</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
