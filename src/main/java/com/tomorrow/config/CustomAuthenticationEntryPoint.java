@@ -17,6 +17,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 			AuthenticationException authException) throws IOException, ServletException {
 
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");	// (401 에러, "에러메세지")
+//		response.sendRedirect("/intro");
 	}
 
 	

@@ -22,9 +22,25 @@ public class QPayList extends EntityPathBase<PayList> {
 
     public static final QPayList payList = new QPayList("payList");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
+    //inherited
+    public final StringPath createdBy = _super.createdBy;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final QMember member;
+
+    //inherited
+    public final StringPath modifiedBy = _super.modifiedBy;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> regTime = _super.regTime;
+
+    public final QShop shop;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> upDateTime = _super.upDateTime;
 
     public QPayList(String variable) {
         this(PayList.class, forVariable(variable), INITS);
@@ -45,6 +61,7 @@ public class QPayList extends EntityPathBase<PayList> {
     public QPayList(Class<? extends PayList> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
+        this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop"), inits.get("shop")) : null;
     }
 
 }

@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -16,26 +15,24 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "notice_comment")
+@Table(name = "admin_profile")
 @Getter
 @Setter
 @ToString
-public class NoticeComment extends BaseEntity {
+public class AdminProfile {
 
 	@Id
-	@Column(name = "noti_cmt_id")
+	@Column(name = "admin_pro_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;						// 공지댓글 식별번호
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
-	private Member member;					// 회원 아이디 FK
+	private String adminProNm;				// 프로필명
+	
+	private String proOriImgNm;				// 원본이미지명
+	
+	private String proImgUrl;				// 이미지경로.
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "notice_id")
-	private Notice notice;					// 매장공지 식별번호 FK
-	
-	@Lob
-	@Column(nullable = false)
-	private String notiCmtText;				// 댓글내용
+	@JoinColumn(name = "manager_id")
+	private Manager manager;				// 관리자번호 FK
 }
