@@ -56,24 +56,25 @@
 <body>
     <div class="container-lg">
         <form action="/member/login" method="post">
-            <div class="login-logo">
-                <img src="/images/logo.png" style="width:200px;" />
-            </div>
-            <div class="login-label-input">
-                <label th:for="userId"> 아이디</label>
-                <input type="text" placeholder="아이디를 입력하세요" id="userId" name="userId"/>
-                <label  th:for="password">비밀번호</label>
-                <input type="password" placeholder="비밀번호 4자~16자" id="password" name="password"/>
-                <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
-                <label><input type="checkbox" name="id_save" id="id_save" />아이디 저장</label>
-                <a href="/auth/kakao/callback"><img src="/images/kakao_login_large.png" style="width:150px" /></a>
-                <button type="submit" id="loginbtn" class="login_btn">로그인</button>
-                <ul>
-                	<li>아직 회원이 아니신가요?</li>
-	              		<button type="button" onclick="location.href='/member/join'" class="join_btn">회원가입</button>
-                	<li>아이디/비밀번호 찾기</li>
-                </ul>
-            </div>
+        	<div class="login-total">
+	            <div class="login-logo">
+	                <img src="/images/logo.png" style="width:200px;" />
+	            </div>
+	            <div class="login-label-input">
+	                <label th:for="userId"> 아이디</label>
+	                <input type="text" placeholder="아이디를 입력하세요" id="userId" name="userId"/>
+	                <label  th:for="password">비밀번호</label>
+	                <input type="password" placeholder="비밀번호 4자~16자" id="password" name="password"/>
+	                <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
+	                <label><input type="checkbox" name="id_save" id="id_save" />아이디 저장</label>
+	                <a href="/auth/kakao/callback"><img src="/images/kakao_login_large_wide 1.png" style="width:350px" class="kakao_btn" /></a>
+	                <button type="submit" id="loginbtn" class="login_btn">로그인</button>
+	                <span class="login_word">아직 회원이 아니신가요?</span>
+	            	<button type="button" onclick="location.href='/member/join'" class="join_btn">회원가입</button>
+	                <span class="login_word">아이디/비밀번호 </span>
+	            	<button type="button" onclick="location.href='/member/join'" class="join_btn">회원정보찾기</button>
+	            </div>
+	        </div>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         </form>
     </div>

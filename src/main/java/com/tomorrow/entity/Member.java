@@ -48,8 +48,6 @@ public class Member extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Role role;					// 유저 권한등급 > 기본 회원가입 시 무조건 USER 등급
 	
-	private String userProfile;			// 유저 회원가입 시 선택적으로 입력하는 프로필 이미지
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
 	private Shop shop;					// 매장코드 FK
