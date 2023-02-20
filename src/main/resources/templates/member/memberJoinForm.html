@@ -47,23 +47,25 @@
 	<div class="container-lg">
 		<form role="form" action="/member/new" method="post" th:object="${memberFormDto}">
 			<div class="join-input">
-				<div>
-					<p style="font-size: 1.5em;">회원가입</p>
+				<div class="join-input-top">
+					<p class="join_word">회원가입</p>
 					<a href="#"><img src="/images/joinImg.png" style="width: 120px" /></a>
 				</div>
-				<label th:for="userNm">이름</label>
-				<input type="text" th:field="*{userNm}" />
-				<p th:if="${#fields.hasErrors('userNm')}" th:errors="*{userNm}" class="fieldError">Incorrect Data</p>
-				<label th:for="userId">아이디</label>
-				<input type="text" th:field="*{userId}" />
-				<p th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" class="fieldError">Incorrect Data</p>
-				<label th:for="password">비밀번호</label>
-				<input type="password" th:field="*{password}" />
-				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
-				<label th:for="pNum">전화번호</label>
-				<input type="text" th:field="*{pNum}" />
-				<p th:if="${#fields.hasErrors('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
-				<button type="submit" onclick="location.href='/member/new'">가입하기</button>
+				<div class="join_input_info">
+					<label th:for="userNm">이름</label>
+					<input type="text" th:field="*{userNm}" />
+					<p th:if="${#fields.hasErrors('userNm')}" th:errors="*{userNm}" class="fieldError">Incorrect Data</p>
+					<label th:for="userId">아이디</label>
+					<input type="text" th:field="*{userId}" />
+					<p th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" class="fieldError">Incorrect Data</p>
+					<label th:for="password">비밀번호</label>
+					<input type="password" th:field="*{password}" />
+					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
+					<label th:for="pNum">전화번호</label>
+					<input type="text" th:field="*{pNum}" />
+					<p th:if="${#fields.hasErrors('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
+					<button type="submit" onclick="location.href='/member/new'"  class="join_new">가입하기</button>
+				</div>
 			</div>
 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 		</form>
