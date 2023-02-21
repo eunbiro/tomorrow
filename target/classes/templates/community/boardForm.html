@@ -53,8 +53,8 @@
    			<hr>
 	   		<form method="post" enctype="multipart/form-data" th:object="${boardFormDto}">
 				<input type="hidden" th:field="*{id}"/>   		
-				<input type="hidden" th:field="*{createdBy}"/>   		
-				<input type="hidden" th:field="*{viewCount}"/>   		
+				<input type="hidden" th:field="*{createdBy}"/>   		 		
+				<input type="hidden" th:field="*{regTime}"/>   		 		
 	   			<div class="post-title d-flex">
 	   				<label for="board_id">제목 : <input type="text" id="board_id" th:field="*{boardTitle}" placeholder="제목을 입력해주세요."/></label>
 	   				<p th:if="${#fields.hasErrors('boardTitle')}" th:errors="*{boardTitle}" class="fieldError">Incorrect Data</p>
@@ -87,17 +87,18 @@
 	  						th:text="${not #strings.isEmpty(boardImgDto.boOriImgNm)} 
 	  						? ${boardImgDto.boOriImgNm} : '상품이미지' + ${status.index+1}"></label>
 	  						<input type="hidden" name="boardImgIds" th:value="${boardImgDto.id}">
-	  						<input class="form-control custom-file-input" type="file" id="boardImgFile" name="itemImgFile">
+	  						<input class="form-control custom-file-input" type="file" id="boardImgFile" name="boardImgFile">
 						</div>
 					</div>
 				</div>
-	   			<div th:if="${#strings.isEmpty(boardFormDto.id)}" class="post-buttons">
-	   			</div>
-	   				<button th:formaction="@{/board/new}" type="submit">등록</button>
-	   			<div th:unless="${#strings.isEmpty(boardFormDto.id)}" class="post-buttons">
-	   				<button th:formaction="@{'/board/update/' + ${boardFormDto.id} }" type="submit">수정</button>
-	   			</div>
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+	   			<div th:if="${#strings.isEmpty(boardFormDto.id)}">
+				<button th:formaction="@{/board/new}" type="submit" class="btn btn-primary mb-3">저장</button>
+			</div> 
+			
+			<div th:unless="${#strings.isEmpty(boardFormDto.id)}" class="camp_frm_btn">
+				<button th:formaction="@{'/board/update/' + ${boardFormDto.id} }" type="submit" >수정</button>
+			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 	   		</form>
 	   </div>
     </div>

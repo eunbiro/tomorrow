@@ -1,0 +1,5 @@
+com\tomorrow\entity\QBaseEntity.class
+com\tomorrow\entity\QHire.class
+com\tomorrow\entity\QMember.class
+com\tomorrow\entity\QShop.class
+com\tomorrow\entity\QBaseTimeEntity.class

@@ -13,7 +13,7 @@ public class BoardDto {
 	private String boardTitle;
 	
 	private String boardCont;
-	
+		
 	private LocalDateTime regTime;
 	
 	private LocalDateTime updateTime;
