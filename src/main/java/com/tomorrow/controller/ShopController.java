@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.NoticeDto;
+import com.tomorrow.dto.NoticeLikeDto;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
+import com.tomorrow.entity.NoticeLike;
 import com.tomorrow.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
@@ -90,6 +93,43 @@ public class ShopController {
 		
 		return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
 	}
+	
+//	// 좋아요 눌렀을때
+//	@PostMapping(value = "/shop/info/like/{memberId}/like")
+//	public ResponseEntity shopLikeInsert(@PathVariable("memberId") Long memberId, Long noticeId, Model model, Principal principal) {
+//		
+//		Notice notice = shopService.findNotice(noticeId);
+//		Member member = shopService.findMember(principal.getName());
+//		NoticeLike noticeLike = NoticeLike.createNoticeLike(member, notice);
+//		shopService.saveNoticeLike(noticeLike);
+//		
+//		return new ResponseEntity(memberId, HttpStatus.OK);
+//	}
+//	
+//	// 좋아요 또 눌렀을때
+//	@DeleteMapping(value = "/shop/info/{notiLikeId}/likeDel")
+//	public ResponseEntity shopLikeDelete(@PathVariable("notiLikeId") Long notiLikeId, Long noticeId, Model model, Principal principal) {
+//		
+//		NoticeLike noticeLike = shopService.findNoticeLike(notiLikeId);
+//		
+//		return new ResponseEntity(notiLikeId, HttpStatus.OK);
+//	}
+	
+	@GetMapping(value = "/shop/info/update/{noticeId}")
+	public @ResponseBody ResponseEntity updateNotice(@PathVariable("noticeId") Long noticeId, Principal principal) {
+		
+		Notice notice = shopService.findNotice(noticeId);
+		
+		return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value = "/shop/notice/{noticeId}/delete")
+	public @ResponseBody ResponseEntity deleteNotice(@PathVariable("noticeId") Long noticeId, Principal principal) {
+		
+		Notice notice = shopService.findNotice(noticeId);
+		shopService.deleteNotice(notice);
+		return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
+	}
 
 	// GET근무일지폼
 	@GetMapping(value = {"/shop/log", "/shop/log/{shop_id}"})
@@ -107,7 +147,7 @@ public class ShopController {
 		return "shop/workLogForm";
 	}
 	
-	// 직원정보폼
+	// 직원정보(employeeInfoForm.html - 수경)
 	@GetMapping(value = "/shop/employeeInfo")
 	public String employeeInfo(Model model) {
 
@@ -119,5 +159,23 @@ public class ShopController {
 	public String createShop(Model model) {
 		return "shop/shopCreateForm";
 		
+	}
+	
+	// 출퇴근조회(commuteListForAdmin.html - 수경)
+	@GetMapping(value = "/shop/commuteList")
+	public String commuteListForAdmin() {
+		return "shop/commuteListForAdmin";
+	}
+	
+	// 급여관리(payrollManagement.html - 수경)
+	@GetMapping(value = "/shop/payroll")
+	public String payrollManagement() {
+		return "shop/payrollManagement";
+	}
+	
+	// 매장정보(shopInfo.html - 수경)
+	@GetMapping(value = "/shop/shopInfo")
+	public String shopInfo() {
+		return "shop/shopInfo";
 	}
 }

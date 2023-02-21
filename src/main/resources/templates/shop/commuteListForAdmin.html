@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>출퇴근정보</title>
+<!-- 각 페이지에 css가 작성될 위치 -->
+<th:block layout:fragment="css">
+	<style>
+.wrap {
+	margin-top: 70px;
+}
+
+.emp-info-select {
+	box-shadow: 0px 3px 5px gray;
+}
+
+.emp-info-title {
+	font-family: 'SEBANG_Gothic_Bold';
+}
+
+.btn-primary {
+	background-color: #13223D;
+	border: none;
+}
+
+.btn-primary:hover {
+	background-color: #13223D;
+	opacity: 0.5;
+}
+
+.emp-info-page {
+	text-align: center;
+	margin-top: 40px;
+	font-weight: bold;
+	position: fixed;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+}
+
+.emp-info-pgeList {
+	list-style: none;
+}
+
+
+li {
+	display: inline;
+}
+
+thead th:nth-child(n+2):nth-child(-n+6) {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-top: none;
+}
+
+tbody td:nth-child(n+2):nth-child(-n+6) {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+
+tr {
+	height: 40px;
+}
+
+table {
+	height: 323px;
+}
+
+</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="wrap">
+			<div class="row my-4">
+				<div class="col-lg-4">
+					<select class="form-select w-75 my-3 emp-info-select"
+						aria-label="Default select example">
+						<option selected>매장 선택</option>
+						<option value="1">One</option>
+						<option value="2">Two</option>
+						<option value="3">Three</option>
+					</select>
+				</div>
+				<div class="emp-info-title col-lg-4 text-center fs-1 fw-bold">출퇴근
+					조회</div>
+				<div class="commute-btn-wrap col-lg-4">
+					<button class="btn btn-primary w-50 my-3" style="float: right;"
+						type="submit">엑셀저장</button>
+				</div>
+			</div>
+			<div>
+				<table class="table table-hover text-center">
+					<thead style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
+						<tr>
+							<th scope="col">이름</th>
+							<th scope="col">알바장소</th>
+							<th scope="col">날짜</th>
+							<th scope="col">출근시간</th>
+							<th scope="col">퇴근시간</th>
+							<th scope="col">전화번호</th>
+							<th scope="col">출근</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td scope="row" class="fs-5">권수경</td>
+							<td class="fs-5">서초</td>
+							<td class="fs-5">23-02-20</td>
+							<td class="fs-5">08:00</td>
+							<td class="fs-5">17:00</td>
+							<td class="fs-5">010-0000-0000</td>
+							<td class="fs-5">출근</td>
+						</tr>
+						<tr>
+							<td scope="row" class="fs-5">김정환</td>
+							<td class="fs-5">서초</td>
+							<td class="fs-5">23-02-20</td>
+							<td class="fs-5">08:00</td>
+							<td class="fs-5">17:00</td>
+							<td class="fs-5">010-0000-0000</td>
+							<td class="fs-5">출근</td>
+						</tr>
+						<tr>
+							<td scope="row" class="fs-5">노은비</td>
+							<td class="fs-5">서초</td>
+							<td class="fs-5">23-02-20</td>
+							<td class="fs-5">08:00</td>
+							<td class="fs-5">17:00</td>
+							<td class="fs-5">010-0000-0000</td>
+							<td class="fs-5">출근</td>
+						</tr>
+						<tr>
+							<td scope="row" class="fs-5">신초아</td>
+							<td class="fs-5">서초</td>
+							<td class="fs-5">23-02-20</td>
+							<td class="fs-5">08:00</td>
+							<td class="fs-5">17:00</td>
+							<td class="fs-5">010-0000-0000</td>
+							<td class="fs-5">출근</td>
+						</tr>
+						<tr>
+							<td scope="row" class="fs-5">김경범</td>
+							<td class="fs-5">서초</td>
+							<td class="fs-5">23-02-20</td>
+							<td class="fs-5">08:00</td>
+							<td class="fs-5">17:00</td>
+							<td class="fs-5">010-0000-0000</td>
+							<td class="fs-5">출근</td>
+						</tr>
+						<tr>
+							<td scope="row" class="fs-5">박민우</td>
+							<td class="fs-5">서초</td>
+							<td class="fs-5">23-02-20</td>
+							<td class="fs-5">08:00</td>
+							<td class="fs-5">17:00</td>
+							<td class="fs-5">010-0000-0000</td>
+							<td class="fs-5">출근</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- 페이징 버튼 -->
+		<div class="emp-info-page fs-4">
+			<ul class="emp-info-pgeList">
+				<li><a>&lt;&lt;</a></li>
+				<li><a>&lt;</a></li>
+				<li><a>1</a></li>
+				<li><a>2</a></li>
+				<li><a>3</a></li>
+				<li><a>4</a></li>
+				<li><a>5</a></li>
+				<li><a>&gt;</a></li>
+				<li><a>&gt;&gt;</a></li>
+
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

@@ -47,6 +47,7 @@ public class Board extends BaseEntity {
 		this.boardTitle = boardFormDto.getBoardTitle();
 		this.boardCont = boardFormDto.getBoardCont();
 	}
+	
 }
 
 

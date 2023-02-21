@@ -60,7 +60,7 @@ public class QPayList extends EntityPathBase<PayList> {
 
     public QPayList(Class<? extends PayList> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
         this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop")) : null;
     }
 
