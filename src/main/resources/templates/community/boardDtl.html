@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<!-- <body> -->
+<body> 
 	<div layout:fragment="content">	
+   	   <input type="hidden" id="boardId" th:value="${board.id}">
 	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
-   			<p>작성자 : 관리자(권수경)</p>
+   			<p th:text="'작성자 : '+${board.createdBy}"></p>
    			<hr>
 	   		<form method="post" >
 	   			<div class="post-title d-flex">
-					<p>제목 : 점심 관련 공지 | 조회수 7</p>
+					<p th:text="'제목 : '+${board.boardTitle}+' | 조회수 : ' + ${board.viewCount}"></p>
 					<a href="#">삭제</a>
 	   			</div>
 	   			<hr>
 	   			<div class="post-text">
-	   				<textarea class="w-100 h-40 board-textarea">
-안녕하십니까, 디그다 여러분. 
-
-매일 있는 점심 시간을 여러분께서 얼마나 기다리는지 잘 알고 있습니다. 
-
-그런 의미에서! 제가 함 쏘겠습니다!!! 
-
-회식을 원하는 분께서는 김경범 대리 혹은 김정환 인턴에게 미리 연락하여
-참석 희망 여부를 알려주시기 바랍니다. 
-		
-감사합니다. 
+	   			<!-- */ -->	
+	   				<textarea class="w-100 h-40 board-textarea" th:text="${board.boardCont}"> 
+	   					 
 	   				</textarea>
 	   			<div class="reg-date">
-	   				<p>등록일 : 2023.02.16</p>
+	   				<p th:text="'등록일 : '+${board.regTime}"></p>
 	   			</div>
 		   			<hr>
 	   			</div>
 	   			<div class="post-buttons">
-	   				<button class="post-btns m-1" type="button" onclick="location.href='/board/comment/board_id'">댓글 보기</button>
+      			<button class="post-btns m-1" type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정하기</button>	
+	   				<button class="post-btns m-1" type="button" th:onclick="location.href=''+'/comment/board_id'">댓글 보기</button>
 	   				<button class="post-btns m-1" type="button" onclick="location.href='/board/list'">목록</button>
 	   			</div>
+	   			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 	   		</form>
+	   		
+	   		<div th:each="boardImg : ${board.boardImgDtoList}" class="">
+          <img th:if="${not #strings.isEmpty(boardImg.boImgUrl)}" th:src="${boardImg.boImgUrl}" class="detail-img" width="800">
+       </div> 
 	   </div>
 	    
     </div>

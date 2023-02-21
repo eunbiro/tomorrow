@@ -28,10 +28,10 @@
 	            <tbody>
 	                <th:block  th:each="board, status: ${boards.getContent()}">	
 	                <tr>
-	                    <td>[[${board.board.id}]]</td>
-	                    <td>[[${board.board.boardTitle}]]</td>
-	                    <td>글쓴이</td>
-	                    <td>조회수</td>
+	                    <td>[[${board.id}]]</td>
+	                    <td><a th:href="'/board/' +${board.id}">[[${board.boardTitle}]]</a></td>
+	                    <td>[[${board.createdBy}]]</td>
+	                    <td>[[${board.viewCount}]]</td>
 	                </tr>
 	                </th:block>
 	            </tbody>

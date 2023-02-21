@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tomorrow.dto.BoardDto;
 import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.BoardImgDto;
 import com.tomorrow.dto.BoardListDto;
@@ -66,6 +67,7 @@ public class BoardService {
 		
 		return boardFormDto;
 	}
+	
 	
 	//게시글 수정
 		public Long updateBoard(BoardFormDto boardFormDto, List<MultipartFile> boardImgFileList) throws Exception {

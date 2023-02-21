@@ -51,16 +51,13 @@ public class MemberController {
 		return "/member/memberJoinForm";
 	}
 	
-	//회원가입 버튼을 눌렀을때 실행되는 메소드
 	@PostMapping(value = "/member/new")
-	public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model, @RequestParam("profileImgFile") MultipartFile profileImgFile) throws Exception {
+	public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			return "member/memberJoinForm";
 		}
-		try {
-			Member memberNotImg = Member.createMember(memberFormDto, passwordEncoder, Role.USER);
-			Member member = memberService.saveProfileImg(memberNotImg, profileImgFile);
-			
+		try {			
+			Member member = Member.createMember(memberFormDto, passwordEncoder, Role.USER);
 			memberService.saveMember(member);
 		} catch (IllegalStateException e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -95,4 +92,9 @@ public class MemberController {
 			}
 			return "redirect:/";
 		}
+		
+	@GetMapping(value = "/mypage")
+	public String myPageForm() {
+		return "member/myPage";
+	}
 }

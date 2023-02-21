@@ -1,4 +1,5 @@
 com\tomorrow\entity\QBaseEntity.class
+<<<<<<< HEAD
 com\tomorrow\entity\QNoticeLike.class
 com\tomorrow\dto\QBoardListDto.class
 com\tomorrow\entity\QReview.class
@@ -18,3 +19,9 @@ com\tomorrow\entity\QShop.class
 com\tomorrow\entity\QBaseTimeEntity.class
 com\tomorrow\entity\QPayList.class
 com\tomorrow\entity\QshopEmpl.class
+=======
+com\tomorrow\entity\QHire.class
+com\tomorrow\entity\QMember.class
+com\tomorrow\entity\QShop.class
+com\tomorrow\entity\QBaseTimeEntity.class
+>>>>>>> b89e4321874dbafbf953a826e95bf90dddf3bf23

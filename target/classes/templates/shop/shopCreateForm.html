@@ -25,9 +25,10 @@
 	font-size: 0.3rem;
 }
 #shop-mustpic{
-	color:yellow;
+	color:gray;
 	font-size: 0.3rem;
 	margin-left: 10px;
+	
 }
 
 .shop-item {
@@ -52,6 +53,14 @@ input {
 	
 	text-align: center;
 }
+.shop-name , .shop-location , .shop-type , .shop-item , .shop-photo{
+	font-weight: bold;
+}
+.btn{
+	background-color: #13223D;
+	color:white;
+}
+
 </style>
 </th:block>
 </head>
@@ -67,38 +76,38 @@ input {
 			<form class="shop-create ps-4">
 				<div class="shop-info">
 					<div class="shop-item">
-						<label>매장명</label> <a id="shop-must">(필수)</a>
+						<label class="shop-name">매장명</label> <a id="shop-must">(필수)</a>
 					</div>
 					<input placeholder="업체의 명칭을 입력해주세요">
 				</div>
 
 				<div class="shop-info">
 					<div class="shop-item">
-						<label>위치</label> <a id="shop-must">(필수)</a>
+						<label class="shop-location">위치</label> <a id="shop-must">(필수)</a>
 					</div>
 					<input placeholder="여기를 눌러 위치를 검색해주세요   >">
 				</div>
 
 				<div class="shop-info">
 					<div class="shop-item">
-						<label>업종</label> <a id="shop-must"></a>
+						<label class="shop-type">업종</label> <a id="shop-must"></a>
 					</div>
 					<input placeholder="예) 음식점, PC방, 스토어">
 				</div>
 				<div class="mb-3 shop-info">
-					<label for="formFile" class="form-label">사진첨부</label><a id="shop-mustpic">(명함, 가게, 메뉴, 간판 등)</a>
+					<label for="formFile" class="form-label shop-photo">사진첨부</label><a id="shop-mustpic">(명함, 가게, 메뉴, 간판 등)</a>
 					 <input
 						class="form-control " style="width: 80%" type="file" id="formFile">
 				</div>
 				<div class="shop-info">
 					<div class="shop-item">
-						<label>사업자 번호</label> <a id="shop-must"></a>
+						<label class="shop-business">사업자 번호</label> <a id="shop-must"></a>
 					</div>
-					<input placeholder="예) 음식점, PC방, 스토어">
+					<input placeholder="'-' 없이 입력해주세요">
 				</div>
 				<div class="shop-createbtn">
-					<button type="button" class="btn btn-info " style="width:30%; left:0;">등록</button>
-					<button type="button" class="btn btn-info " style="width:30%; right:0;">취소</button>
+					<button type="button" class="btn " style="width:30%; left:0;">등록</button>
+					<button type="button" class="btn " style="width:30%; right:0; ">취소</button>
 				</div>
 			</form>
 
