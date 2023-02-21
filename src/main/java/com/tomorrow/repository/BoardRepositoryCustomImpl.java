@@ -58,14 +58,14 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
 		 QBoard board =  QBoard.board;
 		 QBoardImg boardImg = QBoardImg.boardImg; 
 		 
-			List<BoardListDto> content = queryFactory.select(
+		 List<BoardListDto> content = queryFactory.select(
 					new QBoardListDto(
 							board.id,
 							board.boardTitle,
 							board.createdBy,
-							board.viewCount
-							)
-					).from(boardImg)
+							board.viewCount)
+					)
+					 .from(boardImg)
 					 .join(boardImg.board, board)
 					 .where(boardTitleLike(boardSearchDto.getSearchQuery()))
 					 .orderBy(board.id.desc())
@@ -73,10 +73,11 @@ public class BoardRepositoryCustomImpl implements BoardRepositoryCustom{
 					 .limit(pageable.getPageSize())
 					 .fetch();
 			
-			Long total = queryFactory.select(Wildcard.count)
+			Long total = queryFactory
+					.select(Wildcard.count)
 					.from(boardImg)
 					.join(boardImg.board, board)
-					 .where(boardTitleLike(boardSearchDto.getSearchQuery()))
+					.where(boardTitleLike(boardSearchDto.getSearchQuery()))
 					.fetchOne();
 
 			return new PageImpl<>(content, pageable, total);

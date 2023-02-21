@@ -7,5 +7,6 @@ import com.tomorrow.entity.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	
 	Member findByUserId(String userId);
-
+	
+	
 }

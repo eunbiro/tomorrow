@@ -62,7 +62,7 @@ public class QNoticeLike extends EntityPathBase<NoticeLike> {
 
     public QNoticeLike(Class<? extends NoticeLike> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
         this.notice = inits.isInitialized("notice") ? new QNotice(forProperty("notice"), inits.get("notice")) : null;
     }
 

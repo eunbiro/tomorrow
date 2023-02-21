@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tomorrow.dto.BoardDto;
 import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.BoardImgDto;
 import com.tomorrow.dto.BoardListDto;
