@@ -32,58 +32,126 @@
 			
 		// 좋아요 insert
 		
-		$(function() {
+		/* $(function() {
 			
 			$('#noti-like').off().on("click", function() {
 				
-				var token = $("meta[name='_csrf']").attr("content");	/* content 어트리뷰트를 토큰값에 넣어서 가져온다? */
+				var token = $("meta[name='_csrf']").attr("content");
 				var header = $("meta[name='_csrf_header']").attr("content");
 				
-				var shopId = $('#shopId').val;
-				var url = "/shop/info/like/" + shopId;
-				var noticeId = $('#noti-like').val();
+				var memberId = $('#memberId').val();
+				var url = "/shop/info/" + memberId;
+				var noticeId = $('#noticeId').val();
+				var notiLikeId = $('#noti-like').val();
+				var shopId = $('.noti-sel-shop').val();
 				
-				var paramData = {
-						
-						noticeId : noticeId
-				};
-				
-				var param = JSON.stringify(paramData);
-				
-				$.ajax({
-					url			: url,
-					type		: "POST",
-					contentType : "application/json",
-					data		: param,
-					beforeSend	: function(xhr) {
-						/* 데이터 전송 전에 헤더에 csrf 값을 설정 */
-						xhr.setRequestHeader(header, token);
-					},
-					dataType	: "json",
-					cache		: false,
-					success		: function(result, status) {
-						
-						location.href = '/shop/info/' + shopId;
-					},
-					error		: function(jqXHR, status, error) {
-						
-						if (jqXHR.status == '401') {
+				if (notiLikeId == null) {
+					
+					$.ajax({
+						url			: url + '/like',
+						type		: "POST",
+						contentType : "application/json",
+						data		: noticeId,
+						beforeSend	: function(xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						dataType	: "json",
+						cache		: false,
+						success		: function(result, status) {
 							
-							alert('로그인 후 이용하시오.');
-							location.href = '/members/login';
-						} else {
+							location.href = '/shop/info/' + shopId;
+						},
+						error		: function(jqXHR, status, error) {
 							
-							alert(jqXHR.responseText);
+							if (jqXHR.status == '401') {
+								
+								alert('로그인 후 이용하시오.');
+								location.href = '/member/login';
+							} else {
+								
+								alert(jqXHR.responseText);
+							}
 						}
-					}
-				});
-	        }
-			});
-		});
+					});
+				} else {
+					
+					$.ajax({
+						url			: url + '/likeDel',
+						type		: "DELETE",
+						contentType : "application/json",
+						data		: notiLikeId,
+						beforeSend	: function(xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						dataType	: "json",
+						cache		: false,
+						success		: function(result, status) {
+							
+							location.href = '/shop/info/' + shopId;
+						},
+						error		: function(jqXHR, status, error) {
+							
+							if (jqXHR.status == '401') {
+								
+								alert('로그인 후 이용하시오.');
+								location.href = '/member/login';
+							} else {
+								
+								alert(jqXHR.responseText);
+							}
+						}
+					});
+				}
+	        });
+			
+		}); */
 		
 		// TODO : 수정버튼 confirm true일 경우 공지id 가지고 와서 select > id랑 내용 가져오고 해당 위치에 내보낸다.
 		
 		// TODO : 수정했을때 그안에 있는 val값들 ajax로 보내고 id는 경로에 태우고 update
+		
+		// 해당 공지 삭제
+		function deleteAccBook(noticeId) {
+			
+			const deleteConf = confirm("삭제하시겠습니까?");
+			
+			if (!deleteConf) return;
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = "/shop/notice/" + noticeId + "/delete";
+			var shopId = $('#shopId').val();
+			
+			$.ajax({
+				
+				url			: url,
+				type 		: "DELETE",
+				contentType : "application/json",
+				beforeSend 	: function(xhr) {
+					
+					xhr.setRequestHeader(header, token)
+				},
+				dataType 	:"Json",
+				cache 		: false,
+				success 	: function(result, status) {
+					
+					alert("기입내용이 삭제되었습니다.");
+					location.href = '/shop/info/' + shopId;
+				},
+				error 		: function(jqXHR, status, error) {
+
+					if (jqXHR.status == '401') {
+						
+						alert('로그인 후 이용하시오.');
+						location.href = '/member/login';
+					} else {
+						
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+		}
 	</script>
 </th:block>
 <!-- 사용자 CSS 추가 --> 
@@ -94,6 +162,27 @@
     	 	border-radius: 5px;
     	 	border: 1px solid #A9A9A9;
     	 }
+    	 
+    	 .modal-wrap > div > div {
+    	 	border-radius: 15px;
+    	 	background: #424E64;
+    	 	color: #fff;
+    	 	border: none;
+    	 	width: 20rem;
+    	 	height: 6.6rem;
+    	 }
+    	 
+    	 .modal-btn > .btn {
+    	 	background: #13223D;
+    	 	color: #fff;
+    	 	border-radius: 15px;
+    	 	opacity: 100%;
+    	 }
+    	 
+    	 #noti-like > i:hover {
+    	 	color: #0F3C8F;
+    	 	font-weight: bold;
+    	 }
 	</style>
 </th:block>
 </head>
@@ -101,7 +190,7 @@
 	<div layout:fragment="content">
 		<div class="container-lg d-flex flex-column text-center noti-wrap">
 		
-			<form class="noti-form my-4 mx-auto" action="/shop/info" method="post" th:object="${noticeDto}">
+			<form class="noti-form my-4 mx-auto" method="post" th:object="${noticeDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">매장공지</a>
 					<!-- TODO : 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
@@ -120,7 +209,7 @@
 						</div>
 						<textarea class="col-8 py-2 ps-2 notice-ipt" th:field="*{noticeCont}" placeholder="공지사항 작성"></textarea>
 						<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
-						<button type="submit" class="col-2 notice-icon fs-3">
+						<button type="submit" th:formaction="@{'/shop/info'}" class="col-2 notice-icon fs-3">
 							<i class="fa-sharp fa-solid fa-file-pen"></i>
 						</button>
 					</div>
@@ -135,19 +224,36 @@
 						</div>
 						
 						<div class="col-8 text-start d-flex flex-column">
-							<div class="mt-auto text-bottom fs-5 fw-bold" id="managerNm" th:text="${noti.MemberFormDto.userNm}">내일</div>
-							<div class="mb-auto text-top" style="color: #A6A6A6;" id="managerId" th:text="'@' + ${noti.MemberFormDto.userId}">@tomorrow</div>
+							<div class="mt-auto text-bottom fs-5 fw-bold" id="memberNm" th:text="${noti.MemberFormDto.userNm}">내일</div>
+							<div class="mb-auto text-top" style="color: #A6A6A6;" id="memberId" th:value="${noti.MemberFormDto.userId}" th:text="'@' + ${noti.MemberFormDto.userId}">@tomorrow</div>
 						</div>
 						
-						<a class="col-2 text-end" style="color: #000; cursor: pointer;"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+						<a class="col-2 text-end" style="color: #000; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+						
+						<!-- Modal -->
+						<div class="modal fade modal-wrap" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-body">
+											공지내용을 편집하시겠습니까?
+						      		</div>
+									<div class="modal-btn pb-3">
+										<button type="submit" class="btn px-4 mx-4" th:onclick="|location.href='@{/shop/info/update/{noticeId}(noticeId = ${noti.noticeId})}'|">수정</button>
+										<button type="button" class="btn px-4 mx-4" th:value="${noti.noticeId}" onclick="deleteNoticeId(this.value)">삭제</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+					
 					<!-- 내용부분 -->
 					<div class="text-start py-3 px-5" th:text="${noti.noticeCont}">내용</div>
 					<!-- 하단부분 -->
 					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
 						<div class="row pt-auto">
-							<a class="col-5 text-end" th:value=${noti.noticeId} id="noti-like" style="color: red; cursor: pointer;"><i class="fa-regular fa-heart"></i></a>
-							<span class="col-7 text-start" th:text="${#lists.size(noti.noticeLikeDto)} + '명'">1명</span>
+							<input type="hidden" id="noticeId" th:value=${noti.noticeId}/>
+							<a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer;"><i class="fa-regular fa-circle-check"></i></a>
+							<span class="col-7 text-start" th:text="${noti.notiLike} + '명'">1명</span>
 						</div>
 						<div class="pt-auto" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
 							23-02-12

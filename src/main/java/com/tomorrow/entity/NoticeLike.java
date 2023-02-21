@@ -37,4 +37,14 @@ public class NoticeLike extends BaseEntity {
 	
 	@Column(nullable = false)
 	private int likeCount;					// 좋아요 카운트
+	
+	public static NoticeLike createNoticeLike(Member member, Notice notice) {
+		
+		NoticeLike noticeLike = new NoticeLike();
+		
+		noticeLike.setMember(member);
+		noticeLike.setNotice(notice);
+		
+		return noticeLike;
+	}
 }

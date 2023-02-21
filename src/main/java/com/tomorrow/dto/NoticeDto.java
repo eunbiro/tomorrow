@@ -24,5 +24,9 @@ public class NoticeDto {
 	
 	private Long noticeId;
 	
-	private List<NoticeLikeDto> noticeLikeDto;
+	private NoticeLikeDto noticeLikeDto;
+	
+	private int notiLike;
+	
+	private List<NoticeLikeDto> noticeLikeDtoList;
 }

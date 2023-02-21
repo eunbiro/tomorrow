@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tomorrow.entity.Notice;
 
-public interface noticeRepository extends JpaRepository<Notice, Long> {
+public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
 	List<Notice> findByMemberId(Long id);
 
