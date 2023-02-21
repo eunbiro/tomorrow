@@ -60,7 +60,7 @@ public class QWorkLog extends EntityPathBase<WorkLog> {
 
     public QWorkLog(Class<? extends WorkLog> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
     }
 
 }

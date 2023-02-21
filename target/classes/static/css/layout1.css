@@ -1,9 +1,12 @@
 @charset "UTF-8";
+
 @font-face {
-    font-family: 'SEBANG_Gothic_Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'SEBANG_Gothic_Bold';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/SEBANG_Gothic_Bold.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 html {
@@ -28,25 +31,23 @@ footer {
 }
 
 .content {
-	width : 60%;
+	width: 60%;
 	margin: 0 auto;
 }
-
-
 
 /*======================매장메뉴CSS======================*/
 .noti-wrap {
 	margin-top: 60px;
 }
 
-.noti-wrap > form > div {
+.noti-wrap>form>div {
 	width: 40rem;
 }
 
 .noti-title {
-    font-family: 'SEBANG_Gothic_Bold';
-    text-decoration: none;
-    color: #000;
+	font-family: 'SEBANG_Gothic_Bold';
+	text-decoration: none;
+	color: #000;
 }
 
 .profile-img {
@@ -85,72 +86,72 @@ footer {
 
 /*======================로그인CSS======================*/
 .login-logo {
-    margin: 0 auto;
-    text-align: center;
+	margin: 0 auto;
+	text-align: center;
 }
 
 .login-logo img {
-    margin: 30px 0;
-    width: 20%;
+	margin: 30px 0;
+	width: 20%;
 }
 
 .login-label-input {
-    margin: 0 auto;
-    width: 350px;
-    text-align: center;
+	margin: 0 auto;
+	width: 350px;
+	text-align: center;
 }
 
-.login-label-input > label {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    font-weight: 900;
+.login-label-input>label {
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	font-weight: 900;
 	text-align: left;
 }
 
-.login-label-input > input {
-    box-shadow: 0 4px 4px -4px black;
-    border-radius: 4px;
-    width : 350px;
-    line-height: 50px;
-    padding: 0 15px;
+.login-label-input>input {
+	box-shadow: 0 4px 4px -4px black;
+	border-radius: 4px;
+	width: 350px;
+	line-height: 50px;
+	padding: 0 15px;
 }
 
-.login-label-input > input:nth-of-type(1), input:nth-of-type(2) {
-    margin-bottom: 25px;
+.login-label-input>input:nth-of-type(1), input:nth-of-type(2) {
+	margin-bottom: 25px;
 }
 
-.login-label-input > label {
+.login-label-input>label {
 	font-weight: bold;
-    font-size: 1.2em;
+	font-size: 1.2em;
 }
 
-.login-label-input > label:nth-of-type(1) {
+.login-label-input>label:nth-of-type(1) {
 	margin-right: 280px;
 }
 
-.login-label-input > label:nth-of-type(2) {
+.login-label-input>label:nth-of-type(2) {
 	margin-right: 260px;
 }
 
-.login-label-input > label:nth-of-type(3) {
+.login-label-input>label:nth-of-type(3) {
 	margin-right: 200px;
 }
 
-.login-label-input > input:nth-of-type(1), input:nth-of-type(2) {
-	border : 3px solid gray;
+.login-label-input>input:nth-of-type(1), input:nth-of-type(2) {
+	border: 3px solid gray;
 }
 
 input[type="checkbox"] {
-  	 	zoom: 1.5;
-   		margin-right: 7px;
-    	vertical-align: middle;
-    	box-shadow: inset 3px 3px 5px -3px black;
+	zoom: 1.5;
+	margin-right: 7px;
+	vertical-align: middle;
+	box-shadow: inset 3px 3px 5px -3px black;
 }
 
 .login_btn {
-	width : 100%;
+	width: 100%;
 	height: 55px;
-	font-weight:900;
+	font-weight: 900;
 	font-size: 1.5em;
 	border-radius: 8px;
 	background: black;
@@ -160,10 +161,10 @@ input[type="checkbox"] {
 
 .join_btn {
 	border: 1px solid #13223D;
-	margin : 7px 0 7px 0; 
-	width : 100%;
+	margin: 7px 0 7px 0;
+	width: 100%;
 	height: 40px;
-	font-weight:900;
+	font-weight: 900;
 	font-size: 1.2em;
 	border-radius: 8px;
 	background: #13223D;
@@ -171,7 +172,7 @@ input[type="checkbox"] {
 }
 
 .login_word {
-	font-size : 1.4em;
+	font-size: 1.4em;
 	color: gray;
 	font-weight: bold;
 }
@@ -181,22 +182,22 @@ input[type="checkbox"] {
 }
 
 .login-total {
-	transform: translate(0%, 8%);
+	transform: translate(0%, 2%);
 }
-	
+
 /*======================회원가입CSS======================*/
 .joinBody {
-    background-color:black;
+	background-color: black;
 }
 
 .join-input {
-    align-items: center;
-    text-align: center;
-    border-radius: 10px;
-    background-color: white;
-    margin: 0 auto;
-    align-items: center;
-    width: 600px;
+	align-items: center;
+	text-align: center;
+	border-radius: 10px;
+	background-color: white;
+	margin: 0 auto;
+	align-items: center;
+	width: 600px;
 }
 
 .join-input-top {
@@ -209,34 +210,34 @@ input[type="checkbox"] {
 	display: inline-block;
 }
 
-.join_input_info > input {
+.join_input_info>input {
 	box-shadow: 0 4px 4px -4px black;
-    line-height: 40px;
-    padding: 0 15px;
-    border: 3px solid gray;
-    border-radius: 4px;
-	padding : 0px 15px;
+	line-height: 40px;
+	padding: 0 15px;
+	border: 3px solid gray;
+	border-radius: 4px;
+	padding: 0px 15px;
 	width: 100%;
 	margin: 10px 0 10px 0;
 }
 
-.join_input_info > label {
-	margin-bottom : -7px;
+.join_input_info>label {
+	margin-bottom: -7px;
 	float: left;
 	font-size: 1.15em;
 	font-weight: 800;
 }
 
-.join_input_info > p {
+.join_input_info>p {
 	font-weight: 600;
 	font-size: 1.1em;
 }
 
-.join_input_info > p:nth-of-type(1), p:nth-of-type(2), p:nth-of-type(4) {
+.join_input_info>p:nth-of-type(1), p:nth-of-type(2), p:nth-of-type(4) {
 	margin-bottom: -3px;
 }
 
-.join_input_info > p:nth-of-type(3) {
+.join_input_info>p:nth-of-type(3) {
 	margin-bottom: 2px;
 }
 
@@ -248,27 +249,30 @@ input[type="checkbox"] {
 
 .join_new {
 	border: 1px solid #13223D;
-	margin : 25px 0 100px 0; 
-	width : 100%;
+	margin: 25px 0 100px 0;
+	width: 100%;
 	line-height: 50px;
 	height: 55px;
-	font-weight:700;
+	font-weight: 700;
 	font-size: 1.5em;
 	border-radius: 8px;
 	background: #13223D;
 	color: white;
 }
-/*======================매장근무기록CSS======================*/
 
+.img_hover:hover {
+	cursor: pointer;
+}
+/*======================매장근무기록CSS======================*/
 .work-log {
 	width: 40rem;
 }
 
 .work-log-ipt {
 	border-radius: 5px;
-	box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
-	-webkit-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
-	-moz-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
+	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
 	border: 1px solid #A9A9A9;
 	resize: none;
 }
@@ -278,128 +282,158 @@ input[type="checkbox"] {
 	background: none;
 	width: 5rem;
 	border: 1px solid #A9A9A9;
-	box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
-	-webkit-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
-	-moz-box-shadow: 1px 5px 6px 0px rgba(87,87,87,0.64);
+	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
 }
 
 /*======================boardList======================*/
-.header{
+.header {
 	display: flex;
 }
 
-.home{
- line-height: 250px;
-}
-header .logo-img{
-	width: 250px;
-	margin: 20px auto ;
+.home {
+	line-height: 250px;
 }
 
-.board-list-title{
+header .logo-img {
+	width: 250px;
+	margin: 20px auto;
+}
+
+.board-list-title {
 	margin: 0px;
 	font-size: 48px;
 }
 
-.board-table{
+.board-table {
 	width: 1000px;
 	margin: 0 auto;
 	border-collapse: collapse;
-} 
-thead{
+}
+
+thead {
 	background: #D9D9D9;
 }
 
-.board-table th, td{
+.board-table th, td {
 	font-size: 30px;
 	text-align: center;
 }
 
-.board-table tr{
+.board-table tr {
 	height: 50px;
 }
 /* 헤더 안에 사이드바 css 시작============================================*/
 .box {
-    width: 100px;
-    height: 100px; 
-    border-radius: 70%;
-    overflow: hidden;
-    margin-top:40px;
-}
-.profile {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    float:left;
-    }
-.side-profile {
-	list-style: none;
-	display:flex;
-	margin-left:10px;
-	
-}
-.side-profile div {
-	float:left;
-	font-size: 0.9rem;
-	
-}
-.side-name{
-	margin: auto;
-}
-.navbar{
-	z-index: -10;
+	width: 100px;
+	height: 100px;
+	border-radius: 70%;
+	overflow: hidden;
+	margin-top: 40px;
 }
 
-.side-logout{
-	position:relative;
-	right:0px;
-	bottom:0px;
-	font-size:0.8rem;
-	float:right;
-	margin-bottom:40px;
+.profile {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	float: left;
 }
-.side-logout a{
+
+.side-profile {
+	list-style: none;
+	display: flex;
+	margin-left: 10px;
+}
+
+.side-profile div {
+	float: left;
+	font-size: 0.9rem;
+}
+
+.side-name {
+	margin: auto;
+}
+
+.navbar {
+	z-index: 999;
+}
+
+.side-logout {
+	position: relative;
+	right: 0px;
+	bottom: 0px;
+	font-size: 0.8rem;
+	float: right;
+	margin-bottom: 40px;
+}
+
+.side-logout a {
 	text-decoration: none;
 }
-.profile-menu{
+
+
+
+.profile-menu {
 	list-style: none;
+}
+
+.profile-menu a {
+	color: white;
+}
+
+.navbar-btn {
+	border: none;
+	background-color: white;
+}
+
+.nav-item a:hover {
+	color: white;
+}
+.offcanvas-header{
+	border: none;
+	
+}
+.btn-close{
+	color:white;
+	
 }
 
 /* 사이드바 끝==================================================== */
 
-
 /*======================게시글 작성폼 CSS======================*/
-
-.post-frm p{
+.post-frm p {
 	font-size: 36px;
 }
 
-.post-frm a{
-	line-height: 36px;	
+.post-frm a {
+	line-height: 36px;
 }
 
-.post-title{
+.post-title {
 	justify-content: space-between;
 }
-.post-title a{
+
+.post-title a {
 	color: red;
 	font-size: 36px;
 }
 
-.post-text textarea{
+.post-text textarea {
 	height: 300px;
 	font-size: 24px;
 }
 
-.reg-date{
-	position:relative;
+.reg-date {
+	position: relative;
 }
-.reg-date p{
+
+.reg-date p {
 	font-size: 18px;
 	opacity: 50%;
 }
 
-.post-btns{
+.post-btns {
 	width: 240px;
 	height: 60px;
 	font-size: 36px;
@@ -408,35 +442,34 @@ thead{
 	color: white;
 }
 
-.post-buttons{
+.post-buttons {
 	float: right;
 }
 
 /* boardForm */
-.post-title label{
+.post-title label {
 	font-size: 36px;
 	margin: 10px;
 }
 
-.board-textarea{
-	border:none;
+.board-textarea {
+	border: none;
 }
 
 /*boardComment*/
-.comment-list-table{
+.comment-list-table {
 	width: 1000px;
 }
 
-.comment-list tr td{
-
+.comment-list tr td {
 	font-size: 24px;
 }
 
-.input-comment{
+.input-comment {
 	width: 700px;
 	height: 300px;
 }
 
-.input-comment textarea{
+.input-comment textarea {
 	width: 700px;
 }
