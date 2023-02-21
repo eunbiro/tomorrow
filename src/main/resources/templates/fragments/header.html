@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	 <div th:fragment="header">
-	 	<nav class="navbar navbar-dark bg-white fixed-top  ">
+	<div th:fragment="header">
+		<nav class="navbar fixed-top  navbar-sidebar">
+			<!-- <nav class="navbar navbar-dark bg-white fixed-top  navbar-sidebar"> -->
 			<div class="container-fluid  ">
 				<a class="navbar-brand " href="#"></a>
-				<button class="navbar-toggler  " type="button"
-					data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+				<button class="navbar-btn" type="button" data-bs-toggle="offcanvas"
+					data-bs-target="#offcanvasDarkNavbar"
 					aria-controls="offcanvasDarkNavbar">
-					<span class="navbar-toggler-icon btn btn-dark "
-						style="width: 30px; height: 30px"></span>
+					<i class="fa-solid fa-bars fa-xl"></i>
 				</button>
 				<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1"
 					id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-					<div class="offcanvas-header ">
-						<button type="button" -class="btn-close btn-closewhite"
-							data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					<div class="offcanvas-header justify-content-end ">
+						<button type="button" class="btn-close justify-content-end"
+							data-bs-dismiss="offcanvas" aria-label="Close"><p class="text-light ">X</p></button>
 					</div>
 					<div class="offcanvas-body">
 						<ul class="navbar-nav ">
@@ -38,14 +38,13 @@
 								</div>
 								<div class="side-logout">
 									<a href="#">로그아웃</a>
-								</div>	
+								</div>
 							</li>
 							<li>
 								<ul class="profile-menu">
 									<li class="nav-item"><a class="nav-link" href="#">마이페이지</a></li>
-									<li class="nav-item" sec:authorize="isAuthenticated()">
-										<a class="nav-link" href="/shop/info">공지사항</a>
-									</li>
+									<li class="nav-item" sec:authorize="isAuthenticated()"><a
+										class="nav-link" href="/shop/info">공지사항</a></li>
 									<li class="nav-item"><a class="nav-link" href="#">출퇴근기록</a></li>
 									<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
 									<li class="nav-item"><a class="nav-link" href="#">급여일지
@@ -58,7 +57,7 @@
 				</div>
 			</div>
 		</nav>
-	 </div>
-	
+	</div>
+
 </body>
 </html>
