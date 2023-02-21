@@ -181,7 +181,7 @@ input[type="checkbox"] {
 }
 
 .login-total {
-	transform: translate(0%, 8%);
+	transform: translate(0%, 2%);
 }
 	
 /*======================회원가입CSS======================*/
@@ -257,6 +257,10 @@ input[type="checkbox"] {
 	border-radius: 8px;
 	background: #13223D;
 	color: white;
+}
+
+.img_hover:hover {
+	cursor: pointer;
 }
 /*======================매장근무기록CSS======================*/
 

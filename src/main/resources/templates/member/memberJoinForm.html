@@ -45,11 +45,14 @@
 </head>
 <body class="joinBody">
 	<div class="container-lg">
-		<form role="form" action="/member/new" method="post" th:object="${memberFormDto}">
+		<form role="form" action="/member/new" enctype="multipart/form-data" method="post" th:object="${memberFormDto}">
 			<div class="join-input">
 				<div class="join-input-top">
 					<p class="join_word">회원가입</p>
-					<a href="#"><img src="/images/joinImg.png" style="width: 120px" /></a>
+					<label for="profileImgFile" class="img_hover">
+						<img src="/images/joinImg.png" style="width: 120px; position: relative;" /> 
+						<input type="file" name="profileImgFile" id="profileImgFile" style="position: absolute; display:none" />
+					</label>
 				</div>
 				<div class="join_input_info">
 					<label th:for="userNm">이름</label>
