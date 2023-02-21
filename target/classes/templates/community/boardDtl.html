@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout1}">
 <head>
@@ -10,29 +11,35 @@
 	<div layout:fragment="content">	
    	   <input type="hidden" id="boardId" th:value="${board.id}">
 	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
-   			<p th:value="'작성자 : ' + ${board.createdBy}"></p>
+   			<p th:text="'작성자 : '+${board.createdBy}"></p>
    			<hr>
 	   		<form method="post" >
 	   			<div class="post-title d-flex">
-					<p th:value="'제목 : '+${board.boardTitle}+'   | 조회수 : ' + ${board.viewCount}"></p>
+					<p th:text="'제목 : '+${board.boardTitle}+' | 조회수 : ' + ${board.viewCount}"></p>
 					<a href="#">삭제</a>
 	   			</div>
 	   			<hr>
 	   			<div class="post-text">
-	   				<textarea class="w-100 h-40 board-textarea" th:value="${board.boardCont}">
+	   			<!-- */ -->	
+	   				<textarea class="w-100 h-40 board-textarea" th:text="${board.boardCont}"> 
 	   					 
 	   				</textarea>
 	   			<div class="reg-date">
-	   				<p th:value="'등록일 : '+${board.regTime}">등록일 : 2023.02.16</p>
+	   				<p th:text="'등록일 : '+${board.regTime}"></p>
 	   			</div>
 		   			<hr>
 	   			</div>
 	   			<div class="post-buttons">
-	   				<button class="post-btns m-1" type="button" th:onclick="'location.href=\'board/update/'+ @{${camp.id}} + '\''">수정하기</button>
-	   				<button class="post-btns m-1" type="button" th:onclick="location.href='/board/comment/board_id'">댓글 보기</button>
+      			<button class="post-btns m-1" type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정하기</button>	
+	   				<button class="post-btns m-1" type="button" th:onclick="location.href=''+'/comment/board_id'">댓글 보기</button>
 	   				<button class="post-btns m-1" type="button" onclick="location.href='/board/list'">목록</button>
 	   			</div>
+	   			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 	   		</form>
+	   		
+	   		<div th:each="boardImg : ${board.boardImgDtoList}" class="">
+          <img th:if="${not #strings.isEmpty(boardImg.boImgUrl)}" th:src="${boardImg.boImgUrl}" class="detail-img" width="800">
+       </div> 
 	   </div>
 	    
     </div>

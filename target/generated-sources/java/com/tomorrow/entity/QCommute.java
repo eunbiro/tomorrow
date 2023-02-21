@@ -52,7 +52,7 @@ public class QCommute extends EntityPathBase<Commute> {
 
     public QCommute(Class<? extends Commute> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
         this.payList = inits.isInitialized("payList") ? new QPayList(forProperty("payList"), inits.get("payList")) : null;
         this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop")) : null;
     }

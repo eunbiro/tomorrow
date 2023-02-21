@@ -1,5 +1,6 @@
 package com.tomorrow.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,12 @@ public class BoardFormDto {
 	
 	@NotBlank(message = "게시글 내용은 필수 입력 값입니다.")
 	private String boardCont;
+	
+	private String createdBy;
+	
+	private Integer viewCount;
+	
+	private LocalDateTime regTime;	
 	
 	private List<BoardImgDto>boardImgDtoList = new ArrayList<>();
 	
