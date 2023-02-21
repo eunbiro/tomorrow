@@ -1,5 +1,6 @@
 package com.tomorrow.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,12 @@ public class BoardFormDto {
 	@NotBlank(message = "게시글 내용은 필수 입력 값입니다.")
 	private String boardCont;
 	
+	private String createdBy;
+	
+	private Integer viewCount;
+	
+	private LocalDateTime regTime;	
+	
 	private List<BoardImgDto>boardImgDtoList = new ArrayList<>();
 	
 	private List<Long> boardImgIds = new ArrayList<>();
@@ -32,7 +39,7 @@ public class BoardFormDto {
 	public Board createBoard() {
 		return modelMapper.map(this, Board.class);
 	}
- 
+	
 	public static BoardFormDto of(Board board) {
 		return modelMapper.map(board, BoardFormDto.class);
 	}
