@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>마이 페이지</title>
+<th:block layout:fragment="css">
+	<style>
+.mypage-profile {
+	width: 300px;
+	height: 100px;
+	display: flex;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+
+.mypage-profile-img {
+	width: 100px;
+	height: 100px;
+	border-radius: 70%;
+	margin-right: 10px;
+}
+
+.profile-basic {
+	width: 100%;
+	object-fit: cover;
+	float: left;
+	margin: auto;
+}
+
+.profile-basic a {
+	text-decoration: none;
+	display: flex;
+}
+
+.profile-name {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+.profile-form {
+	margin: 0 auto;
+	width: 500px;
+	height: 300px;
+	text-align: left;
+	width: 500px;
+}
+
+.profile-info {
+	float: left;
+	width: 100%;
+	margin-top: 30px;
+}
+
+.profile-info label {
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+
+.profile-info input {
+	height: 40px;
+}
+
+input {
+	width: 300px;
+}
+
+.profile-id, .profile-pw, .profile-pwcheck, .profile-phone {
+	font-weight: bold;
+	float: left;
+	margin-right: 20px;
+}
+
+.profile-id label {
+	margin-right: 10px;
+}
+
+.profile-phone {
+	padding-bottom: 50px;
+}
+
+.hr-solid {
+	margin-left: auto;
+	margin-right: auto;
+	
+	width:400px;
+	border-top: 5px solid #663399;
+}
+
+.profile-shop-number {
+	font-weight: bold;
+	font-size: 0.8rem;
+	float: left;
+	margin-right: 40px;
+}
+
+.profile-shop-wage {
+	float: right;
+	text-decoration: none;
+}
+.profile-shop-down{
+	width:450px;
+	margin:0 auto;
+}
+
+.profile-shop-down a {
+	float: left;
+	font-size: 0.8rem;
+}
+
+.profile-shop-real-number {
+	border: 1px solid;
+	text-decoration: none;
+}
+</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="mypage-profile">
+			<div class="mypage-profile-img" style="background: #BDBDBD;">
+				<img class="mypage-profile-img" src="/images/tistory.JPG">
+			</div>
+
+			<div class="profile-basic">
+				<a class="profile-name">디그다 님</a> <a class="profile-time">가입날짜:
+					2023-02-14</a>
+			</div>
+		</div>
+		<div>
+
+			<form class="profile-form ps-5">
+				<div class="profile-info">
+					<div class="profile-id">
+						<label>아이디</label>
+					</div>
+					<input>
+				</div>
+				<div class="profile-info">
+					<div class="profile-pw">
+						<label>비밀번호</label>
+					</div>
+					<input>
+				</div>
+				<div class="profile-info">
+					<div class="profile-pwcheck">
+						<label>비밀번호 <br> 재확인
+						</label>
+					</div>
+					<input>
+				</div>
+				<div class="profile-info">
+					<div class="profile-phone">
+						<label>전화번호</label>
+					</div>
+					<input>
+				</div>
+			</form>
+			<hr class="hr-solid " />
+			<div class="profile-shop-down d-flex justify-content-around">
+				<div>
+					<label class="profile-shop-number">매장번호</label>
+				</div>
+				<div>
+					<a class="profile-shop-real-number">56456231</a>
+				</div>
+				<div>
+					<a class="profile-shop-wage ">시급 13,000원</a>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</body>
+</html>

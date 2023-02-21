@@ -64,4 +64,8 @@ public class MemberController {
 		}
 		return "redirect:/";
 	}
+	@GetMapping(value = "/mypage")
+	public String myPageForm() {
+		return "member/myPage";
+	}
 }
