@@ -32,7 +32,7 @@ public class BoardFormDto {
 	public Board createBoard() {
 		return modelMapper.map(this, Board.class);
 	}
- 
+	
 	public static BoardFormDto of(Board board) {
 		return modelMapper.map(board, BoardFormDto.class);
 	}

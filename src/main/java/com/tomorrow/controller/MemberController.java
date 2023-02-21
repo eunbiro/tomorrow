@@ -52,10 +52,6 @@ public class MemberController {
 	//회원가입 버튼을 눌렀을때 실행되는 메소드
 	@PostMapping(value = "/new")
 	public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
-		//@Valid : 유효성을 검증하려는 객체 앞에 붙인다.
-		//bindingResult: 유효성 검증후에 결과를 넣어준다.
-		
-		//에러가 있다면 회원가입 페이지로 이동
 		if(bindingResult.hasErrors()) {
 			return "member/memberJoinForm";
 		}

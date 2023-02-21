@@ -31,6 +31,8 @@
         }
 	</script>
 </th:block>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <th:block layout:fragment="css">
 	<style>
 		.input-group {
@@ -45,12 +47,14 @@
 	</style>
 </th:block>
 </head>
-<!-- <body> -->
+<body> 
 	<div layout:fragment="content">	
 	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
    			<hr>
 	   		<form method="post" enctype="multipart/form-data" th:object="${boardFormDto}">
 				<input type="hidden" th:field="*{id}"/>   		
+				<input type="hidden" th:field="*{createdBy}"/>   		
+				<input type="hidden" th:field="*{viewCount}"/>   		
 	   			<div class="post-title d-flex">
 	   				<label for="board_id">제목 : <input type="text" id="board_id" th:field="*{boardTitle}" placeholder="제목을 입력해주세요."/></label>
 	   				<p th:if="${#fields.hasErrors('boardTitle')}" th:errors="*{boardTitle}" class="fieldError">Incorrect Data</p>
@@ -62,11 +66,12 @@
 	   				</textarea>
 	   				<p th:if="${#fields.hasErrors('boardCont')}" th:errors="*{boardCont}" class="fieldError">Incorrect Data</p>
    					<hr>
+   					
 	   			</div>
 	   			<!-- 이미지 등록 -->
 	   			<div class="input-img">
 	   				<div th:if="${#lists.isEmpty(boardFormDto.boardImgDtoList)}">
-						<div th:each="num: ${#numbers.sequence(1,3)}">
+						<div th:each="num: ${#numbers.sequence(1,1)}">
 							<div class="mb-3">
 		 						<label for="formFile" class="form-label custom-file-label" th:text="게시판이미지 + ${num}"></label>
 		 						<input class="form-control custom-file-input" type="file" id="boardImgFile" name="boardImgFile">

@@ -44,8 +44,10 @@ public class CommunityController {
 	}
 	
 	//게시물 상세 화면 진입
-	@GetMapping(value = "/board/board_id")
-	public String boardDetail() {
+	@GetMapping(value = "/board/{boardId}")
+	public String boardDetail(Model model, @PathVariable("boardId") Long boardId) {
+		BoardFormDto boardFormDto = boardService.getBoardDtl(boardId);
+		model.addAttribute("board", boardFormDto);
 		return "community/boardDtl";
 	}
 		
@@ -64,12 +66,6 @@ public class CommunityController {
 			return "community/boardForm";
 		}
 		
-		//첫번째 이미지가 있는지 검사(첫번째 이미지는 필수 입력값이기 때문에)
-		if(boardImgFileList.get(0).isEmpty() && boardFormDto.getId() == null) {
-			model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값 입니다.");
-			return "community/boardForm";
-		}
-	
 		try {
 			boardService.saveBoard(boardFormDto, boardImgFileList);
 		} catch (Exception e) {
