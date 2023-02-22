@@ -7,8 +7,10 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.constant.Role;
+import com.tomorrow.dto.CreateShopFormDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.NoticeDto;
@@ -19,6 +21,7 @@ import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
 import com.tomorrow.entity.NoticeLike;
 import com.tomorrow.entity.Shop;
+import com.tomorrow.entity.ShopImg;
 import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
 import com.tomorrow.repository.NoticeLikeRepository;
@@ -28,7 +31,7 @@ import com.tomorrow.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional 
+@Transactional
 @RequiredArgsConstructor
 public class ShopService {
 
@@ -37,120 +40,128 @@ public class ShopService {
 	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
 	private final MemShopMapRepository mapRepository;
-	
+	private final ShopImgService shopImgService;
+
 	// 매장공지 내용을 가져옴
 	@Transactional(readOnly = true)
 	public List<NoticeDto> getNoticeList(String shopId) {
-		
-		/* TODO 1. 관리자 아이디로 매장레파지토리 조회해서 매장 코드 얻기
-		 * 		2. 관리자 코드와 매장코드로 공지레파지토리 조회
-		 * 		3. 가져와야할 데이터 프로필, 관리자 이름, 관리자 아이디, 공지내용, 좋아요, 작성일
-		*/
-		
+
+		/*
+		 * TODO 1. 관리자 아이디로 매장레파지토리 조회해서 매장 코드 얻기 2. 관리자 코드와 매장코드로 공지레파지토리 조회 3. 가져와야할
+		 * 데이터 프로필, 관리자 이름, 관리자 아이디, 공지내용, 좋아요, 작성일
+		 */
+
 		List<Notice> noticList = noticeRepository.findByShopIdOrderByIdDesc(Long.parseLong(shopId));
 		List<NoticeDto> noticeDtoList = new ArrayList<>();
 
 		for (Notice notice : noticList) {
-			
-			NoticeDto noticeDto  = new NoticeDto();
-			
+
+			NoticeDto noticeDto = new NoticeDto();
+
 			noticeDto.setNoticeId(notice.getId());
 			noticeDto.setMemberFormDto(getMember(notice.getMember()));
 			noticeDto.setNoticeCont(notice.getNoticeCont());
 			noticeDto.setNotiLike(getNotiLikeList(notice.getId()));
 			noticeDto.setNoticeLikeDto(getNoticeLikeDto(notice.getId(), notice.getMember().getId()));
 			noticeDto.setRegTime(notice.getRegTime());
-			
+
 			noticeDtoList.add(noticeDto);
 		}
-		
+
 		return noticeDtoList;
 	}
-	
+
 	// 공지번호로 좋아요 갯수 가져옴
 	@Transactional(readOnly = true)
 	public int getNotiLikeList(Long noticeId) {
-		
+
 		List<NoticeLike> noticeLikeList = noticeLikeRepository.findByNoticeId(noticeId).orElse(null);
-		
+
 		return noticeLikeList.size();
 	}
-	
+
 	// 공지번호랑 회원번호로 좋아요 정보 가져옴
 	public NoticeLikeDto getNoticeLikeDto(Long noticeId, Long memberId) {
-		
+
 		NoticeLike noticeLike = noticeLikeRepository.findByNoticeIdAndMemberId(noticeId, memberId).orElse(null);
-		
+
 		NoticeLikeDto noticeLikeDto = new NoticeLikeDto();
-		
+
 		if (noticeLike != null) {
-			
+
 			noticeLikeDto.setNotiLikeId(noticeLike.getId());
 		}
 		return noticeLikeDto;
 	}
-	
+
 	// 내가 가지고 있는 매장정보를 불러옴
 	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMyShop(String userId) {
-		
+
 		Member member = findMember(userId);
 		List<MemShopMappingDto> myShopList = getMapping(member.getId());
 		return myShopList;
 	}
-	
-	// 현재 접속해있는 관리자정보를 불러옴 
+
+	// 현재 접속해있는 관리자정보를 불러옴
 	@Transactional(readOnly = true)
 	public Member findMember(String userId) {
-		
+
 		return memberRepository.findByUserId(userId);
 	}
-	
+
 	// 회원 정보 DTO저장
 	public MemberFormDto getMember(Member member) {
-		
+
 		MemberFormDto memberFormDto = new MemberFormDto();
 		memberFormDto.setUserId(member.getUserId());
 		memberFormDto.setUserNm(member.getUserNm());
-		//memberFormDto.setUserProfile(member.getUserProfile());
-		
+		// memberFormDto.setUserProfile(member.getUserProfile());
+
 		return memberFormDto;
 	}
-	
+
 	// shop 정보 DTO 저장
 	public ShopDto getShop(Shop shop) {
-		
+
 		ShopDto shopDto = new ShopDto();
-		
+
 		shopDto.setShopId(shop.getId());
 		shopDto.setShopNm(shop.getShopNm());
+<<<<<<< HEAD
+
+=======
+		shopDto.setBusinessId(shop.getBusinessId());
+		shopDto.setShopPlace(shop.getShopPlace());
+		shopDto.setShopType(shop.getShopType());
 		
+>>>>>>> 99ccd3094291e36f5a06b9ad91c08fac7aff81be
 		return shopDto;
 	}
-	
+
 	// 매핑정보 DTO저장
 	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMapping(Long memberId) {
-		
+
 		List<MemShopMapping> memShopMappingList = mapRepository.findByMemberId(memberId);
 		List<MemShopMappingDto> memShopMappingDtoList = new ArrayList<>();
-		
+
 		for (MemShopMapping mapping : memShopMappingList) {
-			
+
 			MemShopMappingDto memShopMappingDto = new MemShopMappingDto();
-			
-			
+
 			memShopMappingDto.setShopDto(getShop(mapping.getShop()));
 			memShopMappingDto.setMemberFormDto(getMember(mapping.getMember()));
 			memShopMappingDto.setPartTime(mapping.getPartTime());
 			memShopMappingDto.setTimePay(mapping.getTimePay());
 			memShopMappingDto.setWorkStatus(mapping.getWorkStatus());
-			
+
 			memShopMappingDtoList.add(memShopMappingDto);
 		}
-		
+
 		return memShopMappingDtoList;
 	}
+<<<<<<< HEAD
 	
 	// 공지정보 DTO 저장
 	public NoticeDto getNoticeDto(Notice notice) {
@@ -164,47 +175,88 @@ public class ShopService {
 		return noticeDto;
 	}
 	
+=======
+
+>>>>>>> 8b24969d7ef47315c961fcb4d7dd63db59413a68
 	// 매장찾기
 	public Shop findShop(Long shopId) {
-		
+
 		return shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
 	}
-	
+
 	// 공지찾기
 	public Notice findNotice(Long noticeId) {
-		
+
 		return noticeRepository.findById(noticeId).orElseThrow(EntityNotFoundException::new);
 	}
-	
+
 	// 공지 좋아요 찾기
 	public NoticeLike findNoticeLike(Long notiLikeId) {
-		
+
 		return noticeLikeRepository.findById(notiLikeId).orElseThrow(EntityNotFoundException::new);
 	}
-	
+
 	// 매장공지 좋아요 insert
 	public NoticeLike saveNoticeLike(NoticeLike noticeLike) {
-		
+
 		return noticeLikeRepository.save(noticeLike);
 	}
-	
+
 	// 매장공지 좋아요 delete
 	public void deleteNoticeLike(NoticeLike noticeLike) {
-		
+
 		noticeLikeRepository.delete(noticeLike);
 	}
-	
+
 	// 매장공지 내용을 insert
 	public Notice saveNotice(Notice notice) {
-		
+
 		return noticeRepository.save(notice);
 	}
+<<<<<<< HEAD
 	
 	// 매장공지 내용을 update
 	
 	// 매장공지 내용을 delete
+=======
+
+	// 공지 delete
+>>>>>>> 8b24969d7ef47315c961fcb4d7dd63db59413a68
 	public void deleteNotice(Notice notice) {
-		
+
 		noticeRepository.delete(notice);
 	}
+<<<<<<< HEAD
+
+	// 매장 만들기 (김정환)
+	public Long saveShop(CreateShopFormDto createShopFormDto, List<MultipartFile> createShopImgFileList)
+			throws Exception {
+		Shop shop = createShopFormDto.createShop();
+		shopRepository.save(shop);
+
+		for (int i = 0; i < createShopImgFileList.size(); i++) {
+			ShopImg shopImg = new ShopImg();
+			shopImg.setShop(shop);
+			
+			shopImgService.saveShopImg(shopImg, createShopImgFileList.get(i));
+		}
+		return shop.getId();
+	}
+=======
+	
+	// 매장 정보 가져오기 - 수경 
+	/* TODO
+	 * 1. 관리자 아이디로 매장레파지토리 조회해서 매장 코드 얻기 ?
+	 * 2. 관리자 코드와 매장 코드로 매장 레파지토리 조회 ? 
+	 * 3. 가져와야 할 데이터 : 매장명, 매장위치, 매장업종, 사업자번호, 매장코드 (일단 이미지 제외하고 이거라도 해보자!)
+	 */
+	/*
+	 * @Transactional(readOnly = true) public ShopDto getMyShopInfo(Long userId) {
+	 * Shop shop = findShop(userId); ShopDto shopDto = getShop(shop);
+	 * 
+	 * return shopDto; }
+	 */
+	
+
+>>>>>>> 99ccd3094291e36f5a06b9ad91c08fac7aff81be
 }
