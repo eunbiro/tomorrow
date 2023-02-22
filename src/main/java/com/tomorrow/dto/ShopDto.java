@@ -9,16 +9,18 @@ import lombok.Setter;
 public class ShopDto {
 
 	
-	private Long ShopId;
+	private Long shopId; // 매장코드 (자동생성)
 	
-	private String shopNm;
+	private String shopNm; // 매장이름
 	
-	private String shopTime;
+	private String shopTime; // 영업시간 
 	
-	private int businessId;
+	private int businessId; // 사업자번호 
 	
-	private String shopPlace;
+	private String shopPlace; // 매장위치
 	
-	private String shopType;
+	private String shopType; // 매장업종
 	
+	/* 수경 추가 분량 */
+	// TODO 매장 이미지를... 추가해야 함...
 }

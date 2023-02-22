@@ -124,6 +124,9 @@ public class ShopService {
 		
 		shopDto.setShopId(shop.getId());
 		shopDto.setShopNm(shop.getShopNm());
+		shopDto.setBusinessId(shop.getBusinessId());
+		shopDto.setShopPlace(shop.getShopPlace());
+		shopDto.setShopType(shop.getShopType());
 		
 		return shopDto;
 	}
@@ -193,4 +196,19 @@ public class ShopService {
 		
 		noticeRepository.delete(notice);
 	}
+	
+	// 매장 정보 가져오기 - 수경 
+	/* TODO
+	 * 1. 관리자 아이디로 매장레파지토리 조회해서 매장 코드 얻기 ?
+	 * 2. 관리자 코드와 매장 코드로 매장 레파지토리 조회 ? 
+	 * 3. 가져와야 할 데이터 : 매장명, 매장위치, 매장업종, 사업자번호, 매장코드 (일단 이미지 제외하고 이거라도 해보자!)
+	 */
+	/*
+	 * @Transactional(readOnly = true) public ShopDto getMyShopInfo(Long userId) {
+	 * Shop shop = findShop(userId); ShopDto shopDto = getShop(shop);
+	 * 
+	 * return shopDto; }
+	 */
+	
+
 }
