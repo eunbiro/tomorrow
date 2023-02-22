@@ -30,6 +30,7 @@ public class BoardFormDto {
 	
 	private LocalDateTime regTime;	
 	
+	
 	private List<BoardImgDto>boardImgDtoList = new ArrayList<>();
 	
 	private List<Long> boardImgIds = new ArrayList<>();

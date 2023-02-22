@@ -47,6 +47,9 @@ public class BoardService {
 		return board.getId();
 	}
 	
+	//댓글 등록
+	public Long saveComment
+	
 	//게시글 가져오기
 	@Transactional(readOnly = true) //트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
 	public BoardFormDto getBoardDtl(Long boardId) {
