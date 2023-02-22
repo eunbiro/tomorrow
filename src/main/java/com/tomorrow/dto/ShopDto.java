@@ -8,16 +8,7 @@ import lombok.Setter;
 @Setter
 public class ShopDto {
 
-	
-<<<<<<< HEAD
-	private Long shopId;
-=======
-<<<<<<< HEAD
-	private Long shopId;
-=======
 	private Long shopId; // 매장코드 (자동생성)
->>>>>>> ab21713ddacfa7cbb4b0a09c2ef847f97d3bc959
->>>>>>> 8b24969d7ef47315c961fcb4d7dd63db59413a68
 	
 	private String shopNm; // 매장이름
 	

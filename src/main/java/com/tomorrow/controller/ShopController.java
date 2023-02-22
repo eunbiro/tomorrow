@@ -120,7 +120,6 @@ public class ShopController {
 //		
 //		return new ResponseEntity(notiLikeId, HttpStatus.OK);
 //	}
-<<<<<<< HEAD
 	
 	// 공지 수정 눌렀을때
 	@PostMapping(value = "/shop/info/{noticeId}/update")
@@ -155,17 +154,6 @@ public class ShopController {
 	}
 	
 	// 공지 삭제 눌렀을때
-=======
-
-	@GetMapping(value = "/shop/info/update/{noticeId}")
-	public @ResponseBody ResponseEntity updateNotice(@PathVariable("noticeId") Long noticeId, Principal principal) {
-
-		Notice notice = shopService.findNotice(noticeId);
-
-		return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
-	}
-
->>>>>>> 8b24969d7ef47315c961fcb4d7dd63db59413a68
 	@DeleteMapping(value = "/shop/notice/{noticeId}/delete")
 	public @ResponseBody ResponseEntity deleteNotice(@PathVariable("noticeId") Long noticeId, Principal principal) {
 
@@ -196,7 +184,7 @@ public class ShopController {
 
 		return "shop/employeeInfoForm";
 	}
-<<<<<<< HEAD
+	
 	//매장생성(shopCreateForm.html) 들어가기
 	@GetMapping(value="/shop/shopCreate")
 	public String createShopForm(Model model) {
@@ -224,15 +212,14 @@ public class ShopController {
 		}
 		
 		return "redirect:/";
+	}
 		
-=======
 
 	// 매장생성
 	@GetMapping(value = "/shop/shopCreate")
 	public String createShop(Model model) {
 		return "shop/shopCreateForm";
 
->>>>>>> 99ccd3094291e36f5a06b9ad91c08fac7aff81be
 	}
 
 	// 출퇴근조회
