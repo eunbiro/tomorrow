@@ -19,7 +19,7 @@ import com.tomorrow.entity.Member;
 
 @Getter
 @Setter
-public class MemberFormDto {
+public class AdminFormDto {
 
 	@NotEmpty(message = "이메일은 필수 입력 값입니다.")
 	private String userId; // 회원 아이디

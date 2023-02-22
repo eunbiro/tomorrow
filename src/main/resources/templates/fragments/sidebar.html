@@ -15,9 +15,6 @@
 <body>
 	<!-- 사이드바 -->
 	<div th:fragment="sidebar">
-<<<<<<< HEAD
-		
-=======
 		<nav class="navbar navbar-dark bg-white fixed-top ">
 			<div class="container-fluid  ">
 				<a class="navbar-brand " href="#"></a>
@@ -28,7 +25,7 @@
 						style="width: 30px; height: 30px"></span>
 				</button>
 				<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1"
-					id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel" style="overflow:hidden">
+					id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel" style="overflow: hidden">
 					<div class="offcanvas-header ">
 						<button type="button" -class="btn-close btn-closewhite"
 							data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -43,8 +40,8 @@
 										</div>
 									</div>
 									<div class="side-name">
-										<a>디그다님<br>오늘 하루도 열일하세요. : )
-										</a>
+										<a sec:authorize="hasRole('USER')">디그다님<br>오늘 하루도 열일하세요. : )</a>
+										<a sec:authorize="hasRole('ADMIN')">디그다 사장님<br>좋은 하루 보내세요. : )</a>
 									</div>
 								</div>
 								<div class="side-logout">
@@ -65,12 +62,10 @@
 								</ul>
 							</li>
 						</ul>
-
 					</div>
 				</div>
 			</div>
 		</nav>
->>>>>>> de158f4af173347278014d3042c156cdcb744881
 	</div>
 </body>
 </html>

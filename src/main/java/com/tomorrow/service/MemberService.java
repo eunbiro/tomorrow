@@ -34,7 +34,6 @@ public class MemberService implements UserDetailsService {
 			throw new UsernameNotFoundException(userName);
 		}
 		
-		//userDetails의 객체를 반환
 		return User.builder()
 				.username(member.getUserId())
 				.password(member.getPassword())
