@@ -71,7 +71,6 @@ public class BoardService {
 	
 	//게시글 수정
 		public Long updateBoard(BoardFormDto boardFormDto, List<MultipartFile> boardImgFileList) throws Exception {
-			
 			Board board = boardRepository.findById(boardFormDto.getId())
 					.orElseThrow(EntityNotFoundException::new);
 			
