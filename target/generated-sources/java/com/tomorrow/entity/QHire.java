@@ -64,7 +64,7 @@ public class QHire extends EntityPathBase<Hire> {
 
     public QHire(Class<? extends Hire> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new QMember(forProperty("member"), inits.get("member")) : null;
+        this.member = inits.isInitialized("member") ? new QMember(forProperty("member")) : null;
         this.shop = inits.isInitialized("shop") ? new QShop(forProperty("shop")) : null;
     }
 

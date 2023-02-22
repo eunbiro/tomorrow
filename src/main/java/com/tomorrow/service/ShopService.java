@@ -104,6 +104,7 @@ public class ShopService {
 		MemberFormDto memberFormDto = new MemberFormDto();
 		memberFormDto.setUserId(member.getUserId());
 		memberFormDto.setUserNm(member.getUserNm());
+		//memberFormDto.setUserProfile(member.getUserProfile());
 		
 		return memberFormDto;
 	}
