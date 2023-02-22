@@ -35,4 +35,10 @@ public class ShopImg extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
 	private Shop shop;					// 매장코드 FK
+	
+	public void updateShopImg(String shOriImgNm, String shImgNm, String shImgUrl) {
+		this.shOriImgNm=shOriImgNm;
+		this.shImgNm = shImgNm;
+		this.shImgUrl = shImgUrl;
+	}
 }

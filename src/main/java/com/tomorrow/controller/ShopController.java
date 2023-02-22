@@ -1,5 +1,6 @@
 package com.tomorrow.controller;
 
+
 import java.security.Principal;
 import java.util.List;
 
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.tomorrow.dto.CreateShopFormDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.NoticeDto;
 import com.tomorrow.dto.NoticeLikeDto;
@@ -153,11 +157,33 @@ public class ShopController {
 
 		return "shop/employeeInfoForm";
 	}
-
-	// 매장생성(shopCreateForm.html)
-	@GetMapping(value = "/shop/shopCreate")
-	public String createShop(Model model) {
+	//매장생성(shopCreateForm.html) 들어가기
+	@GetMapping(value="/shop/shopCreate")
+	public String createShopForm(Model model) {
+		model.addAttribute("createShopFormDto",new CreateShopFormDto());
 		return "shop/shopCreateForm";
+	}
+	// 매장생성(shopCreateForm.html) 진짜 생성
+	@PostMapping(value = "/shop/shopCreate")
+	public String createShop(@Valid CreateShopFormDto createShopFormDto, BindingResult bindingResult, 
+			Model model, @RequestParam("createShopImgFile") List<MultipartFile> createShopImgFileList) {
+		
+		if(bindingResult.hasErrors()) {
+			return "shop/shopCreateForm";
+		}
+		if(createShopImgFileList.get(0).isEmpty() && createShopFormDto.getId() == null) {
+			model.addAttribute("errorMessage","첫 번째 상품 이미지는 필수 입력 값 입니다.");
+			return "shop/shopCreateForm";
+		}
+		
+		try {
+			shopService.saveShop(createShopFormDto, createShopImgFileList);
+		}catch(Exception e) {
+			model.addAttribute("errorMessage","상품 등록 중 에러가 발생했습니다.");
+			return "shop/shopCreateForm";
+		}
+		
+		return "redirect:/";
 		
 	}
 	
