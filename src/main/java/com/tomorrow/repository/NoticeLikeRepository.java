@@ -10,4 +10,6 @@ import com.tomorrow.entity.NoticeLike;
 public interface NoticeLikeRepository extends JpaRepository<NoticeLike, Long> {
 
 	Optional<List<NoticeLike>> findByNoticeId(Long noticeId);
+
+	Optional<NoticeLike> findByNoticeIdAndMemberId(Long noticeId, Long memberId);
 }

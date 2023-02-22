@@ -23,7 +23,7 @@ import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
 import com.tomorrow.repository.NoticeLikeRepository;
 import com.tomorrow.repository.ShopRepository;
-import com.tomorrow.repository.noticeRepository;
+import com.tomorrow.repository.NoticeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShopService {
 
-	private final noticeRepository noticeRepository;
+	private final NoticeRepository noticeRepository;
 	private final NoticeLikeRepository noticeLikeRepository;
 	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
@@ -57,7 +57,8 @@ public class ShopService {
 			noticeDto.setNoticeId(notice.getId());
 			noticeDto.setMemberFormDto(getMember(notice.getMember()));
 			noticeDto.setNoticeCont(notice.getNoticeCont());
-			noticeDto.setNoticeLikeDto(getNotiLike(notice.getId()));
+			noticeDto.setNotiLike(getNotiLikeList(notice.getId()));
+			noticeDto.setNoticeLikeDto(getNoticeLikeDto(notice.getId(), notice.getMember().getId()));
 			noticeDto.setRegTime(notice.getRegTime());
 			
 			noticeDtoList.add(noticeDto);
@@ -67,24 +68,30 @@ public class ShopService {
 	}
 	
 	// 공지번호로 좋아요 갯수 가져옴
-	public List<NoticeLikeDto> getNotiLike(Long noticeId) {
+	@Transactional(readOnly = true)
+	public int getNotiLikeList(Long noticeId) {
 		
-		List<NoticeLike> noticeLikeList = noticeLikeRepository.findByNoticeId(noticeId)
-														  .orElseThrow(EntityNotFoundException::new);
-		List<NoticeLikeDto> noticeLikeDtoList = new ArrayList<>();
+		List<NoticeLike> noticeLikeList = noticeLikeRepository.findByNoticeId(noticeId).orElse(null);
 		
-		for (NoticeLike noticeLike : noticeLikeList) {
-			
-			NoticeLikeDto noticeLikeDto = new NoticeLikeDto();
+		return noticeLikeList.size();
+	}
+	
+	// 공지번호랑 회원번호로 좋아요 정보 가져옴
+	public NoticeLikeDto getNoticeLikeDto(Long noticeId, Long memberId) {
+		
+		NoticeLike noticeLike = noticeLikeRepository.findByNoticeIdAndMemberId(noticeId, memberId).orElse(null);
+		
+		NoticeLikeDto noticeLikeDto = new NoticeLikeDto();
+		
+		if (noticeLike != null) {
 			
 			noticeLikeDto.setNotiLikeId(noticeLike.getId());
-			noticeLikeDto.setMemberFormDto(getMember(noticeLike.getMember()));
-			noticeLikeDto.setLikeCount(noticeLike.getLikeCount());
 		}
-		return noticeLikeDtoList;
+		return noticeLikeDto;
 	}
 	
 	// 내가 가지고 있는 매장정보를 불러옴
+	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMyShop(String userId) {
 		
 		Member member = findMember(userId);
@@ -93,6 +100,7 @@ public class ShopService {
 	}
 	
 	// 현재 접속해있는 관리자정보를 불러옴 
+	@Transactional(readOnly = true)
 	public Member findMember(String userId) {
 		
 		return memberRepository.findByUserId(userId);
@@ -121,6 +129,7 @@ public class ShopService {
 	}
 	
 	// 매핑정보 DTO저장
+	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMapping(Long memberId) {
 		
 		List<MemShopMapping> memShopMappingList = mapRepository.findByMemberId(memberId);
@@ -143,15 +152,45 @@ public class ShopService {
 		return memShopMappingDtoList;
 	}
 	
+	// 매장찾기
+	public Shop findShop(Long shopId) {
+		
+		return shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
+	}
+	
+	// 공지찾기
+	public Notice findNotice(Long noticeId) {
+		
+		return noticeRepository.findById(noticeId).orElseThrow(EntityNotFoundException::new);
+	}
+	
+	// 공지 좋아요 찾기
+	public NoticeLike findNoticeLike(Long notiLikeId) {
+		
+		return noticeLikeRepository.findById(notiLikeId).orElseThrow(EntityNotFoundException::new);
+	}
+	
+	// 매장공지 좋아요 insert
+	public NoticeLike saveNoticeLike(NoticeLike noticeLike) {
+		
+		return noticeLikeRepository.save(noticeLike);
+	}
+	
+	// 매장공지 좋아요 delete
+	public void deleteNoticeLike(NoticeLike noticeLike) {
+		
+		noticeLikeRepository.delete(noticeLike);
+	}
+	
 	// 매장공지 내용을 insert
 	public Notice saveNotice(Notice notice) {
 		
 		return noticeRepository.save(notice);
 	}
 	
-	public Shop findShop(Long ShopId) {
+	// 공지 delete
+	public void deleteNotice(Notice notice) {
 		
-		return shopRepository.findById(ShopId).orElseThrow(EntityNotFoundException::new);
+		noticeRepository.delete(notice);
 	}
-	
 }
