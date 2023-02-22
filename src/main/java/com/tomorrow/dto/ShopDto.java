@@ -9,7 +9,7 @@ import lombok.Setter;
 public class ShopDto {
 
 	
-	private Long ShopId;
+	private Long shopId;
 	
 	private String shopNm;
 	

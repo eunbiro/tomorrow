@@ -58,6 +58,7 @@ public class ShopController {
 		model.addAttribute("notiList", notiList);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("noticeDto", noticeDto);
+		model.addAttribute("updateNoticeDto", new NoticeDto());
 		return "shop/shopNoticeForm";
 	}
 	
@@ -115,14 +116,39 @@ public class ShopController {
 //		return new ResponseEntity(notiLikeId, HttpStatus.OK);
 //	}
 	
-	@GetMapping(value = "/shop/info/update/{noticeId}")
-	public @ResponseBody ResponseEntity updateNotice(@PathVariable("noticeId") Long noticeId, Principal principal) {
+	// 공지 수정 눌렀을때
+	@PostMapping(value = "/shop/info/{noticeId}/update")
+	public String updateNoticePage(@PathVariable("noticeId") Long noticeId, @Valid NoticeDto noticeDto, Model model, BindingResult bindingResult, Principal principal) {
 		
-		Notice notice = shopService.findNotice(noticeId);
+		if (bindingResult.hasErrors()) {
+			
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			
+			model.addAttribute("myShopList", myShopList);
+			return "shop/shopNoticeForm";
+		}
 		
-		return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
+		try {
+			
+			Notice notice = shopService.findNotice(noticeId);
+			notice.setNoticeCont(noticeDto.getNoticeCont());
+			
+			
+		} catch (Exception e) {
+			
+			model.addAttribute("errorMessage", "공지등록 중 에러가 발생했습니다.");
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			
+			model.addAttribute("myShopList", myShopList);
+			model.addAttribute("noticeDto", noticeDto);
+			return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
+		}
+		
+		
+		return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
 	}
 	
+	// 공지 삭제 눌렀을때
 	@DeleteMapping(value = "/shop/notice/{noticeId}/delete")
 	public @ResponseBody ResponseEntity deleteNotice(@PathVariable("noticeId") Long noticeId, Principal principal) {
 		

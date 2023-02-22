@@ -152,6 +152,18 @@ public class ShopService {
 		return memShopMappingDtoList;
 	}
 	
+	// 공지정보 DTO 저장
+	public NoticeDto getNoticeDto(Notice notice) {
+		
+		NoticeDto noticeDto = new NoticeDto();
+		
+		noticeDto.setMemberFormDto(getMember(notice.getMember()));
+		noticeDto.setShopDto(getShop(notice.getShop()));
+		noticeDto.setNoticeCont(notice.getNoticeCont());
+		noticeDto.setNoticeId(notice.getId());
+		return noticeDto;
+	}
+	
 	// 매장찾기
 	public Shop findShop(Long shopId) {
 		
@@ -188,7 +200,9 @@ public class ShopService {
 		return noticeRepository.save(notice);
 	}
 	
-	// 공지 delete
+	// 매장공지 내용을 update
+	
+	// 매장공지 내용을 delete
 	public void deleteNotice(Notice notice) {
 		
 		noticeRepository.delete(notice);
