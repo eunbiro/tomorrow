@@ -56,7 +56,6 @@ footer {
 	margin-left: 10px;
 }
 
-
 .side-profile div {
 	float: left;
 	font-size: 0.9rem;
@@ -66,17 +65,16 @@ footer {
 	margin: auto;
 }
 
-
 .navbar {
 	z-index: 999;
 }
-.navbar-sidebar{
+
+.navbar-sidebar {
 	background: #13223D;
-	
 }
-.fa-bars{
-		
-	color:white;
+
+.fa-bars {
+	color: white;
 }
 
 .side-logout {
@@ -92,21 +90,33 @@ footer {
 	text-decoration: none;
 }
 
-
-
 .profile-menu {
 	list-style: none;
 }
-.profile-menu a{
-	color:white;
-	
+
+.profile-menu a {
+	color: white;
+}
+.profile-menu a:hover{
+	text-decoration: underline;	
 }
 
 .navbar-btn {
 	border: none;
 	background-color: #13223D;
 }
-.nav-item a:hover{
-	color:white;
-	
+
+.nav-item a:hover {
+	color: white;
+}
+
+.bottom-image {
+	bottom: 0; 
+	right: 0;
+	position: absolute;
+}
+
+.bottom-image img {
+	width: 50px;
+	height: 50px;
 }

@@ -381,6 +381,9 @@ thead {
 .profile-menu a {
 	color: white;
 }
+.profile-menu a:hover{
+	text-decoration: underline;	
+}
 
 .navbar-btn {
 	border: none;
@@ -397,6 +400,16 @@ thead {
 .btn-close{
 	color:white;
 	
+}
+.bottom-image {
+	bottom: 0; 
+	right: 0;
+	position: absolute;
+}
+
+.bottom-image img {
+	width: 50px;
+	height: 50px;
 }
 
 /* 사이드바 끝==================================================== */
