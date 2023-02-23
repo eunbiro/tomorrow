@@ -1,7 +1,5 @@
 package com.tomorrow.service;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;

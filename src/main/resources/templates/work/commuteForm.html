@@ -5,9 +5,35 @@
 <head>
 <meta charset="UTF-8">
 <title>출퇴근기록</title>
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+	$(document).ready(function() {
+		
+		var errorMessage = [[${errorMessage}]];
+		if (errorMessage != null) {
+			
+			alert(errorMessage);
+		}
+	});
+	
+	// 매장선택 시 해당 매장정보 불러옴
+	$(function() {
+		
+		$('.commute-sel-shop').off().on("change", function() {
+			
+			var shopId = $('.commute-sel-shop').val();
+			
+			var url = "/work/commute/" + shopId;
+			
+			$(location).attr('href', url);
+		});
+	});
+	</script>
+</th:block>
 <style>
 .commute-wrap {
 	margin: 100px auto;
+	font-size: 10px;
 }
 
 .commute-select {
@@ -18,32 +44,32 @@
 
 .commute-btn-wrap {
 	float: right;
-	width: 20%;
+	width: 30%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
 }
 
 .commute-btn-wrap .btn {
 	margin: 10px;
 	font-size: 0.9rem;
 	text-align: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	width: 100%;
+	height: 38px;
 }
 
 .commute-table {
 	width: 100%;
 	table-layout: fixed;
+	font-size: 0.8rem;
 }
 
-.commute-table th {
+/* .commute-table thead tr th{
 	text-align: center;
-	font-size: 1.2rem;
+	font-size: 0.8rem;
 }
 
-.commute-table td {
-	padding: 20px;
-}
-
+ */
 .page-link {
 	border: none;
 	color: black;
@@ -61,7 +87,7 @@
 }
 
 .commute-time label {
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 	font-weight: bold;
 }
 
@@ -86,98 +112,78 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="commute-wrap ">
-			<select class="form-select commute-select"
-				aria-label="Default select example">
-				<option selected>매장을 선택하세요</option>
-				<option value="1">One</option>
-				<option value="2">Two</option>
-				<option value="3">Three</option>
-			</select>
+		<form method="post" th:object="${commuteDto}">
+			<div class="commute-wrap">
+				<select class="form-select commute-select commute-sel-shop"
+					th:field="*{shopDto.shopId}" id="shopId">
+					<option value="">매장 선택</option>
+					<th:block th:each="myShop : ${myShopList}"
+						th:value="${myShop.shopDto.shopId}">
+						<option th:value="${myShop.shopDto.shopId}"
+							th:text="${myShop.shopDto.shopNm}"></option>
+					</th:block>
+				</select>
 
-			<div class="commute-btn-wrap">
-				<!-- 초아에게... 여기 그냥 width 줘서 늘려놨어 grid를 가지고 어째 해보려는 나의 노력은 물거품이 되었지 그래도 피그마랑 얼추 비슷해진 것 같아 원한다면 더 수정해도 괜찮지만 그냥 피그마를 수정하자!(제안) -->
-				<button class="btn btn-primary" style="width: 50%" type="submit">출근</button>
-				<button class="btn btn-primary" style="width: 50%" type="submit">퇴근</button>
+				 <div class="commute-btn-wrap">
+					<div th:if="${#strings.isEmpty(commuteDto.id)}">
+						<button class="btn btn-primary" type="submit">출근</button>
+					</div>
+				</div>
+
+				<div th:unless="${#strings.isEmpty(commuteDto.id)}">
+					<button class="btn btn-primary" type="submit">퇴근</button>
+				</div> 
+
+				<div class="commute-time" style="padding: 10px;">
+					<label for="working-time"
+						style="border-right: 3px solid black; padding-right: 20px;">출근
+						시간</label> <input type="text"
+						style="margin-left: 20px; border: none; font-size: 1.2rem;"
+						placeholder="13:00" readonly> <label for="work-hours"
+						style="border-right: 3px solid black; padding-right: 20px;">퇴근
+						시간</label> <input type="text"
+						style="margin-left: 20px; border: none; font-size: 1.2rem;"
+						placeholder="22:00" readonly>
+				</div>
+
+				<div>
+					<table class="commute-table table table-hover text-center my-4">
+						<thead style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
+							<tr>
+								<!-- <th scope="col">날짜</th> -->
+								<th scope="col">출근시간</th>
+								<th scope="col">퇴근시간</th>
+								<!-- <th scope="col">상태</th> -->
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="commute : ${commuteList}">
+							<!-- 	<th th:text="${commute.id}"></th> -->
+								
+								<td class="fs-6" th:text="${commute.working}"></td>
+								<td class="fs-6" th:text="${commute.leaving}"></td>	
+							</tr>
+				
+
+						</tbody>
+					</table>
+				</div>
+
 			</div>
-
-
-			<div class="commute-time" style="padding: 10px;">
-				<label for="working-time"
-					style="border-right: 3px solid black; padding-right: 20px;">출근
-					시간</label> <input type="text" style="margin-left: 20px; border: none;"
-					placeholder="13:00" readonly> <label for="work-hours"
-					style="border-right: 3px solid black; padding-right: 20px;">퇴근
-					시간</label> <input type="text" style="margin-left: 20px; border: none;"
-					placeholder="22:00" readonly>
-			</div>
-
-			<div>
-				<table class="table table-hover text-center my-4">
-					<thead style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
-						<tr>
-							<th scope="col">날짜</th>
-							<th scope="col">출근시간</th>
-							<th scope="col">퇴근시간</th>
-							<th scope="col">상태</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td scope="row" class="fs-5">23-02-20</td>
-							<td class="fs-5">08:00</td>
-							<td class="fs-5">17:00</td>
-							<td class="fs-5">출근</td>
-						</tr>
-						<tr>
-							<td scope="row" class="fs-5">23-02-20</td>
-							<td class="fs-5">08:00</td>
-							<td class="fs-5">17:00</td>
-							<td class="fs-5">출근</td>
-						</tr>
-						<tr>
-							<td scope="row" class="fs-5">23-02-20</td>
-							<td class="fs-5">08:00</td>
-							<td class="fs-5">17:00</td>
-							<td class="fs-5">출근</td>
-						</tr>
-						<tr>
-							<td scope="row" class="fs-5">23-02-20</td>
-							<td class="fs-5">08:00</td>
-							<td class="fs-5">17:00</td>
-							<td class="fs-5">출근</td>
-						</tr>
-						<tr>
-							<td scope="row" class="fs-5">23-02-20</td>
-							<td class="fs-5">08:00</td>
-							<td class="fs-5">17:00</td>
-							<td class="fs-5">출근</td>
-						</tr>
-						<tr>
-							<td scope="row" class="fs-5">23-02-20</td>
-							<td class="fs-5">08:00</td>
-							<td class="fs-5">17:00</td>
-							<td class="fs-5">출근</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
-		</div>
-		<nav style="margin-top: 20px;">
-			<ul class="pagination justify-content-center">
-				<li class="page-item"><a class="page-link">&lt;&lt;</a></li>
-				<li class="page-item"><a class="page-link">&lt;</a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">4</a></li>
-				<li class="page-item"><a class="page-link" href="#">5</a></li>
-				<li class="page-item"><a class="page-link" href="#">&gt;</a></li>
-				<li class="page-item"><a class="page-link" href="#">&gt;&gt;</a></li>
-			</ul>
-		</nav>
-
+			<nav style="margin-top: 20px;">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><a class="page-link">&lt;&lt;</a></li>
+					<li class="page-item"><a class="page-link">&lt;</a></li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item"><a class="page-link" href="#">4</a></li>
+					<li class="page-item"><a class="page-link" href="#">5</a></li>
+					<li class="page-item"><a class="page-link" href="#">&gt;</a></li>
+					<li class="page-item"><a class="page-link" href="#">&gt;&gt;</a></li>
+				</ul>
+			</nav>
+		</form>
 	</div>
 </body>
 </html>
