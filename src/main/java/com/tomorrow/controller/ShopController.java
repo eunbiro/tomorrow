@@ -45,16 +45,15 @@ public class ShopController {
 		getSideImg(model, principal);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("noticeDto", new NoticeDto());
+		model.addAttribute("updateNoticeDto", new NoticeDto());
 		return "shop/shopNoticeForm";
 	}
 	
 	// 사이드바 프로필정보 가져옴
 	public Model getSideImg(Model model, Principal principal) {
 		
-		if (principal != null) {
-	         MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
-	         return model.addAttribute("member", memberFormDto);
-		}
+		MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
+		return model.addAttribute("member", memberFormDto);
 	}
 
 	// GET매장 선택 시 공지내역가져옴
@@ -72,7 +71,7 @@ public class ShopController {
 		model.addAttribute("notiList", notiList);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("noticeDto", noticeDto);
-		model.addAttribute("updateNoticeDto", noticeDto);
+		model.addAttribute("updateNoticeDto", new NoticeDto());
 		return "shop/shopNoticeForm";
 	}
 
@@ -129,7 +128,7 @@ public class ShopController {
 //	}
 	
 	// 공지 수정 눌렀을때
-	@PostMapping(value = "/shop/info/{noticeId}/update")
+	@PostMapping(value = "/shop/notice/{noticeId}/update")
 	public String updateNoticePage(@PathVariable("noticeId") Long noticeId, @Valid NoticeDto updateNoticeDto, Model model, BindingResult bindingResult, Principal principal) {
 		
 		if (bindingResult.hasErrors()) {
@@ -148,7 +147,7 @@ public class ShopController {
 		
 		try {
 			
-			notice.updateNotice(notice, member, shop);
+			shopService.updateNotic(noticeId, updateNoticeDto, member, shop);
 			
 		} catch (Exception e) {
 			

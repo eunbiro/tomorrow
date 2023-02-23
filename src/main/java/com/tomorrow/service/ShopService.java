@@ -59,6 +59,7 @@ public class ShopService {
 			noticeDto.setNotiLike(getNotiLikeList(notice.getId()));
 			noticeDto.setNoticeLikeDto(getNoticeLikeDto(notice.getId(), notice.getMember().getId()));
 			noticeDto.setRegTime(notice.getRegTime());
+			noticeDto.setUpdateTime(notice.getUpDateTime());
 
 			noticeDtoList.add(noticeDto);
 		}
@@ -203,6 +204,15 @@ public class ShopService {
 	public Notice saveNotice(Notice notice) {
 
 		return noticeRepository.save(notice);
+	}
+	
+	// 매장공지 내용을 update
+	public void updateNotic(Long id, NoticeDto noticeDto, Member member, Shop shop) {
+		
+		Notice notice = findNotice(id);
+		
+		notice.updateNotice(noticeDto, member, shop);
+		
 	}
 	
 	// 매장공지 내용을 delete

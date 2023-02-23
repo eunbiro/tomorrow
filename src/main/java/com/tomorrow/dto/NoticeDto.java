@@ -19,6 +19,8 @@ public class NoticeDto {
 	
 	private LocalDateTime regTime;
 	
+	private LocalDateTime updateTime;
+	
 	private ShopDto shopDto;
 	
 	private Long noticeId;
