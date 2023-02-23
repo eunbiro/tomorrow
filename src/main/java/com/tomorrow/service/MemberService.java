@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.repository.MemberRepository;
@@ -80,5 +81,5 @@ public class MemberService implements UserDetailsService {
 
 		return memberFormDto;
 	}
-
+	
 }

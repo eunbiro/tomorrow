@@ -83,7 +83,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
  			</div>
 			<div class="comment-input">
 				<form method="post" th:object="${boardCommentFormDto}">
-			   	   <input type="hidden" id="boardId" th:field="${board.id}">
+			   	   <input type="hidden" id="boardId" th:field="${boardComment.board.id}">
 				
 					<input type="text" placeholder="댓글 입력창" th:field="*{boCmtText}"/>
 					<p th:if="${#fields.hasErrors('boCmtText')}" th:errors="*{boCmtText}" class="fieldError">Incorrect Data</p>

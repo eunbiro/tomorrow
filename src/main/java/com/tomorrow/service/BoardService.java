@@ -20,9 +20,11 @@ import com.tomorrow.dto.BoardSearchDto;
 import com.tomorrow.entity.Board;
 import com.tomorrow.entity.BoardComment;
 import com.tomorrow.entity.BoardImg;
+import com.tomorrow.entity.Member;
 import com.tomorrow.repository.BoardCommentRepository;
 import com.tomorrow.repository.BoardImgRepository;
 import com.tomorrow.repository.BoardRepository;
+import com.tomorrow.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 @Service
@@ -31,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 	
 	public final BoardRepository boardRepository;
+	public final MemberRepository memberRepository;
 	public final BoardCommentRepository boardCommentRepository;
 	public final BoardImgService boardImgService;
 	public final BoardImgRepository boardImgRepository;
@@ -99,8 +102,19 @@ public class BoardService {
 			boardCommentFormDto.setBoardCommentDtoList(boardCommentDtoList);
 			return null;
 		}
-	
-	
+		
+	//게시글 작성자 포함 form 가져오기
+		@Transactional(readOnly = true) 
+		public BoardFormDto getUserInfo(String memberId) {
+			// 1. item_img테이블의 이미지를 가져온다.
+			Member member = memberRepository.findByUserId(memberId);
+			
+			BoardFormDto boardFormDto = new BoardFormDto();
+			boardFormDto.setMember(member);
+
+			return boardFormDto;
+		}
+
 	//게시글 수정
 		public Long updateBoard(BoardFormDto boardFormDto, List<MultipartFile> boardImgFileList) throws Exception {
 			Board board = boardRepository.findById(boardFormDto.getId())

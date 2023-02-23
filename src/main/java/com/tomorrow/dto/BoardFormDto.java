@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import org.modelmapper.ModelMapper;
 
 import com.tomorrow.entity.Board;
+import com.tomorrow.entity.Member;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,8 @@ public class BoardFormDto {
 	private String createdBy;
 	
 	private Integer viewCount;
+	
+    private Member member;
 	
 	private LocalDateTime regTime;	
 	

@@ -38,15 +38,12 @@ public class CommunityController {
 	private final BoardService boardService;
 	private final MemberService memberService;
 	
+
 	//게시물 리스트 화면 진입
 	@GetMapping(value = "/list")
 	public String boardList(BoardSearchDto boardSearchDto, Optional<Integer> page, Model model, Principal principal) {
 		
-		if (principal != null) {
-	         MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
-	         System.out.println(principal.getName());
-	         model.addAttribute("member", memberFormDto);
-		}
+		getSideImg(model, principal);
 		
 		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 		Page<BoardListDto> boards = boardService.getBoardListPage(boardSearchDto, pageable);
@@ -60,7 +57,10 @@ public class CommunityController {
 	
 	//게시물 상세 화면 진입
 	@GetMapping(value = "/{boardId}")
-	public String boardDetail(Model model, @PathVariable("boardId") Long boardId) {
+	public String boardDetail(Model model, @PathVariable("boardId") Long boardId, Principal principal) {
+		
+		getSideImg(model, principal);
+		
 		BoardFormDto boardFormDto = boardService.getBoardDtl(boardId);
 		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId);
 		model.addAttribute("board", boardFormDto);
@@ -71,7 +71,10 @@ public class CommunityController {
 	
 	//댓글 생성
 	@PostMapping(value="/comment/{boardId}")
-	public String boardComment(@Valid BoardCommentFormDto boardCommentFormDto ,@PathVariable("boardId") Long boardId, BindingResult bindingResult, Model model) {
+	public String boardComment(@Valid BoardCommentFormDto boardCommentFormDto ,@PathVariable("boardId") Long boardId, BindingResult bindingResult, Model model, Principal principal) {
+		
+		getSideImg(model, principal);
+		
 		if(bindingResult.hasErrors()) {
 			return "redirect:/board/list";
 		}
@@ -87,14 +90,18 @@ public class CommunityController {
 	
 	//게시물 생성 폼 진입
 	@GetMapping(value = "/new")
-	public String boardNew(Model model) {
-		model.addAttribute("boardFormDto", new BoardFormDto());
+	public String boardNew(Model model, Principal principal) {
+		getSideImg(model, principal);
+		BoardFormDto boardFormDto = boardService.getUserInfo(principal.getName());		
+		model.addAttribute("boardFormDto", boardFormDto);
 		return "community/boardForm";
 	}
 	
 	@PostMapping(value = "/new")
 	public String boardNew(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, 
-			Model model, @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList) {
+			Model model, @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, Principal principal) {
+		
+		getSideImg(model, principal);
 		
 		if(bindingResult.hasErrors()) {
 			return "community/boardForm";
@@ -111,7 +118,10 @@ public class CommunityController {
 	
 	//수정화면 진입
 	@GetMapping(value = "/update/{boardId}")
-	public String boardDtl(@PathVariable("boardId") Long boardId, Model model) {
+	public String boardDtl(@PathVariable("boardId") Long boardId, Model model, Principal principal) {
+		
+		getSideImg(model, principal);
+		
 		try {
 			BoardFormDto boardFormdto = boardService.getBoardDtl(boardId);
 			model.addAttribute(boardFormdto);
@@ -125,7 +135,10 @@ public class CommunityController {
 	
 	@PostMapping(value = "/update/{boardId}")
 	public String boardUpdate(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, 
-			Model model, @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList) {
+			Model model, @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, Principal principal) {
+		
+		getSideImg(model, principal);
+		
 		if(bindingResult.hasErrors()) {
 			return "community/boardForm";
 		}
@@ -144,5 +157,12 @@ public class CommunityController {
 	public String boardComment() {
 		return "community/boardComment";
 	}
+	
+	//사이드바 프로필 이미지 가져오기 
+	public Model getSideImg(Model model, Principal principal) {   
+	     MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
+	     return model.addAttribute("member", memberFormDto);
+	}
+	
 	
 }
