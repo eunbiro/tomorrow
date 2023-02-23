@@ -9,7 +9,6 @@ import lombok.Setter;
 public class ShopDto {
 
 	private Long shopId; // 매장코드 (자동생성)
-	
 	private String shopNm; // 매장이름
 	
 	private String shopTime; // 영업시간 

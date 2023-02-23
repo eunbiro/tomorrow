@@ -57,16 +57,10 @@ public class CommunityController {
 	}
 	
 	//댓글 생성
-	@PostMapping(value="/{boardId}/comment}")
+	@PostMapping(value="/comment/{boardId}")
 	public String boardComment(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, Model model) {
 
 		if(bindingResult.hasErrors()) {
-			return "redirect:/board/{boardId}";
-		}
-		try {
-			boardService.saveBoard(boardFormDto, boardImgFileList);
-		} catch (Exception e) {
-			model.addAttribute("errorMessage", "상품 등록 중 에러가 발생했습니다.");
 			return "redirect:/board/{boardId}";
 		}
 		
