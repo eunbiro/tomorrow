@@ -18,12 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import com.tomorrow.dto.BoardDto;
+
+import com.tomorrow.dto.BoardCommentFormDto;
 import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.BoardListDto;
 import com.tomorrow.dto.BoardSearchDto;
-import com.tomorrow.entity.Board;
-import com.tomorrow.repository.BoardRepository;
 import com.tomorrow.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 public class CommunityController {
 	
 	private final BoardService boardService;
-	private final BoardRepository boardRepository;
 	
 	//게시물 리스트 화면 진입
 	@GetMapping(value = "/list")
@@ -54,9 +52,21 @@ public class CommunityController {
 	public String boardDetail(Model model, @PathVariable("boardId") Long boardId) {
 		BoardFormDto boardFormDto = boardService.getBoardDtl(boardId);
 		model.addAttribute("board", boardFormDto);
+		model.addAttribute("boardCommentFormDto", new BoardCommentFormDto());
 		return "community/boardDtl";
 	}
+	
+	//댓글 생성
+	@PostMapping(value="/comment/{boardId}")
+	public String boardComment(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, Model model) {
+
+		if(bindingResult.hasErrors()) {
+			return "redirect:/board/{boardId}";
+		}
 		
+		return "redirect:/board/{boardId}";
+	}
+	
 	//게시물 생성 폼 진입
 	@GetMapping(value = "/new")
 	public String boardNew(Model model) {

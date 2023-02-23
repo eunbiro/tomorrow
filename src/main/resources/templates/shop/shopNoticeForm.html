@@ -4,6 +4,8 @@
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>매장공지</title>
 
 <th:block layout:fragment="script">
@@ -111,7 +113,7 @@
 		// TODO : 수정했을때 그안에 있는 val값들 ajax로 보내고 id는 경로에 태우고 update
 		
 		// 해당 공지 삭제
-		function deleteAccBook(noticeId) {
+		function deleteNoticeId(noticeId) {
 			
 			const deleteConf = confirm("삭제하시겠습니까?");
 			
@@ -122,6 +124,7 @@
 			
 			var url = "/shop/notice/" + noticeId + "/delete";
 			var shopId = $('#shopId').val();
+			console.log(noticeId);
 			
 			$.ajax({
 				
@@ -152,13 +155,90 @@
 				}
 			});
 		}
+		
+		// 해당 공지 수정페이지 불러오기
+		function updatePage(noticeId) {
+			
+			/* const updateConf = confirm("수정하시겠습니까?");
+			
+			if (!updateConf) return; */
+			
+			$('#noti-cont-read' + noticeId).hide();
+			$('#noti-cont-update' + noticeId).show();
+		}
 	</script>
 </th:block>
 <!-- 사용자 CSS 추가 --> 
 <th:block layout:fragment="css">
      <style>
+     	#cont-wrap {
+     		margin: 0 auto;
+     		padding: 0;
+     		font-size: 10px;
+     	}
+     	
+     	.noti-wrap {
+			margin-top: 60px;
+		}
+		
+		.noti-wrap > form > div {
+			width: 100%;
+		}
+		
+		.noti-title {
+			font-family: 'SEBANG_Gothic_Bold';
+			text-decoration: none;
+			color: #000;
+		}
+		
+		.profile-img {
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.profile-img > img {
+			width: 50%;
+		}
+		
+		.profile-cont-img {
+			width: 10%;
+			height: 10%;
+			padding: 0;
+		}
+		
+		.profile-cont-img > img {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+		}
+		
+		.notice {
+			border: none;
+			background-color: #F1F1F1;
+			width: 100%;
+			border-radius: 5px;
+		}
+		
+		.notice-ipt {
+			background-color: #F1F1F1;
+			border: none;
+			border-radius: 5px;
+			resize: none;
+			font-size: 1rem;
+			padding-left: 10%;
+		}
+		
+		.notice-icon {
+			background: none;
+			border: none;
+			border-radius: 5px;
+			padding-right: 3%;
+			font-size: 1.4rem;
+		}
+     
     	 .noti-sel-shop {
-    	 	
     	 	border-radius: 5px;
     	 	border: 1px solid #A9A9A9;
     	 }
@@ -187,16 +267,16 @@
 </th:block>
 </head>
 <body>
-	<div layout:fragment="content">
-		<div class="container-lg d-flex flex-column text-center noti-wrap">
+	<div layout:fragment="content" id="cont-wrap">
+		<div class="container d-flex flex-column text-center noti-wrap">
 		
-			<form class="noti-form my-4 mx-auto" method="post" th:object="${noticeDto}">
+			<form class="noti-form my-4 mx-auto container-md" method="post" th:object="${noticeDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">매장공지</a>
 					<!-- TODO : 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
-					<select class="noti-sel-shop fs-6 px-2 me-2" th:field="*{shopDto.ShopId}" id="shopId">
+					<select class="noti-sel-shop fs-6 px-2 me-2" th:field="*{shopDto.shopId}" id="shopId">
 						<option value="">매장선택</option>
-						<th:block th:each="myShop : ${myShopList}" th:value="${myShop.shopDto.ShopId}">
+						<th:block th:each="myShop : ${myShopList}" th:value="${myShop.shopDto.shopId}">
 							<option th:value="${myShop.shopDto.ShopId}" th:text="${myShop.shopDto.shopNm}"></option>
 						</th:block>
 					</select>
@@ -204,41 +284,40 @@
 				<!-- create부분  sec:authorize="hasAnyAuthority('ROLE_ADMIN')" -->
 				<div class="mx-auto">
 					<div class="row notice mx-auto my-2">
-						<div class="col-2 p-2 align-middle">
-							<img class="my-auto profile-img" alt="profile" src="/images/profile01.png">
-						</div>
-						<textarea class="col-8 py-2 ps-2 notice-ipt" th:field="*{noticeCont}" placeholder="공지사항 작성"></textarea>
+						<textarea class="col-10 py-2 notice-ipt" th:field="*{noticeCont}" placeholder="공지사항 작성"></textarea>
 						<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
-						<button type="submit" th:formaction="@{'/shop/info'}" class="col-2 notice-icon fs-3">
+						<button type="submit" th:formaction="@{'/shop/info'}" class="col-2 notice-icon text-end">
 							<i class="fa-sharp fa-solid fa-file-pen"></i>
 						</button>
 					</div>
 				</div>
-				
+			</form>
+			<form class="noti-form my-4 mx-auto container-md" method="post" th:object="${updateNoticeDto}">
 				<!-- read부분 -->
 				<div class="mx-auto" th:if="${not #lists.isEmpty(notiList)}" th:each="noti : ${notiList}">
 					<!-- 프로필부분 -->
-					<div class="mx-auto row py-3">
-						<div class="col-2 my-auto">
-							<img class="profile-cont-img" alt="profile" src="/images/profile01.png">
+					<div class="mx-auto d-flex justify-content-around py-3">
+						<div class="col-3 my-auto profile-cont-img">
+							<img alt="profile" src="/images/profile01.png">
 						</div>
 						
-						<div class="col-8 text-start d-flex flex-column">
-							<div class="mt-auto text-bottom fs-5 fw-bold" id="memberNm" th:text="${noti.MemberFormDto.userNm}">내일</div>
-							<div class="mb-auto text-top" style="color: #A6A6A6;" id="memberId" th:value="${noti.MemberFormDto.userId}" th:text="'@' + ${noti.MemberFormDto.userId}">@tomorrow</div>
+						<div class="col-8 text-start d-flex flex-column ps-2">
+							<div class="mt-auto text-bottom fw-bold" style="font-size: 1.2rem" id="memberNm" th:text="${noti.MemberFormDto.userNm}">내일</div>
+							<div class="mb-auto text-top" style="color: #A6A6A6; font-size: 0.9rem; padding-left: 1%" id="memberId" th:value="${noti.MemberFormDto.userId}" th:text="'@' + ${noti.MemberFormDto.userId}">@tomorrow</div>
 						</div>
 						
-						<a class="col-2 text-end" style="color: #000; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+						<a class="col-1 text-end" style="color: #000; cursor: pointer; font-size: 1rem;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${noti.noticeId}"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 						
 						<!-- Modal -->
-						<div class="modal fade modal-wrap" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-dialog-centered">
+						<div class="modal fade modal-wrap" th:id="'exampleModal' + ${noti.noticeId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered justify-content-center">
 								<div class="modal-content">
-									<div class="modal-body">
+									<div class="modal-body fs-6">
 											공지내용을 편집하시겠습니까?
 						      		</div>
 									<div class="modal-btn pb-3">
-										<button type="submit" class="btn px-4 mx-4" th:onclick="|location.href='@{/shop/info/update/{noticeId}(noticeId = ${noti.noticeId})}'|">수정</button>
+<!-- 										<button type="submit" class="btn px-4 mx-4" th:onclick="|location.href='@{/shop/info/{noticeId}/update(noticeId = ${noti.noticeId})}'|">수정</button> -->
+										<button type="button" class="btn px-4 mx-4" data-bs-dismiss="modal" id="updateBtn" th:value="${noti.noticeId}" onclick="updatePage(this.value)">수정</button>
 										<button type="button" class="btn px-4 mx-4" th:value="${noti.noticeId}" onclick="deleteNoticeId(this.value)">삭제</button>
 									</div>
 								</div>
@@ -247,7 +326,21 @@
 					</div>
 					
 					<!-- 내용부분 -->
-					<div class="text-start py-3 px-5" th:text="${noti.noticeCont}">내용</div>
+					
+					<div class="text-start py-3 px-5 fs-6">
+						<div th:id="'noti-cont-read' + ${noti.noticeId}" th:text="${noti.noticeCont}">
+							내용
+						</div>
+						<div th:id="'noti-cont-update' + ${noti.noticeId}" style="display: none;">
+							<div class="row notice mx-auto my-2 w-75" style="height: 5rem;">
+								<textarea class="col-10 py-2 notice-ipt" th:text="${noti.noticeCont}" th:value="${noti.noticeCont}" th:field="*{noticeCont}"></textarea>
+								<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
+								<button type="submit" th:formaction="@{'/shop/info/' + ${noti.noticeId} + '/update'}" class="col-2 notice-icon text-end">
+									<i class="fa-sharp fa-solid fa-file-pen"></i>
+								</button>
+							</div>
+						</div>
+					</div>
 					<!-- 하단부분 -->
 					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
 						<div class="row pt-auto">
@@ -255,7 +348,7 @@
 							<a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer;"><i class="fa-regular fa-circle-check"></i></a>
 							<span class="col-7 text-start" th:text="${noti.notiLike} + '명'">1명</span>
 						</div>
-						<div class="pt-auto" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
+						<div class="pt-auto" style="font-size: 0.8rem; color: #A6A6A6;" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
 							23-02-12
 						</div>
 					</div>

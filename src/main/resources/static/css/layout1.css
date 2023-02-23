@@ -36,53 +36,7 @@ footer {
 }
 
 /*======================매장메뉴CSS======================*/
-.noti-wrap {
-	margin-top: 60px;
-}
 
-.noti-wrap>form>div {
-	width: 40rem;
-}
-
-.noti-title {
-	font-family: 'SEBANG_Gothic_Bold';
-	text-decoration: none;
-	color: #000;
-}
-
-.profile-img {
-	width: 10%;
-	height: 10%;
-	width: 2rem;
-	height: 2rem;
-	width: 2.5rem;
-	height: 2.5rem;
-	padding: 0;
-}
-
-.profile-cont-img {
-	width: 3rem;
-	height: 3rem;
-	padding: 0;
-}
-
-.notice {
-	border: none;
-	border-radius: 5px;
-	background-color: #F1F1F1;
-	width: 40em;
-}
-
-.notice-ipt {
-	background-color: #F1F1F1;
-	border: none;
-	resize: none;
-}
-
-.notice-icon {
-	background: none;
-	border: none;
-}
 
 /*======================로그인CSS======================*/
 .login-logo {
@@ -381,6 +335,9 @@ thead {
 .profile-menu a {
 	color: white;
 }
+.profile-menu a:hover{
+	text-decoration: underline;	
+}
 
 .navbar-btn {
 	border: none;
@@ -397,6 +354,16 @@ thead {
 .btn-close{
 	color:white;
 	
+}
+.bottom-image {
+	bottom: 0; 
+	right: 0;
+	position: absolute;
+}
+
+.bottom-image img {
+	width: 50px;
+	height: 50px;
 }
 
 /* 사이드바 끝==================================================== */

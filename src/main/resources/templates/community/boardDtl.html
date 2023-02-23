@@ -6,6 +6,47 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		$(document).ready(function(){
+        	var errorMessage = [[${errorMessage}]];
+        	if(errorMessage != null){
+            	alert(errorMessage);
+        	}
+        	
+        	bindDomEvent();
+    	});
+		//파일 첨부시 이미지 파일인지 검사를 한다.
+        function bindDomEvent(){
+            $(".custom-file-input").on("change", function() {
+                var fileName = $(this).val().split("\\").pop();  //이미지 파일명
+                var fileExt = fileName.substring(fileName.lastIndexOf(".")+1); // 확장자 추출
+                fileExt = fileExt.toLowerCase(); //소문자 변환
+
+                if(fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp"){
+                    alert("이미지 파일만 등록이 가능합니다.");
+                    return;
+                }
+                $(this).siblings(".custom-file-label").html(fileName);
+            });
+        }
+	</script>
+</th:block>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<th:block layout:fragment="css">
+	<style>
+		.input-group {
+            margin-bottom : 15px
+        }
+        .img-div {
+            margin-bottom : 10px
+        }
+        .fieldError {
+            color: #bd2130;
+        }
+	</style>
+</th:block>
 </head>
 <body> 
 	<div layout:fragment="content">	
@@ -38,8 +79,26 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	   		</form>
 	   		
 	   		<div th:each="boardImg : ${board.boardImgDtoList}" class="">
-          <img th:if="${not #strings.isEmpty(boardImg.boImgUrl)}" th:src="${boardImg.boImgUrl}" class="detail-img" width="800">
-       </div> 
+          		<img th:if="${not #strings.isEmpty(boardImg.boImgUrl)}" th:src="${boardImg.boImgUrl}" class="detail-img" width="800">
+ 			</div>
+			<div class="comment-input">
+				<form method="post" th:object="${boardCommentFormDto}">
+					<input type="text" placeholder="댓글 입력창" th:field="*{boCmtText}"/>
+					<p th:if="${#fields.hasErrors('boCmtText')}" th:errors="*{boCmtText}" class="fieldError">Incorrect Data</p>
+					<button type="submit" th:formaction="@{/board/comment/new}">댓글 등록</button>
+				</form>
+			</div> 
+			<div class="comment-list">
+				<p>댓글 리스트</p>
+				<ul>
+					<li>
+						<div class="comment-writer">권수경</div>
+						<div class="comment-text">  회식 쌉좋음</div>
+						<div class="comment-reg">등록일 : 2023.02.16</div>
+					</li>
+					
+				</ul>
+			</div>
 	   </div>
 	    
     </div>

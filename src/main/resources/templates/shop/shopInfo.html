@@ -5,16 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>매장정보</title>
-<th:block layout:fragment="css">
-	<script th:inline="javasript">
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
 		// 매장선택 시 해당 매장정보 불러옴
 		$(function() {
 
-			$('.noti-sel-shop').off().on("change", function() {
+			$('.info-sell-shop').off().on("change", function() {
 
-				var shopId = $('.noti-sel-shop').val();
+				var shopId = $('.info-sell-shop').val();
 
-				var url = "/shop/info/" + shopId;
+				var url = "/shop/shopInfo/" + shopId;
 
 				$(location).attr('href', url);
 			});
@@ -89,61 +89,63 @@ input {
 	<!-- TODO 이 생각이 든 이유 -> 아 이미지 엌퀘 가져오냐고요~! ㅋㅋㅋㅋㅋ 이미지 하나만 들고오고 싶은데... 잉잉... TLQKF... 모르겠다 일단 내일 생각 -->
 
 	<div layout:fragment="content">
-		<form action="/shop/shopInfo" method="post">
+		<form method="post" th:object="${shopDto}">
 			<div class="container-lg d-flex flex-column text-center"
 				style="margin-top: 60px;">
 				<div class="noti-title   fs-3 fw-bold  my-2 ps-4 col-lg-4">
 					<a>매장정보</a>
 					<div class="col-lg-4">
-						<select class="form-select w-100 my-2"
-							th:field="*{shopDto.shopId}" id="shopId">
+						<select class="info-sell-shop form-select w-100 my-2"
+							th:field="*{shopId}" id="shopId">
 							<option value="">매장 선택</option>
-							<th:block th:each="myShop : ${myShopList}" th:value="myShop.shopDto.ShopId">
-								<option th:value="{myShop.shopDto.ShopId}" th:text="myShop.shopDto.shopNm"></option>
+							<th:block th:each="myShop : ${myShopList}" th:value="${myShop.shopDto.ShopId}">
+								<option th:value="${myShop.shopDto.shopId}" th:text="${myShop.shopDto.shopNm}"></option>
 							</th:block>
 						</select>
 					</div>
 				</div>
+				
+				<!-- read -->
 				<div class="shop-create-wrap">
 					<div class="shop-create ps-4">
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-name">매장명</label>
 							</div>
-							<input />
+							<input th:field="*{shopNm}" />
 						</div>
 
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-location">위치</label>
 							</div>
-							<input />
+							<input th:field="*{shopPlace}" />
 						</div>
 
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-type">업종</label>
 							</div>
-							<input>
+							<input th:field="*{shopType}">
 						</div>
-						<div class="mb-3 shop-info">
+						<!-- <div class="mb-3 shop-info">
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
-							<!-- TODO 대표 이미지 하나만 보여주게 만들기 -->
+							TODO 대표 이미지 하나만 보여주게 만들기
 							<div>
 								<img class="rounded repImg">
 							</div>
-						</div>
+						</div> -->
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-business">사업자 번호</label>
 							</div>
-							<input placeholder="'-' 없이 입력해주세요">
+							<input th:field="*{businessId}" />
 						</div>
 						<div class="shop-info">
 							<div class="shop-item">
-								<label class="shop-business">매장 번호</label>
+								<label class="shop-business">매장 코드</label>
 							</div>
-							<input>
+							<input th:field="*{shopId}" />
 						</div>
 						<div class="shop-createbtn">
 							<button type="button" class="btn " style="width: 30%; left: 0;">수정</button>
