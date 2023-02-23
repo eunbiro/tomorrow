@@ -8,6 +8,6 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import com.tomorrow.entity.BoardComment;
 
 public interface BoardCommentRepository extends JpaRepository<BoardComment, Long>, QuerydslPredicateExecutor<BoardComment>{
-	List<BoardComment>  findBycreatedBy();
-	List<BoardComment>  findById();
+	List<BoardComment>  findBycreatedBy(String createdBy);
+	List<BoardComment>  findById(String id);
 }
