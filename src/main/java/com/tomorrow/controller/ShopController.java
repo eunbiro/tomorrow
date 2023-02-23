@@ -215,13 +215,6 @@ public class ShopController {
 	}
 		
 
-	// 매장생성
-	@GetMapping(value = "/shop/shopCreate")
-	public String createShop(Model model) {
-		return "shop/shopCreateForm";
-
-	}
-
 	// 출퇴근조회
 	@GetMapping(value = "/shop/commuteList")
 	public String commuteListForAdmin() {
