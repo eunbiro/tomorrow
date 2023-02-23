@@ -1,5 +1,6 @@
 package com.tomorrow.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,9 @@ import com.tomorrow.dto.BoardCommentFormDto;
 import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.BoardListDto;
 import com.tomorrow.dto.BoardSearchDto;
+import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.service.BoardService;
+import com.tomorrow.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,10 +36,18 @@ import lombok.RequiredArgsConstructor;
 public class CommunityController {
 	
 	private final BoardService boardService;
+	private final MemberService memberService;
 	
 	//게시물 리스트 화면 진입
 	@GetMapping(value = "/list")
-	public String boardList(BoardSearchDto boardSearchDto, Optional<Integer> page, Model model) {
+	public String boardList(BoardSearchDto boardSearchDto, Optional<Integer> page, Model model, Principal principal) {
+		
+		if (principal != null) {
+	         MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
+	         System.out.println(principal.getName());
+	         model.addAttribute("member", memberFormDto);
+		}
+		
 		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 		Page<BoardListDto> boards = boardService.getBoardListPage(boardSearchDto, pageable);
 		
@@ -51,7 +62,9 @@ public class CommunityController {
 	@GetMapping(value = "/{boardId}")
 	public String boardDetail(Model model, @PathVariable("boardId") Long boardId) {
 		BoardFormDto boardFormDto = boardService.getBoardDtl(boardId);
+		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId);
 		model.addAttribute("board", boardFormDto);
+		model.addAttribute("boardComment", boardCommentFormDto);
 		model.addAttribute("boardCommentFormDto", new BoardCommentFormDto());
 		return "community/boardDtl";
 	}
@@ -59,7 +72,6 @@ public class CommunityController {
 	//댓글 생성
 	@PostMapping(value="/comment/{boardId}")
 	public String boardComment(@Valid BoardCommentFormDto boardCommentFormDto ,@PathVariable("boardId") Long boardId, BindingResult bindingResult, Model model) {
-
 		if(bindingResult.hasErrors()) {
 			return "redirect:/board/list";
 		}

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tomorrow.dto.BoardCommentDto;
 import com.tomorrow.dto.BoardCommentFormDto;
 import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.BoardImgDto;
@@ -71,13 +72,33 @@ public class BoardService {
 		}
 		
 		Board board= boardRepository.findById(boardId)
-				                  .orElseThrow(EntityNotFoundException::new);
+				                    .orElseThrow(EntityNotFoundException::new);
 		BoardFormDto boardFormDto = BoardFormDto.of(board);
 		
 		boardFormDto.setBoardImgDtoList(boardImgDtoList);
 		
 		return boardFormDto;
 	}
+	
+	//댓글 가져오기
+		@Transactional(readOnly = true) //트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
+		public BoardCommentFormDto getCommentList(Long boardId) {
+			List<BoardComment> boardCommentList = boardCommentRepository.findByBoardIdOrderByIdAsc(boardId);
+			List<BoardCommentDto> boardCommentDtoList = new ArrayList<>();
+			
+			for(BoardComment boardComment : boardCommentList) {
+				BoardCommentDto boardCommentDto = BoardCommentDto.of(boardComment);
+				boardCommentDtoList.add(boardCommentDto);
+			}
+			
+			
+			Board board = boardRepository.findById(boardId)
+	                  					 .orElseThrow(EntityNotFoundException::new);
+			BoardCommentFormDto boardCommentFormDto = BoardCommentFormDto.of(board);
+			
+			boardCommentFormDto.setBoardCommentDtoList(boardCommentDtoList);
+			return null;
+		}
 	
 	
 	//게시글 수정
