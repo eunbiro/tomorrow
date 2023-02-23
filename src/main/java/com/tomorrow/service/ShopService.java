@@ -112,7 +112,6 @@ public class ShopService {
 		MemberFormDto memberFormDto = new MemberFormDto();
 		memberFormDto.setUserId(member.getUserId());
 		memberFormDto.setUserNm(member.getUserNm());
-		// memberFormDto.setUserProfile(member.getUserProfile());
 
 		return memberFormDto;
 	}
@@ -124,9 +123,6 @@ public class ShopService {
 
 		shopDto.setShopId(shop.getId());
 		shopDto.setShopNm(shop.getShopNm());
-		shopDto.setBusinessId(shop.getBusinessId());
-		shopDto.setShopPlace(shop.getShopPlace());
-		shopDto.setShopType(shop.getShopType());
 		
 		return shopDto;
 	}

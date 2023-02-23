@@ -159,17 +159,23 @@
 		// 해당 공지 수정페이지 불러오기
 		function updatePage(noticeId) {
 			
-			/* const updateConf = confirm("수정하시겠습니까?");
-			
-			if (!updateConf) return; */
-			
-			/* var cont = $('#noti-cont-update' + noticeId).children('.notice-ipt').val(); */
 			var cont = $('#noti-cont-read' + noticeId).text();
 			console.log(cont);
 			
 			$('#noti-cont-read' + noticeId).hide();
 			$('#noti-cont-update' + noticeId).show();
-			$('#noti-cont-update' + noticeId).children('div').children('.notice-ipt').text(cont);
+			$('#noti-cont-update' + noticeId).children('div').children('.notice-ipt').text(cont).attr('disabled', false);
+		}
+		
+		// 해당 공지 수정페이지 취소
+		function cancelPage(noticeId) {
+			
+			var cont = $('#noti-cont-read' + noticeId).text();
+			console.log(cont);
+			
+			$('#noti-cont-read' + noticeId).show();
+			$('#noti-cont-update' + noticeId).children('div').children('.notice-ipt').attr('disabled', true);
+			$('#noti-cont-update' + noticeId).hide();
 		}
 		
 		// 해당 공지 수정
@@ -287,6 +293,23 @@
 			padding-right: 3%;
 			font-size: 1.4rem;
 		}
+		
+		.notice-icon-inner {
+		}
+		
+		.notice-icon-inner > button {
+			background: none;
+			border: none;
+			border-radius: 5px;
+			padding-right: 3%;
+			font-size: 1rem;
+			letter-spacing: 0.2rem;
+		}
+		
+		.notice-icon-inner > button:hover {
+			text-decoration: underline;
+			color: #A9A9A9;
+		}
      
     	 .noti-sel-shop {
     	 	border-radius: 5px;
@@ -384,13 +407,18 @@
 							내용
 						</div>
 						<div th:id="'noti-cont-update' + ${noti.noticeId}" style="display: none;">
-							<div class="row notice mx-auto my-2 w-75" style="height: 5rem;">
-								<textarea class="col-10 py-2 notice-ipt" th:value="${noti.noticeCont}" th:field="*{noticeCont}"></textarea>
+							<div class="row notice my-2 me-auto w-75" style="height: 5rem;">
+								<textarea class="py-2 notice-ipt ps-4 col-10" th:value="${noti.noticeCont}" th:field="*{noticeCont}" disabled="true"></textarea>
 								<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
-								<button type="submit" th:formaction="@{'/shop/notice/' + ${noti.noticeId} + '/update'}" class="col-2 notice-icon text-end">
-									<i class="fa-sharp fa-solid fa-file-pen"></i>
-								</button>
 								<!--  th:formaction="@{'/shop/notice/' + ${noti.noticeId} + '/update'}" -->
+								<div class="col-2 d-flex flex-column notice-icon-inner">
+									<button type="submit" th:formaction="@{'/shop/notice/' + ${noti.noticeId} + '/update'}" class="text-center my-auto">
+										수정
+									</button>
+									<button type="button" th:value="${noti.noticeId}" onclick="cancelPage(this.value)" class="text-center my-auto">
+										취소
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
