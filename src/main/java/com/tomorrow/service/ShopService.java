@@ -206,34 +206,13 @@ public class ShopService {
 
 		return noticeRepository.save(notice);
 	}
-
-	
-	// 매장공지 내용을 update
 	
 	// 매장공지 내용을 delete
-
-
-	// 공지 delete
-
 	public void deleteNotice(Notice notice) {
 
 		noticeRepository.delete(notice);
 	}
 
 
-	// 매장 만들기 (김정환)
-	public Long saveShop(CreateShopFormDto createShopFormDto, List<MultipartFile> createShopImgFileList)
-			throws Exception {
-		Shop shop = createShopFormDto.createShop();
-		shopRepository.save(shop);
-
-		for (int i = 0; i < createShopImgFileList.size(); i++) {
-			ShopImg shopImg = new ShopImg();
-			shopImg.setShop(shop);
-			
-			shopImgService.saveShopImg(shopImg, createShopImgFileList.get(i));
-		}
-		return shop.getId();
-	}
-
+	
 }

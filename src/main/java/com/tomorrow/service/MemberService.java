@@ -53,7 +53,7 @@ public class MemberService implements UserDetailsService {
 
 	public Member saveProfileImg(Member member, MultipartFile profileImgFile) throws Exception {
 		String oriImgName = profileImgFile.getOriginalFilename(); // 파일 이름
-		String imgName = ""; // 기본 이미지 만들기
+		String imgName = "defaultImg"; // 기본 이미지 만들기
 		String imgUrl = ""; // 기본 이미지 url 만들기
 
 		// 파일 업로드

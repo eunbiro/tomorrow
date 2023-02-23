@@ -16,10 +16,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MainController {
 	
-	private MemberService memberService;
+	private final MemberService memberService;
 
 	@GetMapping(value="/")
-	public String main() {
+	public String main(Model model, Principal principal) {
+		if (principal != null) {
+			MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
+			System.out.println(principal.getName());
+			model.addAttribute("member", memberFormDto);
+		}
 		return "main";
 	}
 	
@@ -34,11 +39,7 @@ public class MainController {
 	
 	
 	@GetMapping(value="/intro")
-	public String intro(Principal principal, Model model) {
-		if (principal != null) {
-			MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
-			model.addAttribute("member", memberFormDto);
-		}
+	public String intro() {
 		return "intro";
 	}
 }
