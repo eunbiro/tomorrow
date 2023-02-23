@@ -137,7 +137,7 @@ public class ShopController {
 			
 			Notice notice = shopService.findNotice(noticeId);
 			notice.setNoticeCont(noticeDto.getNoticeCont());
-			
+			Notice.updateNotice(notice);
 			
 		} catch (Exception e) {
 			
@@ -163,7 +163,7 @@ public class ShopController {
 	}
 
 	// GET근무일지폼
-	@GetMapping(value = { "/shop/log", "/shop/log/{shop_id}" })
+	@GetMapping(value = { "/shop/log", "/shop/log/{shopId}" })
 	public String shopLog(Model model, Principal principal) {
 
 		// TODO 현재 로그인한 회원의 매장번호를 조회해서 매장코드로 업무내용 불러옴
@@ -172,7 +172,7 @@ public class ShopController {
 	}
 
 	// POST근무일지폼
-	@PostMapping(value = "/shop/log/{shop_id}")
+	@PostMapping(value = "/shop/log/{shopId}")
 	public String shopLogUpdate(Model model) {
 
 		return "shop/workLogForm";

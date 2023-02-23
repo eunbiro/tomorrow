@@ -51,12 +51,10 @@ public class Notice extends BaseEntity {
 		return notice;
 	}
 	
-	public void updateNotice(NoticeDto noticeDto) {
+	public static void updateNotice(Notice notice) {
 		
-		Notice notice = new Notice();
-		
-		notice.setShop(shop);
-		notice.setMember(member);
-		notice.setNoticeCont(noticeDto.getNoticeCont());
+		notice.setShop(notice.getShop());
+		notice.setMember(notice.getMember());
+		notice.setNoticeCont(notice.getNoticeCont());
 	}
 }
