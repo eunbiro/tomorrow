@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -28,18 +30,22 @@
 						<ul class="navbar-nav ">
 							<li>
 								<div class="side-profile">
-									<div class="nav-item" style="height: 180px">
-										<div class="box" style="background: #BDBDBD;">
-											<img class="profile" src="/images/logo.png">
+										<div class="nav-item" style="height: 180px">
+											<div class="box" style="background: #BDBDBD;">
+												<div class="box" style="background: #BDBDBD;">
+											<!-- <input type="hidden" id=imgUrl th:value="${member.userId}"> -->
+												<img th:if="${not #strings.isEmpty(member.imgUrl)}" th:src="${member.imgUrl}" class="profile" style="border-radius: 60%">
+											</div>
+										</div>
+										<div class="side-name">
+											<a sec:authorize="hasRole('USER')">[[${member.userNm}]]님<br>오늘 하루도 열일하세요. : )</a>
+											<a sec:authorize="hasRole('ADMIN')">[[${member.userNm}]] 점주님<br>좋은 하루 보내세요. : )</a>
 										</div>
 									</div>
-									<div class="side-name">
-										<a>디그다님<br>오늘 하루도 열일하세요. : )
-										</a>
+									<div class="side-logout">
+										<a href="/member/login" sec:authorize="isAnonymous()">로그인</a>
+										<a href="/member/logout" sec:authorize="isAuthenticated()">로그아웃</a>
 									</div>
-								</div>
-								<div class="side-logout">
-									<a href="#">로그아웃</a>
 								</div>
 							</li>
 							<li>
