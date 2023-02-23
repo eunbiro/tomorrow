@@ -36,12 +36,13 @@
 								<div class="side-profile">
 									<div class="nav-item" style="height: 180px">
 										<div class="box" style="background: #BDBDBD;">
-											<img class="profile" src="/images/logo.png">
+										<input type="hidden" id=imgUrl th:value="${member.userId}">
+											<img th:src="${member.imgUrl}" class="profile" style="border-radius: 60%">
 										</div>
 									</div>
 									<div class="side-name">
-										<a sec:authorize="hasRole('USER')">디그다님<br>오늘 하루도 열일하세요. : )</a>
-										<a sec:authorize="hasRole('ADMIN')">디그다 사장님<br>좋은 하루 보내세요. : )</a>
+										<a sec:authorize="hasRole('USER')">[[${member.userNm}]]님<br>오늘 하루도 열일하세요. : )</a>
+										<a sec:authorize="hasRole('ADMIN')">[[${member.userNm}]] 점주님<br>좋은 하루 보내세요. : )</a>
 									</div>
 								</div>
 								<div class="side-logout">

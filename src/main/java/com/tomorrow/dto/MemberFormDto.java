@@ -48,7 +48,7 @@ public class MemberFormDto {
 		return modelMapper.map(this, Member.class);
 	}
 
-	public static MemberFormDto of(Member profile) {
-		return modelMapper.map(profile, MemberFormDto.class);
+	public static MemberFormDto of(Member member) {
+		return modelMapper.map(member, MemberFormDto.class);
 	}
 }

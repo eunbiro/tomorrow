@@ -10,8 +10,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	
 	Member findByUserId(String userId);
 	
-//	//프로필 이미지 띄우기
-//	@Query(value = "select m from member m where m.userId = :userId and m.")
-//	Member findByUserProfileImg(@Param("userId") String userId);
-	
 }
