@@ -206,15 +206,8 @@ public class ShopService {
 
 		return noticeRepository.save(notice);
 	}
-
-	
-	// 매장공지 내용을 update
 	
 	// 매장공지 내용을 delete
-
-
-	// 공지 delete
-
 	public void deleteNotice(Notice notice) {
 
 		noticeRepository.delete(notice);
