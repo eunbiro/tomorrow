@@ -178,14 +178,8 @@ public class ShopController {
 		return "shop/workLogForm";
 	}
 
-	// 직원정보 - 수경 2
-	@GetMapping(value = "/shop/employeeInfo")
-	public String employeeInfo(Model model) {
-
-		return "shop/employeeInfoForm";
-	}
-		
-
+	
+	// 민우님 페이지입니다. 
 	// 출퇴근조회
 	@GetMapping(value = "/shop/commuteList")
 	public String commuteListForAdmin() {

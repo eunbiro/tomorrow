@@ -1,16 +1,30 @@
 package com.tomorrow.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class MainController {
+	
+	private final MemberService memberService;
 
 	@GetMapping(value="/")
-	public String main() {
+	public String main(Model model, Principal principal) {
+		if (principal != null) {
+			MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
+			System.out.println(principal.getName());
+			model.addAttribute("member", memberFormDto);
+		}
 		return "main";
 	}
 	
