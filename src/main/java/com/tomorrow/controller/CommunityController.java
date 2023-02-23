@@ -58,13 +58,19 @@ public class CommunityController {
 	
 	//댓글 생성
 	@PostMapping(value="/comment/{boardId}")
-	public String boardComment(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, Model model) {
+	public String boardComment(@Valid BoardCommentFormDto boardCommentFormDto ,@PathVariable("boardId") Long boardId, BindingResult bindingResult, Model model) {
 
 		if(bindingResult.hasErrors()) {
-			return "redirect:/board/{boardId}";
+			return "redirect:/board/list";
+		}
+		try {
+			boardService.saveComment(boardCommentFormDto);
+		} catch (Exception e) {
+			model.addAttribute("errorMessage", "댓글 등록 중 에러가 발생했습니다.");
+			return "redirect:/board/list";
 		}
 		
-		return "redirect:/board/{boardId}";
+		return "redirect:/board/list";
 	}
 	
 	//게시물 생성 폼 진입
