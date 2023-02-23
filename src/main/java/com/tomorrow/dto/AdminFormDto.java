@@ -19,7 +19,7 @@ import com.tomorrow.entity.Member;
 
 @Getter
 @Setter
-public class MemberFormDto {
+public class AdminFormDto {
 
 	@NotEmpty(message = "이메일은 필수 입력 값입니다.")
 	private String userId; // 회원 아이디
@@ -48,7 +48,7 @@ public class MemberFormDto {
 		return modelMapper.map(this, Member.class);
 	}
 
-	public static MemberFormDto of(Member member) {
-		return modelMapper.map(member, MemberFormDto.class);
+	public static MemberFormDto of(Member profile) {
+		return modelMapper.map(profile, MemberFormDto.class);
 	}
 }

@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.constant.Role;
+import com.tomorrow.dto.AdminFormDto;
 import com.tomorrow.dto.MemberFormDto;
 
 import lombok.Getter;
@@ -73,13 +74,13 @@ public class Member extends BaseEntity {
 		return member;
 	}
 
-	public static Member createAdmin(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder, Role role) {
+	public static Member createAdmin(AdminFormDto adminFormDto, PasswordEncoder passwordEncoder, Role role) {
 		Member member = new Member();
-		member.setUserNm(memberFormDto.getUserNm());
-		member.setUserId(memberFormDto.getUserId());
-		member.setPNum(memberFormDto.getPNum());
+		member.setUserNm(adminFormDto.getUserNm());
+		member.setUserId(adminFormDto.getUserId());
+		member.setPNum(adminFormDto.getPNum());
 
-		String password = passwordEncoder.encode(memberFormDto.getPassword()); // 비밀번호 암호화
+		String password = passwordEncoder.encode(adminFormDto.getPassword()); // 비밀번호 암호화
 		member.setPassword(password);
 
 		member.setRole(role);
