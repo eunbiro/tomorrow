@@ -15,19 +15,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.tomorrow.dto.CreateShopFormDto;
 import com.tomorrow.dto.MemShopMappingDto;
+import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.NoticeDto;
-import com.tomorrow.dto.NoticeLikeDto;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
-import com.tomorrow.entity.NoticeLike;
 import com.tomorrow.entity.Shop;
+import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class ShopController {
 
 	private final ShopService shopService;
+	private final MemberService memberService;
 
 	// GET매장공지폼
 	@GetMapping(value = "/shop/info")
@@ -44,9 +42,19 @@ public class ShopController {
 
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
+		getSideImg(model, principal);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("noticeDto", new NoticeDto());
 		return "shop/shopNoticeForm";
+	}
+	
+	// 사이드바 프로필정보 가져옴
+	public Model getSideImg(Model model, Principal principal) {
+		
+		if (principal != null) {
+	         MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
+	         return model.addAttribute("member", memberFormDto);
+		}
 	}
 
 	// GET매장 선택 시 공지내역가져옴
@@ -60,10 +68,11 @@ public class ShopController {
 		shopDto.setShopId(Long.parseLong(shopId));
 		noticeDto.setShopDto(shopDto);
 
+		getSideImg(model, principal);
 		model.addAttribute("notiList", notiList);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("noticeDto", noticeDto);
-		model.addAttribute("updateNoticeDto", new NoticeDto());
+		model.addAttribute("updateNoticeDto", noticeDto);
 		return "shop/shopNoticeForm";
 	}
 
@@ -76,6 +85,7 @@ public class ShopController {
 
 			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
+			getSideImg(model, principal);
 			model.addAttribute("myShopList", myShopList);
 			return "shop/shopNoticeForm";
 		}
@@ -83,20 +93,17 @@ public class ShopController {
 		try {
 
 			Member member = shopService.findMember(principal.getName());
-			Long ShopId = noticeDto.getShopDto().getShopId();
-			Notice notice = Notice.createNotice(noticeDto, member, shopService.findShop(ShopId));
+			Shop shop = shopService.findShop(noticeDto.getShopDto().getShopId());
+			Notice notice = Notice.createNotice(noticeDto, member, shop);
 			shopService.saveNotice(notice);
 
 		} catch (Exception e) {
 
 			model.addAttribute("errorMessage", "공지등록 중 에러가 발생했습니다.");
-			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-
-			model.addAttribute("myShopList", myShopList);
-			model.addAttribute("noticeDto", noticeDto);
+			
 			return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
 		}
-
+		
 		return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
 	}
 
@@ -123,34 +130,34 @@ public class ShopController {
 	
 	// 공지 수정 눌렀을때
 	@PostMapping(value = "/shop/info/{noticeId}/update")
-	public String updateNoticePage(@PathVariable("noticeId") Long noticeId, @Valid NoticeDto noticeDto, Model model, BindingResult bindingResult, Principal principal) {
+	public String updateNoticePage(@PathVariable("noticeId") Long noticeId, @Valid NoticeDto updateNoticeDto, Model model, BindingResult bindingResult, Principal principal) {
 		
 		if (bindingResult.hasErrors()) {
 			
 			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 			
+			getSideImg(model, principal);
 			model.addAttribute("myShopList", myShopList);
 			return "shop/shopNoticeForm";
 		}
 		
+		Notice notice = shopService.findNotice(noticeId);
+		notice.setNoticeCont(updateNoticeDto.getNoticeCont());
+		Shop shop = shopService.findShop(notice.getShop().getId());
+		Member member = shopService.findMember(principal.getName());
+		
 		try {
 			
-			Notice notice = shopService.findNotice(noticeId);
-			notice.setNoticeCont(noticeDto.getNoticeCont());
-			Notice.updateNotice(notice);
+			notice.updateNotice(notice, member, shop);
 			
 		} catch (Exception e) {
 			
 			model.addAttribute("errorMessage", "공지등록 중 에러가 발생했습니다.");
-			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-			
-			model.addAttribute("myShopList", myShopList);
-			model.addAttribute("noticeDto", noticeDto);
-			return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
+
+			return "redirect:/shop/info/" + shop.getId();
 		}
 		
-		
-		return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
+		return "redirect:/shop/info/" + shop.getId();
 	}
 	
 	// 공지 삭제 눌렀을때

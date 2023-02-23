@@ -19,7 +19,6 @@ public class NoticeDto {
 	
 	private LocalDateTime regTime;
 	
-	@NotNull(message = "매장은 필수 입력 값입니다.")
 	private ShopDto shopDto;
 	
 	private Long noticeId;

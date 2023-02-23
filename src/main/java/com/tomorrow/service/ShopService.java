@@ -7,10 +7,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.tomorrow.constant.Role;
-import com.tomorrow.dto.CreateShopFormDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.NoticeDto;
@@ -21,7 +18,6 @@ import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
 import com.tomorrow.entity.NoticeLike;
 import com.tomorrow.entity.Shop;
-import com.tomorrow.entity.ShopImg;
 import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
 import com.tomorrow.repository.NoticeLikeRepository;
@@ -40,7 +36,6 @@ public class ShopService {
 	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
 	private final MemShopMapRepository mapRepository;
-	private final ShopImgService shopImgService;
 
 	// 매장공지 내용을 가져옴
 	@Transactional(readOnly = true)
@@ -172,18 +167,21 @@ public class ShopService {
 	}
 
 	// 매장찾기
+	@Transactional(readOnly = true)
 	public Shop findShop(Long shopId) {
 
 		return shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
 	}
 
 	// 공지찾기
+	@Transactional(readOnly = true)
 	public Notice findNotice(Long noticeId) {
 
 		return noticeRepository.findById(noticeId).orElseThrow(EntityNotFoundException::new);
 	}
 
 	// 공지 좋아요 찾기
+	@Transactional(readOnly = true)
 	public NoticeLike findNoticeLike(Long notiLikeId) {
 
 		return noticeLikeRepository.findById(notiLikeId).orElseThrow(EntityNotFoundException::new);
