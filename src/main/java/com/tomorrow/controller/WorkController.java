@@ -1,6 +1,7 @@
 package com.tomorrow.controller;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,16 +74,27 @@ public class WorkController {
 		return "work/commuteForm";
 	}
 
-	// 출퇴근기록 등록
-	@PostMapping
-	public String commuteRegister(@Valid CommuteDto commuteDto, BindingResult bindingResult, Model model) {
+	// 출퇴근 등록
+	@PostMapping(value = "/commute")
+	public String commuteCreate(@Valid CommuteDto commuteDto, BindingResult bindingResult, Model model, Principal principal) {
 
 		if (bindingResult.hasErrors()) {
+			
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName()); //내가 갖고 있는 매장 정보를 가져옴
+			
+			model.addAttribute("myShopList", myShopList);
 			return "work/commuteForm";
 		}
 
+		
+		// TODO 로컬데이터 타임 나우를 가져온 후 DTO안에 있는 출근에 넣어 (인서트)
+		LocalDateTime date = LocalDateTime.now();
+		commuteDto.setWorking(date);
+	   
+		// TODO 샵 서비스 107라인 멤버 엔티티 가져옴 114라인 멤버 엔티티를 디티오로 넣어줌
 		try {
-			commuteService.saveRegister(commuteDto);
+			//멤버는 set으로 넣어주고
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "기록등록 중 에러가 발생했습니다.");
@@ -92,4 +104,9 @@ public class WorkController {
 		return "work/commuteForm";
 
 	}
+	
+
+	// TODO 로컬데이터 타임 나우를 가져온 후 DTO안에 있는 퇴근에 넣어 (업데이트)
+//	commuteDto.setLeaving(date);
+
 }

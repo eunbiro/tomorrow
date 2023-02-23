@@ -1,6 +1,7 @@
 package com.tomorrow.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -32,12 +33,15 @@ public class BoardCommentFormDto {
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 
+    private List<BoardCommentDto> boardCommentDtoList = new ArrayList<>();
+	
+	private List<Long> boardCommentIds = new ArrayList<>();
 	
 	public BoardComment createBoardComment() {
 		return modelMapper.map(this, BoardComment.class);
 	}
 	
-	public static BoardCommentFormDto of(BoardComment boardComment) {
-		return modelMapper.map(boardComment, BoardCommentFormDto.class);
+	public static BoardCommentFormDto of(Board board) {
+		return modelMapper.map(board, BoardCommentFormDto.class);
 	}
 }

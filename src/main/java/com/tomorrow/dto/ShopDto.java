@@ -19,6 +19,4 @@ public class ShopDto {
 	
 	private String shopType; // 매장업종
 	
-	/* 수경 추가 분량 */
-	// TODO 매장 이미지를... 추가해야 함...
 }

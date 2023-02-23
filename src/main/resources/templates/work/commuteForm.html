@@ -128,11 +128,11 @@
 					<div th:if="${#strings.isEmpty(commuteDto.id)}">
 						<button class="btn btn-primary" type="submit">출근</button>
 					</div>
+					<div th:unless="${#strings.isEmpty(commuteDto.id)}">
+						<button class="btn btn-primary" type="submit">퇴근</button>
+					</div>
 				</div>
 
-				<div th:unless="${#strings.isEmpty(commuteDto.id)}">
-					<button class="btn btn-primary" type="submit">퇴근</button>
-				</div> 
 
 				<div class="commute-time" style="padding: 10px;">
 					<label for="working-time"
