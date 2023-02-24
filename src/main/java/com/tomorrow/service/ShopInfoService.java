@@ -52,20 +52,9 @@ public class ShopInfoService {
 	// 매핑정보 DTO저장
 	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMapping(Long shopId) {
-		/*
-		// 1. ShopImg 테이블 이미지 가져오기
-		List<ShopImg> shopImgList = shopImgRepository.findByShopImgId(shopId);
-		List<ShopImgDto> shopImgDtoList = new ArrayList<>();
-		
-		// 엔티티 -> DTO 변환 
-		for (ShopImg shopImg : shopImgList) {
-			ShopImgDto shopImgDto = ShopImgDto.of(shopImg);
-			shopImgDtoList.add(shopImgDto);
-		}
-		*/
-		
-		// 2. MemShop 테이블 데이터 가져오기 
+		// MemShop 테이블 데이터 가져오기
 		List<MemShopMapping> memShopMappingList = mapRepository.findByShopId(shopId);
+		
 		// 엔티티 저장할 DTO 리스트 객체 생성
 		List<MemShopMappingDto> memShopMappingDtoList = new ArrayList<>();
 
@@ -91,7 +80,16 @@ public class ShopInfoService {
 
 	// 매장 DTO
 	public ShopDto getShop(Shop shop) {
-		
+		/*
+		List<ShopImg> shopImgList = shopImgRepository.findByShopId(shopId);
+		List<ShopImgDto> shopImgDtoList = new ArrayList<>();
+
+		for (ShopImg shopImg : shopImgList) {
+			ShopImgDto shopImgDto = ShopImgDto.of(shopImg);
+			shopImgDtoList.add(shopImgDto);
+		}
+		*/
+
 		ShopDto shopDto = new ShopDto();
 
 		shopDto.setShopId(shop.getId());
@@ -99,20 +97,22 @@ public class ShopInfoService {
 		shopDto.setBusinessId(shop.getBusinessId());
 		shopDto.setShopPlace(shop.getShopPlace());
 		shopDto.setShopType(shop.getShopType());
+		shopDto.setShopImgDto(getShopImg(shop.getId()));
 
 		return shopDto;
 	}
-	
+
 	// 매장 이미지 DTO
-	public ShopImgDto getShopImg(ShopImg shopImg) {
-		ShopImgDto shopImgDto = new ShopImgDto();
+	public List<ShopImgDto> getShopImg(Long shopId) {
+		List<ShopImg> shopImgList = shopImgRepository.findByShopId(shopId);
+		List<ShopImgDto> shopImgDtoList = new ArrayList<>();
 		
-		shopImgDto.setId(shopImg.getId());
-		shopImgDto.setShImgNm(shopImg.getShImgNm());
-		shopImgDto.setOriImgName(shopImg.getShOriImgNm());
-		shopImgDto.setImgUrl(shopImg.getShImgUrl());
+		for (ShopImg shopImg : shopImgList) {
+			ShopImgDto shopImgDto = ShopImgDto.of(shopImg);
+			shopImgDtoList.add(shopImgDto);
+		}
 		
-		return shopImgDto;
+		return shopImgDtoList;
 	}
 
 	// 회원 DTO
@@ -127,7 +127,16 @@ public class ShopInfoService {
 
 	// 매장찾기
 	public Shop findShop(Long shopId) {
-
 		return shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
 	}
+
+	// 매장코드로 이미지 찾기
+	public List<ShopImg> findShopImg(Long shopId) {
+		return shopImgRepository.findByShopId(shopId);
+	}
+
+	/*
+	 * TODO 1. 매장 코드로 이미지를 찾는다. 2. 찾은 이미지 엔티티를 DTO로 변환시킨다. 3.
+	 * 
+	 */
 }
