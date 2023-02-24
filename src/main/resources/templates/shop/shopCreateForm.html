@@ -165,11 +165,17 @@ input {
 				</div>
 				<p th:if="${#fields.hasErrors('shopType')}" th:errors="*{shopType}"
 					class="fieldError" style="color: red">
-
-					<div class="mb-3 shop-info"><label for="formFile" class="form-label shop-photo">사진첨부</label><a
+				
+				
+				
+					<!-- 사진첨부 -->
+				<div th:if="${#lists.isEmpty(createShopFormDto.createShopImgDtoList)}"
+					class="mb-3 shop-info">
+					<label for="formFile" class="form-label shop-photo">사진첨부</label><a
 						id="shop-mustpic">(명함, 가게, 메뉴, 간판 등)</a> <input
 						class="form-control " style="width: 80%" type="file"
-						id="createShopImgFile" name="createShopImgFile"></div>
+						id="createShopImgFile" name="createShopImgFile">
+				</div>
 
 				<div class="shop-info">
 					<div class="shop-item">
@@ -180,7 +186,7 @@ input {
 					<button>확인</button>
 					<p id="demo1"></p>
 					<script>
-					$(function() {
+						$(function() {
 							$('.b_no')
 									.off()
 									.on(
@@ -205,20 +211,24 @@ input {
 															+ "\"  ]}"
 												};
 												//번호를 입력한 값ㅇ
-												$.ajax(settings).done(function(response) {
-																	console.log(response);
-														var bsstcd	=	response.data[0].b_stt_cd
-																if(bsstcd===""){
-																	alert('옳지 않은 사업자 등록 번호입니다.')
-																}else {
-																	alert('옳게된 사업자 등록 번호입니다.')
-																}
+												$
+														.ajax(settings)
+														.done(
+																function(
+																		response) {
+																	console
+																			.log(response);
+																	var bsstcd = response.data[0].b_stt_cd
+																	if (bsstcd === "") {
+																		alert('옳지 않은 사업자 등록 번호입니다.')
+																	} else {
+																		alert('옳게된 사업자 등록 번호입니다.')
+																	}
 																});
-											
+
 											});
 						});
-						
-						</script>
+					</script>
 
 				</div>
 				<div class="shop-createbtn">

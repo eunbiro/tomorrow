@@ -21,8 +21,7 @@ public class ShopCreateService {
 	private final ShopRepository shopRepository;
 	private final ShopImgService shopImgService;
 	// 매장 만들기 (김정환)
-		public Long saveShop(CreateShopFormDto createShopFormDto, List<MultipartFile> createShopImgFileList)
-				throws Exception {
+		public Long saveShop(CreateShopFormDto createShopFormDto, List<MultipartFile> createShopImgFileList) throws Exception {
 			Shop shop = createShopFormDto.createShop();
 			shopRepository.save(shop);
 

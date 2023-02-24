@@ -32,9 +32,9 @@ public class CreateShopFormDto { //매장 만들 때
 	@NotBlank(message = "매장 업종은 필수 입력 값입니다.")
 	private String shopType;
 	
-	private List<ShopImgDto> shopImgDtoList = new ArrayList<>();
+	private List<ShopImgDto> createShopImgDtoList = new ArrayList<>();
 	
-	private List<Long> shopImgIds = new ArrayList<>();
+	private List<Long> createShopImgIds = new ArrayList<>();
 	
 	public static ModelMapper modelMapper = new ModelMapper();
 	

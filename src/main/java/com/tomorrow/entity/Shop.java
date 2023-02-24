@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Shop {
+public class Shop extends BaseEntity{
 
 	@Id
 	@Column(name = "shop_id")
