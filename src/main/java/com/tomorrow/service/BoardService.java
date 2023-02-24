@@ -96,39 +96,13 @@ public class BoardService {
 		return boardFormDto;
 	}
 	
-	//댓글 가져오기
-//		@Transactional(readOnly = true) //트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
-//		public BoardCommentFormDto getCommentList(Long boardId) {
-//			List<BoardComment> boardCommentList = boardCommentRepository.findByBoardIdOrderByIdAsc(boardId);
-//			List<BoardCommentDto> boardCommentDtoList = new ArrayList<>();
-//			
-//			for(BoardComment boardComment : boardCommentList) {
-//				BoardCommentDto boardCommentDto = BoardCommentDto.of(boardComment);
-//				boardCommentDtoList.add(boardCommentDto);
-//			}
-//			
-//			Board board = boardRepository.findById(boardId)
-//	                  					 .orElseThrow(EntityNotFoundException::new);
-//			BoardCommentFormDto boardCommentFormDto = BoardCommentFormDto.of(board);
-//			boardCommentFormDto.setBoardCommentDtoList(boardCommentDtoList);
-//			return boardCommentFormDto;
-//		}
-		
 		@Transactional(readOnly = true) //트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
-		public BoardCommentFormDto getCommentList(Long boardId, String memberId) {
-			List<BoardComment> boardCommentList = boardCommentRepository.findByBoardIdOrderByIdAsc(boardId);
-			List<BoardCommentDto> boardCommentDtoList = new ArrayList<>();
-			
-			for(BoardComment boardComment : boardCommentList) {
-				BoardCommentDto boardCommentDto = BoardCommentDto.of(boardComment);
-				boardCommentDtoList.add(boardCommentDto);
-			}
+		public BoardCommentFormDto setCommentInfo(Long boardId, String memberId) {
 			
 			Board board = boardRepository.findById(boardId)
 	                  					 .orElseThrow(EntityNotFoundException::new);
 			BoardCommentFormDto boardCommentFormDto = BoardCommentFormDto.of(board);
 			Member member = memberRepository.findByUserId(memberId);
-			boardCommentFormDto.setBoardCommentDtoList(boardCommentDtoList);
 			boardCommentFormDto.setMember(member);
 			return boardCommentFormDto;
 		}

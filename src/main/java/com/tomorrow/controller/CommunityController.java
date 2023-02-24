@@ -25,6 +25,8 @@ import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.BoardListDto;
 import com.tomorrow.dto.BoardSearchDto;
 import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.entity.BoardComment;
+import com.tomorrow.repository.BoardCommentRepository;
 import com.tomorrow.service.BoardService;
 import com.tomorrow.service.MemberService;
 
@@ -37,8 +39,7 @@ public class CommunityController {
 	
 	private final BoardService boardService;
 	private final MemberService memberService;
-	
-
+	private final BoardCommentRepository boardCommentRepostitory;
 	//게시물 리스트 화면 진입
 	@GetMapping(value = "/list")
 	public String boardList(BoardSearchDto boardSearchDto, Optional<Integer> page, Model model, Principal principal) {
@@ -64,11 +65,14 @@ public class CommunityController {
 		BoardFormDto boardFormDto = boardService.getBoardDtl(boardId);
 		model.addAttribute("board", boardFormDto);
 		
-		//댓글 불러오기
-//		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId);
-		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId,principal.getName());
-
+		//댓글 정보 넣기
+		BoardCommentFormDto boardCommentFormDto = boardService.setCommentInfo(boardId ,principal.getName());
 		model.addAttribute("boardComment", boardCommentFormDto);
+		
+		//댓글 불러오기
+		List<BoardComment> comments = boardCommentRepostitory.findByBoardIdOrderByIdAsc(boardId);
+		model.addAttribute("comments", comments);
+		
 		return "community/boardDtl";
 	}
 	
