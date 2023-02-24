@@ -1,6 +1,10 @@
 package com.tomorrow.dto;
 
 
+import java.util.List;
+
+import com.tomorrow.entity.ShopImg;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +22,7 @@ public class ShopDto {
 	private String shopPlace; // 매장위치
 	
 	private String shopType; // 매장업종
+	
+	private List<ShopImgDto> shopImgDto;
 	
 }
