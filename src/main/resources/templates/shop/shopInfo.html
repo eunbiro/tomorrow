@@ -64,7 +64,7 @@
 }
 
 .shImgDiv {
-	background-color: aqua;
+/* 	background-color: aqua; */
 	width: 400px;
 }
 
@@ -105,7 +105,7 @@ input {
 							th:field="*{shopId}" id="shopId">
 							<option value="">매장 선택</option>
 							<th:block th:each="myShop : ${myShopList}"
-								th:value="${myShop.shopDto.ShopId}">
+								th:value="${myShop.shopDto.shopId}">
 								<option th:value="${myShop.shopDto.shopId}"
 									th:text="${myShop.shopDto.shopNm}"></option>
 							</th:block>
@@ -138,8 +138,9 @@ input {
 						</div>
 						<div class="mb-3 shop-info">
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
-							<div class="shImgDiv">
-								<img class="rounded repImg">
+							<div class="shImgDiv" th:field="*{shopImgDto}" th:each="shopImg : ${shopImgDto}">
+								<img class="rounded repImg" width="800" th:if="${not #strings.isEmpty(shopImg.imgUrl)}" 
+								th:src="@{shopImg.imgUrl}">
 							</div>
 						</div>
 						<div class="shop-info">
