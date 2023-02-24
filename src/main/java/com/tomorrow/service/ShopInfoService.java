@@ -49,47 +49,9 @@ public class ShopInfoService {
 		return myShopList;
 	}
 
-	// 매핑정보 DTO저장
-	@Transactional(readOnly = true)
-	public List<MemShopMappingDto> getMapping(Long shopId) {
-		// MemShop 테이블 데이터 가져오기
-		List<MemShopMapping> memShopMappingList = mapRepository.findByShopId(shopId);
-		
-		// 엔티티 저장할 DTO 리스트 객체 생성
-		List<MemShopMappingDto> memShopMappingDtoList = new ArrayList<>();
-
-		for (MemShopMapping mapping : memShopMappingList) {
-
-			// DTO 객체 생성
-			MemShopMappingDto memShopMappingDto = new MemShopMappingDto();
-
-			// DTO 객체에 엔티티를 하나씩 넣어준다.
-			memShopMappingDto.setShopDto(getShop(mapping.getShop()));
-			memShopMappingDto.setMemberFormDto(getMember(mapping.getMember()));
-			memShopMappingDto.setPartTime(mapping.getPartTime());
-			memShopMappingDto.setTimePay(mapping.getTimePay());
-			memShopMappingDto.setWorkStatus(mapping.getWorkStatus());
-
-			// DTO 객체를 위에서 만들어 둔 DTO 리스트 객체에 저장
-			memShopMappingDtoList.add(memShopMappingDto);
-		}
-
-		// DTO 리스트 리턴
-		return memShopMappingDtoList;
-	}
-
 	// 매장 DTO
+	@Transactional(readOnly = true)
 	public ShopDto getShop(Shop shop) {
-		/*
-		List<ShopImg> shopImgList = shopImgRepository.findByShopId(shopId);
-		List<ShopImgDto> shopImgDtoList = new ArrayList<>();
-
-		for (ShopImg shopImg : shopImgList) {
-			ShopImgDto shopImgDto = ShopImgDto.of(shopImg);
-			shopImgDtoList.add(shopImgDto);
-		}
-		*/
-
 		ShopDto shopDto = new ShopDto();
 
 		shopDto.setShopId(shop.getId());
@@ -139,4 +101,33 @@ public class ShopInfoService {
 	 * TODO 1. 매장 코드로 이미지를 찾는다. 2. 찾은 이미지 엔티티를 DTO로 변환시킨다. 3.
 	 * 
 	 */
+	
+	// 매핑정보 DTO저장
+	@Transactional(readOnly = true)
+	public List<MemShopMappingDto> getMapping(Long memberId) {
+
+		List<MemShopMapping> memShopMappingList = mapRepository.findByMemberId(memberId);
+		List<MemShopMappingDto> memShopMappingDtoList = new ArrayList<>();
+
+
+		for (MemShopMapping mapping : memShopMappingList) {
+
+			// DTO 객체 생성
+			MemShopMappingDto memShopMappingDto = new MemShopMappingDto();
+
+			// DTO 객체에 엔티티를 하나씩 넣어준다.
+			memShopMappingDto.setShopDto(getShop(mapping.getShop()));
+			memShopMappingDto.setMemberFormDto(getMember(mapping.getMember()));
+			memShopMappingDto.setPartTime(mapping.getPartTime());
+			memShopMappingDto.setTimePay(mapping.getTimePay());
+			memShopMappingDto.setWorkStatus(mapping.getWorkStatus());
+
+			// DTO 객체를 위에서 만들어 둔 DTO 리스트 객체에 저장
+			memShopMappingDtoList.add(memShopMappingDto);
+		}
+
+		// DTO 리스트 리턴
+		return memShopMappingDtoList;
+	}
+
 }

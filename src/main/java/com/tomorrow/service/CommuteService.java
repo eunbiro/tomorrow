@@ -30,7 +30,7 @@ public class CommuteService {
 	@Transactional(readOnly = true)
 	public List<CommuteDto> getCommuteList(Long shopId){
 
-		List<Commute> commuteList = commuteRepository.findByShopId(shopId);
+		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
 		List<CommuteDto> commuteDtoList = new ArrayList<>();
 
 		
@@ -49,6 +49,8 @@ public class CommuteService {
 		return commuteDtoList;
 
 	}
+	
+	//TODO : List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId); .get(0) 인덱스 번호 0번짜리 찾아서 등록
 	
 	//출근 등록 insert
 	public Commute saveCommute(Commute commute) throws Exception{

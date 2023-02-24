@@ -21,9 +21,11 @@ import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.NoticeDto;
 import com.tomorrow.dto.ShopDto;
+import com.tomorrow.dto.WorkLogDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
 import com.tomorrow.entity.Shop;
+import com.tomorrow.entity.WorkLog;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopService;
 
@@ -77,8 +79,7 @@ public class ShopController {
 
 	// POST매장공지 등록 시
 	@PostMapping(value = "/shop/info")
-	public String shopInfoUpdate(@Valid NoticeDto noticeDto, Model model, BindingResult bindingResult,
-			Principal principal) {
+	public String shopInfoUpdate(@Valid NoticeDto noticeDto, Model model, BindingResult bindingResult, Principal principal) {
 
 		if (bindingResult.hasErrors()) {
 
@@ -167,22 +168,112 @@ public class ShopController {
 		shopService.deleteNotice(notice);
 		return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
 	}
+	
+	/* 근무일지 폼*/
 
 	// GET근무일지폼
-	@GetMapping(value = { "/shop/log", "/shop/log/{shopId}" })
+	@GetMapping(value = "/shop/log")
 	public String shopLog(Model model, Principal principal) {
 
 		// TODO 현재 로그인한 회원의 매장번호를 조회해서 매장코드로 업무내용 불러옴
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
 		getSideImg(model, principal);
+		model.addAttribute("myShopList", myShopList);
+		model.addAttribute("workLogDto", new WorkLogDto());
+		model.addAttribute("updateWorkLogDto", new WorkLogDto());
 		return "shop/workLogForm";
 	}
+	
+	// GET매장 선택 시 근무일지가져옴
+		@GetMapping(value = "/shop/log/{shopId}")
+		public String shopGetLog(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+
+			List<WorkLogDto> logList = shopService.getLogList(shopId);
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			WorkLogDto workLogDto = new WorkLogDto();
+			ShopDto shopDto = new ShopDto();
+			shopDto.setShopId(shopId);
+			workLogDto.setShopDto(shopDto);
+
+			getSideImg(model, principal);
+			model.addAttribute("logList", logList);
+			model.addAttribute("myShopList", myShopList);
+			model.addAttribute("workLogDto", workLogDto);
+			model.addAttribute("updateWorkLogDto", new WorkLogDto());
+			return "shop/workLogForm";
+		}
+
 
 	// POST근무일지폼
-	@PostMapping(value = "/shop/log/{shopId}")
-	public String shopLogUpdate(Model model) {
+	@PostMapping(value = "/shop/log")
+	public String shopLogUpdate(@Valid WorkLogDto workLogDto, Model model, BindingResult bindingResult, Principal principal) {
+		
+		if (bindingResult.hasErrors()) {
 
-		return "shop/workLogForm";
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+
+			getSideImg(model, principal);
+			model.addAttribute("myShopList", myShopList);
+			return "shop/workLogForm";
+		}
+
+		try {
+
+			Member member = shopService.findMember(principal.getName());
+			Shop shop = shopService.findShop(workLogDto.getShopDto().getShopId());
+			WorkLog workLog = WorkLog.createWorkLog(workLogDto, member, shop);
+			shopService.saveWorkLog(workLog);
+
+		} catch (Exception e) {
+
+			model.addAttribute("errorMessage", "공지등록 중 에러가 발생했습니다.");
+			
+			return "redirect:/shop/log/" + workLogDto.getShopDto().getShopId();
+		}
+		
+		return "redirect:/shop/log/" + workLogDto.getShopDto().getShopId();
+	}
+
+	// 공지 수정 눌렀을때
+	@PostMapping(value = "/shop/log/{workLogId}/update")
+	public String updateWorkLog(@PathVariable("workLogId") Long workLogId, @Valid WorkLogDto updateWorkLogDto, Model model, BindingResult bindingResult, Principal principal) {
+		
+		if (bindingResult.hasErrors()) {
+			
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			
+			getSideImg(model, principal);
+			model.addAttribute("myShopList", myShopList);
+			return "shop/workLogForm";
+		}
+		
+		WorkLog workLog = shopService.findWorkLog(workLogId);
+		workLog.setLogCont(updateWorkLogDto.getLogCont());
+		Shop shop = shopService.findShop(workLog.getShop().getId());
+		Member member = shopService.findMember(principal.getName());
+		
+		try {
+			
+			shopService.updateWorkLog(workLogId, updateWorkLogDto, member, shop);
+			
+		} catch (Exception e) {
+			
+			model.addAttribute("errorMessage", "공지등록 중 에러가 발생했습니다.");
+
+			return "redirect:/shop/log/" + shop.getId();
+		}
+		
+		return "redirect:/shop/log/" + shop.getId();
+	}
+	
+	// 공지 삭제 눌렀을때
+	@DeleteMapping(value = "/shop/log/{workLogId}/delete")
+	public @ResponseBody ResponseEntity deleteWorkLog(@PathVariable("workLogId") Long workLogId, Principal principal) {
+
+		WorkLog workLog = shopService.findWorkLog(workLogId);
+		shopService.deleteWorkLog(workLog);
+		return new ResponseEntity<Long>(workLogId, HttpStatus.OK);
 	}
 
 	

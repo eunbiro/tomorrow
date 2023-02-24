@@ -54,7 +54,7 @@ public class MemberService implements UserDetailsService {
 
 	public Member saveProfileImg(Member member, MultipartFile profileImgFile) throws Exception {
 		String oriImgName = profileImgFile.getOriginalFilename(); // 파일 이름
-		String imgName = "defaultImg"; // 기본 이미지 만들기
+		String imgName = ""; // 기본 이미지 만들기
 		String imgUrl = ""; // 기본 이미지 url 만들기
 
 		// 파일 업로드
@@ -80,6 +80,17 @@ public class MemberService implements UserDetailsService {
 		MemberFormDto memberFormDto = MemberFormDto.of(member);
 
 		return memberFormDto;
+	}
+	
+	@Transactional(readOnly = true) // 트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
+	public String findId(String name, String phone) {
+		String result = "";
+		try {
+			result = memberRepository.findId(name, phone);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 }

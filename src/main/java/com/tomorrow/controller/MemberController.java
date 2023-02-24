@@ -1,24 +1,17 @@
 package com.tomorrow.controller;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.constant.Role;
-import com.tomorrow.dto.AdminFormDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.service.MemberService;
@@ -49,7 +42,7 @@ public class MemberController {
 	@GetMapping(value = "/member/join")
 	public String joinForm(Model model) {
 		model.addAttribute("memberFormDto", new MemberFormDto());
-		return "/member/memberJoinForm";
+		return "member/memberJoinForm";
 	}
 	
 	//회원가입 버튼을 눌렀을때 실행되는 메소드
@@ -76,17 +69,17 @@ public class MemberController {
 		@GetMapping(value = "/admin/join")
 		public String adminJoinForm(Model model) {
 			model.addAttribute("memberFormDto", new MemberFormDto());
-			return "/member/memberJoinForm";
+			return "member/memberJoinForm";
 		}
 		
 		//회원가입 버튼을 눌렀을때 실행되는 메소드
 	@PostMapping(value = "/admin/new")
-	public String adminForm(@Valid AdminFormDto adminFormDto, BindingResult bindingResult, Model model, @RequestParam("profileImgFile") MultipartFile profileImgFile) throws Exception {
+	public String adminForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model, @RequestParam("profileImgFile") MultipartFile profileImgFile) throws Exception {
 		if(bindingResult.hasErrors()) {
 			return "member/adminJoinForm";
 		}
 		try {
-			Member memberNotImg = Member.createAdmin(adminFormDto, passwordEncoder, Role.ADMIN);
+			Member memberNotImg = Member.createMember(memberFormDto, passwordEncoder, Role.ADMIN);
 			Member member = memberService.saveProfileImg(memberNotImg, profileImgFile);
 			
 			memberService.saveMember(member);

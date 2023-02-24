@@ -42,11 +42,13 @@ public class ShopInfoController {
 	// 매장 정보 불러오기
 	@GetMapping(value = "/shop/shopInfo/{shopId}")
 	public String getShopInfoForAdmin(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+		getSideImg(model, principal);
+
+		List<MemShopMappingDto> myShopList = shopInfoService.getMyShop(principal.getName());
+
 		Shop shop = shopInfoService.findShop(shopId);
 		ShopDto shopDto = shopInfoService.getShop(shop);
 
-		List<MemShopMappingDto> myShopList = shopInfoService.getMyShop(principal.getName());
-		getSideImg(model, principal);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("shopDto", shopDto);
 
