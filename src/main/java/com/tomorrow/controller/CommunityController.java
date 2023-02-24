@@ -38,7 +38,6 @@ public class CommunityController {
 	private final BoardService boardService;
 	private final MemberService memberService;
 	
-
 	//게시물 리스트 화면 진입
 	@GetMapping(value = "/list")
 	public String boardList(BoardSearchDto boardSearchDto, Optional<Integer> page, Model model, Principal principal) {
@@ -58,17 +57,19 @@ public class CommunityController {
 	//게시물 상세 화면 진입
 	@GetMapping(value = "/{boardId}")
 	public String boardDetail(Model model, @PathVariable("boardId") Long boardId, Principal principal) {
-		
+
 		getSideImg(model, principal);
 		//본문 가져오기
 		BoardFormDto boardFormDto = boardService.getBoardDtl(boardId);
 		model.addAttribute("board", boardFormDto);
 		
-		//댓글 불러오기
-//		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId);
-		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId,principal.getName());
-
+		//댓글 정보 넣기
+		BoardCommentFormDto boardCommentFormDto = boardService.setCommentInfo(boardId ,principal.getName());
 		model.addAttribute("boardComment", boardCommentFormDto);
+		
+		//댓글 불러오기
+		
+		
 		return "community/boardDtl";
 	}
 	
