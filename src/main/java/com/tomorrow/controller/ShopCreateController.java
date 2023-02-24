@@ -1,5 +1,6 @@
 package com.tomorrow.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.dto.CreateShopFormDto;
+import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopCreateService;
 
 
@@ -21,18 +24,21 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class ShopCreateController {
-
+	private final MemberService memberService;
+	
 	private final ShopCreateService shopCreateService;
 	//매장생성(shopCreateForm.html) 들어가기
 		@GetMapping(value="/shopCreate/shopCreate")
-		public String createShopForm(Model model) {
+		public String createShopForm(Model model, Principal principal) {
+			getSideImg(model, principal);
 			model.addAttribute("createShopFormDto",new CreateShopFormDto());
 			return "shop/shopCreateForm";
 		}
 		// 매장생성(shopCreateForm.html) 진짜 생성
 		@PostMapping(value = "/shopCreate/shopCreate")
 		public String createShop(@Valid CreateShopFormDto createShopFormDto, BindingResult bindingResult, 
-				Model model, @RequestParam("createShopImgFile") List<MultipartFile> createShopImgFileList) {
+				Model model, @RequestParam("createShopImgFile") List<MultipartFile> createShopImgFileList, Principal principal) {
+			getSideImg(model, principal);
 			
 			if(bindingResult.hasErrors()) {
 				return "shop/shopCreateForm";
@@ -51,4 +57,11 @@ public class ShopCreateController {
 			
 			return "redirect:/";
 		}
+		
+		//사이드바 프로필 이미지 가져오기 
+		public Model getSideImg(Model model, Principal principal) {   
+		     MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
+		     return model.addAttribute("member", memberFormDto);
+		}
+
 }
