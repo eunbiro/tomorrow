@@ -52,7 +52,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	<div layout:fragment="content">	
    	   <input type="hidden" id="boardId" th:value="${board.id}">
 	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
-   			<p th:text="'작성자 : '+${board.createdBy}"></p>
+   			<p th:text="'작성자 : '+${board.member.userNm}"></p>
    			<hr>
 	   		<form method="post" >
 	   			<div class="post-title d-flex">
@@ -61,7 +61,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	   			</div>
 	   			<hr>
 	   			<div class="post-text">
-	   			<!-- */ -->	
 	   				<textarea class="w-100 h-40 board-textarea" th:text="${board.boardCont}"> 
 	   					 
 	   				</textarea>
@@ -81,10 +80,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	   		<div th:each="boardImg : ${board.boardImgDtoList}" class="">
           		<img th:if="${not #strings.isEmpty(boardImg.boImgUrl)}" th:src="${boardImg.boImgUrl}" class="detail-img" width="800">
  			</div>
+ 			<!-------------------------- 댓글 영역 --------------------------->
 			<div class="comment-input">
-				<form method="post" th:object="${boardCommentFormDto}">
-			   	   <input type="hidden" id="boardId" th:field="${boardComment.board.id}">
-				
+				<form method="post" th:object="${boardComment}">
+				    <input type="hidden" id="boardId" th:field="*{board.id}" th:value="${board.id}">
+  	   				<input type="hidden" th:field="*{member}" th:value="${member}"/>
+				    
 					<input type="text" placeholder="댓글 입력창" th:field="*{boCmtText}"/>
 					<p th:if="${#fields.hasErrors('boCmtText')}" th:errors="*{boCmtText}" class="fieldError">Incorrect Data</p>
 					<button type="submit" th:formaction="@{'/board/comment/' + ${board.id} }">댓글 등록</button>
@@ -95,9 +96,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				<p>댓글 리스트</p>
 				<ul>
 					<li>
-						<div class="comment-writer">권수경</div>
-						<div class="comment-text">  회식 쌉좋음</div>
-						<div class="comment-reg">등록일 : 2023.02.16</div>
+						<div class="comment-writer" th:text="${boardComment.createdBy}"></div>
+						<div class="comment-text" th:text="${boardComment.boCmtText}"></div>
+						<div class="comment-reg"  th:text="${boardComment.regTime}"></div>
 					</li>
 					
 				</ul>
