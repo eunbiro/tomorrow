@@ -177,10 +177,10 @@ input {
 					</div>
 					<input th:field="*{businessId}" placeholder="'-'를 넣지 말고 작성해주세요"
 						id="b_no" class="b_no">
-					<button onclick=test();>확인</button>
+					<button>확인</button>
+					<p id="demo1"></p>
 					<script>
-						$(function() {
-
+					$(function() {
 							$('.b_no')
 									.off()
 									.on(
@@ -205,21 +205,20 @@ input {
 															+ "\"  ]}"
 												};
 												//번호를 입력한 값ㅇ
-												$.ajax(settings)
-														.done(
-																function(
-																		response) {
-																	console
-																			.log(response);
+												$.ajax(settings).done(function(response) {
+																	console.log(response);
+														var bsstcd	=	response.data[0].b_stt_cd
+																if(bsstcd===""){
+																	alert('옳지 않은 사업자 등록 번호입니다.')
+																}else {
+																	alert('옳게된 사업자 등록 번호입니다.')
+																}
 																});
+											
 											});
 						});
-/* 						test()=$(function(){
-							console.log('tax_type'=
-								"국세청에 등록되지 않은 사업자등록번호입니다.")
-								alert
-						}); */
-					</script>
+						
+						</script>
 
 				</div>
 				<div class="shop-createbtn">
