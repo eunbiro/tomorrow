@@ -138,9 +138,9 @@ input {
 						</div>
 						<div class="mb-3 shop-info">
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
-							<div class="shImgDiv" th:field="*{shopImgDto}" th:each="shopImg : ${shopImgDto}">
-								<img class="rounded repImg" width="800" th:if="${not #strings.isEmpty(shopImg.imgUrl)}" 
-								th:src="@{shopImg.imgUrl}">
+							<div class="shImgDiv" th:each="shopImg : ${shopDto.shopImgDto}">
+								<img class="rounded repImg" width="800px" height="1200px" th:if="${not #strings.isEmpty(shopImg.shImgUrl)}" 
+								th:src="${shopImg.shImgUrl}">
 							</div>
 						</div>
 						<div class="shop-info">
