@@ -64,8 +64,10 @@ public class CommunityController {
 		BoardFormDto boardFormDto = boardService.getBoardDtl(boardId);
 		model.addAttribute("board", boardFormDto);
 		
-		//댓글 불러
-		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId);
+		//댓글 불러오기
+//		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId);
+		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId,principal.getName());
+
 		model.addAttribute("boardComment", boardCommentFormDto);
 		return "community/boardDtl";
 	}
