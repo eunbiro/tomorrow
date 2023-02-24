@@ -12,18 +12,18 @@ import lombok.Setter;
 @Setter
 public class NoticeDto {
 
+	private Long noticeId;
+	
 	private MemberFormDto memberFormDto;
 	
-	@NotNull(message = "공지내용은 필수 입력 값입니다.")
+	private ShopDto shopDto;
+	
+	@NotNull(message = "내용은 필수 입력 값입니다.")
 	private String noticeCont;
 	
 	private LocalDateTime regTime;
 	
 	private LocalDateTime updateTime;
-	
-	private ShopDto shopDto;
-	
-	private Long noticeId;
 	
 	private NoticeLikeDto noticeLikeDto;
 	
