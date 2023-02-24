@@ -60,12 +60,13 @@ public class CommunityController {
 	public String boardDetail(Model model, @PathVariable("boardId") Long boardId, Principal principal) {
 		
 		getSideImg(model, principal);
-		
+		//본문 가져오기
 		BoardFormDto boardFormDto = boardService.getBoardDtl(boardId);
-		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId);
 		model.addAttribute("board", boardFormDto);
+		
+		//댓글 불러
+		BoardCommentFormDto boardCommentFormDto = boardService.getCommentList(boardId);
 		model.addAttribute("boardComment", boardCommentFormDto);
-		model.addAttribute("boardCommentFormDto", new BoardCommentFormDto());
 		return "community/boardDtl";
 	}
 	
