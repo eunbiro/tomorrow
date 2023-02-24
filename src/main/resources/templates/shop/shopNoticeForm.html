@@ -160,7 +160,6 @@
 		function updatePage(noticeId) {
 			
 			var cont = $('#noti-cont-read' + noticeId).text();
-			console.log(cont);
 			
 			$('#noti-cont-read' + noticeId).hide();
 			$('#noti-cont-update' + noticeId).show();
@@ -171,7 +170,6 @@
 		function cancelPage(noticeId) {
 			
 			var cont = $('#noti-cont-read' + noticeId).text();
-			console.log(cont);
 			
 			$('#noti-cont-read' + noticeId).show();
 			$('#noti-cont-update' + noticeId).children('div').children('.notice-ipt').attr('disabled', true);
