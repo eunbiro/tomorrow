@@ -37,4 +37,6 @@ public class ShopImgService {
 		shopImg.updateShopImg(shOriImgNm, shImgNm, shImgUrl);
 		shopImgRepository.save(shopImg);
 	}
+	
+	// TODO 수경 - 이미지 업데이트하는 메소드 추후에 만들어야 함 
 }

@@ -17,31 +17,13 @@
     <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 <script type="text/javascript" th:src="@{/js/cookie.js}"></script>
-<script>
-	/*
-	$(document).ready(function() {
-	    $('#findId').click(function() {
-	        $.ajax("/member/find/id?email=" + $('#find_id_email').val())
-	            .done((result) => { Swal.fire("성공", "아이디 : " + result, "success") })
-	            .fail((response) => {
-	                // 서버에서 보낸 오류 메시지
-	                console.log(response.responseText);
-	                // 서버에서 보낸 상태 코드
-	                console.log(response.status);
-	                Swal.fire("검색 실패", response.responseText, "error");
-	            }).always(()=>{
-	                // 성공과 실패에 상관없이 항상 실행되는 코드
-	                $('#find_id_email').val("")
-	            });
-	    });
-	});
-	*/
-	function findId_click(){
-		var name=$('#name').val()
-		var phone=$('#phone').val()
+<script th:inline="javascript">
+	function findId_click() {
+		var name = $("#name").val();
+		var phone = $("#id_phone").val();
 		
 		$.ajax({
-			url:"./find/info/id",
+			url:"/find/info/id",
 			type:"POST",
 			data:{"name":name, "phone":phone} ,
 			success:function(data){
@@ -50,7 +32,7 @@
 					$('#name').val('');
 					$('#phone').val('');
 				} else {
-					$('#id_value').text(data);
+					$('<div>').text(data).appandTo('#id_value');
 					$('#name').val('');
 					$('#phone').val('');
 				}
@@ -60,6 +42,15 @@
 	            }
 		});
 	};
+
+	function opneId() {
+		$("#findPassword").hide();
+		$("#findId").show();
+	}
+	function opnepw() {
+		$("#findPassword").show();
+		$("#findId").hide();
+	}
 </script>
 <style>
 .dropbtn_icon{
@@ -104,7 +95,7 @@
 </style>
 </head>
 <body>
-    <div class="container-lg find_info_page">
+    <div class="container-lg find_info_page" id="findId">
         <form action="/find/info/id" method="post">
         	<div class="login-total">
 	            <div class="login-logo">
@@ -114,10 +105,10 @@
 					<div class="buttons">
 						<ul class="nav nav-pills">
 					        <li class="nav-item">
-					        	<a class="nav-link" href="/find/info/id">아이디 찾기</a>
+					        	<a class="nav-link" onclick="opneId()">아이디 찾기</a>
 					        </li>
 					        <li class="nav-item">
-					        	<a class="nav-link" href="/find/info/password">비밀번호 찾기</a>
+					        	<a class="nav-link" onclick="opnepw()">비밀번호 찾기</a>
 					        </li>
 				     	</ul>
 					</div>
@@ -125,27 +116,71 @@
 						<p>가입했던 정보를 입력하세요</p>
 						<div class="input_section input_section_one">
 							<p>이름</p>
-							<input type="text" placeholder="이름을 입력하세요" id="name" />
+							<input type="text" placeholder="이름을 입력하세요" name="name" id="name" required />
 						</div>
 						<div class="input_section input_section_two">
 							<p>전화번호</p>
-							<input type="text" placeholder="전화번호를 입력하세요" id="phone" />
+							<input type="text" placeholder="전화번호를 입력하세요" name="id_phone" id="id_phone" required />
 						</div>
 							<div id="id_value"></div>
 					</div>
 					<div class="under_buttons">
 						<div><a href="/member/login">로그인</a></div>
 						<div>|</div>
-						<div class="dropdown" style="margin-left:20px; width: 50px;">
-						      <button class="dropbtn" style="border: none; background: white; font-size:0.9em; font-weight: bold;"> 
-						 	  		<span class="dropbtn_icon">회원가입</span>
-						      </button>
-						      <div class="dropdown-content">
+						<div class="dropdown" style="margin-left:20px; width: 100px;">
+						      <span class="dropbtn" style="border: none; background: white; font-size:0.9em; font-weight: bold;">회원가입</span>
+						      <div class="dropdown-content" style="margin-top: 10px">
 							        <a href="/member/join" style="text-align: left">개인회원</a>
 							        <a href="/admin/join" style="text-align: left">기업회원</a>
 						      </div>
 					    </div>
 						<div><input type="submit" value="아이디 찾기" id="findId"></div>
+					</div>
+				</div>
+	        </div>
+	        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
+     </div>
+     <!-- 패스워드 -->
+     <div class="container-lg find_info_page" id="findPassword" style="display: none;">
+        <form action="/find/info/password" method="post">
+        	<div class="login-total">
+	            <div class="login-logo">
+	                <img src="/images/logo.png" style="width:200px;" />
+	            </div>
+				<div class="find_total">
+					<div class="buttons">
+						<ul class="nav nav-pills">
+					        <li class="nav-item">
+					        	<a class="nav-link" onclick="opneId()">아이디 찾기</a>
+					        </li>
+					        <li class="nav-item">
+					        	<a class="nav-link" onclick="opnepw()">비밀번호 찾기</a>
+					        </li>
+				     	</ul>
+					</div>
+					<div class="find_form">
+						<p>가입했던 정보를 입력하세요</p>
+						<div class="input_section input_section_one">
+								<p>아이디</p>
+								<input type="text" placeholder="아이디를 입력하세요"/>
+						</div>
+						<div class="input_section input_section_two">
+								<p>전화번호</p>
+								<input type="text" placeholder="전화번호를 입력하세요"/>
+						</div>
+					</div>
+					<div class="under_buttons">
+						<div><a href="/member/login">로그인</a></div>
+						<div>|</div>
+						<div class="dropdown" style="margin-left:20px; width: 100px;">
+						      <span class="dropbtn" style="border: none; background: white; font-size:0.9em; font-weight: bold;">회원가입</span>
+						      <div class="dropdown-content" style="margin-top: 10px">
+							        <a href="/member/join" style="text-align: left">개인회원</a>
+							        <a href="/admin/join" style="text-align: left">기업회원</a>
+						      </div>
+					    </div>
+						<div><input type="submit" value="비밀번호 찾기"></div>
 					</div>
 				</div>
 	        </div>

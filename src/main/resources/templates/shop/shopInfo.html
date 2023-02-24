@@ -24,6 +24,7 @@
 <th:block layout:fragment="css">
 	<style>
 .noti-title {
+	font-family: 'SEBANG_Gothic_Bold';
 	text-align: left;
 	width: 500px;
 	margin: 0 auto;
@@ -62,6 +63,11 @@
 	margin-top: 30px;
 }
 
+.shImgDiv {
+	background-color: aqua;
+	width: 400px;
+}
+
 input {
 	width: 300px;
 }
@@ -98,13 +104,15 @@ input {
 						<select class="info-sell-shop form-select w-100 my-2"
 							th:field="*{shopId}" id="shopId">
 							<option value="">매장 선택</option>
-							<th:block th:each="myShop : ${myShopList}" th:value="${myShop.shopDto.ShopId}">
-								<option th:value="${myShop.shopDto.shopId}" th:text="${myShop.shopDto.shopNm}"></option>
+							<th:block th:each="myShop : ${myShopList}"
+								th:value="${myShop.shopDto.ShopId}">
+								<option th:value="${myShop.shopDto.shopId}"
+									th:text="${myShop.shopDto.shopNm}"></option>
 							</th:block>
 						</select>
 					</div>
 				</div>
-				
+
 				<!-- read -->
 				<div class="shop-create-wrap">
 					<div class="shop-create ps-4">
@@ -128,13 +136,12 @@ input {
 							</div>
 							<input th:field="*{shopType}">
 						</div>
-						<!-- <div class="mb-3 shop-info">
+						<div class="mb-3 shop-info">
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
-							TODO 대표 이미지 하나만 보여주게 만들기
-							<div>
+							<div class="shImgDiv">
 								<img class="rounded repImg">
 							</div>
-						</div> -->
+						</div>
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-business">사업자 번호</label>

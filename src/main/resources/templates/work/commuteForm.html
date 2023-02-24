@@ -124,15 +124,15 @@
 					</th:block>
 				</select>
 
-				 <div class="commute-btn-wrap">
+				<div class="commute-btn-wrap">
 					<div th:if="${#strings.isEmpty(commuteDto.id)}">
 						<button class="btn btn-primary" type="submit">출근</button>
 					</div>
-				</div>
-
-				<div th:unless="${#strings.isEmpty(commuteDto.id)}">
-					<button class="btn btn-primary" type="submit">퇴근</button>
+					<div th:unless="${#strings.isEmpty(commuteDto.id)}">
+						<button class="btn btn-primary" type="submit">퇴근</button>
+					</div>
 				</div> 
+
 
 				<div class="commute-time" style="padding: 10px;">
 					<label for="working-time"
@@ -160,8 +160,8 @@
 							<tr th:each="commute : ${commuteList}">
 							<!-- 	<th th:text="${commute.id}"></th> -->
 								
-								<td class="fs-6" th:text="${commute.working}"></td>
-								<td class="fs-6" th:text="${commute.leaving}"></td>	
+								<td class="fs-6" th:text="${#temporals.format(commute.working, 'HH:mm:ss')}"></td>
+								<td class="fs-6" th:text="${#temporals.format(commute.leaving, 'HH:mm:ss')}"></td>	
 							</tr>
 				
 
