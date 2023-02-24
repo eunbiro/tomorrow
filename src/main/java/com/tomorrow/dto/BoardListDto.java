@@ -1,7 +1,6 @@
 package com.tomorrow.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import com.tomorrow.entity.Member;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,14 +9,14 @@ import lombok.Setter;
 public class BoardListDto {
 	private Long id;
 	private String boardTitle;	
-	private String createdBy;
+	private String userNm;
 	private Integer viewCount;
 	
 	@QueryProjection
-	public BoardListDto( Long id, String boardTitle, String createdBy, Integer viewCount) {
+	public BoardListDto( Long id, String boardTitle, String userNm, Integer viewCount) {
 		this.id = id;
 		this.boardTitle = boardTitle;
-		this.createdBy = createdBy;
+		this.userNm = userNm;
 		this.viewCount = viewCount;
 	}
 }

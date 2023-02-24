@@ -7,25 +7,24 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.tomorrow.constant.Role;
-import com.tomorrow.dto.CreateShopFormDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.NoticeDto;
 import com.tomorrow.dto.NoticeLikeDto;
 import com.tomorrow.dto.ShopDto;
+import com.tomorrow.dto.WorkLogDto;
 import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
 import com.tomorrow.entity.NoticeLike;
 import com.tomorrow.entity.Shop;
-import com.tomorrow.entity.ShopImg;
+import com.tomorrow.entity.WorkLog;
 import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
 import com.tomorrow.repository.NoticeLikeRepository;
 import com.tomorrow.repository.ShopRepository;
+import com.tomorrow.repository.WorkLogRepository;
 import com.tomorrow.repository.NoticeRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -37,19 +36,14 @@ public class ShopService {
 
 	private final NoticeRepository noticeRepository;
 	private final NoticeLikeRepository noticeLikeRepository;
+	private final WorkLogRepository workLogRepository;
 	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
 	private final MemShopMapRepository mapRepository;
-	private final ShopImgService shopImgService;
 
 	// 매장공지 내용을 가져옴
 	@Transactional(readOnly = true)
 	public List<NoticeDto> getNoticeList(String shopId) {
-
-		/*
-		 * TODO 1. 관리자 아이디로 매장레파지토리 조회해서 매장 코드 얻기 2. 관리자 코드와 매장코드로 공지레파지토리 조회 3. 가져와야할
-		 * 데이터 프로필, 관리자 이름, 관리자 아이디, 공지내용, 좋아요, 작성일
-		 */
 
 		List<Notice> noticList = noticeRepository.findByShopIdOrderByIdDesc(Long.parseLong(shopId));
 		List<NoticeDto> noticeDtoList = new ArrayList<>();
@@ -64,6 +58,7 @@ public class ShopService {
 			noticeDto.setNotiLike(getNotiLikeList(notice.getId()));
 			noticeDto.setNoticeLikeDto(getNoticeLikeDto(notice.getId(), notice.getMember().getId()));
 			noticeDto.setRegTime(notice.getRegTime());
+			noticeDto.setUpdateTime(notice.getUpDateTime());
 
 			noticeDtoList.add(noticeDto);
 		}
@@ -116,7 +111,6 @@ public class ShopService {
 		MemberFormDto memberFormDto = new MemberFormDto();
 		memberFormDto.setUserId(member.getUserId());
 		memberFormDto.setUserNm(member.getUserNm());
-		// memberFormDto.setUserProfile(member.getUserProfile());
 
 		return memberFormDto;
 	}
@@ -128,9 +122,6 @@ public class ShopService {
 
 		shopDto.setShopId(shop.getId());
 		shopDto.setShopNm(shop.getShopNm());
-		shopDto.setBusinessId(shop.getBusinessId());
-		shopDto.setShopPlace(shop.getShopPlace());
-		shopDto.setShopType(shop.getShopType());
 		
 		return shopDto;
 	}
@@ -172,18 +163,21 @@ public class ShopService {
 	}
 
 	// 매장찾기
+	@Transactional(readOnly = true)
 	public Shop findShop(Long shopId) {
 
 		return shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
 	}
 
 	// 공지찾기
+	@Transactional(readOnly = true)
 	public Notice findNotice(Long noticeId) {
 
 		return noticeRepository.findById(noticeId).orElseThrow(EntityNotFoundException::new);
 	}
 
 	// 공지 좋아요 찾기
+	@Transactional(readOnly = true)
 	public NoticeLike findNoticeLike(Long notiLikeId) {
 
 		return noticeLikeRepository.findById(notiLikeId).orElseThrow(EntityNotFoundException::new);
@@ -207,12 +201,71 @@ public class ShopService {
 		return noticeRepository.save(notice);
 	}
 	
+	// 매장공지 내용을 update
+	public void updateNotic(Long id, NoticeDto noticeDto, Member member, Shop shop) {
+		
+		Notice notice = findNotice(id);
+		
+		notice.updateNotice(noticeDto, member, shop);
+		
+	}
+	
 	// 매장공지 내용을 delete
 	public void deleteNotice(Notice notice) {
 
 		noticeRepository.delete(notice);
 	}
 
+	/* 근무일지 */
 
+	// 매장공지 내용을 가져옴
+	@Transactional(readOnly = true)
+	public List<WorkLogDto> getLogList(Long shopId) {
+
+		List<WorkLog> workLogList = workLogRepository.findByShopIdOrderByIdDesc(shopId);
+		List<WorkLogDto> workLogDtoList = new ArrayList<>();
+
+		for (WorkLog workLog : workLogList) {
+
+			WorkLogDto workLogDto = new WorkLogDto();
+
+			workLogDto.setWorkLogId(workLog.getId());
+			workLogDto.setMemberFormDto(getMember(workLog.getMember()));
+			workLogDto.setLogCont(workLog.getLogCont());
+			workLogDto.setRegTime(workLog.getRegTime());
+			workLogDto.setUpdateTime(workLog.getUpDateTime());
+
+			workLogDtoList.add(workLogDto);
+		}
+
+		return workLogDtoList;
+	}
 	
+	// 공지찾기
+	@Transactional(readOnly = true)
+	public WorkLog findWorkLog(Long workLogId) {
+
+		return workLogRepository.findById(workLogId).orElseThrow(EntityNotFoundException::new);
+	}
+
+	// 근무일지 내용을 insert
+	public WorkLog saveWorkLog(WorkLog workLog) {
+
+		return workLogRepository.save(workLog);
+	}
+	
+	// 근무일지 내용을 update
+	public void updateWorkLog(Long id, WorkLogDto workLogDto, Member member, Shop shop) {
+		
+		WorkLog workLog = findWorkLog(id);
+		
+		workLog.updateWorkLog(workLogDto, member, shop);
+		
+	}
+	
+	// 근무일지 내용을 delete
+	public void deleteWorkLog(WorkLog workLog) {
+
+		workLogRepository.delete(workLog);
+	}
 }

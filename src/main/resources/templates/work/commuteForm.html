@@ -124,15 +124,18 @@
 					</th:block>
 				</select>
 
-				 <div class="commute-btn-wrap">
-					<div th:if="${#strings.isEmpty(commuteDto.id)}">
-						<button class="btn btn-primary" type="submit">출근</button>
-					</div>
-				</div>
-
-				<div th:unless="${#strings.isEmpty(commuteDto.id)}">
-					<button class="btn btn-primary" type="submit">퇴근</button>
+				<div class="commute-btn-wrap">
+	
+	              <div th:if="${#strings.isEmpty(commuteDto.id)}">
+	              <button class="btn btn-primary" type="submit" th:formaction="@{'/work/commute'}">출근</button>
+	              </div>
+	              <!--  th:unless="${#strings.isEmpty(commuteDto.id)}" -->
+	              <div>
+	              <button class="btn btn-primary" type="submit" th:formaction="@{'/work/commute/17'}">퇴근</button>
+	              </div>
+	             <!-- <button type="button" class="btn px-4 mx-4" data-bs-dismiss="modal" id="updateBtn" th:value="${noti.noticeId}" onclick="updatePage(this.value)">수정</button> --> 
 				</div> 
+
 
 				<div class="commute-time" style="padding: 10px;">
 					<label for="working-time"
@@ -150,7 +153,7 @@
 					<table class="commute-table table table-hover text-center my-4">
 						<thead style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
 							<tr>
-								<!-- <th scope="col">날짜</th> -->
+								<th scope="col">날짜</th>
 								<th scope="col">출근시간</th>
 								<th scope="col">퇴근시간</th>
 								<!-- <th scope="col">상태</th> -->
@@ -160,8 +163,9 @@
 							<tr th:each="commute : ${commuteList}">
 							<!-- 	<th th:text="${commute.id}"></th> -->
 								
-								<td class="fs-6" th:text="${commute.working}"></td>
-								<td class="fs-6" th:text="${commute.leaving}"></td>	
+								<td class="fs-6" th:text="${#temporals.format(commute.working, 'yyyy.MM.dd')}"></td>
+								<td class="fs-6" th:text="${#temporals.format(commute.working, 'HH:mm:ss')}"></td>
+								<td class="fs-6" th:text="${#temporals.format(commute.leaving, 'HH:mm:ss')}"></td>	
 							</tr>
 				
 
@@ -183,6 +187,7 @@
 					<li class="page-item"><a class="page-link" href="#">&gt;&gt;</a></li>
 				</ul>
 			</nav>
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 		</form>
 	</div>
 </body>

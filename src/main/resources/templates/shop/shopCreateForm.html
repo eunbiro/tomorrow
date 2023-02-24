@@ -67,15 +67,15 @@ input {
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="container-lg d-flex flex-column text-center" 
+		<div class="container-lg d-flex flex-column text-center"
 			style="margin-top: 60px;">
 			<div class="noti-title   fs-3 fw-bold  my-2 ps-4">
 				<a>매장생성</a>
 			</div>
 
 			<!-- shopCreate부분 -->
-			<form class="shop-create ps-4" role="form" method="post" th:object="${createShopFormDto}"
-				enctype="multipart/form-data">
+			<form class="shop-create ps-4" role="form" method="post"
+				th:object="${createShopFormDto}" enctype="multipart/form-data">
 				<input type="hidden" th:field="*{id}" />
 				<div class="shop-info">
 					<div class="shop-item">
@@ -83,39 +83,154 @@ input {
 					</div>
 					<input th:field="*{shopNm}" placeholder="업체의 명칭을 입력해주세요">
 				</div>
-
+				<p th:if="${#fields.hasErrors('shopNm')}" th:errors="*{shopNm}"
+					style="color: red" class="fieldError"></p>
 				<div class="shop-info">
 					<div class="shop-item">
 						<label class="shop-location">위치</label> <a id="shop-must">(필수)</a>
-					</div>	
-					<input th:field="*{shopPlace}" placeholder="여기를 눌러 위치를 검색해주세요   >">
-				</div>
+					</div>
+					<input class="shop-shopPlace" th:field="*{shopPlace}"
+						placeholder="도로명 주소를 입력해주세요>">
 
+					<p style="margin-top: 12px"></p>
+					<div id="map" style="width: 100%; height: 350px;"></div>
+
+					<script type="text/javascript"
+						src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2e4e7c03af6fc29f0128faa8ad4a2d03&libraries=services"></script>
+					<script>
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+						mapOption = {
+							center : new kakao.maps.LatLng(33.450701,
+									126.570667), // 지도의 중심좌표
+							level : 3
+						// 지도의 확대 레벨
+						};
+
+						// 지도를 생성합니다    
+						var map = new kakao.maps.Map(mapContainer, mapOption);
+
+						// 주소-좌표 변환 객체를 생성합니다
+						var geocoder = new kakao.maps.services.Geocoder();
+
+						$(function() {
+
+							$('.shop-shopPlace')
+									.off()
+									.on(
+											"keyup",
+											function() {
+
+												var shopPlace = $(this).val();
+
+												geocoder
+														.addressSearch(
+																shopPlace,
+																function(
+																		result,
+																		status) {
+
+																	// 정상적으로 검색이 완료됐으면 
+																	if (status === kakao.maps.services.Status.OK) {
+
+																		var coords = new kakao.maps.LatLng(
+																				result[0].y,
+																				result[0].x);
+
+																		// 결과값으로 받은 위치를 마커로 표시합니다
+																		var marker = new kakao.maps.Marker(
+																				{
+																					map : map,
+																					position : coords
+																				});
+
+																		// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+																		map
+																				.setCenter(coords);
+																	}
+																});
+
+											});
+						});
+
+						// 주소로 좌표를 검색합니다
+					</script>
+				</div>
+				<p th:if="${#fields.hasErrors('shopPlace')}"
+					th:errors="*{shopPlace}" class="fieldError" style="color: red">
 				<div class="shop-info">
 					<div class="shop-item">
 						<label class="shop-type">업종</label> <a id="shop-must"></a>
 					</div>
 					<input th:field="*{shopType}" placeholder="예) 음식점, PC방, 스토어">
 				</div>
-				<div class="mb-3 shop-info" >
-					<label for="formFile" class="form-label shop-photo">사진첨부</label><a
-						id="shop-mustpic">(명함, 가게, 메뉴, 간판 등)</a> <input 
-						class="form-control " style="width: 80%" type="file" id="createShopImgFile" name="createShopImgFile">
-				</div>
+				<p th:if="${#fields.hasErrors('shopType')}" th:errors="*{shopType}"
+					class="fieldError" style="color: red">
+
+					<div class="mb-3 shop-info"><label for="formFile" class="form-label shop-photo">사진첨부</label><a
+						id="shop-mustpic">(명함, 가게, 메뉴, 간판 등)</a> <input
+						class="form-control " style="width: 80%" type="file"
+						id="createShopImgFile" name="createShopImgFile"></div>
+
 				<div class="shop-info">
 					<div class="shop-item">
 						<label class="shop-business">사업자 번호</label> <a id="shop-must"></a>
 					</div>
-					<input th:field="*{businessId}" placeholder="'-' 없이 입력해주세요">
+					<input th:field="*{businessId}" placeholder="'-'를 넣지 말고 작성해주세요"
+						id="b_no" class="b_no">
+					<button>확인</button>
+					<p id="demo1"></p>
+					<script>
+					$(function() {
+							$('.b_no')
+									.off()
+									.on(
+											"click",
+											function() {
+
+												var b_no_check = $('.b_no')
+														.val();
+												const settings = {
+													"async" : true,
+													"crossDomain" : true,
+													"url" : "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=NfQiliboeTPFJ%2FLo8dp7BxJwm6pdXiycUStOQU0S1MIvu50CnJ7XttUrAwOGjKy06ow8%2BDOQQRwES%2Bnelnk%2B%2BQ%3D%3D",
+													"method" : "POST",
+													"headers" : {
+														"accept" : "application/json",
+														"Authorization" : "NfQiliboeTPFJ/Lo8dp7BxJwm6pdXiycUStOQU0S1MIvu50CnJ7XttUrAwOGjKy06ow8+DOQQRwES+nelnk++Q==",
+														"Content-Type" : "application/json"
+													},
+													"processData" : false,
+													"data" : "{  \"b_no\": [    \""
+															+ b_no_check
+															+ "\"  ]}"
+												};
+												//번호를 입력한 값ㅇ
+												$.ajax(settings).done(function(response) {
+																	console.log(response);
+														var bsstcd	=	response.data[0].b_stt_cd
+																if(bsstcd===""){
+																	alert('옳지 않은 사업자 등록 번호입니다.')
+																}else {
+																	alert('옳게된 사업자 등록 번호입니다.')
+																}
+																});
+											
+											});
+						});
+						
+						</script>
+
 				</div>
 				<div class="shop-createbtn">
-					<button type="submit" class="btn " style="width: 30%; left: 0;" >등록</button>
-					<button type="submit" class="btn " style="width: 30%; right: 0;" >취소</button>
+					<button type="submit" class="btn " style="width: 30%; left: 0;">등록</button>
+					<button type="button" class="btn " style="width: 30%; right: 0;">취소</button>
 				</div>
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				<input type="hidden" th:name="${_csrf.parameterName}"
+					th:value="${_csrf.token}">
 			</form>
 
 		</div>
 	</div>
 </body>
+
 </html>

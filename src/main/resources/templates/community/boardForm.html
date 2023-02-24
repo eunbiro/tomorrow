@@ -52,10 +52,9 @@
 	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
    			<hr>
 	   		<form method="post" enctype="multipart/form-data" th:object="${boardFormDto}">
-				<input type="hidden" th:field="*{id}"/>  		
-				<input type="hidden" th:field="*{createdBy}"/>   		 		
-				<input type="hidden" th:field="*{regTime}"/>   		 		
+	 		
 	   			<div class="post-title d-flex">
+	   				<input type="hidden" th:field="*{member}" th:value="${member}"/>
 	   				<label for="board_id">제목 : <input type="text" id="board_id" th:field="*{boardTitle}" placeholder="제목을 입력해주세요."/></label>
 	   				<p th:if="${#fields.hasErrors('boardTitle')}" th:errors="*{boardTitle}" class="fieldError">Incorrect Data</p>
 	   			</div>

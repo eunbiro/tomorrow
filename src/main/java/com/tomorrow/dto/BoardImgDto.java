@@ -13,11 +13,8 @@ public class BoardImgDto {
 	private Long id;
 	
 	private Board board;					// 커뮤니티 식별번호 FK
-	
 	private String boImgNm;					// 이미지명
-	
 	private String boOriImgNm;				// 원본이미지명
-	
 	private String boImgUrl;	
 	
 	private static ModelMapper modelMapper = new ModelMapper();
