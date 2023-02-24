@@ -174,6 +174,7 @@ public class ShopController {
 
 		// TODO 현재 로그인한 회원의 매장번호를 조회해서 매장코드로 업무내용 불러옴
 
+		getSideImg(model, principal);
 		return "shop/workLogForm";
 	}
 
