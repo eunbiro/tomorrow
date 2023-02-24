@@ -313,28 +313,6 @@ input[type="checkbox"] {
 	float: right;
 }
 /*======================매장근무기록CSS======================*/
-.work-log {
-	width: 40rem;
-}
-
-.work-log-ipt {
-	border-radius: 5px;
-	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	border: 1px solid #A9A9A9;
-	resize: none;
-}
-
-.work-log-btn {
-	border-radius: 5px;
-	background: none;
-	width: 5rem;
-	border: 1px solid #A9A9A9;
-	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-}
 
 /*======================boardList======================*/
 .header {
