@@ -32,7 +32,7 @@ public class ShopImgService {
 		
 		if(!StringUtils.isEmpty(shOriImgNm)) {
 			shImgNm = fileService.uploadFile(createShopImgLocation, shOriImgNm, createShopImgFile.getBytes());
-			shImgUrl = "/images/item/" + shImgNm;
+			shImgUrl = "/images/shop/" + shImgNm;
 		}
 		shopImg.updateShopImg(shOriImgNm, shImgNm, shImgUrl);
 		shopImgRepository.save(shopImg);
