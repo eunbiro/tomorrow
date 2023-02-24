@@ -65,9 +65,11 @@ public class Commute {
 	private PayList payList; // 급여일지 식별번호 FK
 
 	
-	public static Commute crateCommute(CommuteDto commuteDto, Member member, Shop shop) {
+	public static Commute createCommute(CommuteDto commuteDto, Member member, Shop shop) {
 	
 		Commute commute = new Commute();
+		
+		
 		
 		commute.setShop(shop);
 		commute.setMember(member);
@@ -77,5 +79,10 @@ public class Commute {
 		
 	}
 	
+	public void updateCommute(CommuteDto commuteDto, Member member, Shop shop) {
+		this.shop = shop;
+		this.member = member;
+		this.leaving = commuteDto.getLeaving();
+	}
 	
 }
