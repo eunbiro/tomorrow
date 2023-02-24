@@ -12,7 +12,7 @@ import com.tomorrow.entity.Commute;
 
 public interface CommuteRepository extends JpaRepository<Commute, Long>, QuerydslPredicateExecutor<Commute>{
 	
-	List<Commute> findByShopId(Long id);
+	List<Commute> findByShopIdOrderByIdDesc(Long id);
 
-	Optional<Commute> findById(Long id);
+	Optional<Commute> findByIdOrderByIdDesc(Long id);
 }
