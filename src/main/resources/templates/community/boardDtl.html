@@ -52,7 +52,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	<div layout:fragment="content">	
    	   <input type="hidden" id="boardId" th:value="${board.id}">
 	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
-   			<p th:text="'작성자 : '+${board.createdBy}"></p>
+   			<p th:text="'작성자 : '+${board.member.userNm}"></p>
    			<hr>
 	   		<form method="post" >
 	   			<div class="post-title d-flex">
@@ -83,7 +83,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
  			</div>
 			<div class="comment-input">
 				<form method="post" th:object="${boardCommentFormDto}">
-			   	   <input type="hidden" id="boardId" th:field="${boardComment.board.id}">
 				
 					<input type="text" placeholder="댓글 입력창" th:field="*{boCmtText}"/>
 					<p th:if="${#fields.hasErrors('boCmtText')}" th:errors="*{boCmtText}" class="fieldError">Incorrect Data</p>
