@@ -19,6 +19,21 @@
 			}
 		});
 		
+		// 매장선택 안하고 등록할때
+		$(function() {
+			
+			$('.notice-icon').off().on("click", function() {
+				
+				var shopId = $('.noti-sel-shop').val();
+				var url = "/shop/info";
+				
+				if (shopId == "") {
+					
+					alert("매장을 선택해주세요");
+				}
+			});
+		});
+		
 		// 매장선택 시 해당 매장정보 불러옴
 		$(function() {
 			
@@ -108,10 +123,6 @@
 			
 		}); */
 		
-		// TODO : 수정버튼 confirm true일 경우 공지id 가지고 와서 select > id랑 내용 가져오고 해당 위치에 내보낸다.
-		
-		// TODO : 수정했을때 그안에 있는 val값들 ajax로 보내고 id는 경로에 태우고 update
-		
 		// 해당 공지 삭제
 		function deleteNoticeId(noticeId) {
 			
@@ -163,7 +174,7 @@
 			
 			$('#noti-cont-read' + noticeId).hide();
 			$('#noti-cont-update' + noticeId).show();
-			$('#noti-cont-update' + noticeId).children('div').children('.notice-ipt').text(cont).attr('disabled', false);
+			$('#noti-cont-update' + noticeId).children('div').children('textarea').text(cont).attr('disabled', false);
 		}
 		
 		// 해당 공지 수정페이지 취소
@@ -172,54 +183,11 @@
 			var cont = $('#noti-cont-read' + noticeId).text();
 			
 			$('#noti-cont-read' + noticeId).show();
-			$('#noti-cont-update' + noticeId).children('div').children('.notice-ipt').attr('disabled', true);
+			$('#noti-cont-update' + noticeId).children('div').children('textarea').attr('disabled', true);
 			$('#noti-cont-update' + noticeId).hide();
 		}
 		
-		// 해당 공지 수정
-		/* function updateNoticeId(noticeId) {
-			
-			var token = $("meta[name='_csrf']").attr("content");
-			var header = $("meta[name='_csrf_header']").attr("content");
-			
-			var url = "/shop/notice/" + noticeId + "/update";
-			var shopId = $('#shopId').val();
-			
-			var paramData = {
-					
-					orderId : orderId
-			};
-			
-			$.ajax({
-				
-				url			: url,
-				type 		: "POST",
-				contentType : "application/json",
-				data		: paramData,
-				beforeSend 	: function(xhr) {
-					
-					xhr.setRequestHeader(header, token)
-				},
-				dataType 	:"Json",
-				cache 		: false,
-				success 	: function(result, status) {
-					
-					alert("기입내용이 수정되었습니다.");
-					location.href = '/shop/info/' + shopId;
-				},
-				error 		: function(jqXHR, status, error) {
-
-					if (jqXHR.status == '401') {
-						
-						alert('로그인 후 이용하시오.');
-						location.href = '/member/login';
-					} else {
-						
-						alert(jqXHR.responseText);
-					}
-				}
-			});
-		} */
+		
 	</script>
 </th:block>
 <!-- 사용자 CSS 추가 --> 
@@ -233,6 +201,7 @@
      	
      	.noti-wrap {
 			margin-top: 60px;
+			width: 88%;
 		}
 		
 		.noti-wrap > form > div {
@@ -291,23 +260,6 @@
 			padding-right: 3%;
 			font-size: 1.4rem;
 		}
-		
-		.notice-icon-inner {
-		}
-		
-		.notice-icon-inner > button {
-			background: none;
-			border: none;
-			border-radius: 5px;
-			padding-right: 3%;
-			font-size: 1rem;
-			letter-spacing: 0.2rem;
-		}
-		
-		.notice-icon-inner > button:hover {
-			text-decoration: underline;
-			color: #A9A9A9;
-		}
      
     	 .noti-sel-shop {
     	 	border-radius: 5px;
@@ -334,6 +286,22 @@
     	 	color: #0F3C8F;
     	 	font-weight: bold;
     	 }
+    	 
+    	 .noti-cont-btn button {
+    	 	font-size: 0.8rem;
+    	 	border: none;
+    	 	background: none;
+    	 }
+    	 
+    	 .noti-cont-btn button:hover {
+    	 	text-decoration: underline;
+			color: #A9A9A9;
+    	 }
+    	 
+    	 .noti-cont-ipt {
+    	 	resize: none;
+    	 	border-radius: 5px;
+    	 }
 	</style>
 </th:block>
 </head>
@@ -353,7 +321,7 @@
 					</select>
 				</div>
 				<!-- create부분  sec:authorize="hasAnyAuthority('ROLE_ADMIN')" -->
-				<div class="mx-auto">
+				<div class="mx-auto" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 					<div class="row notice mx-auto my-2">
 						<textarea class="col-10 py-2 notice-ipt" th:field="*{noticeCont}" placeholder="공지사항 작성"></textarea>
 						<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
@@ -371,7 +339,6 @@
 					<!-- 프로필부분 -->
 					<div class="mx-auto d-flex justify-content-around py-3">
 						<div class="col-3 my-auto profile-cont-img">
-							<!-- <img alt="profile" src="/images/profile01.png"> -->
 							<img th:if="${not #strings.isEmpty(member.imgUrl)}" th:src="${member.imgUrl}" style="border-radius: 60%">
 						</div>
 						
@@ -400,16 +367,15 @@
 					
 					<!-- 내용부분 -->
 					
-					<div class="text-start py-3 px-5 fs-6">
+					<div class="text-start py-3 fs-6 w-75 mx-auto">
 						<div th:id="'noti-cont-read' + ${noti.noticeId}" th:value="${noti.noticeCont}" th:text="${noti.noticeCont}">
 							내용
 						</div>
-						<div th:id="'noti-cont-update' + ${noti.noticeId}" style="display: none;">
-							<div class="row notice my-2 me-auto w-75" style="height: 5rem;">
-								<textarea class="py-2 notice-ipt ps-4 col-10" th:value="${noti.noticeCont}" th:field="*{noticeCont}" disabled="true"></textarea>
-								<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
-								<!--  th:formaction="@{'/shop/notice/' + ${noti.noticeId} + '/update'}" -->
-								<div class="col-2 d-flex flex-column notice-icon-inner">
+						<!-- 수정누를때 나오는 곳 -->
+						<div th:id="'noti-cont-update' + ${noti.noticeId}" class="w-100" style="display: none;">
+							<div class="row my-2" style="height: 5rem;">
+								<textarea class="py-2 col-10 noti-cont-ipt" th:value="${noti.noticeCont}" th:field="*{noticeCont}" disabled="true"></textarea>
+								<div class="col-2 d-flex flex-column noti-cont-btn">
 									<button type="submit" th:formaction="@{'/shop/notice/' + ${noti.noticeId} + '/update'}" class="text-center my-auto">
 										수정
 									</button>
@@ -418,6 +384,7 @@
 									</button>
 								</div>
 							</div>
+							<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
 						</div>
 					</div>
 					<!-- 하단부분 -->

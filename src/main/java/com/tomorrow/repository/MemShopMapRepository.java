@@ -11,4 +11,6 @@ public interface MemShopMapRepository extends JpaRepository<MemShopMapping, Long
 	List<MemShopMapping> findByMemberId(Long memberId);
 	
 	List<MemShopMapping> findByShopId(Long shopId);
+	
+	MemShopMapping findByMemberIdAndShopId(Long memberId, Long shopId);
 }
