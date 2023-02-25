@@ -139,7 +139,7 @@ input {
 						<div class="mb-3 shop-info">
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
 							<div class="shImgDiv" th:each="shopImg : ${shopDto.shopImgDto}">
-								<img class="rounded repImg" width="800px" height="1200px" th:if="${not #strings.isEmpty(shopImg.shImgUrl)}" 
+								<img class="rounded repImg" width="400px" height="500px" th:if="${not #strings.isEmpty(shopImg.shImgUrl)}" 
 								th:src="${shopImg.shImgUrl}">
 							</div>
 						</div>
@@ -156,7 +156,7 @@ input {
 							<input th:field="*{shopId}" />
 						</div>
 						<div class="shop-createbtn">
-							<button type="button" class="btn " style="width: 30%; left: 0;">수정</button>
+							<button type="submit" class="btn " style="width: 30%; left: 0;">수정</button>
 							<button type="button" class="btn " style="width: 30%; right: 0;">취소</button>
 						</div>
 					</div>
