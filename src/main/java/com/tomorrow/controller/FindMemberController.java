@@ -36,7 +36,9 @@ public class FindMemberController {
 	@ResponseBody
 	public String findMemberId(@RequestParam("name") String name,@RequestParam("id_phone") String id_phone) {
 		String result = memberService.findId(name, id_phone);
-		
+		if (!memberService.isPhoneNum(id_phone)) {
+			return "잘못 입력 하셨네요!!" + "<br />" + "뒤로가서 다시 입력해주세요!";
+		}
 		return result;
 	}
 	
