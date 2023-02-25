@@ -2,13 +2,13 @@ package com.tomorrow.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.tomorrow.dto.CreateShopFormDto;
+import com.tomorrow.dto.ShopDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,4 +40,14 @@ public class Shop extends BaseEntity{
 	
 	@Column(length = 30, nullable = false)
 	private String shopType;			// 매장업종
+	
+	// 매장정보 업데이트
+	public void updateShopInfo(CreateShopFormDto createShopFormDto) {
+		this.shopNm = createShopFormDto.getShopNm();
+		this.shopTime = createShopFormDto.getShopTime();
+		this.businessId = createShopFormDto.getBusinessId();
+		this.shopPlace = createShopFormDto.getShopPlace();
+		this.shopType = createShopFormDto.getShopType();
+				
+	}
 }
