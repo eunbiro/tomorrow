@@ -94,17 +94,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			</div> 
 			<div class="comment-list">
 				<p>댓글 리스트</p>
-				<!--
-				<ul>
-					<li>
-						<div th:each="comment : ${comments.getContent()}">
-							<div class="comment-writer" th:text="${comment.member.userNm}"></div>
-							<div class="comment-text" th:text="${comment.boCmtText}"></div>
-							<div class="comment-reg"  th:text="${comment.regTime}"></div>
-						</div>
-					</li>
-				</ul>
-				-->
+					<div th:each="comment : ${comments}">
+						<ul>
+							<li>
+								<div class="comment-writer" th:text="${comment.member.userNm}"></div>
+								<div class="comment-text" th:text="${comment.boCmtText}"></div>
+								<div class="comment-reg"  th:text="${comment.regTime}"></div>
+							</li>
+						</ul>
+					</div>
 			</div>
 	   </div>
 	    
