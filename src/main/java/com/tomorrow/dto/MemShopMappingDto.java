@@ -1,5 +1,10 @@
 package com.tomorrow.dto;
 
+import org.modelmapper.ModelMapper;
+
+import com.tomorrow.entity.MemShopMapping;
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,4 +21,10 @@ public class MemShopMappingDto {
 	private String partTime;
 	
 	private int workStatus;
+	
+	public static ModelMapper modelMapper = new ModelMapper();
+	
+	public MemShopMapping createMemShopMapping() {
+		return modelMapper.map(this, MemShopMapping.class);
+	}
 }
