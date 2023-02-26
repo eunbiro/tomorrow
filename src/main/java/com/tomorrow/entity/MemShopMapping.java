@@ -60,4 +60,16 @@ public class MemShopMapping {
 		
 		return mapping;
 	}
+	
+	public static MemShopMapping createAdminMapping(Shop shop, Member member) {
+		
+		MemShopMapping mapping = new MemShopMapping();
+		mapping.setShop(shop);
+		mapping.setMember(member);
+		mapping.setWorkStatus(0);
+		mapping.setPartTime("");
+		mapping.setTimePay(0);
+		
+		return mapping;
+	}
 }
