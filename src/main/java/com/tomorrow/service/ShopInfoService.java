@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.dto.CreateShopFormDto;
 import com.tomorrow.dto.MemShopMappingDto;
@@ -32,6 +33,7 @@ public class ShopInfoService {
 	private final ShopRepository shopRepository;
 	private final ShopImgRepository shopImgRepository;
 	private final MemShopMapRepository mapRepository;
+	private final ShopImgService shopImgService;
 
 	// 현재 접속해있는 관리자정보를 불러옴
 	@Transactional(readOnly = true)
@@ -43,10 +45,24 @@ public class ShopInfoService {
 	// 내가 가지고 있는 매장정보를 불러옴 (select 박스에 매장 목록 가져오기)
 	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMyShop(String userId) {
-
 		Member member = findMember(userId);
 		List<MemShopMappingDto> myShopList = getMapping(member.getId());
 		return myShopList;
+	}
+	
+	// 상품 수정 
+	public Long updateShopInfo(CreateShopFormDto createShopFormDto, List<MultipartFile> shopImgFileList) throws Exception {
+		Shop shop = shopRepository.findById(createShopFormDto.getId())
+				.orElseThrow(EntityNotFoundException::new);
+		
+		shop.updateShopInfo(createShopFormDto);
+		
+		List<Long> shopImgIds = createShopFormDto.getCreateShopImgIds(); // 매장 이미지 아이디 리스트 조회
+		
+		for(int i=0; i<shopImgFileList.size(); i++) {
+			shopImgService.updateShopImg(shopImgIds.get(i), shopImgFileList.get(i));
+		}
+		return shop.getId();
 	}
 
 	// 매장 DTO
@@ -68,12 +84,12 @@ public class ShopInfoService {
 	public List<ShopImgDto> getShopImg(Long shopId) {
 		List<ShopImg> shopImgList = shopImgRepository.findByShopId(shopId);
 		List<ShopImgDto> shopImgDtoList = new ArrayList<>();
-		
+
 		for (ShopImg shopImg : shopImgList) {
 			ShopImgDto shopImgDto = ShopImgDto.of(shopImg);
 			shopImgDtoList.add(shopImgDto);
 		}
-		
+
 		return shopImgDtoList;
 	}
 
@@ -98,17 +114,16 @@ public class ShopInfoService {
 	}
 
 	/*
-	 * TODO 1. 매장 코드로 이미지를 찾는다. 2. 찾은 이미지 엔티티를 DTO로 변환시킨다. 3.
+	 * TODO 1. 매장 코드로 이미지를 찾는다. 2. 찾은 이미지 엔티티를 DTO로 변환시킨다.
 	 * 
 	 */
-	
+
 	// 매핑정보 DTO저장
 	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMapping(Long memberId) {
 
 		List<MemShopMapping> memShopMappingList = mapRepository.findByMemberId(memberId);
 		List<MemShopMappingDto> memShopMappingDtoList = new ArrayList<>();
-
 
 		for (MemShopMapping mapping : memShopMappingList) {
 
@@ -128,6 +143,26 @@ public class ShopInfoService {
 
 		// DTO 리스트 리턴
 		return memShopMappingDtoList;
+	}
+	
+	// 상품 가져오기
+	@Transactional(readOnly = true)
+	public CreateShopFormDto getShopInfoDtl(Long shopId) {
+		List<ShopImg> shopImgList = shopImgRepository.findByShopId(shopId);
+		List<ShopImgDto> shopImgDtoList = new ArrayList<>();
+		
+		for (ShopImg shopImg : shopImgList) {
+			ShopImgDto shopImgDto = ShopImgDto.of(shopImg);
+			shopImgDtoList.add(shopImgDto);
+		}
+		
+		Shop shop = shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
+		
+		CreateShopFormDto createShopFormDto = CreateShopFormDto.of(shop);
+		createShopFormDto.setCreateShopImgDtoList(shopImgDtoList);
+		
+		return createShopFormDto;
+		
 	}
 
 }

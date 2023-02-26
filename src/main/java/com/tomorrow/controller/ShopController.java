@@ -235,7 +235,7 @@ public class ShopController {
 		return "redirect:/shop/log/" + workLogDto.getShopDto().getShopId();
 	}
 
-	// 공지 수정 눌렀을때
+	// 일지 수정 눌렀을때
 	@PostMapping(value = "/shop/log/{workLogId}/update")
 	public String updateWorkLog(@PathVariable("workLogId") Long workLogId, @Valid WorkLogDto updateWorkLogDto, Model model, BindingResult bindingResult, Principal principal) {
 		
@@ -267,7 +267,7 @@ public class ShopController {
 		return "redirect:/shop/log/" + shop.getId();
 	}
 	
-	// 공지 삭제 눌렀을때
+	// 일지 삭제 눌렀을때
 	@DeleteMapping(value = "/shop/log/{workLogId}/delete")
 	public @ResponseBody ResponseEntity deleteWorkLog(@PathVariable("workLogId") Long workLogId, Principal principal) {
 

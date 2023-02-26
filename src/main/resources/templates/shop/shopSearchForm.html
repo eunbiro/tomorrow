@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<title>매장검색</title>
+
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+	$(document).ready(function() {
+		
+		var errorMessage = [[${errorMessage}]];
+		if (errorMessage != null) {
+			
+			alert(errorMessage);
+		}
+	});
+	
+	$(function() {
+		
+		$('.shop-search-btn').off().on("click", function() {
+			
+			
+			var shopId = $('#shopCode').val();
+			
+			var url = "/shop/search/" + shopId;
+			
+			
+			$.ajax({
+				
+				type	: 'GET',
+				url		: url,
+				dataType: 'json',
+				cache 	: false,
+				success : function(result) {
+					console.log(result);
+					console.log(result.shopNm);
+					
+					if (result.shopNm == null) {
+						
+						alert('잘못된 매장코드입니다.');
+					} else {
+						
+						$('.addShop').show();
+						$('.add-ipt').val(result.shopNm).attr('disabled', false);
+						$('.add-pl').text(result.shopPlace);
+						$('.add-btn').val(result.shopId);
+					}				
+				},
+				error	: function(a, b, c) {
+					
+					console.log(a, b, c);
+				}
+			});
+				
+		});
+	});
+	
+	function addShopBtn(shopId) {
+		
+		const insertConf = confirm("등록하시겠습니까?");
+		
+		if (!insertConf) return;
+		
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		var url = '/shop/search/' + shopId;
+		
+		$.ajax({
+			
+			url			: url,
+			type 		: "POST",
+			contentType : "application/json",
+			beforeSend 	: function(xhr) {
+				
+				xhr.setRequestHeader(header, token)
+			},
+			dataType 	:"Json",
+			cache 		: false,
+			success 	: function(result, status) {
+				
+				alert("등록 되었습니다. 사장님이 승인하셔야 매장 확인이 가능합니다.");
+				location.href = '/shop/search';
+			},
+			error 		: function(jqXHR, status, error) {
+
+				if (jqXHR.status == '401') {
+					
+					alert('로그인 후 이용하시오.');
+					location.href = '/member/login';
+				} else {
+					
+					alert(jqXHR.responseText);
+				}
+			}
+		});
+	}
+	</script>
+</th:block>
+<!-- 사용자 CSS 추가 --> 
+<th:block layout:fragment="css">
+     <style>
+     	#cont-wrap {
+     		margin: 0 auto;
+     		padding: 0;
+     		font-size: 10px;
+     	}
+     
+   		.noti-title {
+			font-family: 'SEBANG_Gothic_Bold';
+			text-decoration: none;
+			color: #000;
+		}
+		
+		.sub_title {
+			font-family: 'SEBANG_Gothic_Bold';
+			text-decoration: none;
+			color: #000;
+		}
+		
+     	.noti-wrap {
+			margin-top: 60px;
+			width: 88%;
+		}
+		
+		.shop-search-ipt {
+			border-radius: 5px;
+			box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+			-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+			-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+			border: 1px solid #A9A9A9;
+			height: 4rem;
+		}
+		
+		.add-ipt {
+			border: none;
+			border-radius: 5px;
+			color: #5D5D5D;
+			font-size: 1rem;
+		}
+		
+		.add-pl {
+			border: none;
+			border-radius: 5px;
+			color: #5D5D5D;
+			font-size: 0.6rem;
+			text-align: left;
+		}
+		
+		.shop-search-btn {
+			border-radius: 5px;
+			background: none;
+			width: 5rem;
+			border: 1px solid #A9A9A9;
+			box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+			-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+			-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+		}
+		
+		.shop-search-btn:hover {
+			background: #F1F1F1;
+		}
+		
+		.shop-img {
+			border-radius: 5px;
+			border: 1px solid #A9A9A9;
+			box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+			-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+			-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+			width: 96%;
+			height: 18rem;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.shop-img div {
+			display:table-cell;
+    		vertical-align:middle;
+		}
+		
+		.shop-img div img {
+			max-width:180px;
+    		max-height:180px;
+		}
+		
+		.shopinfo-wrap {
+			width: 48%;
+		}
+		
+		.add-btn {
+			border: none;
+			background: none;
+			width: 15%;
+			font-size: 1rem;
+		}
+		
+		.add-btn:hover {
+			background: #F1F1F1;
+		}
+		
+		@media all and (max-width: 768px) {
+			.shopinfo-wrap {
+				width: 98%;
+			}
+			
+			.shop-img {
+				height: 12rem;
+			}
+			
+			.add-btn {
+				width: 40%;
+			}
+		}
+		
+	</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content" id="cont-wrap">
+		<div class="container d-flex flex-column text-center noti-wrap">
+		
+			<a class="noti-title text-start fs-3 fw-bold">매장코드 검색</a>
+			<!-- 검색폼 -->
+			<div class="mx-auto my-2 d-flex justify-content-center w-100 me-4">
+				<label class="w-75 shop-search-ipt row">
+					<i class="fa-solid fa-magnifying-glass col-1 fs-5 my-auto" style="color: #5D5D5D;"></i>
+					<input id="shopCode" class="col-11 fs-6" type="text" placeholder="회사코드를 입력하세요">
+				</label>
+				<button type="button" class="shop-search-btn fs-6 fw-bold ms-4">검색</button>
+			</div>
+			<!-- 등록폼 -->
+			<form class="container-md addShop" style="display: none;">
+				<div class="shop-search-ipt my-2 mx-auto d-flex justify-content-center" style="height: 3rem; width: 80%;">
+					<div class="addShop-ipt d-flex flex-column w-100 ps-2">
+						<input type="text" class="add-ipt" readonly="readonly" disabled="true">
+						<span class="add-pl">주소</span>
+					</div>
+					<button type="button" class="fw-bold pe-2 add-btn"  onclick="addShopBtn(this.value)">등록</button>
+					<!-- <button type="button" class="fw-bold pe-2 add-btn" th:formaction="@{'/shop/search'}">등록</button> -->
+				</div>
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+			</form>
+			
+			<!-- 매장리스트 -->
+			<div class="mt-2 mx-auto d-flex flex-column w-75">
+				<a class="sub_title fs-5 me-auto">등록된 매장</a>
+				<div class="d-flex flex-wrap" th:if="${not #lists.isEmpty(myShopList)}">
+					
+				 	<div class="shopinfo-wrap my-2" th:each="myShop : ${myShopList}">
+						<div class="shop-img">
+							<div th:each="shopImg : ${myShop.shopDto.shopImgDto}">
+								<img alt="매장이미지" th:if="${not #strings.isEmpty(shopImg.shImgUrl)}" th:src="${shopImg.shImgUrl}">
+							</div>
+						</div>
+						<div class="d-flex flex-column text-start my-2">
+							<a th:text="${myShop.shopDto.shopNm}" class="ms-2" style="font-size: 1.2rem; font-weight: bold; text-decoration: none; color: #000;">(주) 이젠 컴퓨터</a>
+							<span th:text="${myShop.shopDto.shopPlace}" class="ms-2" style="font-size: 0.8rem;">서울시 oo구</span>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
