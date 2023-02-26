@@ -85,11 +85,15 @@ public class MemberService implements UserDetailsService {
 		return memberFormDto;
 	}
 	
+	public Member findByNmPhone(String name, String pNum) {
+		 return memberRepository.findByMemberId(name, pNum);
+	}
+	/*
 	@Transactional(readOnly = true) // 트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
 	public String findId(String name, String id_phone) {
 		String result = "";
 		try {
-			result = memberRepository.findId(name, id_phone);
+			result = memberRepository.findByMemberId(name, id_phone);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,5 +106,5 @@ public class MemberService implements UserDetailsService {
 		String check = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
 		return Pattern.matches(check, id_phone);
 	}
-	
+	*/
 }

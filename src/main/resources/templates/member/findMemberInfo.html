@@ -24,6 +24,7 @@
 /* 아이디 찾기 */ 
 //아이디 & 스토어 값 저장하기 위한 변수
 	// 아이디 값 받고 출력하는 ajax
+	/*
 	function findId_click() {
 	
 		 var token = $("meta[name='_csrf']").attr("content");
@@ -43,7 +44,6 @@
 			contentType : "application/json",
 			data : param,
 			beforeSend : function(xhr){
-                /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
                 xhr.setRequestHeader(header, token);
             },
             dataType : "text",
@@ -52,12 +52,10 @@
 				if(data == 0){
 					alert("회원 정보를 확인해주세요!");
 					location.href ='member/info';
-					/*
 					$('#id_value').text("회원 정보를 확인해주세요!");
 					$('#name').val('');
 					$('#id_phone').val('');
 					location.href='/';
-					*/
 				} else {
 					$('#id_value').text(data);
 					$('#name').val();
@@ -69,7 +67,7 @@
 	            }
 		});
 	};
-	/*
+	
 	function findId_click() {
 		 var token = $("meta[name='_csrf']").attr("content");
          var header = $("meta[name='_csrf_header']").attr("content");
@@ -147,6 +145,13 @@ modal.addEventListener("click", e => {
 		$("#findPassword_div").show();
 		$("#findId_div").hide();
 	}
+	
+	$(document).ready(function(){
+		var errorMessage = [[${errorMessage}]];
+    	if(errorMessage != null){
+        	alert(errorMessage);
+    	}
+	});
 </script>
 <style>
 /*
@@ -250,7 +255,7 @@ modal.addEventListener("click", e => {
 </head>
 <body>
     <div class="container-lg find_info_page" id="findId_div">
-        <form action="/find/info/id" method="post">
+        <form method="post" role="form" enctype="multipart/form-data" th:object="${memberFormDto}">
         	<div class="login-total">
 	            <div class="login-logo">
 	                <img src="/images/logo.png" style="width:200px;" />
@@ -270,26 +275,28 @@ modal.addEventListener("click", e => {
 						<p>가입했던 정보를 입력하세요</p>
 						<div class="input_section input_section_one">
 							<p>이름</p>
-							<input type="text" placeholder="이름을 입력하세요" name="name" id="name" required />
+							<input type="text" placeholder="이름을 입력하세요" name="name" id="name" th:field="*{name}" required />
 						</div>
 						<div class="input_section input_section_two">
 							<p>전화번호</p>
-							<input type="text" placeholder="전화번호를 입력하세요 (010-XXXX-XXXX)" name="id_phone" id="id_phone" required />
+							<input type="text" placeholder="전화번호를 입력하세요 (010-XXXX-XXXX)" name="pNum" id="pNum" th:field="*{pNum}" required />
 						</div>
-							<div class="content" th:id="id_value"></div>
+						<div th:if="${errorMessage}" th:text="${errorMessage}"></div>
+						<!-- <div class="content" th:id="id_value"></div> -->
 					</div>
 					<div class="under_buttons">
 						<div><a href="/member/login">로그인</a></div>
 						<div>|</div>
 						<div class="dropdown" style="margin-left:20px; width: 100px;">
-						      <span class="dropbtn" style="border: none; background: white; font-size:0.9em; font-weight: bold;">회원가입</span>
+						      <span class="dropbtn" style="border: none; background: white; font-size:1em; font-weight: bold;">회원가입</span>
 						      <div class="dropdown-content" style="margin-top: 10px">
 							        <a href="/member/join" style="text-align: left">개인회원</a>
 							        <a href="/admin/join" style="text-align: left">기업회원</a>
 						      </div>
 					    </div>
 						<div>
-						<input type="submit" value="아이디 찾기" id="findId">
+							<button th:formaction="@{/find/info}" type="submit" class="btn btn-primary mb-3">아이디 찾기</button>
+						<!-- <input type="submit" value="아이디 찾기" id="findId" /> -->
 							<!-- <button type="button" data-toggle="modal" data-target="#exampleModal" id="find_id">
 							아이디찾기</button> -->
 							</div>
@@ -332,13 +339,15 @@ modal.addEventListener("click", e => {
 						<div><a href="/member/login">로그인</a></div>
 						<div>|</div>
 						<div class="dropdown" style="margin-left:20px; width: 100px;">
-						      <span class="dropbtn" style="border: none; background: white; font-size:0.9em; font-weight: bold;">회원가입</span>
+						      <span class="dropbtn" style="border: none; background: white; font-size:1em; font-weight: bold;">회원가입</span>
 						      <div class="dropdown-content" style="margin-top: 10px">
 							        <a href="/member/join" style="text-align: left">개인회원</a>
 							        <a href="/admin/join" style="text-align: left">기업회원</a>
 						      </div>
 					    </div>
-						<div><input type="submit" value="비밀번호 찾기"></div>
+						<div><input type="submit" value="비밀번호 찾기">
+							<a href="/find/NextPage">비밀번호 수정 테스트 버튼</a>
+						</div>
 					</div>
 				</div>
 	        </div>
