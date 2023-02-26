@@ -1,8 +1,12 @@
 package com.tomorrow.controller;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +35,18 @@ public class FindMemberController {
 	public String findMemberInfo() {
 		return "member/findMemberInfo";
 	}
-
+	
+	@PostMapping(value = "/find/info/id")
+	@ResponseBody
+	public ResponseEntity<String> findMemberId(@RequestParam Map<String, Object> param) {
+		String result = memberService.findId((String) param.get("name"), (String)param.get("id_phone"));
+		if (!memberService.isPhoneNum((String)param.get("id_phone"))) {
+			return new ResponseEntity<String>(result, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+	
+	/*
 	@PostMapping(value = "/find/info/id")
 	@ResponseBody
 	public String findMemberId(@RequestParam("name") String name,@RequestParam("id_phone") String id_phone) {
@@ -41,6 +56,18 @@ public class FindMemberController {
 		}
 		return result;
 	}
+	*/
+/*	//보류
+	@PostMapping(value = "/find/info/id")
+	public @ResponseBody ResponseEntity<String> findMemberId(@RequestParam Map<String, String>map) {
+		String result = memberService.findId(map.get("name"), map.get("id_phone"));
+		if (!memberService.isPhoneNum((String)map.get("id_phone"))) {
+			return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
+		}
+		
+		return  new ResponseEntity<String>(result, HttpStatus.OK);
+	}
+	*/
 	
 	@PostMapping(value = "/find/info/password")
 	public String findMemberPw() {

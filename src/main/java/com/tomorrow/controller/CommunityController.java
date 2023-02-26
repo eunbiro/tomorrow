@@ -92,7 +92,7 @@ public class CommunityController {
 			return "redirect:/board/list";
 		}
 		
-		return "redirect:/board/list";
+		return "redirect:/board/{boardId}";
 	}
 	
 	//게시물 생성 폼 진입

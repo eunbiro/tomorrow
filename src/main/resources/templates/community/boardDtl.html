@@ -71,7 +71,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	   			</div>
 	   			<div class="post-buttons">
       			<button class="post-btns m-1" type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정하기</button>	
-	   				<button class="post-btns m-1" type="button" th:onclick="location.href=''+'/comment/board_id'">댓글 보기</button>
 	   				<button class="post-btns m-1" type="button" onclick="location.href='/board/list'">목록</button>
 	   			</div>
 	   			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
@@ -94,17 +93,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			</div> 
 			<div class="comment-list">
 				<p>댓글 리스트</p>
-				<!--
-				<ul>
-					<li>
-						<div th:each="comment : ${comments.getContent()}">
-							<div class="comment-writer" th:text="${comment.member.userNm}"></div>
-							<div class="comment-text" th:text="${comment.boCmtText}"></div>
-							<div class="comment-reg"  th:text="${comment.regTime}"></div>
-						</div>
-					</li>
-				</ul>
-				-->
+					<div th:each="comment : ${comments}">
+						<ul>
+							<li>
+								<div class="comment-writer" th:text="${comment.member.userNm}"></div>
+								<div class="comment-text" th:text="${comment.boCmtText}"></div>
+								<div class="comment-reg"  th:text="${comment.regTime}"></div>
+							</li>
+						</ul>
+					</div>
 			</div>
 	   </div>
 	    
