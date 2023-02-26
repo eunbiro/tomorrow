@@ -28,6 +28,7 @@
 			
 			var url = "/shop/search/" + shopId;
 			
+			if (shopId == "") return alert('회사코드를 입력해주세요');
 			
 			$.ajax({
 				
@@ -38,13 +39,15 @@
 				success : function(result) {
 					console.log(result);
 					console.log(result.shopNm);
+					$('.addShop').hide();
 					
 					if (result.shopNm == null) {
 						
 						alert('잘못된 매장코드입니다.');
+						return;
 					} else {
 						
-						$('.addShop').show();
+						$('.addShop').slideDown();
 						$('.add-ipt').val(result.shopNm).attr('disabled', false);
 						$('.add-pl').text(result.shopPlace);
 						$('.add-btn').val(result.shopId);
@@ -83,8 +86,15 @@
 			cache 		: false,
 			success 	: function(result, status) {
 				
-				alert("등록 되었습니다. 사장님이 승인하셔야 매장 확인이 가능합니다.");
-				location.href = '/shop/search';
+				if (result == 0) {
+					
+					alert('등록 되었습니다. 사장님이 승인하셔야 매장 확인이 가능합니다.');
+					location.href = '/shop/search';
+				} else {
+					
+					alert('이미 등록된 매장입니다.');
+					location.href = '/shop/search';
+				}
 			},
 			error 		: function(jqXHR, status, error) {
 
