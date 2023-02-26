@@ -69,7 +69,7 @@ public class MemberController {
 		@GetMapping(value = "/admin/join")
 		public String adminJoinForm(Model model) {
 			model.addAttribute("memberFormDto", new MemberFormDto());
-			return "member/memberJoinForm";
+			return "member/adminJoinForm";
 		}
 		
 		//회원가입 버튼을 눌렀을때 실행되는 메소드

@@ -47,4 +47,17 @@ public class MemShopMapping {
 	private String partTime;				// 파트타임(오전,오후,야간)
 	
 	private int workStatus;					// 알바 상태 0: 관리자, 1: 승인대기, 2: 승인완료, 3: 퇴사, 4: 휴직
+	
+	// 직원등록
+	public static MemShopMapping createMemMapping(Shop shop, Member member) {
+		
+		MemShopMapping mapping = new MemShopMapping();
+		mapping.setShop(shop);
+		mapping.setMember(member);
+		mapping.setWorkStatus(1);
+		mapping.setPartTime("");
+		mapping.setTimePay(0);
+		
+		return mapping;
+	}
 }
