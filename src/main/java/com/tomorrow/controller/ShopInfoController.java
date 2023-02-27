@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/admin")
 public class ShopInfoController {
 	private final MemberService memberService;
 	private final ShopInfoService shopInfoService;
