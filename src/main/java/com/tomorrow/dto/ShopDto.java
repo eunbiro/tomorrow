@@ -20,7 +20,7 @@ public class ShopDto {
 	
 	private String shopTime; // 영업시간 
 	
-	private int businessId; // 사업자번호 
+	private Long businessId; // 사업자번호 
 	
 	private String shopPlace; // 매장위치
 	
