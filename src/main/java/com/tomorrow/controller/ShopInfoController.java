@@ -86,12 +86,12 @@ public class ShopInfoController {
 	/* 매장정보 수정 페이지 */
 	
 	// 매장정보 수정 페이지 보기 
-	@GetMapping(value = "/shop/shopInfoEdit/{shopId}")
-	public String shopDtl(@PathVariable("shopId") Long shopId, @RequestParam("shopImgFileList") List<MultipartFile> shopImgFileList, Model model, Principal principal) {
+	@PostMapping(value = "/shop/shopInfoEdit/{shopId}")
+	public String shopDtl(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 		try {
 			getSideImg(model, principal);
 			CreateShopFormDto createShopFormDto = shopInfoService.getShopInfoDtl(shopId);
-			model.addAttribute(createShopFormDto);
+			model.addAttribute("createShopFormDto", createShopFormDto);
 		} catch(EntityNotFoundException e) {
 			model.addAttribute("createShopFormDto", new CreateShopFormDto());
 			return "shopCreate/shopCreat";
@@ -101,21 +101,21 @@ public class ShopInfoController {
 	}
 	
 	// 매장정보 수정
-	@PostMapping(value = "shop/shopInfoEdit/{shopId}")
-	public String itemUpdate(@Valid CreateShopFormDto createShopFormDto, @RequestParam("shopImgFileList") List<MultipartFile> shopImgFileList, BindingResult bindingResult, Model model, Principal principal) {
+	@PostMapping(value = "shop/shopEdit")
+	public String shopUpdate(@Valid CreateShopFormDto createShopFormDto, @RequestParam("createShopImgFile") List<MultipartFile> shopImgFileList, BindingResult bindingResult, Model model, Principal principal) {
 		getSideImg(model, principal);
-
-		if (shopImgFileList.get(0).isEmpty() && createShopFormDto.getId() == null) {
-			model.addAttribute("errorMessage", "매장 이미지는 필수 입력 값입니다.");
-			return "shop/shopInfo";
-		}
 		
+		 if (shopImgFileList.get(0).isEmpty() && createShopFormDto.getId() == null) {
+		 model.addAttribute("errorMessage", "매장 이미지는 필수 입력 값입니다."); 
+		 return "shop/shopInfo"; 
+		 }
+		 
 		try {
 			shopInfoService.updateShopInfo(createShopFormDto, shopImgFileList);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "매장 정보 수정 중 에러가 발생하였습니다.");
 		}
-		return "shop/shopInfo";
+		return "redirect:/";
 	}
 
 	// 직원정보 - 수경 2
