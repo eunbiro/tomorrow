@@ -20,11 +20,8 @@
 	$(function() {
 		
 		$('.commute-sel-shop').off().on("change", function() {
-			
 			var shopId = $('.commute-sel-shop').val();
-			
 			var url = "/admin/commute/" + shopId;
-			
 			$(location).attr('href', url);
 		});
 	});
@@ -148,15 +145,13 @@
 						<tbody>
 							<tr th:each="commute : ${commuteList}">
 							<!-- 	<th th:text="${commute.id}"></th> -->
-								<td class="fs-6" th:text=${commute.memberDto?.userNm}>
-								<td class="fs-6" th:text=${commute.shopDto?.shopNm}>
+								<td class="fs-6" th:text="${commute.memberFormDto.userNm}">
+								<td class="fs-6" th:text="${commute.shopDto.shopNm}">
 								<td class="fs-6" th:text="${#temporals.format(commute.working, 'yyyy.MM.dd')}"></td>
 								<td class="fs-6" th:text="${#temporals.format(commute.working, 'HH:mm:ss')}"></td>
 								<td class="fs-6" th:text="${#temporals.format(commute.leaving, 'HH:mm:ss')}"></td>	
-								<td class="fs-6" th:text=${commute.memberDto?.pNum}>
+								<td class="fs-6" th:text="${commute.memberDto.pNum}">
 							</tr>
-				
-
 						</tbody>
 					</table>
 				</div>

@@ -148,10 +148,8 @@ public class WorkController {
     	Shop shop = shopService.findShop(commuteDto.getShopDto().getShopId());
     	
     	Commute commute = commuteService.findByCommuteId(id); //출퇴근 기록 찾기
-    	
-    	
+    
     	commute.setLeaving(commuteDto.getLeaving());
-    	
     	
     	
     	try {

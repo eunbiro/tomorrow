@@ -8,5 +8,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import com.tomorrow.entity.Shop;
 
 public interface ShopRepository extends JpaRepository<Shop, Long>,QuerydslPredicateExecutor<Shop>, ShopRepositoryCustom {
+	
+	Shop findByid(Long shopId);
 
 }

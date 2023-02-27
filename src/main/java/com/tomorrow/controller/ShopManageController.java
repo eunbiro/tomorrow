@@ -59,10 +59,10 @@ public class ShopManageController {
 	@GetMapping(value = "/commute/{shopId}")
 	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 
-		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId);
+		List<CommuteDto> commuteList = commuteService.getCommuteListForManager(shopId, principal.getName());
+		//매니저 아이디로 매장 목록 띄우기
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-
-		CommuteDto leavingChk = commuteService.commuteListchk(shopId); 
+ 
 		CommuteDto commuteDto = new CommuteDto();
 
 		ShopDto shopDto = new ShopDto();
@@ -70,7 +70,7 @@ public class ShopManageController {
 		commuteDto.setShopDto(shopDto);
 
 		getSideImg(model, principal);
-		model.addAttribute("leavingChk", leavingChk);
+		
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("commuteList", commuteList);
 		model.addAttribute("commuteDto", commuteDto);
