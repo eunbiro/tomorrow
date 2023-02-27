@@ -34,6 +34,10 @@ public class MypageController {
 		
 		Page<Shop> shops =shopSearchService.getCheckShopPage(shopCheckDto, pageable);
 		
+		model.addAttribute("shops",shops);
+		model.addAttribute("shopCheckDto",shopCheckDto);
+		model.addAttribute("maxPage",5);
+		
 		return "member/myPage";
 	}
 	//사이드바 프로필 이미지 가져오기 
