@@ -13,7 +13,6 @@ import com.tomorrow.entity.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, QuerydslPredicateExecutor<Board>, BoardRepositoryCustom{
 	
-	List<Board> findByBoardTitle(String boardTitle);
-	
+	List<Board> findByBoardTitle(String boardTitle);	
 	
 }

@@ -217,6 +217,203 @@ input[type="checkbox"] {
 .img_hover:hover {
 	cursor: pointer;
 }
+
+/*======================아이디/비번찾기CSS======================*/
+.find_total {
+	transform:translate(0%, 11%);
+}
+
+.find_info_page {
+	width: 800px;
+}
+
+.find_form > p {
+	margin : 30px 0 30px 0;
+	font-size: 1.2em;
+	font-weight: bold;
+	color: gray;
+}
+
+.buttons {
+	border-bottom: 2px solid black;
+}
+
+.buttons a:hover {
+	background-color: #13223D;
+}
+
+.input_section {
+	display: flex;
+	align-items: center;
+}
+
+.input_section_one {
+	margin: 30px 0 30px 0;
+}
+
+.input_section_two {
+	margin: 30px 0 70px 0;
+}
+
+.input_section p {
+	margin: 0 auto;
+	color: gray;
+	font-size: 1.3em;
+	font-weight: bold;
+	width : 15%;
+}
+
+.input_section input {
+	padding: 20px 15px;
+	width: 85%;
+}
+
+.buttons a {
+	padding: 20px 142px;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: black;
+}
+
+.under_buttons {
+	justify-content: space-between;
+	display: flex;
+	text-align: center;
+	align-items: center;
+}
+
+.under_buttons  a {
+	text-decoration: none;
+	color : black;
+	font-weight: bold;
+}
+
+.under_buttons > div:nth-of-type(1) {
+	width: calc(100% - 85%);
+}
+
+.under_buttons > div:nth-of-type(2) {
+	width: calc(100% - 99%);
+}
+
+.under_buttons > div:nth-of-type(3) {
+	width: calc(100% - 85%);
+}
+
+.under_buttons > div:nth-of-type(4) {
+	width: calc(100% - 31%);
+}
+
+.under_buttons > div:nth-of-type(4) > input {
+	border-radius: 5px;
+	font-size: 0.9em;
+	color: white;
+	background-color: black;
+	padding: 4px 45px;
+	float: right;
+}
+/*======================비밀번호 수정 CSS======================*/
+.result_total {
+	transform:translate(0%, 5%);
+}
+
+.find_info_page {
+	width: 800px;
+}
+
+.result_form > p {
+	margin : 30px 0 30px 0;
+	font-size: 1.4em;
+	font-weight: bolder;
+	display: flex;
+	text-align:center;
+	justify-content: center;
+	border-bottom: 3px solid #5d6b72;
+	padding-bottom: 15px;
+}
+
+.buttons {
+	border-bottom: 2px solid black;
+}
+
+.buttons a:hover {
+	background-color: #13223D;
+}
+
+.result_section {
+	display: flex;
+	align-items: center;
+}
+result_section_id {
+	width: 15%;
+	float: left;
+}
+
+.found_id {
+	width: 85%;
+}
+
+.result_section_one {
+	margin: 30px 0 30px 0;
+}
+
+.result_section_two {
+	margin: 30px 0 70px 0;
+}
+
+.result_section p {
+	margin: 0 auto;
+	color: gray;
+	font-size: 1.3em;
+	font-weight: bold;
+	width : 15%;
+}
+
+.result_section input {
+	padding: 20px 15px;
+	width: 85%;
+}
+
+.buttons a {
+	padding: 20px 142px;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: black;
+}
+
+.modify_buttons {
+	justify-content: space-between;
+	display: flex;
+	text-align: center;
+	align-items: center;
+}
+
+.modify_buttons button {
+	width: 100%;
+	height: 50px;
+	line-height: 45px;
+	align-content: center;
+	background: black;
+	color: white;
+	font-weight: bold;
+	font-size: 1.1em;
+	border-radius: 5px;
+	margin-bottom: 30px;
+}
+
+.modify_login_join {
+	display: flex;
+	justify-content: space-between;
+	width: 30%;
+}
+
+.modify_login_btn a {
+	text-decoration: none;
+	color:black;
+	font-weight: bold;
+	margin-right: 30px;
+}
+
 /*======================매장근무기록CSS======================*/
 
 /*======================boardList======================*/
@@ -342,6 +539,51 @@ thead {
 .bottom-image img {
 	width: 50px;
 	height: 50px;
+}
+
+.acTapBtn {
+	
+	border: none;
+	color: #fff;
+}
+
+.accordion-body {
+	
+	padding: 0;
+}
+
+.acBtn {
+	
+	border: none;
+	color: #fff;
+}
+
+.acBtn:hover {
+	
+	background: #dfdfdf;
+	color: #000;
+}
+
+.acABtn {
+	
+	font-size: 0.9rem;
+}
+
+.acABtn:hover {
+	
+	background: #606060;
+	color: #000;
+}
+
+.acTapBtn > show {
+	
+	#fff;
+}
+
+.side-logout a:hover {
+	
+	text-decoration: underline;
+	color: #696969;
 }
 
 /* 사이드바 끝==================================================== */

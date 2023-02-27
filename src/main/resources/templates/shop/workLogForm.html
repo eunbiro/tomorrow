@@ -99,8 +99,15 @@
 </th:block>
 <th:block layout:fragment="css">
 	<style>
+		#cont-wrap {
+     		margin: 0 auto;
+     		padding: 0;
+     		font-size: 10px;
+     	}
+     	
      	.noti-wrap {
 			margin-top: 60px;
+			width: 88%;
 		}
 		
 		.noti-wrap > form > div {
@@ -136,6 +143,10 @@
 			-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
 		}
 		
+		.work-log-btn:hover {
+			background: #F1F1F1;
+		}
+		
     	 .modal-wrap > div > div {
     	 	border-radius: 15px;
     	 	background: #424E64;
@@ -151,14 +162,30 @@
     	 	border-radius: 15px;
     	 	opacity: 100%;
     	 }
+    	 
+    	 .log-cont-btn button {
+    	 	font-size: 0.8rem;
+    	 	border: none;
+    	 	background: none;
+    	 }
+    	 
+    	 .log-cont-btn button:hover {
+    	 	text-decoration: underline;
+			color: #A9A9A9;
+    	 }
+    	 
+    	 .log-cont-ipt {
+    	 	resize: none;
+    	 	border-radius: 5px;
+    	 }
 				
 	</style>
 </th:block>
 </head>
 <body>
-	<div layout:fragment="content">
+	<div layout:fragment="content" id="cont-wrap">
 		<div class="container d-flex flex-column text-center noti-wrap">
-			<div class="mx-auto w-75 text-end">
+			<div class="mx-auto w-100 text-end">
 				<button type="button" class="btn position-relative" onclick="location.href='/shop/info'">
 					<i class="fa-solid fa-bell fs-3"></i>
 					<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
@@ -166,7 +193,7 @@
 					</span>
 				</button>
 			</div>
-			<form class="noti-form my-4 mx-auto container-md w-75" method="post" th:object="${workLogDto}">
+			<form class="noti-form my-4 mx-auto container-md w-100" method="post" th:object="${workLogDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">근무일지</a>
 					<!-- TODO : 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
@@ -181,7 +208,7 @@
 				<!-- create부분 -->
 				<div class="mx-auto">
 					<div class="work-log mx-auto my-2 d-flex justify-content-around">
-						<textarea class="w-75 py-2 ps-2 work-log-ipt" th:field="*{logCont}" placeholder="내용을 입력하세요"></textarea>
+						<textarea class="w-75 py-2 ps-2 work-log-ipt fs-6" th:field="*{logCont}" placeholder="내용을 입력하세요"></textarea>
 						<button type="submit" th:formaction="@{'/shop/log'}" class="work-log-btn fs-6">입력</button>
 					</div>
 					<p th:if="${#fields.hasErrors('logCont')}" th:errors="*{logCont}" class="fieldError text-start">Incorrect Data</p>
@@ -196,30 +223,28 @@
 					<div class="mx-auto my-4 w-100">
 						<table class="table work-log align-middle mx-auto">
 							<thead class="table-light">
-								<tr>
+								<tr class="fs-5">
 									<th class="col-2">일자</th>
 									<th class="col-2">파트타임</th>
 									<th colspan="2" class="col-8">업무내용</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="log : ${logList}" style="height: 30px;">
-									<td class="fs-6 row">
-										<i class="fa-regular fa-calendar col-4"></i>
-										<div class="col-8" th:text="${#temporals.format(log.regTime, 'yyyy.MM.dd')}">
-											23.02.12
-										</div>
+								<tr th:each="log : ${logList}" style="height: 60px;">
+									<td class="fs-6">
+										<i class="fa-regular fa-calendar pe-2"></i>[[${#temporals.format(log.regTime, 'yyyy.MM.dd')}]]
 									</td>
 									<td class="fs-6" th:text="${log.partTime}">오후 마감</td>
 									<td class="fs-6 text-start">
 										<div th:id="'log-cont-read' + ${log.workLogId}" th:value="${log.logCont}" th:text="${log.logCont}">
 											테이블 위 바닥 청소 끝냈습니다. 다음 오전근무자분 아침에 식기 정리 부탁드립니다.
 										</div>
+										<!-- 수정눌렀을 때 -->
 										<div th:id="'log-cont-update' + ${log.workLogId}" style="display: none;">
 											<div class="row my-2 me-auto w-75" style="height: 5rem;">
-												<textarea class="py-2 ps-4 col-10" th:value="${log.logCont}" th:field="*{logCont}" disabled="true"></textarea>
+												<textarea class="py-2 ps-4 col-10 log-cont-ipt" th:value="${log.logCont}" th:field="*{logCont}" disabled="true"></textarea>
 												<p th:if="${#fields.hasErrors('logCont')}" th:errors="*{logCont}" class="fieldError text-start">Incorrect Data</p>
-												<div class="col-2 d-flex flex-column">
+												<div class="col-2 d-flex flex-column log-cont-btn">
 													<button type="submit" th:formaction="@{'/shop/log/' + ${log.workLogId} + '/update'}" class="text-center my-auto">
 														수정
 													</button>

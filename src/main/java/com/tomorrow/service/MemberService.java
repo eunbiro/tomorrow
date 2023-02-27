@@ -1,5 +1,8 @@
 package com.tomorrow.service;
 
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
@@ -54,7 +57,7 @@ public class MemberService implements UserDetailsService {
 
 	public Member saveProfileImg(Member member, MultipartFile profileImgFile) throws Exception {
 		String oriImgName = profileImgFile.getOriginalFilename(); // 파일 이름
-		String imgName = "defaultImg"; // 기본 이미지 만들기
+		String imgName = ""; // 기본 이미지 만들기
 		String imgUrl = ""; // 기본 이미지 url 만들기
 
 		// 파일 업로드
@@ -82,4 +85,28 @@ public class MemberService implements UserDetailsService {
 		return memberFormDto;
 	}
 	
+	public Member findNmPhone(String userNm, String pNum) {
+		Member member =  memberRepository.findByMemberNmAndPhone(userNm, pNum);
+		 return member;
+	}
+	
+	/*
+	@Transactional(readOnly = true) // 트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
+	public String findId(String name, String pNum) {
+		String result = "";
+		try {
+			result = memberRepository.findByMember(name, pNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	*/
+	
+	//전화번호 형식에 맞게 쓰기
+	public boolean isPhoneNum(String pNum) {
+		//전화번호 정규식
+		String check = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
+		return Pattern.matches(check, pNum);
+	}
 }

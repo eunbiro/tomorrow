@@ -14,9 +14,9 @@ public class ShopImgDto {
 	
 	private String shImgNm;
 	
-	private String oriImgName;
+	private String shOriImgNm;
 	
-	private String imgUrl;
+	private String shImgUrl;
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	

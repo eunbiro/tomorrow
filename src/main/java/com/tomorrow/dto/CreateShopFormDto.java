@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.modelmapper.ModelMapper;
 
+import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Shop;
 
 import lombok.Getter;
@@ -32,9 +33,9 @@ public class CreateShopFormDto { //매장 만들 때
 	@NotBlank(message = "매장 업종은 필수 입력 값입니다.")
 	private String shopType;
 	
-	private List<ShopImgDto> shopImgDtoList = new ArrayList<>();
+	private List<ShopImgDto> createShopImgDtoList = new ArrayList<>();
 	
-	private List<Long> shopImgIds = new ArrayList<>();
+	private List<Long> createShopImgIds = new ArrayList<>();
 	
 	public static ModelMapper modelMapper = new ModelMapper();
 	
@@ -42,6 +43,11 @@ public class CreateShopFormDto { //매장 만들 때
 		return modelMapper.map(this, Shop.class);
 		
 	}
+	
+	public MemShopMapping createMemShopMapping() {
+		return modelMapper.map(this, MemShopMapping.class);
+	}
+	
 	public static CreateShopFormDto of(Shop shop) {
 		return modelMapper.map(shop, CreateShopFormDto.class);
 	}

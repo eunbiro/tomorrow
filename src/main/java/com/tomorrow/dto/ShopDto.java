@@ -1,9 +1,12 @@
 package com.tomorrow.dto;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.tomorrow.entity.ShopImg;
+import org.modelmapper.ModelMapper;
+
+import com.tomorrow.entity.Shop;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ShopDto {
-
 	private Long shopId; // 매장코드 (자동생성)
+	
 	private String shopNm; // 매장이름
 	
 	private String shopTime; // 영업시간 
@@ -23,6 +26,6 @@ public class ShopDto {
 	
 	private String shopType; // 매장업종
 	
-	private List<ShopImgDto> shopImgDto;
+	private List<ShopImgDto> shopImgDto = new ArrayList<>(); // 상품 이미지 정보 저장하는 리스트 
 	
 }

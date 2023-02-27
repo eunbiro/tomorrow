@@ -4,20 +4,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.constant.Role;
-import com.tomorrow.dto.AdminFormDto;
 import com.tomorrow.dto.MemberFormDto;
 
 import lombok.Getter;
@@ -74,20 +68,6 @@ public class Member extends BaseEntity {
 		return member;
 	}
 
-	public static Member createAdmin(AdminFormDto adminFormDto, PasswordEncoder passwordEncoder, Role role) {
-		Member member = new Member();
-		member.setUserNm(adminFormDto.getUserNm());
-		member.setUserId(adminFormDto.getUserId());
-		member.setPNum(adminFormDto.getPNum());
-
-		String password = passwordEncoder.encode(adminFormDto.getPassword()); // 비밀번호 암호화
-		member.setPassword(password);
-
-		member.setRole(role);
-
-		return member;
-	}
-	
 	public void updateUserImg(String oriImgNm, String imgNm ,String imgUrl) {
 		this.oriImgNm = oriImgNm;
 		this.imgNm = imgNm;

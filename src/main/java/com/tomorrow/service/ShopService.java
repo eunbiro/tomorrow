@@ -120,8 +120,12 @@ public class ShopService {
 
 		ShopDto shopDto = new ShopDto();
 
-		shopDto.setShopId(shop.getId());
-		shopDto.setShopNm(shop.getShopNm());
+		if (shop != null) {
+			
+			shopDto.setShopId(shop.getId());
+			shopDto.setShopNm(shop.getShopNm());
+			shopDto.setShopPlace(shop.getShopPlace());
+		}
 		
 		return shopDto;
 	}
@@ -166,7 +170,7 @@ public class ShopService {
 	@Transactional(readOnly = true)
 	public Shop findShop(Long shopId) {
 
-		return shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
+		return shopRepository.findById(shopId).orElse(null);
 	}
 
 	// 공지찾기
@@ -234,11 +238,19 @@ public class ShopService {
 			workLogDto.setLogCont(workLog.getLogCont());
 			workLogDto.setRegTime(workLog.getRegTime());
 			workLogDto.setUpdateTime(workLog.getUpDateTime());
-
+			workLogDto.setPartTime(getPartTime(workLog.getMember(), workLog.getShop()));
+			
 			workLogDtoList.add(workLogDto);
 		}
 
 		return workLogDtoList;
+	}
+	
+	// shopId랑 memeberId로 mapping 파트타임구하기
+	public String getPartTime(Member member, Shop shop) {
+		
+		MemShopMapping mapping = mapRepository.findByMemberIdAndShopId(member.getId(), shop.getId());
+		return mapping.getPartTime();
 	}
 	
 	// 공지찾기
@@ -260,12 +272,33 @@ public class ShopService {
 		WorkLog workLog = findWorkLog(id);
 		
 		workLog.updateWorkLog(workLogDto, member, shop);
-		
 	}
 	
 	// 근무일지 내용을 delete
 	public void deleteWorkLog(WorkLog workLog) {
 
 		workLogRepository.delete(workLog);
+	}
+	
+	
+	/* 매장등록 */
+	public MemShopMapping saveMemMapping(MemShopMapping memShopMapping) {
+		
+		return mapRepository.save(memShopMapping);
+	}
+	
+	// 등록이 되어있는지 아닌지 체크
+	public int chkMemMap(Long shopId, String userId) {
+		
+		Member member = findMember(userId);
+		MemShopMapping mapping = mapRepository.findByMemberIdAndShopId(member.getId(), shopId);
+		
+		if (mapping == null) {
+			
+			return 0;
+		} else {
+			
+			return 1;
+		}
 	}
 }

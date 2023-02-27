@@ -10,4 +10,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	
 	Member findByUserId(String userId);
 	
+	//아이디 찾기
+	@Query("select m from Member m where m.userNm=:userNm and m.pNum=:pNum")
+	public Member findByMemberNmAndPhone(@Param("userNm") String userNm, @Param("pNum") String pNum);
+
 }

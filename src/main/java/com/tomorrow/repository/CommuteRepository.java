@@ -15,4 +15,7 @@ public interface CommuteRepository extends JpaRepository<Commute, Long>, Queryds
 	List<Commute> findByShopIdOrderByIdDesc(Long id);
 
 	Optional<Commute> findByIdOrderByIdDesc(Long id);
+	
+	//List<Commute> findFirstByShopIdOrderByIdDesc(Long id);
+	Optional<Commute> findFirstByShopIdOrderByIdDesc(Long id); //첫번째 찾기
 }

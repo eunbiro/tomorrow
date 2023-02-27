@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CommuteService {
 	private final CommuteRepository commuteRepository;
-
+	
 	// 출퇴근 기록 리스트
 	@Transactional(readOnly = true)
 	public List<CommuteDto> getCommuteList(Long shopId){
@@ -67,13 +67,18 @@ public class CommuteService {
 	//퇴근 등록 update
 	public void updateCommute(Long id, CommuteDto commuteDto, Member member, Shop shop) {
 	
-		
 		Commute commute = commuteRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-		
 		commute.updateCommute(commuteDto, member, shop);
 	}
-
-
+	
+	//최근 출근기록찾기
+	public CommuteDto commuteListchk(Long shopId) {
+		
+    	List<CommuteDto> commuteList = getCommuteList(shopId);
+    	CommuteDto commuteDto = commuteList.get(0);
+		
+    	return commuteDto; 
+	}
 
 	
 }

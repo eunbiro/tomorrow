@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.dto.CreateShopFormDto;
+import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.entity.MemShopMapping;
+import com.tomorrow.entity.Member;
+import com.tomorrow.entity.Shop;
+import com.tomorrow.repository.ShopRepository;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopCreateService;
-
+import com.tomorrow.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,11 +30,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ShopCreateController {
 	private final MemberService memberService;
-	
+
 	private final ShopCreateService shopCreateService;
 	//매장생성(shopCreateForm.html) 들어가기
 		@GetMapping(value="/shopCreate/shopCreate")
-		public String createShopForm(Model model, Principal principal) {
+		public String createShopForm(Model model, Principal principal) { //모델은 jsp 했을 때 request espone 
 			getSideImg(model, principal);
 			model.addAttribute("createShopFormDto",new CreateShopFormDto());
 			return "shop/shopCreateForm";
@@ -49,11 +54,15 @@ public class ShopCreateController {
 			}
 			
 			try {
-				shopCreateService.saveShop(createShopFormDto, createShopImgFileList);
+				//여기서 부터 봐야해
+				shopCreateService.saveShop(createShopFormDto, createShopImgFileList,principal.getName());
+						
 			}catch(Exception e) {
 				model.addAttribute("errorMessage","상품 등록 중 에러가 발생했습니다.");
 				return "shop/shopCreateForm";
 			}
+			
+			
 			
 			return "redirect:/";
 		}
