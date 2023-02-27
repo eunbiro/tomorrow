@@ -118,6 +118,10 @@ input:focus {
 	margin-top: 50px;
 }
 
+.table {
+	text-align: center;
+}
+
 .profile-shop-register {
 	margin: 20px;
 }
@@ -196,57 +200,54 @@ input:focus {
 		<div class="mypage-bg"></div>
 		<div class="mypage-profile">
 			<div class="mypage-profile-img" style="background: #BDBDBD;">
-				<img class="mypage-profile-img" th:if="${not #strings.isEmpty(member.imgUrl)}" th:src="${member.imgUrl}">
+				<img class="mypage-profile-img"
+					th:if="${not #strings.isEmpty(member.imgUrl)}"
+					th:src="${member.imgUrl}">
 			</div>
 
 			<div class="profile-basic">
-				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_USER')">[[${member.userNm}]] 님</a>
-				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">[[${member.userNm}]] 님</a>				
-				<a class="profile-mini-id" >@[[${member.userId}]]</a>
-				<a class="profile-time" th:text="'가입날짜: '+${#temporals.format(member.regTime,'yyyy-MM-dd')}"></a>
+				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_USER')">[[${member.userNm}]]
+					님</a> <a class="profile-name"
+					sec:authorize="hasAnyAuthority('ROLE_ADMIN')">[[${member.userNm}]]
+					님</a> <a class="profile-mini-id">@[[${member.userId}]]</a> <a
+					class="profile-time"
+					th:text="'가입날짜: '+${#temporals.format(member.regTime,'yyyy-MM-dd')}"></a>
 			</div>
 		</div>
 		<div>
 			<div class="profile-shop-form ">
 				<div class="profile-shop-register w-75 mx-auto ">
-					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" th:onclick="|location.href='@{/shopcreate/shopcreate}'|" >매장생성</button>
-					<!-- <button type="submit" sec:authorize="isAuthenticated()"  th:onclick="|location.href='@{/shop/search}'|">매장등록</button>  -->
+					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
+						th:onclick="|location.href='@{/shopCreate/shopCreate}'|">매장생성</button>
+					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER')"
+						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
 				</div>
-				<div class="w-75 mx-auto">
-					<div class="profile-shop-down d-flex justify-content-around ">
-						<div>
-							<label class="profile-shop-number">매장번호</label>
-						</div>
-						<div>
-							<a class="profile-shop-real-number">56456231</a>
-						</div>
-						<div>
-							<a class="profile-shop-wage ">시급 13,000원</a>
-						</div>
+				<Form th:object="${shops}" role="form" method="get">
+					<div class="w-75 mx-auto"
+						sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+						<table class="table">
+							<tbody>
+								<tr>
+									<th></th>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<div class="profile-shop-down d-flex justify-content-around">
-						<div>
-							<label class="profile-shop-number">매장번호</label>
-						</div>
-						<div>
-							<a class="profile-shop-real-number">56456231</a>
-						</div>
-						<div>
-							<a class="profile-shop-wage ">시급 13,000원</a>
-						</div>
+					<div class="w-75 mx-auto"
+						sec:authorize="hasAnyAuthority('ROLE_USER')">
+						<table class="table">
+							<tbody>
+								<tr th:each="shop, status:${shops.getContent()}">
+									<th class="profile-shop-number" th:value="매장번호">매장번호</th>
+									<td class="profile-shop-real-number">12345678</td>
+									<td class="profile-shop-wage">시급 13000원</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<div class="profile-shop-down d-flex justify-content-around">
-						<div>
-							<label class="profile-shop-number">매장번호</label>
-						</div>
-						<div>
-							<a class="profile-shop-real-number">56456231</a>
-						</div>
-						<div>
-							<a class="profile-shop-wage ">시급 13,000원</a>
-						</div>
-					</div>
-				</div>
+				</Form>
 				<div class="profile-form-button   mx-auto ">
 					<button class="profile-form-modify">내정보 수정</button>
 					<button class="profile-form-cancel">취소</button>
