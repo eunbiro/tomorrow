@@ -6,11 +6,13 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.dto.ShopDto;
 import com.tomorrow.service.CommuteService;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopService;
@@ -39,17 +41,40 @@ public class ShopManageController {
 		return "shop/employeeInfoForm";
 	}
 
-	// 출퇴근기록 페이지
-		@GetMapping(value = "/commute")
-		public String commute(Model model, Principal principal) {
+	// 매니저 출근관리 화면
+	@GetMapping(value = "/commute")
+	public String commute(Model model, Principal principal) {
 
-			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
-			getSideImg(model, principal);
-			model.addAttribute("myShopList", myShopList);
-			model.addAttribute("commuteDto", new CommuteDto());
+		getSideImg(model, principal);
+		model.addAttribute("myShopList", myShopList);
+		model.addAttribute("commuteDto", new CommuteDto());
 
-			return "manage/managerCommuteForm";
-		}
+		return "manage/managerCommuteForm";
+	}
+	
+	//매니저 급여관리 화면
+	@GetMapping(value = "/commute/{shopId}")
+	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+
+		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId);
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+
+		CommuteDto leavingChk = commuteService.commuteListchk(shopId); 
+		CommuteDto commuteDto = new CommuteDto();
+
+		ShopDto shopDto = new ShopDto();
+		shopDto.setShopId(shopId);
+		commuteDto.setShopDto(shopDto);
+
+		getSideImg(model, principal);
+		model.addAttribute("leavingChk", leavingChk);
+		model.addAttribute("myShopList", myShopList);
+		model.addAttribute("commuteList", commuteList);
+		model.addAttribute("commuteDto", commuteDto);
+
+		return "manage/managerCommuteForm";
+	}
 
 }
