@@ -120,21 +120,21 @@ input {
 							<div class="shop-item">
 								<label class="shop-name">매장명</label>
 							</div>
-							<input th:field="*{shopNm}" />
+							<input th:field="*{shopNm}" readonly style="border: none;">
 						</div>
 
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-location">위치</label>
 							</div>
-							<input th:field="*{shopPlace}" />
+							<input th:field="*{shopPlace}" readonly style="border: none;">
 						</div>
 
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-type">업종</label>
 							</div>
-							<input th:field="*{shopType}">
+							<input th:field="*{shopType}" readonly style="border: none;">
 						</div>
 						<div class="mb-3 shop-info">
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
@@ -147,13 +147,13 @@ input {
 							<div class="shop-item">
 								<label class="shop-business">사업자 번호</label>
 							</div>
-							<input th:field="*{businessId}" />
+							<input th:field="*{businessId}" readonly style="border: none;">
 						</div>
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-business">매장 코드</label>
 							</div>
-							<input th:field="*{shopId}" />
+							<input th:field="*{shopId}" readonly style="border: none;">
 						</div>
 						<div class="shop-createbtn">
 							<button type="submit" class="btn " style="width: 30%; left: 0;">수정</button>
