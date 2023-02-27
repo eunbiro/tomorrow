@@ -35,11 +35,18 @@ public class ShopInfoController {
 	// 상품 등록은 정환님이 하니깐... 아 뭔가 마땅한 방법같지 않은데 일단 이렇게 고고
 	// 정환님 페이지 만들고 있는데 거기다가 내가 수정을 끼워넣을 수는 없으니깐 ! ㅎㅎ 
 	
+	
+	/* TODO 
+	 * 1. 수정 폼을 새로 만든다. (사실 복붙해서 만들었으니까 약간 손만 보면 됨)
+	 * 2. 수정 메소드들 잘 작동하는지 확인
+	 * 3. 조회 폼은 form 쓰는 거 아니니까 업데이트 잘 되면 html 수정 (*->$)
+	 * 
+	 * */
+	
+	
 	/* TODO 수정기능 넣고 난 다음에 할 일 
-	 * 1. 매장 상세정보 페이지 html 수정하기 (input -> div)
-	 * 1-1. 시발 아니면... 상세정보 페이지를... 새로 만들어야 하나...? 개같은 
-	 * 이건 좀 더 생각을 해보자... 하아 근데 매장 상제정보를 input으로 보여줄 수 있냐고...
-	 * 2. 정환님 코드 보고 지도 불러오기 
+	 * 1. 매장 상세정보 페이지 html 수정하기 (input -> readonly, border = none 해서 피그마처럼 만들기)
+	 * 2. 정환님 코드 보고 지도 불러오기 (도전? 아니면 굳이?)
 	 * 3. 사진 누르면 원본 크기로 사진 창 따로 뜨게 만들기! (도전) 
 	 * */
 	
@@ -76,7 +83,7 @@ public class ShopInfoController {
 	 * */
 	/*
 	// 매장정보 수정 페이지 보기 
-	@GetMapping(value = "/shop/shopInfo/{shopId}")
+	@GetMapping(value = "/shop/shopInfoEdit/{shopId}")
 	public String shopDtl(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 		try {
 			getSideImg(model, principal);
@@ -87,11 +94,11 @@ public class ShopInfoController {
 			return "shopCreate/shopCreat";
 		}
 		
-		return "shop/shopInfo";
+		return "shop/shopInfoEdit";
 	}
 	
 	// 매장정보 수정
-	@PostMapping(value = "shop/shopInfo/{shopId}")
+	@PostMapping(value = "shop/shopInfoEdit/{shopId}")
 	public String itemUpdate(@Valid CreateShopFormDto createShopFormDto, BindingResult bindingResult, Model model, @RequestParam("shopImgFile") List<MultipartFile> shopImgFileList, Principal principal) {
 		try {
 			getSideImg(model, principal);
