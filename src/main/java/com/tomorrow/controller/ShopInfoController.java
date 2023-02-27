@@ -91,7 +91,7 @@ public class ShopInfoController {
 	}
 	
 	// 매장정보 수정
-	@PostMapping(value = "shop/shopEdit")
+	@PostMapping(value = "/shop/shopEdit")
 	public String shopUpdate(@Valid CreateShopFormDto createShopFormDto, @RequestParam("createShopImgFile") List<MultipartFile> shopImgFileList, BindingResult bindingResult, Model model, Principal principal) {
 		getSideImg(model, principal);
 		
