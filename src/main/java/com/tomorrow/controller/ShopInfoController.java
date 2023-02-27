@@ -81,7 +81,7 @@ public class ShopInfoController {
 	 * 1. 매장정보 수정 페이지 불러오기
 	 * 2. 매장정보 수정 
 	 * */
-	/*
+	
 	// 매장정보 수정 페이지 보기 
 	@GetMapping(value = "/shop/shopInfoEdit/{shopId}")
 	public String shopDtl(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
@@ -108,7 +108,7 @@ public class ShopInfoController {
 		}
 		return "redirect:/";
 	}
-	*/
+	
 	
 	
 
