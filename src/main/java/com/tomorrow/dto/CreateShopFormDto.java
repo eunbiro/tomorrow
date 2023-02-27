@@ -25,7 +25,7 @@ public class CreateShopFormDto { //매장 만들 때
 	private String shopTime; //매장 시간
 	
 	@NotNull(message = "사업자 번호는 필수 입력 값입니다.")
-	private int businessId; //사업자 번호
+	private Long businessId; //사업자 번호
 	
 	@NotBlank(message = "매장 위치는는 필수 입력 값입니다.")
 	private String shopPlace;

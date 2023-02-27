@@ -49,23 +49,8 @@ public class ShopInfoService {
 		List<MemShopMappingDto> myShopList = getMapping(member.getId());
 		return myShopList;
 	}
-	
-	// 상품 수정 
-	public Long updateShopInfo(CreateShopFormDto createShopFormDto, List<MultipartFile> shopImgFileList) throws Exception {
-		Shop shop = shopRepository.findById(createShopFormDto.getId())
-				.orElseThrow(EntityNotFoundException::new);
-		
-		shop.updateShopInfo(createShopFormDto);
-		
-		List<Long> shopImgIds = createShopFormDto.getCreateShopImgIds(); // 매장 이미지 아이디 리스트 조회
-		
-		for(int i=0; i<shopImgFileList.size(); i++) {
-			shopImgService.updateShopImg(shopImgIds.get(i), shopImgFileList.get(i));
-		}
-		return shop.getId();
-	}
 
-	// 매장 DTO
+	// 매장 DTO (매장 이미지 DTO 정보까지 넣어주기) 
 	@Transactional(readOnly = true)
 	public ShopDto getShop(Shop shop) {
 		ShopDto shopDto = new ShopDto();
@@ -113,11 +98,6 @@ public class ShopInfoService {
 		return shopImgRepository.findByShopId(shopId);
 	}
 
-	/*
-	 * TODO 1. 매장 코드로 이미지를 찾는다. 2. 찾은 이미지 엔티티를 DTO로 변환시킨다.
-	 * 
-	 */
-
 	// 매핑정보 DTO저장
 	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMapping(Long memberId) {
@@ -163,6 +143,21 @@ public class ShopInfoService {
 		
 		return createShopFormDto;
 		
+	}
+	
+	// 상품 수정 
+	public Long updateShopInfo(CreateShopFormDto createShopFormDto, List<MultipartFile> shopImgFileList) throws Exception {
+		Shop shop = shopRepository.findById(createShopFormDto.getId())
+				.orElseThrow(EntityNotFoundException::new);
+		
+		shop.updateShopInfo(createShopFormDto);
+		
+		List<Long> shopImgIds = createShopFormDto.getCreateShopImgIds(); // 매장 이미지 아이디 리스트 조회
+		
+		for(int i=0; i<shopImgFileList.size(); i++) {
+			shopImgService.updateShopImg(shopImgIds.get(i), shopImgFileList.get(i));
+		}
+		return shop.getId();
 	}
 
 }
