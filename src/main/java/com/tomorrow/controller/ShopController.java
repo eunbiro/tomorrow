@@ -61,7 +61,7 @@ public class ShopController {
 	// GET매장 선택 시 공지내역가져옴
 	@GetMapping(value = "/shop/info/{shopId}")
 	public String shopGetNoti(@PathVariable("shopId") String shopId, Model model, Principal principal) {
-
+		
 		List<NoticeDto> notiList = shopService.getNoticeList(shopId);
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		NoticeDto noticeDto = new NoticeDto();
@@ -79,14 +79,19 @@ public class ShopController {
 
 	// POST매장공지 등록 시
 	@PostMapping(value = "/shop/info")
-	public String shopInfoUpdate(@Valid NoticeDto noticeDto, Model model, BindingResult bindingResult, Principal principal) {
+	public String shopInfoUpdate(@Valid NoticeDto noticeDto, BindingResult bindingResult, Model model, Principal principal) {
 
 		if (bindingResult.hasErrors()) {
-
+			
+			Long shopId = noticeDto.getShopDto().getShopId();
 			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-
+			List<NoticeDto> notiList = shopService.getNoticeList(String.valueOf(shopId));
+			
 			getSideImg(model, principal);
+			model.addAttribute("notiList", notiList);
 			model.addAttribute("myShopList", myShopList);
+			model.addAttribute("noticeDto", noticeDto);
+			model.addAttribute("updateNoticeDto", new NoticeDto());
 			return "shop/shopNoticeForm";
 		}
 
@@ -130,7 +135,7 @@ public class ShopController {
 	
 	// 공지 수정 눌렀을때
 	@PostMapping(value = "/shop/notice/{noticeId}/update")
-	public String updateNoticePage(@PathVariable("noticeId") Long noticeId, @Valid NoticeDto updateNoticeDto, Model model, BindingResult bindingResult, Principal principal) {
+	public String updateNoticePage(@PathVariable("noticeId") Long noticeId, @Valid NoticeDto updateNoticeDto, BindingResult bindingResult, Model model, Principal principal) {
 		
 		if (bindingResult.hasErrors()) {
 			
@@ -175,7 +180,6 @@ public class ShopController {
 	@GetMapping(value = "/shop/log")
 	public String shopLog(Model model, Principal principal) {
 
-		// TODO 현재 로그인한 회원의 매장번호를 조회해서 매장코드로 업무내용 불러옴
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
 		getSideImg(model, principal);
@@ -207,14 +211,19 @@ public class ShopController {
 
 	// POST근무일지폼
 	@PostMapping(value = "/shop/log")
-	public String shopLogUpdate(@Valid WorkLogDto workLogDto, Model model, BindingResult bindingResult, Principal principal) {
+	public String shopLogUpdate(@Valid WorkLogDto workLogDto, BindingResult bindingResult, Model model, Principal principal) {
 		
 		if (bindingResult.hasErrors()) {
 
+			Long shopId = workLogDto.getShopDto().getShopId();
 			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-
+			List<WorkLogDto> logList = shopService.getLogList(shopId);
+			
 			getSideImg(model, principal);
+			model.addAttribute("logList", logList);
 			model.addAttribute("myShopList", myShopList);
+			model.addAttribute("workLogDto", workLogDto);
+			model.addAttribute("updateWorkLogDto", new WorkLogDto());
 			return "shop/workLogForm";
 		}
 
@@ -237,7 +246,7 @@ public class ShopController {
 
 	// 일지 수정 눌렀을때
 	@PostMapping(value = "/shop/log/{workLogId}/update")
-	public String updateWorkLog(@PathVariable("workLogId") Long workLogId, @Valid WorkLogDto updateWorkLogDto, Model model, BindingResult bindingResult, Principal principal) {
+	public String updateWorkLog(@PathVariable("workLogId") Long workLogId, @Valid WorkLogDto updateWorkLogDto, BindingResult bindingResult, Model model, Principal principal) {
 		
 		if (bindingResult.hasErrors()) {
 			
