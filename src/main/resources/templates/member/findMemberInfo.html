@@ -32,8 +32,8 @@
 		
 		var url = "/find/info/id";
 		var paramData = {
-                name : $("#name").val(),
-                id_phone : $("#id_phone").val()
+                userNm : $("#userNm").val(),
+                pNum : $("#pNum").val()
             };
 		
 		var param = JSON.stringify(paramData);
@@ -41,25 +41,25 @@
 		$.ajax({
 			url : url,
 			type : "POST",
-			contentType : "application/json",
+			content type : 'application/x-www-form-urlencoded;charset=UTF-8',
 			data : param,
 			beforeSend : function(xhr){
                 xhr.setRequestHeader(header, token);
             },
-            dataType : "text",
+            dataType : "json",
             cache   : false,
 			success : function(data){
 				if(data == 0){
 					alert("회원 정보를 확인해주세요!");
 					location.href ='member/info';
 					$('#id_value').text("회원 정보를 확인해주세요!");
-					$('#name').val('');
-					$('#id_phone').val('');
+					$('#userNm').val('');
+					$('#pNum').val('');
 					location.href='/';
 				} else {
 					$('#id_value').text(data);
-					$('#name').val();
-					$('#id_phone').val();
+					$('#userNm').val();
+					$('#pNum').val();
 				}
 			},
 			 error:function(){
@@ -73,8 +73,8 @@
          var header = $("meta[name='_csrf_header']").attr("content");
 		
 		var paramData = {
-				name : $("#name").val(),
-				id_phone : $("#id_phone").val(),
+				userNm : $("#userNm").val(),
+				pNum : $("#pNum").val(),
             };
 
             var param = JSON.stringify(paramData);
@@ -88,12 +88,12 @@
 			success:function(data){
 				if(data == 0){
 					$('#id_value').text("회원 정보를 확인해주세요!");
-					$('#name').val('');
-					$('#id_phone').val('');
+					$('#userNm').val('');
+					$('#pNum').val('');
 				} else {
 					$('#id_value').text(data);
-					$('#name').val('');
-					$('#id_phone').val('');
+					$('#userNm').val('');
+					$('#pNum').val('');
 				}
 					alert(data);
 			},
@@ -254,6 +254,7 @@ modal.addEventListener("click", e => {
 </style>
 </head>
 <body>
+<!-- enctype="multipart/form-data" th:object="${memberFormDto}" -->
     <div class="container-lg find_info_page" id="findId_div">
         <form method="post" role="form" enctype="multipart/form-data" th:object="${memberFormDto}">
         	<div class="login-total">
@@ -275,13 +276,12 @@ modal.addEventListener("click", e => {
 						<p>가입했던 정보를 입력하세요</p>
 						<div class="input_section input_section_one">
 							<p>이름</p>
-							<input type="text" placeholder="이름을 입력하세요" name="name" id="name" th:field="*{name}" required />
+							<input type="text" placeholder="이름을 입력하세요" th:field="*{userNm}" maxlength="4" required />
 						</div>
 						<div class="input_section input_section_two">
 							<p>전화번호</p>
-							<input type="text" placeholder="전화번호를 입력하세요 (010-XXXX-XXXX)" name="pNum" id="pNum" th:field="*{pNum}" required />
+							<input type="text" placeholder="전화번호를 입력하세요 (010-XXXX-XXXX)" th:field="*{pNum}" maxlength="13" required />
 						</div>
-						<div th:if="${errorMessage}" th:text="${errorMessage}"></div>
 						<!-- <div class="content" th:id="id_value"></div> -->
 					</div>
 					<div class="under_buttons">
@@ -295,11 +295,9 @@ modal.addEventListener("click", e => {
 						      </div>
 					    </div>
 						<div>
-							<button th:formaction="@{/find/info}" type="submit" class="btn btn-primary mb-3">아이디 찾기</button>
+							<button type="submit" th:formaction="@{/find/info}">아이디 찾기</button>
 						<!-- <input type="submit" value="아이디 찾기" id="findId" /> -->
-							<!-- <button type="button" data-toggle="modal" data-target="#exampleModal" id="find_id">
-							아이디찾기</button> -->
-							</div>
+						</div>
 					</div>
 				</div>
 	        </div>

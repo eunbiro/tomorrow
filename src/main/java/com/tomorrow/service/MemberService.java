@@ -85,26 +85,28 @@ public class MemberService implements UserDetailsService {
 		return memberFormDto;
 	}
 	
-	public Member findByNmPhone(String name, String pNum) {
-		 return memberRepository.findByMemberId(name, pNum);
+	public Member findNmPhone(String userNm, String pNum) {
+		Member member =  memberRepository.findByMemberNmAndPhone(userNm, pNum);
+		 return member;
 	}
+	
 	/*
 	@Transactional(readOnly = true) // 트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
-	public String findId(String name, String id_phone) {
+	public String findId(String name, String pNum) {
 		String result = "";
 		try {
-			result = memberRepository.findByMemberId(name, id_phone);
+			result = memberRepository.findByMember(name, pNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
+	*/
 	
 	//전화번호 형식에 맞게 쓰기
-	public boolean isPhoneNum(String id_phone) {
+	public boolean isPhoneNum(String pNum) {
 		//전화번호 정규식
 		String check = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
-		return Pattern.matches(check, id_phone);
+		return Pattern.matches(check, pNum);
 	}
-	*/
 }
