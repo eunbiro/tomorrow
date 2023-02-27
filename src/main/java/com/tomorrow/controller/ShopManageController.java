@@ -29,7 +29,8 @@ public class ShopManageController {
 	@GetMapping(value = "/manage/employeeInfo")
 	public String employeeInfo(Model model, Principal principal) {
 		getSideImg(model, principal);
-		return "shop/employeeInfoForm";
+		
+		return "manage/employeeInfoForm";
 	}
 
 
