@@ -286,4 +286,19 @@ public class ShopService {
 		
 		return mapRepository.save(memShopMapping);
 	}
+	
+	// 등록이 되어있는지 아닌지 체크
+	public int chkMemMap(Long shopId, String userId) {
+		
+		Member member = findMember(userId);
+		MemShopMapping mapping = mapRepository.findByMemberIdAndShopId(member.getId(), shopId);
+		
+		if (mapping == null) {
+			
+			return 0;
+		} else {
+			
+			return 1;
+		}
+	}
 }

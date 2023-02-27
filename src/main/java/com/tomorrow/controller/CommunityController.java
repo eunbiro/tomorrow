@@ -158,13 +158,7 @@ public class CommunityController {
 		}
 		return "redirect:/board/list";
 	}
-	
-	//게시물 댓글 화면 진입
-	@GetMapping(value = "/board/comment/board_id")
-	public String boardComment() {
-		return "community/boardComment";
-	}
-	
+
 	//사이드바 프로필 이미지 가져오기 
 	public Model getSideImg(Model model, Principal principal) {   
 	     MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());

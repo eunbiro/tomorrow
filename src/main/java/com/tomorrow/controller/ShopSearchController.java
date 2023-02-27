@@ -54,21 +54,24 @@ public class ShopSearchController {
 	
 	// 매장 등록시
 	@PostMapping(value = "/shop/search/{shopId}")
-	public String addShop(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+	public @ResponseBody ResponseEntity addShop(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 		
-		try {
+		int check;
+		
+		if (shopService.chkMemMap(shopId, principal.getName()) == 0) {
 			
 			Shop shop = shopService.findShop(shopId);
 			Member member = shopService.findMember(principal.getName());
 			MemShopMapping mapping = MemShopMapping.createMemMapping(shop, member);
 			shopService.saveMemMapping(mapping);
-		} catch (Exception e) {
 			
-			model.addAttribute("errorMessage", "매장등록 중 에러가 발생했습니다.");
-			return "shop/shopSearchForm";
+			check = 0;
+		} else {
+			
+			check = 1;
 		}
 		
-		return "redirect:/shop/search";
+		return new ResponseEntity (check, HttpStatus.OK);
 	}
 	
 	// 사이드바 프로필정보 가져옴

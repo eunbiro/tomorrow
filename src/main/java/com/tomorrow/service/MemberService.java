@@ -1,5 +1,8 @@
 package com.tomorrow.service;
 
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
@@ -83,14 +86,21 @@ public class MemberService implements UserDetailsService {
 	}
 	
 	@Transactional(readOnly = true) // 트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
-	public String findId(String name, String phone) {
+	public String findId(String name, String id_phone) {
 		String result = "";
 		try {
-			result = memberRepository.findId(name, phone);
+			result = memberRepository.findId(name, id_phone);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	//전화번호 형식에 맞게 쓰기
+	public boolean isPhoneNum(String id_phone) {
+		//전화번호 정규식
+		String check = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
+		return Pattern.matches(check, id_phone);
 	}
 	
 }
