@@ -541,6 +541,51 @@ thead {
 	height: 50px;
 }
 
+.acTapBtn {
+	
+	border: none;
+	color: #fff;
+}
+
+.accordion-body {
+	
+	padding: 0;
+}
+
+.acBtn {
+	
+	border: none;
+	color: #fff;
+}
+
+.acBtn:hover {
+	
+	background: #dfdfdf;
+	color: #000;
+}
+
+.acABtn {
+	
+	font-size: 0.9rem;
+}
+
+.acABtn:hover {
+	
+	background: #606060;
+	color: #000;
+}
+
+.acTapBtn > show {
+	
+	#fff;
+}
+
+.side-logout a:hover {
+	
+	text-decoration: underline;
+	color: #696969;
+}
+
 /* 사이드바 끝==================================================== */
 
 /*======================게시글 작성폼 CSS======================*/

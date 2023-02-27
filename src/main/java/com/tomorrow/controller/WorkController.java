@@ -54,6 +54,7 @@ public class WorkController {
 
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
+		
 		getSideImg(model, principal);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("commuteDto", new CommuteDto());
@@ -68,6 +69,7 @@ public class WorkController {
 		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId);
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
+		CommuteDto leavingChk = commuteService.commuteListchk(shopId); 
 		CommuteDto commuteDto = new CommuteDto();
 
 		ShopDto shopDto = new ShopDto();
@@ -75,6 +77,7 @@ public class WorkController {
 		commuteDto.setShopDto(shopDto);
 
 		getSideImg(model, principal);
+		model.addAttribute("leavingChk", leavingChk);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("commuteList", commuteList);
 		model.addAttribute("commuteDto", commuteDto);
@@ -134,7 +137,10 @@ public class WorkController {
 			return "work/commuteForm";
 		}
     	
+    	
+    	//현재날짜
     	LocalDateTime date = LocalDateTime.now();
+    	
     	commuteDto.setLeaving(date);
     	
     	
@@ -143,7 +149,10 @@ public class WorkController {
     	
     	Commute commute = commuteService.findByCommuteId(id); //출퇴근 기록 찾기
     	
+    	
     	commute.setLeaving(commuteDto.getLeaving());
+    	
+    	
     	
     	try {
     		

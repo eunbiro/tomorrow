@@ -92,7 +92,7 @@ input {
 </head>
 <body>
 	<div layout:fragment="content">
-		<form method="post" th:object="${shopDto}">
+		<form role="form" method="post" th:object="${createShopDto}" enctype="multipart/form-data">
 			<div class="container-lg d-flex flex-column text-center"
 				style="margin-top: 60px;">
 				<div class="noti-title   fs-3 fw-bold  my-2 ps-4 col-lg-4">
@@ -117,49 +117,50 @@ input {
 							<div class="shop-item">
 								<label class="shop-name">매장명</label>
 							</div>
-							<input th:field="*{shopNm}" readonly style="border: none;">
+							<input th:field="*{shopNm}" />
 						</div>
 
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-location">위치</label>
 							</div>
-							<input th:field="*{shopPlace}" readonly style="border: none;">
+							<input th:field="*{shopPlace}" />
 						</div>
 
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-type">업종</label>
 							</div>
-							<input th:field="*{shopType}" readonly style="border: none;">
+							<input th:field="*{shopType}">
 						</div>
-						<div class="mb-3 shop-info">
+						
+					<!-- 	<div class="mb-3 shop-info">
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
 							<div class="shImgDiv" th:each="shopImg : ${shopDto.shopImgDto}">
 								<img class="rounded repImg" width="400px" height="500px" th:if="${not #strings.isEmpty(shopImg.shImgUrl)}" 
 								th:src="${shopImg.shImgUrl}">
 							</div>
-						</div>
+						</div> -->
+						 
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-business">사업자 번호</label>
 							</div>
-							<input th:field="*{businessId}" readonly style="border: none;">
+							<input th:field="*{businessId}" />
 						</div>
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-business">매장 코드</label>
 							</div>
-							<input th:field="*{shopId}" readonly style="border: none;">
+							<input th:field="*{shopId}" />
 						</div>
 						<div class="shop-createbtn">
-							<button type="submit" class="btn " style="width: 30%; left: 0;" th:formaction="@{'/shop/shopInfoEdit/' + ${shopDto.shopId}}">수정</button>
+							<button type="submit" class="btn " style="width: 30%; left: 0;">수정</button>
 							<button type="button" class="btn " style="width: 30%; right: 0;">취소</button>
 						</div>
 					</div>
 				</div>
 			</div>
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 		</form>
 	</div>
 </body>

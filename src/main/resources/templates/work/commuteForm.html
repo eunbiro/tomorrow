@@ -126,12 +126,11 @@
 
 				<div class="commute-btn-wrap">
 	
-	              <div th:if="${#strings.isEmpty(commuteDto.id)}">
+	              <div th:if="${not #strings.isEmpty(leavingChk?.leaving)}">
 	              <button class="btn btn-primary" type="submit" th:formaction="@{'/work/commute'}">출근</button>
 	              </div>
-	              <!--  th:unless="${#strings.isEmpty(commuteDto.id)}" -->
-	              <div>
-	              <button class="btn btn-primary" type="submit" th:formaction="@{'/work/commute/17'}">퇴근</button>
+	              <div th:unless="${not #strings.isEmpty(leavingChk?.leaving)}">
+	              <button class="btn btn-primary" type="submit" th:formaction="@{'/work/commute/' + ${leavingChk?.id}}">퇴근</button>
 	              </div>
 	             <!-- <button type="button" class="btn px-4 mx-4" data-bs-dismiss="modal" id="updateBtn" th:value="${noti.noticeId}" onclick="updatePage(this.value)">수정</button> --> 
 				</div> 

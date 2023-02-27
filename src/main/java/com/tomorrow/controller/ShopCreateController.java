@@ -34,7 +34,7 @@ public class ShopCreateController {
 	private final ShopCreateService shopCreateService;
 	//매장생성(shopCreateForm.html) 들어가기
 		@GetMapping(value="/shopCreate/shopCreate")
-		public String createShopForm(Model model, Principal principal) {
+		public String createShopForm(Model model, Principal principal) { //모델은 jsp 했을 때 request espone 
 			getSideImg(model, principal);
 			model.addAttribute("createShopFormDto",new CreateShopFormDto());
 			return "shop/shopCreateForm";
