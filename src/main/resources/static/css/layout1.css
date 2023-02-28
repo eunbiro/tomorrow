@@ -187,7 +187,7 @@ input[type="checkbox"] {
 	font-size: 1.1em;
 }
 
-.join_input_info>p:nth-of-type(1), p:nth-of-type(2), p:nth-of-type(4) {
+.join_input_info>p:nth-of-type(1), p:nth-of-type(2), p:nth-of-type(4), p:nth-of-type(5), p:nth-of-type(6) {
 	margin-bottom: -3px;
 }
 
@@ -255,6 +255,11 @@ input[type="checkbox"] {
 	margin: 30px 0 70px 0;
 }
 
+.input_section_one input , .input_section_two input {
+	box-shadow: 0 4px 4px -4px black;
+	border: 3px solid gray;
+}
+
 .input_section p {
 	margin: 0 auto;
 	color: gray;
@@ -304,9 +309,10 @@ input[type="checkbox"] {
 	width: calc(100% - 31%);
 }
 
-.under_buttons > div:nth-of-type(4) > input {
+.under_buttons > div:nth-of-type(4) > button {
 	border-radius: 5px;
-	font-size: 0.9em;
+	font-size: 1em;
+	font-weight:bold;
 	color: white;
 	background-color: black;
 	padding: 4px 45px;
@@ -344,6 +350,12 @@ input[type="checkbox"] {
 	display: flex;
 	align-items: center;
 }
+
+.result_section_one input, .result_section_two input {
+	box-shadow: 0 4px 4px -4px black;
+	border: 3px solid gray;
+}
+
 result_section_id {
 	width: 15%;
 	float: left;
@@ -405,6 +417,7 @@ result_section_id {
 	display: flex;
 	justify-content: space-between;
 	width: 30%;
+	float:right;
 }
 
 .modify_login_btn a {
@@ -412,6 +425,16 @@ result_section_id {
 	color:black;
 	font-weight: bold;
 	margin-right: 30px;
+}
+
+/*======================아이디결과 CSS======================*/
+
+.findId_result_total {
+	transform:translate(0%, 11%);
+}
+
+.result_top {
+	border-bottom: 2px solid black;
 }
 
 /*======================매장근무기록CSS======================*/

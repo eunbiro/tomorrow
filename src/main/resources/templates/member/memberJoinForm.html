@@ -50,7 +50,7 @@
 				<div class="join-input-top">
 					<p class="join_word">개인 회원가입</p>
 					<label for="profileImgFile" class="img_hover">
-						<img src="/images/joinImg.png" style="width: 120px; position: relative;" /> 
+						<img src="/images/joinImg.png" style="width: 120px; position: relative;" />
 						<input type="file" name="profileImgFile" id="profileImgFile" style="position: absolute; display:none" />
 					</label>
 				</div>
@@ -67,6 +67,12 @@
 					<label th:for="pNum">전화번호</label>
 					<input type="text" th:field="*{pNum}" />
 					<p th:if="${#fields.hasErrors('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
+					<label th:for="hintQ">힌트질문</label>
+					<input type="text" th:field="*{hintQ}" placeholder="ex) 기억에 남는 선물은?" />
+					<p th:if="${#fields.hasErrors('hintQ')}" th:errors="*{hintQ}" class="fieldError">Incorrect Data</p>
+					<label th:for="hintA">힌트대답</label>
+					<input type="text" th:field="*{hintA}" />
+					<p th:if="${#fields.hasErrors('hintA')}" th:errors="*{hintA}" class="fieldError">Incorrect Data</p>
 					<button type="submit" onclick="location.href='/member/new'"  class="join_new">가입하기</button>
 				</div>
 			</div>

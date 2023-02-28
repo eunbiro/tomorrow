@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.tomorrow.constant.Role;
@@ -30,7 +31,7 @@ public class Member extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id; // 회원 식별자
 
-	@Column(length = 25, nullable = false)
+	@Column(length = 25, nullable = false, unique = true)
 	private String userId; // 유저 회원가입/로그인 시 필요한 id
 
 	@Column(length = 20, nullable = false)
@@ -50,6 +51,10 @@ public class Member extends BaseEntity {
 	private String imgUrl; // 이미지경로
 
 	private String imgNm; // 이미지 이름
+	
+	private String hintQ;	//비밀번호 수정 시 사용
+
+	private String hintA;	//비밀번호 수정 시 사용
 	
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "shop_id")
@@ -73,5 +78,10 @@ public class Member extends BaseEntity {
 		this.imgNm = imgNm;
 		this.imgUrl = imgUrl;
 	}
-
+	//비밀번호 수정
+	public String updatePassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		String password = passwordEncoder.encode(memberFormDto.getPassword());
+		this.password = passwordEncoder.encode(password);
+		return this.password;
+	}
 }

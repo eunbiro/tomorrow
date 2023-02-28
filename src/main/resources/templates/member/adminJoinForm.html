@@ -67,6 +67,12 @@
 					<label th:for="pNum">전화번호</label>
 					<input type="text" th:field="*{pNum}" />
 					<p th:if="${#fields.hasErrors('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
+					<label th:for="hintQ">힌트질문</label>
+					<input type="text" th:field="*{hintQ}" placeholder="ex) 기억에 남는 선물은?" />
+					<p th:if="${#fields.hasErrors('hintQ')}" th:errors="*{hintQ}" class="fieldError">Incorrect Data</p>
+					<label th:for="hintA">힌트대답</label>
+					<input type="text" th:field="*{hintA}" />
+					<p th:if="${#fields.hasErrors('hintA')}" th:errors="*{hintA}" class="fieldError">Incorrect Data</p>
 					<button type="submit" class="join_new">가입하기</button>
 				</div>
 			</div>
