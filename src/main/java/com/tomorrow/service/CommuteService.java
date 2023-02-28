@@ -59,27 +59,9 @@ public class CommuteService {
 
 	}
 	
-	public List<ManagerCommuteDto> getCommuteListForManager(Long shopId, String userId){
-		
+	public List<Commute> getCommuteListForManager(Long shopId){
 		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
-		List<ManagerCommuteDto> managerCommuteDtoList = new ArrayList<>();
-		
-		Member member= memberRepository.findByUserId(userId);
-		Shop shop = shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
-		
-		for (Commute commute : commuteList) {
-
-			ManagerCommuteDto managerCommuteDto = new ManagerCommuteDto();
-
-			managerCommuteDto.setId(commute.getId());
-			managerCommuteDto.setWorking(commute.getWorking());
-			managerCommuteDto.setLeaving(commute.getLeaving());
-			managerCommuteDto.setMember(member);
-			managerCommuteDto.setShop(shop);
-			managerCommuteDtoList.add(managerCommuteDto);
-		}
-		
-		return managerCommuteDtoList;
+		return commuteList;
 	}
 	
 	//TODO : List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId); .get(0) 인덱스 번호 0번짜리 찾아서 등록

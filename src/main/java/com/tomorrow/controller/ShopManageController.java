@@ -14,6 +14,7 @@ import com.tomorrow.dto.ManagerCommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopDto;
+import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.Shop;
 import com.tomorrow.service.CommuteService;
 import com.tomorrow.service.MemberService;
@@ -65,10 +66,10 @@ public class ShopManageController {
 		//매니저 아이디로 소유중인 매장 목록 띄우기
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);
-			
-		List<ManagerCommuteDto> commuteList = commuteService.getCommuteListForManager(shopId, principal.getName());		model.addAttribute("commuteList", commuteList);
+		
+		//전체 직원 근태 리스트
+		List<Commute> commuteList = commuteService.getCommuteListForManager(shopId);
 		model.addAttribute("commuteList", commuteList);
-
 		return "manage/managerCommuteForm";
 	}
 
