@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.dto.PayListDto;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
 import com.tomorrow.service.CommuteService;
 import com.tomorrow.service.MemberService;
+import com.tomorrow.service.PayListService;
 import com.tomorrow.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,18 +41,23 @@ public class WorkController {
 	private final ShopService shopService;
 	private final CommuteService commuteService;
 	private final MemberService memberService;
-
+	private final PayListService payListService;
 	// 급여일지 페이지
 	@GetMapping(value = "/pay")
 	public String pay(Model model, Principal principal) {
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		
 		getSideImg(model, principal);
+
+		model.addAttribute("myShopList", myShopList);
+	    model.addAttribute("payListDto", new PayListDto());
+		
 		return "work/payForm";
 	}
 
 	// 출퇴근기록 페이지
 	@GetMapping(value = "/commute")
 	public String commute(Model model, Principal principal) {
-		// url경로에 페이지가 있으면 해당 페이지를 조회하도록 하고 페이지 번호가 없으면 0페이지를 조회하도록 한다.
 
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
@@ -64,12 +71,12 @@ public class WorkController {
 
 	// GET매장 선택 시 출퇴근기록가져옴
 	@GetMapping(value = "/commute/{shopId}")
-	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+	public String getRegister(@PathVariable("shopId") Long shopId, Long memberId, Model model, Principal principal) {
 
-		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId);
+		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId, memberId);
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
-		CommuteDto leavingChk = commuteService.commuteListchk(shopId); 
+		CommuteDto leavingChk = commuteService.commuteListchk(shopId, memberId); 
 		CommuteDto commuteDto = new CommuteDto();
 
 		ShopDto shopDto = new ShopDto();

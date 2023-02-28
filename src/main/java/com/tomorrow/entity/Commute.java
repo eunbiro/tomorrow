@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.tomorrow.dto.CommuteDto;
-import com.tomorrow.dto.NoticeDto;
 
 import lombok.Getter;
 import lombok.Setter;
