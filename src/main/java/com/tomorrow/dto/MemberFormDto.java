@@ -3,6 +3,7 @@ package com.tomorrow.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,8 @@ public class MemberFormDto {
 	private String imgNm; // 이미지 이름
 	
 	private Role role;
+	
+	private LocalDateTime regTime;
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 

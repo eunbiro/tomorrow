@@ -20,16 +20,11 @@
 	$(function() {
 		
 		$('.commute-sel-shop').off().on("change", function() {
-			
 			var shopId = $('.commute-sel-shop').val();
-			
-			var url = "/work/commute/" + shopId;
-			
+			var url = "/admin/commute/" + shopId;
 			$(location).attr('href', url);
 		});
 	});
-	
-	
 	</script>
 </th:block>
 <style>
@@ -127,70 +122,36 @@
 				</select>
 
 				<div class="commute-btn-wrap">
-					<!-- 비어있을 때 출근 보이고, 비어있지 않을 때 버튼보이게  -->
-					<div th:if="${#strings.isEmpty(leavingChk?.id)}">
-						<button class="btn btn-primary" type="submit"
-							th:formaction="@{'/work/commute'}">출근</button>
-					</div>
-					<div th:unless="${#strings.isEmpty(leavingChk?.id)}">
-						<div th:if="${not #strings.isEmpty(leavingChk?.leaving)}">
-							<button class="btn btn-primary" type="submit"
-								th:formaction="@{'/work/commute'}">출근</button>
-						</div>
-
-						<div th:unless="${not #strings.isEmpty(leavingChk?.leaving)}">
-							<button class="btn btn-primary" type="submit"
-								th:formaction="@{'/work/commute/' + ${leavingChk?.id}}">퇴근</button>
-						</div>
-					</div>
-
-
-
-				</div>
-
-
-				<!-- <div class="commute-time" style="padding: 10px;">
-					<label for="working-time"
-						style="border-right: 3px solid black; padding-right: 20px;">출근
-						시간</label> <input type="text"
-						style="margin-left: 20px; border: none; font-size: 1.2rem;"
-						placeholder="13:00" readonly> <label for="work-hours"
-						style="border-right: 3px solid black; padding-right: 20px;">퇴근
-						시간</label> <input type="text"
-						style="margin-left: 20px; border: none; font-size: 1.2rem;"
-						placeholder="22:00" readonly>
-				</div> -->
-
+	
+	              <div class="excel">
+	              	<button class="btn btn-primary" type="submit" >엑셀 저장</button>
+	              </div>
+	              
+	             <!-- <button type="button" class="btn px-4 mx-4" data-bs-dismiss="modal" id="updateBtn" th:value="${noti.noticeId}" onclick="updatePage(this.value)">수정</button> --> 
+				</div> 
+				
 				<div>
 					<table class="commute-table table table-hover text-center my-4">
 						<thead style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
 							<tr>
-								<th scope="col">날짜</th>
+								<th scope="col">이름</th>
+								<th scope="col">매장</th>
 								<th scope="col">출근시간</th>
 								<th scope="col">퇴근시간</th>
-
+								<th scope="col">전화번호</th>
+								<!-- <th scope="col">출근</th> -->
 							</tr>
 						</thead>
 						<tbody>
-							<!-- shopId로 찾은 출퇴근 기록 찾기 -->
 							<tr th:each="commute : ${commuteList}">
-<<<<<<< HEAD
-
-								<td class="fs-6"
-									th:text="${#temporals.format(commute.working, 'yyyy.MM.dd')}"></td>
-								<td class="fs-6"
-									th:text="${#temporals.format(commute.working, 'HH:mm:ss')}"></td>
-								<td class="fs-6"
-									th:text="${#temporals.format(commute.leaving, 'HH:mm:ss')}"></td>
-=======
 							<!-- 	<th th:text="${commute.id}"></th> -->
+								<td class="fs-6" th:text="${commute.memberFormDto.userNm}">
+								<td class="fs-6" th:text="${commute.shopDto.shopNm}">
 								<td class="fs-6" th:text="${#temporals.format(commute.working, 'yyyy.MM.dd')}"></td>
 								<td class="fs-6" th:text="${#temporals.format(commute.working, 'HH:mm:ss')}"></td>
 								<td class="fs-6" th:text="${#temporals.format(commute.leaving, 'HH:mm:ss')}"></td>	
->>>>>>> 4ca2d86fb1aeafe92cae4294cd0dce958a80e76e
+								<td class="fs-6" th:text="${commute.memberDto.pNum}">
 							</tr>
-
-
 						</tbody>
 					</table>
 				</div>
@@ -209,8 +170,7 @@
 					<li class="page-item"><a class="page-link" href="#">&gt;&gt;</a></li>
 				</ul>
 			</nav>
-			<input type="hidden" th:name="${_csrf.parameterName}"
-				th:value="${_csrf.token}">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 		</form>
 	</div>
 </body>
