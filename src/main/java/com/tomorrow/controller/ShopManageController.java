@@ -14,6 +14,7 @@ import com.tomorrow.dto.ManagerCommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopDto;
+import com.tomorrow.entity.Shop;
 import com.tomorrow.service.CommuteService;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopService;
@@ -59,22 +60,14 @@ public class ShopManageController {
 	//매니저 급여관리 화면
 	@GetMapping(value = "/commute/{shopId}")
 	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
-
-		List<ManagerCommuteDto> commuteList = commuteService.getCommuteListForManager(shopId, principal.getName());
-		//매니저 아이디로 매장 목록 띄우기
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
- 
-		CommuteDto commuteDto = new CommuteDto();
-
-		ShopDto shopDto = new ShopDto();
-		shopDto.setShopId(shopId);
-		commuteDto.setShopDto(shopDto);
-
 		getSideImg(model, principal);
-		
+
+		//매니저 아이디로 소유중인 매장 목록 띄우기
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);
+			
+		List<ManagerCommuteDto> commuteList = commuteService.getCommuteListForManager(shopId, principal.getName());		model.addAttribute("commuteList", commuteList);
 		model.addAttribute("commuteList", commuteList);
-		model.addAttribute("commuteDto", commuteDto);
 
 		return "manage/managerCommuteForm";
 	}

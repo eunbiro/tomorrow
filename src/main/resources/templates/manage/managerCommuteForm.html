@@ -109,15 +109,14 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<form method="post" th:object="${commuteDto}">
+		<form method="post" th:object="${managerCommuteDto}">
 			<div class="commute-wrap">
-				<select class="form-select commute-select commute-sel-shop"
-					th:field="*{shopDto.shopId}" id="shopId">
+				<select class="form-select commute-select commute-sel-shop" id="shopId">
 					<option value="">매장 선택</option>
-					<th:block th:each="myShop : ${myShopList}"
-						th:value="${myShop.shopDto.shopId}">
-						<option th:value="${myShop.shopDto.shopId}"
-							th:text="${myShop.shopDto.shopNm}"></option>
+					<th:block th:each="myShop : ${myShopList}" th:value="${myShop.shopDto.shopId}">
+						<option th:value="${myShop.shopDto.shopId}" th:text="${myShop.shopDto.shopNm}">
+							value
+						</option>
 					</th:block>
 				</select>
 
@@ -145,11 +144,11 @@
 						<tbody>
 							<tr th:each="commute : ${commuteList}">
 							<!-- 	<th th:text="${commute.id}"></th> -->
-								<td class="fs-6" th:text="${commute.memberFormDto?.userNm}">
-								<td class="fs-6" th:text="${commute.shopDto?.shopNm}">
+								<td class="fs-6" th:text="${commute.member.userNm}">
+								<td class="fs-6" th:text="${commute.shop.shopNm}">
 								<td class="fs-6" th:text="${#temporals.format(commute.working, 'HH:mm:ss')}"></td>
 								<td class="fs-6" th:text="${#temporals.format(commute.leaving, 'HH:mm:ss')}"></td>	
-								<td class="fs-6" th:text="${commute.memberFormDto?.pNum}">
+								<td class="fs-6" th:text="${commute.member.pNum}">
 							</tr>
 						</tbody>
 					</table>

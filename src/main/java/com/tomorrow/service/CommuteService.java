@@ -65,14 +65,13 @@ public class CommuteService {
 		List<ManagerCommuteDto> managerCommuteDtoList = new ArrayList<>();
 		
 		Member member= memberRepository.findByUserId(userId);
-		Shop shop = shopRepository.findByShopId(shopId);
+		Shop shop = shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
 		
 		for (Commute commute : commuteList) {
 
 			ManagerCommuteDto managerCommuteDto = new ManagerCommuteDto();
 
 			managerCommuteDto.setId(commute.getId());
-			managerCommuteDto.setWorking(commute.getWorking());
 			managerCommuteDto.setWorking(commute.getWorking());
 			managerCommuteDto.setLeaving(commute.getLeaving());
 			managerCommuteDto.setMember(member);
