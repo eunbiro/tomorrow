@@ -1,6 +1,5 @@
 package com.tomorrow.service;
 
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.groovy.parser.antlr4.util.StringUtils;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.repository.MemberRepository;
@@ -85,9 +83,15 @@ public class MemberService implements UserDetailsService {
 		return memberFormDto;
 	}
 	
+	//아이디 리턴 메소드
 	public Member findNmPhone(String userNm, String pNum) {
-		Member member =  memberRepository.findByMemberNmAndPhone(userNm, pNum);
-		 return member;
+		Member member =  memberRepository.findId(userNm, pNum);
+		return member;
+	}
+	//비밀번호 리턴 메소드
+	public Member findEmailPhone(String userId, String pNum) {
+		Member member =  memberRepository.findPassword(userId, pNum);
+		return member;
 	}
 	
 	/*
