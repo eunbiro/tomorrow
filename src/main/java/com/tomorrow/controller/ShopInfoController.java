@@ -108,5 +108,12 @@ public class ShopInfoController {
 		return "redirect:/";
 	}
 
+	// 직원정보 - 수경 2
+	@GetMapping(value = "/shop/employeeInfo")
+	public String employeeInfo(Model model, Principal principal) {
+		getSideImg(model, principal);
+		return "shop/employeeInfoForm";
+	}
+
 
 }

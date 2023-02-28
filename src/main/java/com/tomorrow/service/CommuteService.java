@@ -6,17 +6,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+import javax.swing.JOptionPane;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.CommuteDto;
+import com.tomorrow.dto.ManagerCommuteDto;
+import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
 import com.tomorrow.repository.CommuteRepository;
+import com.tomorrow.repository.MemberRepository;
+import com.tomorrow.repository.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +33,8 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CommuteService {
 	private final CommuteRepository commuteRepository;
+	private final MemberRepository memberRepository;
+	private final ShopRepository shopRepository;
 	
 	// 출퇴근 기록 리스트
 	@Transactional(readOnly = true)
@@ -33,7 +43,6 @@ public class CommuteService {
 		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
 		List<CommuteDto> commuteDtoList = new ArrayList<>();
 
-		
 		for (Commute commute : commuteList) {
 
 			CommuteDto commuteDto = new CommuteDto();
@@ -48,6 +57,11 @@ public class CommuteService {
 
 		return commuteDtoList;
 
+	}
+	
+	public List<Commute> getCommuteListForManager(Long shopId){
+		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
+		return commuteList;
 	}
 	
 	//TODO : List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId); .get(0) 인덱스 번호 0번짜리 찾아서 등록
@@ -73,11 +87,17 @@ public class CommuteService {
 	
 	//최근 출근기록찾기
 	public CommuteDto commuteListchk(Long shopId) {
-		
+				
     	List<CommuteDto> commuteList = getCommuteList(shopId);
-    	CommuteDto commuteDto = commuteList.get(0);
-		
-    	return commuteDto; 
+    	    			
+    	if(commuteList.size() == 0 ) {
+    		CommuteDto commuteDto = new CommuteDto();	
+        	return commuteDto;
+    		
+    	} 
+    	
+		return commuteList.get(0);	
+    	    
 	}
 
 	

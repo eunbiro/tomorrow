@@ -28,4 +28,10 @@ public class ShopDto {
 	
 	private List<ShopImgDto> shopImgDto = new ArrayList<>(); // 상품 이미지 정보 저장하는 리스트 
 	
+	private static ModelMapper modelMapper = new ModelMapper();
+	
+	public static ShopDto of(Shop shop) {
+		return modelMapper.map(shop, ShopDto.class);
+	}
+	
 }
