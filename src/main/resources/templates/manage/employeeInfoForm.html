@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>직원정보</title>
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		// 매장선택 시 해당 매장정보 불러옴
+		$(function() {
+
+			$('.info-sell-shop').off().on("change", function() {
+
+				var shopId = $('.info-sell-shop').val();
+
+				var url = "/admin/manage/employeeInfo/" + shopId;
+
+				$(location).attr('href', url);
+			});
+		});
+	</script>
+</th:block>
+<th:block layout:fragment="css">
+	<style>
+.wrap {
+	margin-top: 70px;
+}
+
+.emp-info-select {
+	box-shadow: 0px 3px 5px gray;
+}
+
+.emp-info-title {
+	font-family: 'SEBANG_Gothic_Bold';
+}
+
+.emp-info-page {
+	text-align: center;
+	margin-top: 40px;
+	font-weight: bold;
+	position: fixed;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+}
+
+.emp-info-pgeList {
+	list-style: none;
+}
+
+li {
+	display: inline;
+}
+
+thead th:nth-child(n+2):nth-child(-n+6) {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-top: none;
+}
+
+tbody td:nth-child(n+2):nth-child(-n+6) {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+tr {
+	height: 40px;
+}
+
+table {
+	height: 323px;
+}
+</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form method="get" th:object="${shopDto}">
+			<div class="wrap">
+				<div class="row my-4">
+					<div class="col-lg-4">
+						<select
+							class="info-sell-shop form-select w-75 my-3 emp-info-select">
+							<option value="">매장 선택</option>
+							<th:block th:each="myShop: ${myShopList}"
+								th:value="${myShop.shopDto.shopId}">
+								<option th:value="${myShop.shopDto.shopId}"
+									th:text="${myShop.shopDto.shopNm}">One</option>
+							</th:block>
+						</select>
+					</div>
+					<div class="col-lg-4 text-center fs-1 fw-bold emp-info-title">근무자
+						정보</div>
+					<div class="col-lg-4"></div>
+				</div>
+				<div>
+					<table class="table table-hover text-center">
+						<thead style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
+							<tr class="fs-4">
+								<th scope="col">이름</th>
+								<th scope="col">전화번호</th>
+								<th scope="col">근무시간</th>
+								<th scope="col">시급</th>
+								<th scope="col">승인</th>
+								<th scope="col">다운로드</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td scope="row" class="fs-5"><a href="#">권수경</a></td>
+								<td class="fs-5">010-0000-0803</td>
+								<td class="fs-5">08:00~12:00</td>
+								<td class="fs-5">50,000</td>
+								<td class="fs-5"><a>엑셀</a></td>
+								<td class="fs-5"><a href="#">승인대기</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- 페이징 버튼 -->
+			<div class="emp-info-page fs-4">
+				<ul class="emp-info-pgeList">
+					<li><a>&lt;&lt;</a></li>
+					<li><a>&lt;</a></li>
+					<li><a>1</a></li>
+					<li><a>2</a></li>
+					<li><a>3</a></li>
+					<li><a>4</a></li>
+					<li><a>5</a></li>
+					<li><a>&gt;</a></li>
+					<li><a>&gt;&gt;</a></li>
+
+				</ul>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

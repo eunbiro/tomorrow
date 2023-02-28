@@ -24,6 +24,7 @@
 /* 아이디 찾기 */ 
 //아이디 & 스토어 값 저장하기 위한 변수
 	// 아이디 값 받고 출력하는 ajax
+	/*
 	function findId_click() {
 	
 		 var token = $("meta[name='_csrf']").attr("content");
@@ -31,8 +32,8 @@
 		
 		var url = "/find/info/id";
 		var paramData = {
-                name : $("#name").val(),
-                id_phone : $("#id_phone").val()
+                userNm : $("#userNm").val(),
+                pNum : $("#pNum").val()
             };
 		
 		var param = JSON.stringify(paramData);
@@ -40,28 +41,25 @@
 		$.ajax({
 			url : url,
 			type : "POST",
-			contentType : "application/json",
+			content type : 'application/x-www-form-urlencoded;charset=UTF-8',
 			data : param,
 			beforeSend : function(xhr){
-                /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
                 xhr.setRequestHeader(header, token);
             },
-            dataType : "text",
+            dataType : "json",
             cache   : false,
 			success : function(data){
 				if(data == 0){
 					alert("회원 정보를 확인해주세요!");
 					location.href ='member/info';
-					/*
 					$('#id_value').text("회원 정보를 확인해주세요!");
-					$('#name').val('');
-					$('#id_phone').val('');
+					$('#userNm').val('');
+					$('#pNum').val('');
 					location.href='/';
-					*/
 				} else {
 					$('#id_value').text(data);
-					$('#name').val();
-					$('#id_phone').val();
+					$('#userNm').val();
+					$('#pNum').val();
 				}
 			},
 			 error:function(){
@@ -69,14 +67,14 @@
 	            }
 		});
 	};
-	/*
+	
 	function findId_click() {
 		 var token = $("meta[name='_csrf']").attr("content");
          var header = $("meta[name='_csrf_header']").attr("content");
 		
 		var paramData = {
-				name : $("#name").val(),
-				id_phone : $("#id_phone").val(),
+				userNm : $("#userNm").val(),
+				pNum : $("#pNum").val(),
             };
 
             var param = JSON.stringify(paramData);
@@ -90,12 +88,12 @@
 			success:function(data){
 				if(data == 0){
 					$('#id_value').text("회원 정보를 확인해주세요!");
-					$('#name').val('');
-					$('#id_phone').val('');
+					$('#userNm').val('');
+					$('#pNum').val('');
 				} else {
 					$('#id_value').text(data);
-					$('#name').val('');
-					$('#id_phone').val('');
+					$('#userNm').val('');
+					$('#pNum').val('');
 				}
 					alert(data);
 			},
@@ -147,6 +145,13 @@ modal.addEventListener("click", e => {
 		$("#findPassword_div").show();
 		$("#findId_div").hide();
 	}
+	
+	$(document).ready(function(){
+		var errorMessage = [[${errorMessage}]];
+    	if(errorMessage != null){
+        	alert(errorMessage);
+    	}
+	});
 </script>
 <style>
 /*
@@ -249,8 +254,9 @@ modal.addEventListener("click", e => {
 </style>
 </head>
 <body>
+<!-- enctype="multipart/form-data" th:object="${memberFormDto}" -->
     <div class="container-lg find_info_page" id="findId_div">
-        <form action="/find/info/id" method="post">
+        <form method="post" role="form" enctype="multipart/form-data" th:object="${memberFormDto}">
         	<div class="login-total">
 	            <div class="login-logo">
 	                <img src="/images/logo.png" style="width:200px;" />
@@ -270,29 +276,28 @@ modal.addEventListener("click", e => {
 						<p>가입했던 정보를 입력하세요</p>
 						<div class="input_section input_section_one">
 							<p>이름</p>
-							<input type="text" placeholder="이름을 입력하세요" name="name" id="name" required />
+							<input type="text" placeholder="이름을 입력하세요" th:field="*{userNm}" maxlength="4" required />
 						</div>
 						<div class="input_section input_section_two">
 							<p>전화번호</p>
-							<input type="text" placeholder="전화번호를 입력하세요 (010-XXXX-XXXX)" name="id_phone" id="id_phone" required />
+							<input type="text" placeholder="전화번호를 입력하세요 (010-XXXX-XXXX)" th:field="*{pNum}" maxlength="13" required />
 						</div>
-							<div class="content" th:id="id_value"></div>
+						<!-- <div class="content" th:id="id_value"></div> -->
 					</div>
 					<div class="under_buttons">
 						<div><a href="/member/login">로그인</a></div>
 						<div>|</div>
 						<div class="dropdown" style="margin-left:20px; width: 100px;">
-						      <span class="dropbtn" style="border: none; background: white; font-size:0.9em; font-weight: bold;">회원가입</span>
+						      <span class="dropbtn" style="border: none; background: white; font-size:1em; font-weight: bold;">회원가입</span>
 						      <div class="dropdown-content" style="margin-top: 10px">
 							        <a href="/member/join" style="text-align: left">개인회원</a>
 							        <a href="/admin/join" style="text-align: left">기업회원</a>
 						      </div>
 					    </div>
 						<div>
-						<input type="submit" value="아이디 찾기" id="findId">
-							<!-- <button type="button" data-toggle="modal" data-target="#exampleModal" id="find_id">
-							아이디찾기</button> -->
-							</div>
+							<button type="submit" th:formaction="@{/find/info}">아이디 찾기</button>
+						<!-- <input type="submit" value="아이디 찾기" id="findId" /> -->
+						</div>
 					</div>
 				</div>
 	        </div>
@@ -332,13 +337,15 @@ modal.addEventListener("click", e => {
 						<div><a href="/member/login">로그인</a></div>
 						<div>|</div>
 						<div class="dropdown" style="margin-left:20px; width: 100px;">
-						      <span class="dropbtn" style="border: none; background: white; font-size:0.9em; font-weight: bold;">회원가입</span>
+						      <span class="dropbtn" style="border: none; background: white; font-size:1em; font-weight: bold;">회원가입</span>
 						      <div class="dropdown-content" style="margin-top: 10px">
 							        <a href="/member/join" style="text-align: left">개인회원</a>
 							        <a href="/admin/join" style="text-align: left">기업회원</a>
 						      </div>
 					    </div>
-						<div><input type="submit" value="비밀번호 찾기"></div>
+						<div><input type="submit" value="비밀번호 찾기">
+							<a href="/find/NextPage">비밀번호 수정 테스트 버튼</a>
+						</div>
 					</div>
 				</div>
 	        </div>

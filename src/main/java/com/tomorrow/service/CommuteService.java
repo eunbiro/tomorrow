@@ -12,11 +12,16 @@ import javax.swing.JOptionPane;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.CommuteDto;
+import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
 import com.tomorrow.repository.CommuteRepository;
+import com.tomorrow.repository.MemberRepository;
+import com.tomorrow.repository.ShopRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +30,8 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CommuteService {
 	private final CommuteRepository commuteRepository;
+	private final MemberRepository memberRepository;
+	private final ShopRepository shopRepository;
 	
 	// 출퇴근 기록 리스트
 	@Transactional(readOnly = true)
@@ -48,6 +55,29 @@ public class CommuteService {
 
 		return commuteDtoList;
 
+	}
+	
+	public List<CommuteDto> getCommuteListForManager(Long shopId, String userId){
+		
+		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
+		List<CommuteDto> commuteDtoList = new ArrayList<>();
+		
+		Member member= memberRepository.findByUserId(userId);
+		MemberFormDto memberFormDto = MemberFormDto.of(member);
+		
+		for (Commute commute : commuteList) {
+
+			CommuteDto commuteDto = new CommuteDto();
+
+			commuteDto.setId(commute.getId());
+			commuteDto.setWorking(commute.getWorking());
+			commuteDto.setWorking(commute.getWorking());
+			commuteDto.setLeaving(commute.getLeaving());
+			commuteDto.setMemberFormDto(memberFormDto);
+			commuteDtoList.add(commuteDto);
+		}
+		
+		return commuteDtoList;
 	}
 	
 	//TODO : List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId); .get(0) 인덱스 번호 0번짜리 찾아서 등록
