@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
-
+import javax.swing.JOptionPane;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,11 +73,17 @@ public class CommuteService {
 	
 	//최근 출근기록찾기
 	public CommuteDto commuteListchk(Long shopId) {
-		
+				
     	List<CommuteDto> commuteList = getCommuteList(shopId);
-    	CommuteDto commuteDto = commuteList.get(0);
-		
-    	return commuteDto; 
+    	    			
+    	if(commuteList.size() == 0 ) {
+    		CommuteDto commuteDto = new CommuteDto();	
+        	return commuteDto;
+    		
+    	} 
+    	
+		return commuteList.get(0);	
+    	    
 	}
 
 	
