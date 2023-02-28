@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tomorrow.dto.CommuteDto;
+import com.tomorrow.dto.ManagerCommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopDto;
@@ -59,7 +60,7 @@ public class ShopManageController {
 	@GetMapping(value = "/commute/{shopId}")
 	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 
-		List<CommuteDto> commuteList = commuteService.getCommuteListForManager(shopId, principal.getName());
+		List<ManagerCommuteDto> commuteList = commuteService.getCommuteListForManager(shopId, principal.getName());
 		//매니저 아이디로 매장 목록 띄우기
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
  
