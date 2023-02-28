@@ -1,6 +1,5 @@
 package com.tomorrow.repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +13,10 @@ public interface CommuteRepository extends JpaRepository<Commute, Long>, Queryds
 	
 	List<Commute> findByShopIdOrderByIdDesc(Long id);
 
+	List<Commute> findByShopIdAndMemberIdOrderByIdDesc(Long shopId, Long memberId);
+	
 	Optional<Commute> findByIdOrderByIdDesc(Long id);
+	
+	//Commute findByShopIdAndMemberIdOrderByIdDesc(Long ShopId, Long CommuteId);
 
 }

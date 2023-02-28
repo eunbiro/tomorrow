@@ -49,11 +49,11 @@ public class ShopInfoController {
 	// 매장정보폼 불러오기
 	@GetMapping(value = "/shop/shopInfo")
 	public String shopInfoForAdmin(Model model, Principal principal) {
+		getSideImg(model, principal);
 		List<MemShopMappingDto> myShopList = shopInfoService.getMyShop(principal.getName());
 
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("shopDto", new ShopDto());
-		getSideImg(model, principal);
 		return "shop/shopInfo";
 	}
 
@@ -107,13 +107,5 @@ public class ShopInfoController {
 		}
 		return "redirect:/";
 	}
-
-	// 직원정보 - 수경 2
-	@GetMapping(value = "/shop/employeeInfo")
-	public String employeeInfo(Model model, Principal principal) {
-		getSideImg(model, principal);
-		return "shop/employeeInfoForm";
-	}
-
 
 }

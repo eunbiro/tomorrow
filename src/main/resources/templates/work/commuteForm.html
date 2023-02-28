@@ -144,8 +144,6 @@
 						</div>
 					</div>
 
-
-
 				</div>
 
 
@@ -174,20 +172,10 @@
 						<tbody>
 							<!-- shopId로 찾은 출퇴근 기록 찾기 -->
 							<tr th:each="commute : ${commuteList}">
-<<<<<<< HEAD
 
-								<td class="fs-6"
-									th:text="${#temporals.format(commute.working, 'yyyy.MM.dd')}"></td>
-								<td class="fs-6"
-									th:text="${#temporals.format(commute.working, 'HH:mm:ss')}"></td>
-								<td class="fs-6"
-									th:text="${#temporals.format(commute.leaving, 'HH:mm:ss')}"></td>
-=======
-							<!-- 	<th th:text="${commute.id}"></th> -->
 								<td class="fs-6" th:text="${#temporals.format(commute.working, 'yyyy.MM.dd')}"></td>
 								<td class="fs-6" th:text="${#temporals.format(commute.working, 'HH:mm:ss')}"></td>
 								<td class="fs-6" th:text="${#temporals.format(commute.leaving, 'HH:mm:ss')}"></td>	
->>>>>>> 4ca2d86fb1aeafe92cae4294cd0dce958a80e76e
 							</tr>
 
 
@@ -196,7 +184,7 @@
 				</div>
 
 			</div>
-			<nav style="margin-top: 20px;">
+			<!-- <nav style="margin-top: 20px;">
 				<ul class="pagination justify-content-center">
 					<li class="page-item"><a class="page-link">&lt;&lt;</a></li>
 					<li class="page-item"><a class="page-link">&lt;</a></li>
@@ -208,7 +196,7 @@
 					<li class="page-item"><a class="page-link" href="#">&gt;</a></li>
 					<li class="page-item"><a class="page-link" href="#">&gt;&gt;</a></li>
 				</ul>
-			</nav>
+			</nav> -->
 			<input type="hidden" th:name="${_csrf.parameterName}"
 				th:value="${_csrf.token}">
 		</form>

@@ -1,7 +1,10 @@
 package com.tomorrow.controller;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,8 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopCheckDto;
+import com.tomorrow.entity.MemShopMapping;
+import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopCheckService;
@@ -24,19 +30,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MypageController {
 	private final MemberService memberService;
-	private final ShopCheckService shopSearchService;
+	private final ShopCheckService shopCheckService;
+	private final ShopService shopService;
+	
+	
+	
 	// 마이페이지
 	@GetMapping(value = "/member/mypage")
-	public String myPageForm(ShopCheckDto shopCheckDto, @PathVariable("page") Optional<Integer>page, Model model,Principal principal) {
+	public String myPageForm(Model model, Principal principal) {
 		getSideImg(model, principal);
+		List<MemShopMappingDto> memShopMappingDtoList = shopCheckService.getMemShop(principal.getName());
 		
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-		
-		Page<Shop> shops =shopSearchService.getCheckShopPage(shopCheckDto, pageable);
-		
-		model.addAttribute("shops",shops);
-		model.addAttribute("shopCheckDto",shopCheckDto);
-		model.addAttribute("maxPage",5);
+		model.addAttribute("memShopMappingDtoList",memShopMappingDtoList);
 		
 		return "member/myPage";
 	}
