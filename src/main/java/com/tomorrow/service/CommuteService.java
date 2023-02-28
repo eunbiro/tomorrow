@@ -2,6 +2,8 @@ package com.tomorrow.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import javax.persistence.EntityNotFoundException;
 
 
@@ -9,7 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tomorrow.dto.CommuteDto;
+<<<<<<< HEAD
 import com.tomorrow.dto.MemShopMappingDto;
+=======
+import com.tomorrow.dto.ManagerCommuteDto;
+>>>>>>> 9c4a5bfa8905b18489ede53c59065c74993b3f28
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.MemShopMapping;
@@ -36,7 +42,6 @@ public class CommuteService {
 		List<Commute> commuteList = commuteRepository.findByShopIdAndMemberIdOrderByIdDesc(shopId, memberId);
 		List<CommuteDto> commuteDtoList = new ArrayList<>();
 
-		
 		for (Commute commute : commuteList) {
 
 			CommuteDto commuteDto = new CommuteDto();
@@ -53,27 +58,9 @@ public class CommuteService {
 
 	}
 	
-	public List<CommuteDto> getCommuteListForManager(Long shopId, String userId){
-		
+	public List<Commute> getCommuteListForManager(Long shopId){
 		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
-		List<CommuteDto> commuteDtoList = new ArrayList<>();
-		
-		Member member= memberRepository.findByUserId(userId);
-		MemberFormDto memberFormDto = MemberFormDto.of(member);
-		
-		for (Commute commute : commuteList) {
-
-			CommuteDto commuteDto = new CommuteDto();
-
-			commuteDto.setId(commute.getId());
-			commuteDto.setWorking(commute.getWorking());
-			commuteDto.setWorking(commute.getWorking());
-			commuteDto.setLeaving(commute.getLeaving());
-			commuteDto.setMemberFormDto(memberFormDto);
-			commuteDtoList.add(commuteDto);
-		}
-		
-		return commuteDtoList;
+		return commuteList;
 	}
 	
 	

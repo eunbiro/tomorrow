@@ -222,7 +222,7 @@ input:focus {
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER')"
 						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
 				</div>
-				<Form th:object="${shops}" role="form" method="get">
+				<form  role="form" method="get">
 					<div class="w-75 mx-auto"
 						sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 						<table class="table">
@@ -235,19 +235,18 @@ input:focus {
 							</tbody>
 						</table>
 					</div>
-					<div class="w-75 mx-auto"
-						sec:authorize="hasAnyAuthority('ROLE_USER')">
+					<div class="w-75 mx-auto" sec:authorize="hasAnyAuthority('ROLE_USER')">
 						<table class="table">
 							<tbody>
-								<tr th:each="shop, status:${shops.getContent()}">
+								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
 									<th class="profile-shop-number" th:value="매장번호">매장번호</th>
-									<td class="profile-shop-real-number">12345678</td>
-									<td class="profile-shop-wage">시급 13000원</td>
+									<td class="profile-shop-real-number" th:text="${memShopMappingDto.shopDto.shopId}"></td>
+									<td class="profile-shop-wage" th:text="${memShopMappingDto.timePay}">시급 13000원</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-				</Form>
+				</form>
 				<div class="profile-form-button   mx-auto ">
 					<button class="profile-form-modify">내정보 수정</button>
 					<button class="profile-form-cancel">취소</button>

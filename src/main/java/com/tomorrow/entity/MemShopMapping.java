@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemShopMapping {
+public class MemShopMapping extends BaseEntity{
 	
 	/* 시급 테이블을 매장회원 다대다 매핑 테이블로 변경했음
 	 * 
@@ -47,6 +47,8 @@ public class MemShopMapping {
 	private String partTime;				// 파트타임(오전,오후,야간)
 	
 	private int workStatus;					// 알바 상태 0: 관리자, 1: 승인대기, 2: 승인완료, 3: 퇴사, 4: 휴직
+	
+	
 	
 	// 직원등록
 	public static MemShopMapping createMemMapping(Shop shop, Member member) {
