@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import javax.persistence.EntityNotFoundException;
 import javax.swing.JOptionPane;
 
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.CommuteDto;
+import com.tomorrow.dto.ManagerCommuteDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Commute;
@@ -40,7 +43,6 @@ public class CommuteService {
 		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
 		List<CommuteDto> commuteDtoList = new ArrayList<>();
 
-		
 		for (Commute commute : commuteList) {
 
 			CommuteDto commuteDto = new CommuteDto();
@@ -57,27 +59,9 @@ public class CommuteService {
 
 	}
 	
-	public List<CommuteDto> getCommuteListForManager(Long shopId, String userId){
-		
+	public List<Commute> getCommuteListForManager(Long shopId){
 		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
-		List<CommuteDto> commuteDtoList = new ArrayList<>();
-		
-		Member member= memberRepository.findByUserId(userId);
-		MemberFormDto memberFormDto = MemberFormDto.of(member);
-		
-		for (Commute commute : commuteList) {
-
-			CommuteDto commuteDto = new CommuteDto();
-
-			commuteDto.setId(commute.getId());
-			commuteDto.setWorking(commute.getWorking());
-			commuteDto.setWorking(commute.getWorking());
-			commuteDto.setLeaving(commute.getLeaving());
-			commuteDto.setMemberFormDto(memberFormDto);
-			commuteDtoList.add(commuteDto);
-		}
-		
-		return commuteDtoList;
+		return commuteList;
 	}
 	
 	//TODO : List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId); .get(0) 인덱스 번호 0번짜리 찾아서 등록

@@ -10,11 +10,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tomorrow.dto.CommuteDto;
+import com.tomorrow.dto.ManagerCommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopDto;
+<<<<<<< HEAD
 import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.repository.MemShopMapRepository;
+=======
+import com.tomorrow.entity.Commute;
+import com.tomorrow.entity.Shop;
+>>>>>>> 50f8b51d5240bfea1cda80b20fff9ce97cd3f0b9
 import com.tomorrow.service.CommuteService;
 import com.tomorrow.service.EmployeeInfoService;
 import com.tomorrow.service.MemberService;
@@ -85,6 +91,7 @@ public class ShopManageController {
 	// 매니저 급여관리 화면
 	@GetMapping(value = "/commute/{shopId}")
 	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+<<<<<<< HEAD
 
 		List<CommuteDto> commuteList = commuteService.getCommuteListForManager(shopId, principal.getName());
 		// 매니저 아이디로 매장 목록 띄우기
@@ -101,7 +108,17 @@ public class ShopManageController {
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("commuteList", commuteList);
 		model.addAttribute("commuteDto", commuteDto);
+=======
+		getSideImg(model, principal);
+>>>>>>> 50f8b51d5240bfea1cda80b20fff9ce97cd3f0b9
 
+		//매니저 아이디로 소유중인 매장 목록 띄우기
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		model.addAttribute("myShopList", myShopList);
+		
+		//전체 직원 근태 리스트
+		List<Commute> commuteList = commuteService.getCommuteListForManager(shopId);
+		model.addAttribute("commuteList", commuteList);
 		return "manage/managerCommuteForm";
 	}
 

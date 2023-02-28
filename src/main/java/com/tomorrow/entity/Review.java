@@ -11,6 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.tomorrow.dto.ReviewDto;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -43,4 +45,10 @@ public class Review extends BaseEntity {
 	@Lob
 	@Column(nullable = false)
 	private String reviewCont;				// 매장리뷰 내용
+	
+	public void updateReview(ReviewDto reviewDto) {
+		
+		this.reviewTitle = reviewDto.getReviewTitle();
+		this.reviewCont = reviewDto.getReviewCont();
+	}
 }

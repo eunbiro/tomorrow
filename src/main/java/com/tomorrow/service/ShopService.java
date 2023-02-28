@@ -101,7 +101,6 @@ public class ShopService {
 	// 현재 접속해있는 관리자정보를 불러옴
 	@Transactional(readOnly = true)
 	public Member findMember(String userId) {
-
 		return memberRepository.findByUserId(userId);
 	}
 
