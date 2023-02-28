@@ -33,87 +33,90 @@ public class FindMemberController {
 
 	private final MemberService memberService;
 
-	// ID찾기화면
-		@GetMapping(value = "/find/info")
-		public String findMemberInfo(Model model) {
-			model.addAttribute("memberFormDto", new MemberFormDto());
+	// ID/PASSWORD 찾기화면
+	@GetMapping(value = "/find/info")
+	public String findMemberInfo(Model model) {
+		model.addAttribute("memberFormDto", new MemberFormDto());
+		return "member/findMemberInfo";
+	}
+	
+	/* -------------------------------------------------------- ID ------------------------------------------------- */
+	
+	// ID찾기
+	@PostMapping(value = "/find/info/id")
+	public String memberFindId(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+
+		/*
+		 if (!memberService.isPhoneNum(memberFormDto.getPNum())) {
+		 model.addAttribute("errorPhone", "전화번호를 형식대로 입력해주세요!");
+		 return "member/findMemberInfo";
+		 }
+		*/
+		try {
+			Member memberFindID = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum());
+			model.addAttribute("findID", memberFindID);
+			// Post방식으로 다음 페이지 넘어감
+			return "member/memberFindIdResult";
+		} catch (Exception e) {
+			model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
 			return "member/findMemberInfo";
 		}
+	}
 
-		// ID찾기
-		@PostMapping(value = "/find/info")
-		public String memberFindId(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
-			
+	// id찾기 결과화면
+	@GetMapping(value = "/find/result/id")
+	public String memberFindResultId(Model model) {
+		model.addAttribute("memberFormDto", new MemberFormDto());
+		return "member/memberFindIdResult";
+	}
+
+	// Id 찾기 페이지에서 Post 방식으로 정보 전달 메소드
+	@PostMapping(value = "/find/result/id")
+	public String memberFindResultId(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+		Member memberFindID = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum());
+		model.addAttribute("findID", memberFindID);
+		// System.out.println(memberFindID.getUserId());
+		return "member/memberFindIdResult";
+	}
+	
+	/* -------------------------------------------------------- PASSWORD ------------------------------------------------- */
+	
+	// PASSWORD 찾기
+		@PostMapping(value = "/find/info/password")
+		public String memberFindPassword(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+
+			/*
+			 if (!memberService.isPhoneNum(memberFormDto.getPNum())) {
+			 model.addAttribute("errorPhone", "전화번호를 형식대로 입력해주세요!");
+			 return "member/findMemberInfo";
+			 }
+			*/
 			try {
-				Member memberFindID = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum());
-				model.addAttribute("findID", memberFindID);
-				//Post방식으로 다음 페이지 넘어감
-				return "member/memberFindIdResult";
+				Member memberFindPASS = memberService.findEmailPhone(memberFormDto.getUserId(), memberFormDto.getPNum());
+				model.addAttribute("findPassword", memberFindPASS);
+				// Post방식으로 다음 페이지 넘어감
+				return "member/modifyPassword";
 			} catch (Exception e) {
 				model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
 				return "member/findMemberInfo";
 			}
 		}
 
-		// id찾기 결과화면
-		 @GetMapping(value = "/find/result")
-		 public String memberFindResult(Model model) {
-			 model.addAttribute("memberFormDto", new MemberFormDto());
-			 return "member/memberFindIdResult";
-		 }
-
-		//Id 찾기 페이지에서 Post 방식으로 정보 전달 메소드
-		@PostMapping(value = "/find/result")
-		public String memberFindResult(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
-			Member memberFindID = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum());
-			model.addAttribute("findID", memberFindID);
-//			System.out.println(memberFindID.getUserId());
+		// PASSWORD 찾기 결과화면
+		@GetMapping(value = "/find/result/password")
+		public String memberFindResultPassword(Model model) {
+			model.addAttribute("memberFormDto", new MemberFormDto());
 			return "member/memberFindIdResult";
 		}
 
-	/*
-	 * @PostMapping(value = "/find/info/id")
-	 * 
-	 * @ResponseBody public ResponseEntity<String> findMemberId(@RequestParam
-	 * Map<String, Object> param) { String result = memberService.findId((String)
-	 * param.get("name"), (String)param.get("id_phone")); if
-	 * (!memberService.isPhoneNum((String)param.get("id_phone"))) { return new
-	 * ResponseEntity<String>(result, HttpStatus.BAD_REQUEST); } return new
-	 * ResponseEntity<String>(result, HttpStatus.OK); }
-	 */
-	/*
-	 * @PostMapping(value = "/find/info/id")
-	 * 
-	 * @ResponseBody public String findMemberId(@RequestParam("userNm") String
-	 * userNm, @RequestParam("pNum") String pNum) { String result =
-	 * memberService.findId(userNm, pNum); if (!memberService.isPhoneNum(pNum)) {
-	 * return "잘못 입력 하셨네요!!" + "<br />" + "뒤로가서 다시 입력해주세요!"; } return result; }
-	 */
-
-	/*
-	 * @PostMapping(value = "/find/info/id") public @ResponseBody ResponseEntity
-	 * findMemberId(@Valid MemberFormDto memberDto, BindingResult bindingResult) {
-	 * 
-	 * if (bindingResult.hasErrors()) { StringBuilder sb = new StringBuilder();
-	 * List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-	 * 
-	 * for (FieldError fieldError : fieldErrors) {
-	 * sb.append(fieldError.getDefaultMessage()); } return new
-	 * ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST); }
-	 * 
-	 * String result ="";
-	 * 
-	 * try { result = memberService.findByNmPhone(memberDto.getUserNm(),
-	 * memberDto.getPNum()); if (!memberService.isPhoneNum(memberDto.getPNum())) {
-	 * return new ResponseEntity<String>("해당 회원이 없습니다.", HttpStatus.FORBIDDEN); } }
-	 * catch (Exception e) { return new ResponseEntity<String>(e.getMessage(),
-	 * HttpStatus.BAD_REQUEST); } return new ResponseEntity<String>(result,
-	 * HttpStatus.OK); }
-	 */
-	@PostMapping(value = "/find/info/password")
-	public String findMemberPw() {
-		return "member/modifyPassword";
-	}
+		// Id 찾기 페이지에서 Post 방식으로 정보 전달 메소드
+		@PostMapping(value = "/find/result/password")
+		public String memberFindResultPassword(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+			Member memberFindPASS = memberService.findEmailPhone(memberFormDto.getUserId(), memberFormDto.getPNum());
+			model.addAttribute("findPassword", memberFindPASS);
+			// System.out.println(memberFindID.getUserId());
+			return "member/memberFindIdResult";
+		}
 
 	@GetMapping(value = "/find/NextPage")
 	public String testPage() {

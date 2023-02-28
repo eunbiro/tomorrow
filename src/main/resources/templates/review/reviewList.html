@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>매장리뷰</title>
+</head>
+<body>
+	<div layout:fragment="content">	
+	    <div class="container-lg d-flex flex-column noti-wrap">
+            <p class="board-list-title">매장리뷰</p>
+            <div class="search">
+	            <form class="d-flex" role="search" th:action="@{/review/list}" method="get">
+					<input name="searchQuery" class="form-control me-2" type="search" placeholder="검색어 입력" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit" style="width: 100px;">검색</button>
+				</form>
+			</div>
+	        <table class="board-table">
+	            <thead>
+	                <tr>
+	                    <th>NO.</th>
+	                    <th>제목</th>
+	                    <th>작성자</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <th:block  th:each="review, status: ${reviews.getContent()}">	
+	                <tr>
+	                    <td>[[${review.id}]]</td>
+	                    <td><a th:href="'/review/' +${review.id}">[[${review.reviewTitle}]]</a></td>
+	                    <td>[[${review.userNm}]]</td>
+	                </tr>
+	                </th:block>
+	            </tbody>
+	        </table>
+	        <div class="write-post">
+	            <button onclick="location.href='/review/new'">글쓰기</button>
+	        </div>
+	        <div class="paging">
+	           <nav
+			th:with="start=${(reviews.number/maxPage)*maxPage + 1}
+			,end=(${(reviews.totalPages == 0) ? 1 : (start + (maxPage - 1) < reviews.totalPages ? start + (maxPage - 1) : reviews.totalPages)})"
+			aria-label="Page navigation example">
+			<ul class="pagination d-flex justify-content-center">
+				<li class="page-item" th:classappend="${reviews.first}?'disabled'">
+					<a th:href="@{'/review/list' + '?searchQuery=' + ${reviewSearchDto.searchQuery} + '&page=' + ${reviews.number-1}}" class="page-link">
+						<span>이전</span>
+					</a>
+				</li>
+				<li class="page-item"
+					th:each="page: ${#numbers.sequence(start, end)}"
+					th:classappend="${reviews.number eq page-1}?'active':''">
+					<a class="page-link" th:inline="text"
+					th:href="@{'/review/list' +'?searchQuery=' + ${reviewSearchDto.searchQuery} + '&page=' + ${page-1}}">[[${page}]]</a>
+				</li>
+				<li class="page-item" th:classappend="${reviews.last}?'disabled'">
+					<a class="page-link"
+					th:href="@{'/review/list' +'?searchQuery=' + ${reviewSearchDto.searchQuery} + '&page=' + ${reviews.number+1}}">다음</a>
+				</li>
+			</ul>
+			</nav>
+			
+       	  </div>
+
+	    </div>
+    </div>
+</body>
+</html>

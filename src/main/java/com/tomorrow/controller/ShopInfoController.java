@@ -49,11 +49,11 @@ public class ShopInfoController {
 	// 매장정보폼 불러오기
 	@GetMapping(value = "/shop/shopInfo")
 	public String shopInfoForAdmin(Model model, Principal principal) {
+		getSideImg(model, principal);
 		List<MemShopMappingDto> myShopList = shopInfoService.getMyShop(principal.getName());
 
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("shopDto", new ShopDto());
-		getSideImg(model, principal);
 		return "shop/shopInfo";
 	}
 
@@ -91,7 +91,7 @@ public class ShopInfoController {
 	}
 	
 	// 매장정보 수정
-	@PostMapping(value = "shop/shopEdit")
+	@PostMapping(value = "/shop/shopEdit")
 	public String shopUpdate(@Valid CreateShopFormDto createShopFormDto, @RequestParam("createShopImgFile") List<MultipartFile> shopImgFileList, BindingResult bindingResult, Model model, Principal principal) {
 		getSideImg(model, principal);
 		
@@ -107,6 +107,5 @@ public class ShopInfoController {
 		}
 		return "redirect:/";
 	}
-
 
 }
