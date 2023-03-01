@@ -40,7 +40,7 @@ public class ShopCreateController {
 			return "shop/shopCreateForm";
 		}
 		// 매장생성(shopCreateForm.html) 진짜 생성
-		@PostMapping(value = "/shopCreate/shopCreate")
+		@PostMapping(value = "/shopcreate/	")
 		public String createShop(@Valid CreateShopFormDto createShopFormDto, BindingResult bindingResult, 
 				Model model, @RequestParam("createShopImgFile") List<MultipartFile> createShopImgFileList, Principal principal) {
 			getSideImg(model, principal);
