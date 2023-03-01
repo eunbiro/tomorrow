@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 import com.tomorrow.dto.BoardCommentDto;
 import com.tomorrow.dto.BoardCommentFormDto;
@@ -140,6 +141,38 @@ public class BoardService {
 		@Transactional(readOnly = true)
 		public Page<BoardListDto> getBoardListPage(BoardSearchDto boardSearchDto, Pageable pageable){
 			return boardRepository.getBoardListPage(boardSearchDto, pageable);
+		}
+		
+	//게시글 삭제전 사용자 검증
+		@Transactional(readOnly = true)
+		public boolean validateBoard(Long boardId, String id) {
+			Member curMember = memberRepository.findByUserId(id);
+			Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
+			
+			Member savedMember = board.getMember();
+			
+			if(!StringUtils.equals(curMember.getId(), savedMember.getId())) {
+				return false;
+			}
+			return true;
+		}
+		
+		
+	//게시글 삭제
+		public void deleteBoard(Long boardId) {
+			Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
+			List<BoardImg> boardImgs = boardImgRepository.findByBoardIdOrderByIdAsc(boardId);
+			for(BoardImg img : boardImgs) {
+				boardImgRepository.delete(img);
+			}
+			
+			List<BoardComment> boardComments = boardCommentRepository.findByBoardIdOrderByIdAsc(boardId);
+			for(BoardComment comment : boardComments) {
+				boardCommentRepository.delete(comment);
+			}
+			
+			boardRepository.delete(board);
+			
 		}
 		
 }

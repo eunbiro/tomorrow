@@ -38,7 +38,10 @@ public class ShopCheckService {
 	//내가 가지고 있는 매장 정보를 불러온다.
 	@Transactional(readOnly=true)
 	public List<MemShopMappingDto> getMemShop(String userId){
+		//받은 유저 아이디로 멤버를 찾는다.
 		Member member = findMember(userId);
+		
+		//member.getId();
 		List<MemShopMappingDto> memShopMappingDtoList = getMapping(member.getId());
 		return memShopMappingDtoList;
 	}
@@ -46,10 +49,14 @@ public class ShopCheckService {
 	//매핑정보 DTO 저장
 	@Transactional(readOnly = true)
 	public List<MemShopMappingDto> getMapping(Long memberId) {
-
+		
+		//memShopRepository 에 저장된 것 중 memberId를 갖는 걸 가져와서 memShopMapping 리스트에 넣어준다.
 		List<MemShopMapping> memShopMappingList = mapRepository.findByMemberId(memberId);
+		
+		//MemShopMappingDto 로 된 리스트를 만들어준다.
 		List<MemShopMappingDto> memShopMappingDtoList = new ArrayList<>();
-
+		
+		//아까 만든 리스트를 MemShopMapping 엔티티에 하나씩 넣어준다.
 		for (MemShopMapping mapping : memShopMappingList) {
 
 			// DTO 객체 생성
@@ -69,6 +76,8 @@ public class ShopCheckService {
 		// DTO 리스트 리턴
 		return memShopMappingDtoList;
 	}
+	
+	//shop 만들어버리기~
 	@Transactional(readOnly = true)
 	public ShopDto getShop(Shop shop) {
 		ShopDto shopDto = new ShopDto();
@@ -82,6 +91,7 @@ public class ShopCheckService {
 
 		return shopDto;
 	}
+	//멤버 만들어버리기
 	public MemberFormDto getMember(Member member) {
 
 		MemberFormDto memberFormDto = new MemberFormDto();

@@ -38,10 +38,15 @@ public class MypageController {
 	// 마이페이지
 	@GetMapping(value = "/member/mypage")
 	public String myPageForm(Model model, Principal principal) {
+		
+		//사이드 이미지 가져오기
 		getSideImg(model, principal);
+		
+		//dto 타입으로 된 리스트에 넣기 (principal.getName() = userId);
 		List<MemShopMappingDto> memShopMappingDtoList = shopCheckService.getMemShop(principal.getName());
 		
-		model.addAttribute("memShopMappingDtoList",memShopMappingDtoList);
+		//가져온 리스트를 "memShopMappingDtoList로 이름 부여
+		model.addAttribute("memShopMappingDtoList",memShopMappingDtoList);	
 		
 		return "member/myPage";
 	}
