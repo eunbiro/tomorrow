@@ -54,14 +54,16 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
    			<p th:text="'작성자 : '+${board.member.userNm}"></p>
    			<hr>
+			<form th:action="@{'/board/delete/'+${board.id}}" th:method="delete">
+				<button type="submit">삭제</button>
+			</form>
 	   		<form method="post" >
 	   			<div class="post-title d-flex">
 					<p th:text="'제목 : '+${board.boardTitle}+' | 조회수 : ' + ${board.viewCount}"></p>
-					<a th:href="'/board/delete/' + ${boardId}">삭제</a>
 	   			</div>
 	   			<hr>
 	   			<div class="post-text">
-	   				<textarea class="w-100 h-40 board-textarea" th:text="${board.boardCont}"> 
+	   				<textarea class="w-100 h-40 board-textarea" th:text="${board.boardCont}" readOnly> 
 	   					 
 	   				</textarea>
 	   			<div class="reg-date">

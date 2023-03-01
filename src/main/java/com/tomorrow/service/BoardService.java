@@ -161,10 +161,16 @@ public class BoardService {
 	//게시글 삭제
 		public void deleteBoard(Long boardId) {
 			Board board = boardRepository.findById(boardId).orElseThrow(EntityNotFoundException::new);
-			List<BoardComment> boardComment = boardCommentRepository.findByBoardIdOrderByIdAsc(boardId);
-			for(BoardComment comment : boardComment) {
+			List<BoardImg> boardImgs = boardImgRepository.findByBoardIdOrderByIdAsc(boardId);
+			for(BoardImg img : boardImgs) {
+				boardImgRepository.delete(img);
+			}
+			
+			List<BoardComment> boardComments = boardCommentRepository.findByBoardIdOrderByIdAsc(boardId);
+			for(BoardComment comment : boardComments) {
 				boardCommentRepository.delete(comment);
 			}
+			
 			boardRepository.delete(board);
 			
 		}
