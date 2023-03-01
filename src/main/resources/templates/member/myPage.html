@@ -91,7 +91,7 @@
 }
 
 .profile-shop-register {
-	margin: 20px;
+	
 }
 
 .profile-shop-name {
@@ -155,6 +155,11 @@
 	background-color: black;
 	color: white;
 	border-radius: 5px;
+	
+}
+.profile-form-modify a{
+		text-decoration: none;
+		color:white;
 }
 
 .profile-form-cancel {
@@ -164,6 +169,10 @@
 	background-color: black;
 	color: white;
 	margin: 5px;
+}
+.profile-form-cancel a{
+	text-decoration:none; 
+	color:white;
 }
 </style>
 </th:block>
@@ -226,8 +235,8 @@
 					</div>
 				</form>
 				<div class="profile-form-button   mx-auto ">
-					<button class="profile-form-modify">내정보 수정</button>
-					<button class="profile-form-cancel">취소</button>
+					<button class="profile-form-modify" onclick="location.href='/member/myPagePassword'">내정보 수정</button>
+					<button class="profile-form-cancel" onclick="location.href='/'">취소</button>
 				</div>
 
 			</div>

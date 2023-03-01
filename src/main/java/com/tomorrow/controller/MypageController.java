@@ -56,5 +56,11 @@ public class MypageController {
 	     return model.addAttribute("member", memberFormDto);
 	}
 	
+	@GetMapping(value="/member/myPagePassword")
+	public String myPagePasswordForm(Model model, Principal principal) {
+		getSideImg(model, principal);
+		
+		return "member/myPagePassword";
+	}
 	//프로필 정보 가져오기
 }
