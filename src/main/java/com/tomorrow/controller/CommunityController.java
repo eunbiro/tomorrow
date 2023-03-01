@@ -170,12 +170,13 @@ public class CommunityController {
 	}
 	
 	@DeleteMapping(value="/delete/{boardId}")
-	public @ResponseBody ResponseEntity deleteBoard(@PathVariable("boardId") Long boardId, Principal principal) {
+	public String deleteBoard(@PathVariable("boardId") Long boardId, Principal principal) {
 		if(!boardService.validateBoard(boardId, principal.getName())){
-			
+			return "redirect:/board/{boardId}";
 		}
 		
-		return null;
+		boardService.deleteBoard(boardId);
+		return "redirect:/board/list";
 	}
 
 }
