@@ -11,11 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tomorrow.dto.CommuteDto;
-<<<<<<< HEAD
 import com.tomorrow.dto.MemShopMappingDto;
-=======
 import com.tomorrow.dto.ManagerCommuteDto;
->>>>>>> 9c4a5bfa8905b18489ede53c59065c74993b3f28
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.MemShopMapping;

@@ -65,6 +65,8 @@ public class Member extends BaseEntity {
 		member.setUserNm(memberFormDto.getUserNm());
 		member.setUserId(memberFormDto.getUserId());
 		member.setPNum(memberFormDto.getPNum());
+		member.setHintQ(memberFormDto.getHintQ());
+		member.setHintA(memberFormDto.getHintA());
 
 		String password = passwordEncoder.encode(memberFormDto.getPassword()); // 비밀번호 암호화
 		member.setPassword(password);
