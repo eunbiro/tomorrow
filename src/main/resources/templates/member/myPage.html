@@ -82,38 +82,6 @@
 	margin-top: 30px;
 }
 
-.profile-info label {
-	font-size: 0.8rem;
-	font-weight: bold;
-	text-align: left;
-}
-
-.profile-info input {
-	height: 40px;
-}
-
-input {
-	width: 65%;
-	box-shadow: 0px 3px 5px gray;
-	border-radius: 7px;
-	border: none;
-}
-
-input:focus {
-	border: none;
-	outline: none;
-}
-
-.profile-id, .profile-pw, .profile-pwcheck, .profile-phone {
-	font-weight: bold;
-	float: left;
-	margin-right: 20px;
-}
-
-.profile-phone input {
-	padding-bottom: 50px;
-}
-
 .profile-shop-form {
 	margin-top: 50px;
 }
@@ -124,6 +92,11 @@ input:focus {
 
 .profile-shop-register {
 	margin: 20px;
+}
+
+.profile-shop-name {
+	
+	display: inline-block;
 }
 
 .profile-shop-register button {
@@ -137,13 +110,13 @@ input:focus {
 
 .profile-shop-number {
 	font-weight: bold;
-	font-size: 0.8rem;
+	
 	float: left;
-	margin-right: 40px;
+		
 }
 
 .profile-shop-wage {
-	float: right;
+	display: inline-block;
 	text-decoration: none;
 }
 
@@ -222,26 +195,31 @@ input:focus {
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER')"
 						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
 				</div>
-				<form  role="form" method="get">
+				<form role="form" method="get">
 					<div class="w-75 mx-auto"
 						sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 						<table class="table">
 							<tbody>
-								<tr>
-									<th></th>
-									<td></td>
-									<td></td>
+								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
+									<th class="profile-shop-number" th:value="매장번호">매장번호</th>
+									<td class="profile-shop-name"
+										th:text="${memShopMappingDto.shopDto.shopNm}"></td>
+									<td class="profile-shop-real-number"
+										th:text="${memShopMappingDto.shopDto.shopId}"></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<div class="w-75 mx-auto" sec:authorize="hasAnyAuthority('ROLE_USER')">
+					<div class="w-75 mx-auto profile-shop-register"
+						sec:authorize="hasAnyAuthority('ROLE_USER')">
 						<table class="table">
 							<tbody>
 								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
 									<th class="profile-shop-number" th:value="매장번호">매장번호</th>
-									<td class="profile-shop-real-number" th:text="${memShopMappingDto.shopDto.shopId}"></td>
-									<td class="profile-shop-wage" th:text="${memShopMappingDto.timePay}">시급 13000원</td>
+									<td class="profile-shop-wage"
+										th:text="${memShopMappingDto.timePay}">시급 13000원</td>
+									<td class="profile-shop-real-number"
+										th:text="${memShopMappingDto.shopDto.shopId}"></td>
 								</tr>
 							</tbody>
 						</table>
