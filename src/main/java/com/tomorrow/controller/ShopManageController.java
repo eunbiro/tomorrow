@@ -72,31 +72,109 @@ public class ShopManageController {
 		return null;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 매니저 출근관리 화면
-	@GetMapping(value = "/commute")
-	public String commute(Model model, Principal principal) {
+		@GetMapping(value = "/commute")
+		public String commute(Model model, Principal principal) {
 
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
-		getSideImg(model, principal);
-		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("commuteDto", new CommuteDto());
+			getSideImg(model, principal);
+			model.addAttribute("myShopList", myShopList);
+			model.addAttribute("commuteDto", new CommuteDto());
 
-		return "manage/managerCommuteForm";
-	}
+			return "manage/managerCommuteForm";
+		}
 
-	// 매니저 급여관리 화면
-	@GetMapping(value = "/commute/{shopId}")
-	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
-		
-		//매니저 아이디로 소유중인 매장 목록 띄우기
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-		model.addAttribute("myShopList", myShopList);
-		
-		//전체 직원 근태 리스트
-		List<Commute> commuteList = commuteService.getCommuteListForManager(shopId);
-		model.addAttribute("commuteList", commuteList);
-		return "manage/managerCommuteForm";
-	}
+		// 매니저 급여관리 화면
+		@GetMapping(value = "/commute/{shopId}")
+		public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+			
+			getSideImg(model, principal);
+			
+			//매니저 아이디로 소유중인 매장 목록 띄우기
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			model.addAttribute("myShopList", myShopList);
+			
+			//전체 직원 근태 리스트
+			List<Commute> commuteList = commuteService.getCommuteListForManager(shopId);
+			model.addAttribute("commuteList", commuteList);
+			return "manage/managerCommuteForm";
+		}
+	
 
 }
