@@ -61,7 +61,6 @@ public class CommuteService {
 	}
 	
 	
-	
 	//출근 등록 insert
 	public Commute saveCommute(Commute commute) throws Exception{
 	

@@ -12,8 +12,9 @@
 
 			$('.info-sell-shop').off().on("change", function() {
 
-				var shopId = $('.info-sell-shop').val();
-
+				var shopId = $('.info-sell-shop').val(); 
+				/* var shopId = $(this).val(); */
+				console.log(shopId);
 				var url = "/admin/manage/employeeInfo/" + shopId;
 
 				$(location).attr('href', url);
@@ -77,10 +78,13 @@ table {
 		<div class="wrap">
 			<div class="row my-4">
 				<div class="col-lg-4">
-					<select class="info-sell-shop form-select w-75 my-3 emp-info-select" th:value="${shopDto.shopId}">
+					<select
+						class="info-sell-shop form-select w-75 my-3 emp-info-select"
+						th:value="${shopDto.shopId}" th:name="${shopDto.shopId}">
 						<option value="">매장 선택</option>
-						<th:block th:each="myShop: ${myShopList}" th:value="${myShop.shopDto.shopId}">
-							<option th:text="${myShop.shopDto.shopNm}"></option>
+						<th:block th:each="myShop: ${myShopList}"
+							th:value="${myShop.shopDto.shopId}">
+							<option th:selected = "${shopDto.shopId} == ${myShop.shopDto.shopId}" th:value="${myShop.shopDto.shopId}" th:text="${myShop.shopDto.shopNm}"></option>
 						</th:block>
 					</select>
 				</div>
@@ -88,7 +92,7 @@ table {
 					정보</div>
 				<div class="col-lg-4"></div>
 			</div>
-			
+
 			<!-- read -->
 			<div>
 				<table class="table table-hover text-center">
@@ -103,12 +107,13 @@ table {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td scope="row" class="fs-5"><a href="#">권수경</a></td>
-							<td class="fs-5">010-0000-0803</td>
-							<td class="fs-5">08:00~12:00</td>
-							<td class="fs-5">50,000</td>
-							<td class="fs-5"><a>승인대기</a></td>
+						<tr th:each="emplInfo : ${emplList}">
+							<td scope="row" class="fs-5"
+								th:text="${emplInfo.memberFormDto.userNm}"><a href="#"></a></td>
+							<td class="fs-5" th:text="${emplInfo.memberFormDto.pNum}"></td>
+							<td class="fs-5" th:text="${emplInfo.partTime}"></td>
+							<td class="fs-5" th:text="${emplInfo.timePay}"></td>
+							<td class="fs-5" th:text="${emplInfo.sw}"><a>승인대기</a></td>
 							<!-- <td class="fs-5"><a href="#">승인대기</a></td> -->
 						</tr>
 					</tbody>
@@ -116,7 +121,7 @@ table {
 			</div>
 		</div>
 		<!-- 페이징 버튼 -->
-		<div class="emp-info-page fs-4">
+		<!-- <div class="emp-info-page fs-4">
 			<ul class="emp-info-pgeList">
 				<li><a>&lt;&lt;</a></li>
 				<li><a>&lt;</a></li>
@@ -129,7 +134,7 @@ table {
 				<li><a>&gt;&gt;</a></li>
 
 			</ul>
-		</div>
+		</div> -->
 	</div>
 </body>
 </html>
