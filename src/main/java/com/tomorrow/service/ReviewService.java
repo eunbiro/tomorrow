@@ -148,5 +148,25 @@ public class ReviewService {
 		return memberRepository.findByUserId(userId);
 	}
 	
+	// 매장공지 내용을 delete
+	public void deleteReview(Long reviewId) {
+
+		Review review  = reviewRepository.findById(reviewId).orElseThrow(EntityNotFoundException::new);
+		List<ReviewImg> reviewImgList = reviewImgRepository.findByReviewIdOrderByIdAsc(reviewId);
+		
+		for (ReviewImg reviewImg : reviewImgList) {
+			
+			reviewImgRepository.delete(reviewImg);
+		}
+		
+		List<RvComment> rvCommentList = rvCommentRepository.findByReviewIdOrderByIdAsc(reviewId);
+		
+		for (RvComment rvComment : rvCommentList) {
+			
+			rvCommentRepository.delete(rvComment);
+		}
+		
+		reviewRepository.delete(review);
+	}
 	
 }

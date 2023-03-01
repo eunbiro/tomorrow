@@ -42,34 +42,89 @@
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <th:block layout:fragment="css">
 	<style>
-		.input-group {
-            margin-bottom : 15px
-        }
-        .img-div {
-            margin-bottom : 10px
-        }
-        .fieldError {
+		.fieldError {
             color: #bd2130;
+            font-size: 0.8rem;
+            padding-left: 1rem;
         }
+        
+     	#cont-wrap {
+     		margin: 0 auto;
+     		padding: 0;
+     		font-size: 10px;
+     	}
+     
+   		.noti-title {
+			font-family: 'SEBANG_Gothic_Bold';
+			text-decoration: none;
+			color: #000;
+		}
+		
+		.sub_title {
+			font-family: 'SEBANG_Gothic_Bold';
+			text-decoration: none;
+			color: #000;
+		}
+		
+     	.noti-wrap {
+			margin-top: 80px;
+			width: 88%;
+		}
+		
+		.rv-title-ipt{
+			width: 100%;
+			height: 50px;
+			font-size: 1rem;
+		}
+		
+		.rv-title-ipt label{
+			line-height: 50px;
+			font-size: 1rem;
+			letter-spacing: 0.6rem;
+		}
+		
+		.rv-title-ipt input{
+			font-size: 1rem;
+			border: none;
+			letter-spacing: 0.1rem;
+		}
+		
+		hr {
+			margin: 0.3rem 0;
+		}
+		
+		.review-textarea {
+			height: 400px;
+			resize: none;
+			border: none;
+			font-size: 1rem;
+		}
+		
+		.rv-saveBtn {
+			border-radius: 8px; 
+			border: none;
+			background: #284476;
+			color: #fff;
+		}
 	</style>
 </th:block>
 </head>
 <body> 
-	<div layout:fragment="content">	
-	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
-   			<hr>
+	<div layout:fragment="content" id="cont-wrap">	
+		<div class="container d-flex flex-column noti-wrap">
+			<p class="noti-title text-start fs-3 fw-bold">매장리뷰</p>
 	   		<form method="post" enctype="multipart/form-data" th:object="${reviewDto}">
-	 		
-	   			<div class="post-title d-flex">
+	   			<hr>
+	 			<!-- 제목 -->
+	   			<div class="d-flex rv-title-ipt align-items-center">
 	   				<input type="hidden" th:field="*{member}" th:value="${member}"/>
-	   				<label for="review_id">제목 : <input type="text" id="review_id" th:field="*{reviewTitle}" placeholder="제목을 입력해주세요."/></label>
-	   				<p th:if="${#fields.hasErrors('reviewTitle')}" th:errors="*{reviewTitle}" class="fieldError">Incorrect Data</p>
+	   				<label class="ps-2 align-items-center" for="review_id">제목 : </label>
+	   				<input class="w-75 ms-2 py-2 my-auto" type="text" id="review_id" th:field="*{reviewTitle}" placeholder="제목을 입력해주세요."/>
 	   			</div>
+	   				<p th:if="${#fields.hasErrors('reviewTitle')}" th:errors="*{reviewTitle}" class="fieldError">Incorrect Data</p>
    				<hr>
-	   			<div class="post-text">
-	   				<textarea class="w-100 h-40 board-textarea" th:field="*{reviewCont}" placeholder="내용을 입력해주세요.">
-
-	   				</textarea>
+	   			<div class="">
+	   				<textarea class="p-3 w-100 review-textarea" th:field="*{reviewCont}" placeholder="내용을 입력해주세요."></textarea>
 	   				<p th:if="${#fields.hasErrors('reviewCont')}" th:errors="*{reviewCont}" class="fieldError">Incorrect Data</p>
    					<hr>
    					
@@ -77,32 +132,35 @@
 	   			<!-- 이미지 등록 -->
 	   			<div class="input-img">
 	   				<div th:if="${#lists.isEmpty(reviewDto.reviewImgDtoList)}">
-						<div th:each="num: ${#numbers.sequence(1,1)}">
-							<div class="mb-3">
-		 						<label for="formFile" class="form-label custom-file-label" th:text="게시판이미지 + ${num}"></label>
-		 						<input class="form-control custom-file-input" type="file" id="reviewImgFile" name="reviewImgFile">
-							</div>
+						<div class="my-3 fs-6">
+	 						<label for="formFile" class="form-label ms-3 custom-file-label">매장이미지</label>
+	 						<input class="form-control custom-file-input" type="file" id="reviewImgFile" name="reviewImgFile">
 						</div>
 					</div>
-	   			</div>
+				</div>
 	   			<!-- 수정 -->
 	   			<div th:if="${not #lists.isEmpty(reviewDto.reviewImgDtoList)}">
 					<div th:each="reviewImgDto, status: ${reviewDto.reviewImgDtoList}">
-						<div class="mb-3">
-	  						<label for="formFile" class="form-label custom-file-label" th:text="${not #strings.isEmpty(reviewImgDto.rvOriImgNm)} ? ${reviewImgDto.rvOriImgNm} : '상품이미지' + ${status.index+1}"></label>
+						<div class="my-3 fs-6">
+	  						<label for="formFile" class="form-label ms-3 custom-file-label" th:text="${not #strings.isEmpty(reviewImgDto.rvOriImgNm)} ? ${reviewImgDto.rvOriImgNm} : '게시판이미지' + ${status.index+1}"></label>
 	  						<input type="hidden" name="reviewImgIds" th:value="${reviewImgDto.id}">
 	  						<input class="form-control custom-file-input" type="file" id="reviewImgFile" name="reviewImgFile">
 						</div>
 					</div>
 				</div>
-	   			<div th:if="${#strings.isEmpty(reviewDto.id)}">
-				<button th:formaction="@{/review/new}" type="submit" class="btn btn-primary mb-3">저장</button>
-			</div> 
-			
-			<div th:unless="${#strings.isEmpty(reviewDto.id)}" class="camp_frm_btn">
-				<button th:formaction="@{'/review/update/' + ${reviewDto.id} }" type="submit" >수정</button>
-			</div>
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				
+				<div class="d-flex text-end">
+		   			<div class="ms-auto" th:if="${#strings.isEmpty(reviewDto.id)}">
+						<button th:formaction="@{/review/new}" type="submit" class="mx-auto fs-6 px-4 py-2 rv-saveBtn">저장</button>
+						<button type="button" onclick="location.href='/review/list'"class="mx-auto fs-6 px-4 py-2 rv-saveBtn">취소</button>
+					</div> 
+					<div class="ms-auto" th:unless="${#strings.isEmpty(reviewDto.id)}">
+						<button th:formaction="@{'/review/update/' + ${reviewDto.id} }" type="submit" class="mx-auto fs-6 px-4 py-2 rv-saveBtn">수정</button>
+						<button type="button" th:onclick="|location.href='@{/review/{reviewId}(reviewId = ${reviewDto.id})}'|" class="mx-auto fs-6 px-4 py-2 rv-saveBtn">취소</button>
+					</div>
+				</div>
+				
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 	   		</form>
 	   </div>
     </div>
