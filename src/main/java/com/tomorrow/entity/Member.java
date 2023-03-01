@@ -79,9 +79,8 @@ public class Member extends BaseEntity {
 		this.imgUrl = imgUrl;
 	}
 	//비밀번호 수정
-	public String updatePassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+	public void updatePassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
 		String password = passwordEncoder.encode(memberFormDto.getPassword());
 		this.password = passwordEncoder.encode(password);
-		return this.password;
 	}
 }
