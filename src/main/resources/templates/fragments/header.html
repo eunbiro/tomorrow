@@ -73,7 +73,7 @@
 							    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
 									<div class="accordion-body bg-dark">
 							      		<a class="nav-link acABtn py-2 ps-5" href="/work/commute">출퇴근기록</a>
-							      		<a class="nav-link acABtn py-2 ps-5" href="/work/commute">급여일지</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/work/pay">급여일지</a>
 									</div>
 							    </div>
 							</div>
@@ -85,7 +85,8 @@
 							    </h2>
 							    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
 									<div class="accordion-body bg-dark">
-							      		<a class="nav-link acABtn py-2 ps-5" href="/board/list">게시글</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/board/list">자유게시판</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/review/list" sec:authorize="hasAnyAuthority('ROLE_USER')">매장리뷰</a>
 									</div>
 							    </div>
 							</div>
@@ -110,7 +111,7 @@
 							    </h2>
 							    <div id="flush-collapsefour" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
 									<div class="accordion-body bg-dark">
-							      		<a class="nav-link acABtn py-2 ps-5" href="/admin/employees">직원정보</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/admin/manage/employeeInfo">직원정보</a>
 							      		<a class="nav-link acABtn py-2 ps-5" href="/admin/commute">직원출퇴근조회</a>
 							      		<a class="nav-link acABtn py-2 ps-5" href="/admin/pay">직원급여관리</a>
 									</div>
@@ -124,7 +125,7 @@
 							    </h2>
 							    <div id="flush-collapsefive" class="accordion-collapse collapse" aria-labelledby="flush-headingfive" data-bs-parent="#accordionFlushExample">
 									<div class="accordion-body bg-dark">
-							      		<a class="nav-link acABtn py-2 ps-5" href="#">회원정보</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/member/mypage">회원정보</a>
 							      		<a class="nav-link acABtn py-2 ps-5" href="/shop/shopInfo" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">매장정보</a>
 									</div>
 							    </div>
@@ -133,7 +134,7 @@
 						
 					</div>
 					<div class="bottom-image">
-						<a href="https://github.com/eunbiro/tomorrow"> <img alt=""
+						<a onclick="window.open('https://github.com/eunbiro/tomorrow ')"> <img alt=""
 							src="/images/gitimage.png">
 						</a>
 					</div>

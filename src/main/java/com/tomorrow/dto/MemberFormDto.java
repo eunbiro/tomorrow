@@ -3,6 +3,7 @@ package com.tomorrow.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import com.tomorrow.entity.Member;
 @Getter
 @Setter
 public class MemberFormDto {
+	
+	private Long id;	//회원 식별자
 	
 	@NotEmpty(message = "이메일은 필수 입력 값입니다.")
 	private String userId; // 회원 아이디
@@ -40,7 +43,15 @@ public class MemberFormDto {
 
 	private String imgNm; // 이미지 이름
 	
+	@NotEmpty(message = "질문은 필수 입력 값입니다.")
+	private String hintQ;	//비밀번호 수정 시 사용
+	
+	@NotEmpty(message = "질문 대답은 필수 입력 값입니다.")
+	private String hintA;	//비밀번호 수정 시 사용
+	
 	private Role role;
+	
+	private LocalDateTime regTime;
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 
@@ -50,5 +61,11 @@ public class MemberFormDto {
 
 	public static MemberFormDto of(Member member) {
 		return modelMapper.map(member, MemberFormDto.class);
+	}
+	
+	//회원수정
+	public Member updateMemberInfo(Member member, PasswordEncoder passwordEncoder) {
+		member.setPassword(passwordEncoder.encode(this.password));
+		return member;
 	}
 }

@@ -30,6 +30,8 @@
 				if (shopId == "") {
 					
 					alert("매장을 선택해주세요");
+					
+					return;
 				}
 			});
 		});
@@ -193,6 +195,11 @@
 <!-- 사용자 CSS 추가 --> 
 <th:block layout:fragment="css">
      <style>
+	     .fieldError {
+	        color: #bd2130;
+	        font-size: 1rem;
+	     }
+	     
      	#cont-wrap {
      		margin: 0 auto;
      		padding: 0;
@@ -312,10 +319,10 @@
 			<form class="noti-form my-4 mx-auto container-md" method="post" th:object="${noticeDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">매장공지</a>
-					<!-- TODO : 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
+					<!-- 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
 					<select class="noti-sel-shop fs-6 px-2 me-2" th:field="*{shopDto.shopId}" id="shopId">
 						<option value="">매장선택</option>
-						<th:block th:each="myShop : ${myShopList}" th:value="${myShop.shopDto.shopId}">
+						<th:block th:each="myShop, status : ${myShopList}" th:value="${myShop.shopDto.shopId}">
 							<option th:value="${myShop.shopDto.ShopId}" th:text="${myShop.shopDto.shopNm}"></option>
 						</th:block>
 					</select>
@@ -324,11 +331,11 @@
 				<div class="mx-auto" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 					<div class="row notice mx-auto my-2">
 						<textarea class="col-10 py-2 notice-ipt" th:field="*{noticeCont}" placeholder="공지사항 작성"></textarea>
-						<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
 						<button type="submit" th:formaction="@{'/shop/info'}" class="col-2 notice-icon text-end">
 							<i class="fa-sharp fa-solid fa-file-pen"></i>
 						</button>
 					</div>
+					<p th:if="${#fields.hasErrors('noticeCont')}" th:errors="*{noticeCont}" class="fieldError text-start">Incorrect Data</p>
 				</div>
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 			</form>
@@ -338,11 +345,11 @@
 				<div class="mx-auto" th:if="${not #lists.isEmpty(notiList)}" th:each="noti : ${notiList}">
 					<!-- 프로필부분 -->
 					<div class="mx-auto d-flex justify-content-around py-3">
-						<div class="col-3 my-auto profile-cont-img">
-							<img th:if="${not #strings.isEmpty(member.imgUrl)}" th:src="${member.imgUrl}" style="border-radius: 60%">
+						<div class="col-2 my-auto profile-cont-img">
+							<!-- <img th:if="${not #strings.isEmpty(member.imgUrl)}" th:src="${member.imgUrl}" style="border-radius: 60%"> -->
 						</div>
 						
-						<div class="col-8 text-start d-flex flex-column ps-2">
+						<div class="col-10 text-start d-flex flex-column ps-2">
 							<div class="mt-auto text-bottom fw-bold" style="font-size: 1.2rem" id="memberNm" th:text="${noti.MemberFormDto.userNm}">내일</div>
 							<div class="mb-auto text-top" style="color: #A6A6A6; font-size: 0.9rem; padding-left: 1%" id="memberId" th:value="${noti.MemberFormDto.userId}" th:text="'@' + ${noti.MemberFormDto.userId}">@tomorrow</div>
 						</div>
@@ -391,8 +398,8 @@
 					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
 						<div class="row pt-auto">
 							<input type="hidden" id="noticeId" th:value=${noti.noticeId}/>
-							<a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer;"><i class="fa-regular fa-circle-check"></i></a>
-							<span class="col-7 text-start" th:text="${noti.notiLike} + '명'">1명</span>
+							<!-- <a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer;"><i class="fa-regular fa-circle-check"></i></a>
+							<span class="col-7 text-start" th:text="${noti.notiLike} + '명'">1명</span> -->
 						</div>
 						<div th:if="${noti.regTime == noti.updateTime}">
 							<div class="pt-auto" style="font-size: 0.8rem; color: #A6A6A6;" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">

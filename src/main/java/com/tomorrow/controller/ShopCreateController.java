@@ -33,14 +33,14 @@ public class ShopCreateController {
 
 	private final ShopCreateService shopCreateService;
 	//매장생성(shopCreateForm.html) 들어가기
-		@GetMapping(value="/shopCreate/shopCreate")
+		@GetMapping(value="/shopcreate/createshopp")
 		public String createShopForm(Model model, Principal principal) { //모델은 jsp 했을 때 request espone 
 			getSideImg(model, principal);
 			model.addAttribute("createShopFormDto",new CreateShopFormDto());
 			return "shop/shopCreateForm";
 		}
 		// 매장생성(shopCreateForm.html) 진짜 생성
-		@PostMapping(value = "/shopCreate/shopCreate")
+		@PostMapping(value = "/shopcreate/createshopp")
 		public String createShop(@Valid CreateShopFormDto createShopFormDto, BindingResult bindingResult, 
 				Model model, @RequestParam("createShopImgFile") List<MultipartFile> createShopImgFileList, Principal principal) {
 			getSideImg(model, principal);

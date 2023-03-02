@@ -1,9 +1,6 @@
 package com.tomorrow.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
 import org.modelmapper.ModelMapper;
 
 import com.tomorrow.entity.Commute;
@@ -31,9 +28,5 @@ public class CommuteDto {
 	public Commute createCommute() {
  	   return modelMapper.map(this, Commute.class);
     }
-	
-
-
-
 	
 }

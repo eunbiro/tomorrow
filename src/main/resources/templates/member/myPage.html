@@ -7,14 +7,15 @@
 <title>마이 페이지</title>
 <th:block layout:fragment="css">
 	<style>
-	*{
+* {
 	margin: 0;
-	padding: 0;}
-	
+	padding: 0;
+}
+
 .mypage-bg {
 	background: #13223D;
-	top:0;
-	height: 180px;
+	top: 0;
+	height: 190px;
 	position: absolute;
 	z-index: -99;
 	width: 100%;
@@ -26,11 +27,11 @@
 	height: 100px;
 	display: flex;
 	margin: 0 auto;
-	margin-top: 60px;
+	margin-top: 75px;
 }
 
 .mypage-profile-img {
-	width: 100px;
+	width: 170px;
 	height: 100%;
 	border-radius: 70%;
 	margin-right: 20px;
@@ -81,110 +82,104 @@
 	margin-top: 30px;
 }
 
-.profile-info label {
-	font-size: 0.8rem;
-	font-weight: bold;
-	text-align: left;
-}
-
-.profile-info input {
-	height: 40px;
-}
-
-input {
-	width: 65%;
-	box-shadow: 0px 3px 5px gray;
-	border-radius: 7px;
-	border: none;
-}
-
-input:focus {
-	border: none;
-	outline: none;
-}
-
-.profile-id, .profile-pw, .profile-pwcheck, .profile-phone {
-	font-weight: bold;
-	float: left;
-	margin-right: 20px;
-}
-
-.profile-phone input {
-	padding-bottom: 50px;
-}
-
 .profile-shop-form {
-	margin: 0 auto;
+	margin-top: 50px;
 }
 
-.profile-shop-register {
-	margin: 20px;
+.table {
+	text-align: center;
+}
+
+
+.profile-shop-name {
+	
+	width: 150px;
 }
 
 .profile-shop-register button {
-	width: 50%;
+	width: 100%;
 	border-radius: 5px;
 	background-color: black;
 	color: white;
 	height: 40px;
+	margin: 20px 0;
 }
 
 .profile-shop-number {
 	font-weight: bold;
-	font-size: 0.8rem;
 	float: left;
-	margin-right: 40px;
 }
 
 .profile-shop-wage {
-	float: right;
 	text-decoration: none;
-}
-
-.profile-shop-down {
-	width: 100%;
-	margin: 0 auto;
-	padding-bottom: 10px;
-}
-
-.profile-shop-down a {
-	float: left;
-	font-size: 0.8rem;
+	
 }
 
 .profile-shop-real-number {
 	border: 1px solid;
 	border-radius: 10%;
 	text-decoration: none;
-	width: 120px;
+	text-align: center;
+	display: flex; 
+	box-shadow : 1px 5px 6px 0px rgba( 87, 87, 87, 0.64);
+	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+}
+
+.profile-user-shop-real-number {
+	border: 1px solid;
+	border-radius: 10%;
+	text-decoration: none;
 	text-align: center;
 	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
 	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
 	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	display: flex;
+	width:80px;
+	margin:0 auto;
+	
+	}
+
+
+.profile-shop-real-number a {
+	margin: 0 auto;
 }
 
 .profile-form-button {
 	text-align: center;
 	margin-top: 10px;
-	
 }
 
 .profile-form-modify {
 	margin: 0 auto;
-	width: 150px;
-	margin: 5px; border-radius : 5px;
+	width: 20%;
+	margin: 5px;
+	border-radius: 5px;
 	background-color: black;
 	color: white;
 	border-radius: 5px;
 }
 
+.profile-form-modify a {
+	text-decoration: none;
+	color: white;
+}
+
 .profile-form-cancel {
 	margin: 0 auto;
-	width: 150px;
+	width: 20%;
 	border-radius: 5px;
 	background-color: black;
 	color: white;
 	margin: 5px;
+}
+
+.profile-form-cancel a {
+	text-decoration: none;
+	color: white;
 }
 </style>
 </th:block>
@@ -194,78 +189,66 @@ input:focus {
 		<div class="mypage-bg"></div>
 		<div class="mypage-profile">
 			<div class="mypage-profile-img" style="background: #BDBDBD;">
-				<img class="mypage-profile-img" src="/images/tistory.JPG">
+				<img class="mypage-profile-img"
+					th:if="${not #strings.isEmpty(member.imgUrl)}"
+					th:src="${member.imgUrl}">
 			</div>
 
 			<div class="profile-basic">
-				<a class="profile-name">디그다 님</a><a class="profile-mini-id ">@andy981217</a>
-				<a class="profile-time">가입날짜: 2023-02-14</a>
+				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_USER')">[[${member.userNm}]]
+					님</a> <a class="profile-name"
+					sec:authorize="hasAnyAuthority('ROLE_ADMIN')">[[${member.userNm}]]
+					님</a> <a class="profile-mini-id">@[[${member.userId}]]</a> <a
+					class="profile-time"
+					th:text="'가입날짜: '+${#temporals.format(member.regTime,'yyyy-MM-dd')}"></a>
 			</div>
 		</div>
 		<div>
+			<div class="profile-shop-form ">
+				<div class="profile-shop-register w-75 mx-auto ">
+					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
+						th:onclick="|location.href='@{/shopcreate/createshopp}'|">매장생성</button>
+					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER')"
+						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
+				</div>
+				<form role="form" method="get">
+					<div class="w-75 mx-auto"
+						sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+						<table class="table">
+							<tbody>
+								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
+									<th class="profile-shop-name"
+										th:text="${memShopMappingDto.shopDto.shopNm}"></th>
+									<td class="profile-shop-real-number"
+										th:text="${memShopMappingDto.shopDto.shopId}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="w-75 mx-auto profile-shop-register"
+						sec:authorize="hasAnyAuthority('ROLE_USER')">
+						<table class="table">
+							<tbody>
+								
+								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
+									<th class="profile-shop-name"
+										th:text="${memShopMappingDto.shopDto.shopNm}"></th>
+									<td class="profile-user-shop-real-number " th:text="${memShopMappingDto.shopDto.shopId}" 
+										></td>
+									<td class="profile-shop-wage"
+										th:text="${memShopMappingDto.timePay}"></td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+				</form>
+				<div class="profile-form-button   mx-auto ">
+					<button class="profile-form-modify"
+						onclick="location.href='/member/myPagePassword'">내정보 수정</button>
+					<button class="profile-form-cancel" onclick="location.href='/'">취소</button>
+				</div>
 
-			<form class="profile-form ps-5">
-				<div class="profile-info">
-					<div class="profile-pw">
-						<label>비밀번호</label>
-					</div>
-					<input>
-				</div>
-				<div class="profile-info">
-					<div class="profile-pwcheck">
-						<label>비밀번호 <br> 재확인
-						</label>
-					</div>
-					<input>
-				</div>
-				<div class="profile-info">
-					<div class="profile-phone">
-						<label>전화번호</label>
-					</div>
-					<input>
-				</div>
-			</form>
-			<div class="profile-shop-form">
-				<div class="profile-shop-register d-flex justify-content-around">
-					<button>매장등록</button>
-				</div>
-				<div class="profile-shop-down d-flex justify-content-around">
-					<div>
-						<label class="profile-shop-number">매장번호</label>
-					</div>
-					<div>
-						<a class="profile-shop-real-number">56456231</a>
-					</div>
-					<div>
-						<a class="profile-shop-wage ">시급 13,000원</a>
-					</div>
-				</div>
-				<div class="profile-shop-down d-flex justify-content-around">
-					<div>
-						<label class="profile-shop-number">매장번호</label>
-					</div>
-					<div>
-						<a class="profile-shop-real-number">56456231</a>
-					</div>
-					<div>
-						<a class="profile-shop-wage ">시급 13,000원</a>
-					</div>
-				</div>
-				<div class="profile-shop-down d-flex justify-content-around">
-					<div>
-						<label class="profile-shop-number">매장번호</label>
-					</div>
-					<div>
-						<a class="profile-shop-real-number">56456231</a>
-					</div>
-					<div>
-						<a class="profile-shop-wage ">시급 13,000원</a>
-					</div>
-				</div>
-				<div class="profile-form-button justify-content-around">
-					<button class="profile-form-modify">수정</button>
-					<button class="profile-form-cancel">취소</button>
-				</div>
 			</div>
 		</div>
 	</div>

@@ -1,19 +1,23 @@
 package com.tomorrow.service;
 
-import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+
 import org.apache.groovy.parser.antlr4.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tomorrow.dto.BoardFormDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.repository.MemberRepository;
@@ -24,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
-
+	
 	@Value("${userProfileImgLocation}")
 	private String userProfileImgLocation;
 	private final FileService fileService;
@@ -85,28 +89,28 @@ public class MemberService implements UserDetailsService {
 		return memberFormDto;
 	}
 	
+	//아이디 리턴 메소드
 	public Member findNmPhone(String userNm, String pNum) {
-		Member member =  memberRepository.findByMemberNmAndPhone(userNm, pNum);
-		 return member;
+		Member member =  memberRepository.findId(userNm, pNum);
+		return member;
+	}
+	//비밀번호 리턴 메소드
+	public Member findEmailPhone(String userId, String pNum) {
+		Member member =  memberRepository.findPassword(userId, pNum);
+		return member;
 	}
 	
-	/*
-	@Transactional(readOnly = true) // 트랜잭션 읽기 전용(변경감지 수행하지 않음) -> 성능향상
-	public String findId(String name, String pNum) {
-		String result = "";
-		try {
-			result = memberRepository.findByMember(name, pNum);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	*/
-	
-	//전화번호 형식에 맞게 쓰기
+	//전화번호 형식에 맞게 쓰기 (미적용)
 	public boolean isPhoneNum(String pNum) {
 		//전화번호 정규식
 		String check = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
 		return Pattern.matches(check, pNum);
+	}
+
+	//비밀번호를 바꾸려는 계정의 시퀀스 id값
+	public Member updatePassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		Member member = memberRepository.findById(memberFormDto.getId()).orElseThrow(EntityNotFoundException::new);
+		member.updatePassword(memberFormDto, passwordEncoder);
+		return member;
 	}
 }

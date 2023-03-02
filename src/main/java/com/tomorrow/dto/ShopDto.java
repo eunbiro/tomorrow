@@ -20,12 +20,18 @@ public class ShopDto {
 	
 	private String shopTime; // 영업시간 
 	
-	private int businessId; // 사업자번호 
+	private Long businessId; // 사업자번호 
 	
 	private String shopPlace; // 매장위치
 	
 	private String shopType; // 매장업종
 	
 	private List<ShopImgDto> shopImgDto = new ArrayList<>(); // 상품 이미지 정보 저장하는 리스트 
+	
+	private static ModelMapper modelMapper = new ModelMapper();
+	
+	public static ShopDto of(Shop shop) {
+		return modelMapper.map(shop, ShopDto.class);
+	}
 	
 }

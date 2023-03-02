@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.tomorrow.dto.CommuteDto;
-import com.tomorrow.dto.NoticeDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -49,7 +48,7 @@ public class Commute {
 	private LocalDateTime working; // 출근날짜시간
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private LocalDateTime leaving; // 퇴근날짜시간
 
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -99,6 +99,11 @@
 </th:block>
 <th:block layout:fragment="css">
 	<style>
+		.fieldError {
+	        color: #bd2130;
+	        font-size: 1rem;
+	     }
+	     
 		#cont-wrap {
      		margin: 0 auto;
      		padding: 0;
@@ -263,7 +268,7 @@
 											<div class="modal-dialog modal-dialog-centered justify-content-center">
 												<div class="modal-content">
 													<div class="modal-body fs-6">
-															공지내용을 편집하시겠습니까?
+															일지내용을 편집하시겠습니까?
 										      		</div>
 													<div class="modal-btn pb-3">
 														<button type="button" class="btn px-4 mx-4" data-bs-dismiss="modal" id="updateBtn" th:value="${log.workLogId}" onclick="updatePage(this.value)">수정</button>

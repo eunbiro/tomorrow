@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>매장리뷰</title>
+<th:block layout:fragment="css">
+     <style>
+     	.fieldError {
+            color: #bd2130;
+        }
+        
+     	#cont-wrap {
+     		margin: 0 auto;
+     		padding: 0;
+     		font-size: 10px;
+     	}
+     
+   		.noti-title {
+			font-family: 'SEBANG_Gothic_Bold';
+			text-decoration: none;
+			color: #000;
+		}
+		
+		.sub_title {
+			font-family: 'SEBANG_Gothic_Bold';
+			text-decoration: none;
+			color: #000;
+		}
+		
+     	.noti-wrap {
+			margin-top: 60px;
+			width: 88%;
+		}
+		
+		.review-table thead {
+			background: #284476;
+			color: #fff;
+			height: 50px;
+			border-bottom: 3px solid #fff;
+		}
+		
+		.review-table tbody tr {
+			height: 40px;
+			border-top: 3px solid #fff;
+			border-bottom: 3px solid #fff;
+		}
+		
+		.review-table tbody tr:hover {
+			background: #e8e8e8;
+		}
+		
+		.rv-searchBtn {
+			border: 1px solid #A9A9A9;
+			color: #A9A9A9;
+		}
+		
+		.rv-searchBtn:hover {
+			background: #eee;
+			color: #A9A9A9
+		}
+		
+		.review-addBtn button {
+			border-radius: 8px; 
+			border: none;
+			background: #284476;
+			color: #fff;
+		}
+		
+		.rv-body {
+			font-size: 1rem;
+		}
+		
+		.rv-body a {
+			text-decoration: none;
+			color: #000;
+			cursor: pointer;
+		}
+		
+	</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content" id="cont-wrap">	
+	    <div class="container d-flex flex-column noti-wrap">
+            <p class="noti-title text-start fs-3 fw-bold">매장리뷰</p>
+            <div class="search">
+	            <form class="d-flex" role="search" th:action="@{/review/list}" method="get">
+					<input name="searchQuery" class="form-control ms-auto my-1 w-50 fs-6" type="search" placeholder="검색어 입력" aria-label="Search">
+					<button class="btn rv-searchBtn ms-2 my-1" type="submit" style="width: 100px;">검색</button>
+				</form>
+			</div>
+	        <table class="review-table my-3">
+	            <thead class="text-center fs-5">
+	                <tr>
+	                    <th class="col-1 rounded-start">NO.</th>
+	                    <th class="col-7">제목</th>
+	                    <th class="col-2">작성자</th>
+	                    <th class="col-2 rounded-end">작성일</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <th:block  th:each="review, status: ${reviews.getContent()}">	
+	                <tr class="rv-body text-center">
+	                    <td >[[${review.id}]]</td>
+	                    <td class="text-start ps-3" style="border-left: 1px solid #e3e3e3; border-right: 1px solid #e3e3e3;">
+	                    	<a style="width: 100%;" th:href="'/review/' +${review.id}">[[${review.reviewTitle}]]</a>
+                    	</td>
+	                    <td>[[${review.userNm}]]</td>
+	                    <td class="border-start" th:text="${#temporals.format(review.regTime, 'yy-MM-dd')}"></td>
+	                </tr>
+	                </th:block>
+	            </tbody>
+	        </table>
+	        <div class="review-addBtn text-end me-3">
+	            <button class="fs-6 px-4 py-2" onclick="location.href='/review/new'">글쓰기</button>
+	        </div>
+	        
+	        <!-- 페이징 -->
+	        <div class="paging">
+	           <nav th:with="start=${(reviews.number/maxPage)*maxPage + 1}, end=(${(reviews.totalPages == 0) ? 1 : (start + (maxPage - 1) < reviews.totalPages ? start + (maxPage - 1) : reviews.totalPages)})" aria-label="Page navigation example">
+					<ul class="pagination d-flex justify-content-center my-2">
+						<li class="page-item" th:classappend="${reviews.first}?'disabled'">
+							<a th:href="@{'/review/list' + '?searchQuery=' + ${reviewSearchDto.searchQuery} + '&page=' + ${reviews.number-1}}" class="page-link" style="font-size: 0.8rem; color: #000;">이전</a>
+						</li>
+						<li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${reviews.number eq page-1}?'active':''">
+							<a class="page-link" th:inline="text" th:href="@{'/review/list' +'?searchQuery=' + ${reviewSearchDto.searchQuery} + '&page=' + ${page-1}}" style="font-size: 0.8rem; color: #000;">[[${page}]]</a>
+						</li>
+						<li class="page-item" th:classappend="${reviews.last}?'disabled'">
+							<a class="page-link" th:href="@{'/review/list' +'?searchQuery=' + ${reviewSearchDto.searchQuery} + '&page=' + ${reviews.number+1}}" style="font-size: 0.8rem; color: #000;">다음</a>
+						</li>
+					</ul>
+				</nav>
+       	  	</div>
+	    </div>
+    </div>
+</body>
+</html>

@@ -10,7 +10,9 @@
 		<nav class="navbar fixed-top  navbar-sidebar">
 			<!-- <nav class="navbar navbar-dark bg-white fixed-top  navbar-sidebar"> -->
 			<div class="container-fluid d-flex justify-content-between">
-				<a class="navbar-brand text-center" href="/" style="color: #fff; font-size: 30px; width: 30px;"><i class="fa-solid fa-house"></i></a>
+				<a class="navbar-brand text-center" href="/"
+					style="color: #fff; font-size: 30px; width: 30px;"><i
+					class="fa-solid fa-house"></i></a>
 				<button class="navbar-btn" type="button" data-bs-toggle="offcanvas"
 					data-bs-target="#offcanvasDarkNavbar"
 					aria-controls="offcanvasDarkNavbar">
@@ -19,9 +21,9 @@
 				<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1"
 					id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
 					<div class="offcanvas-header justify-content-end">
-						<button type="button" class="bg-dark"  style="border:none;"
+						<button type="button" class="bg-dark" style="border: none;"
 							data-bs-dismiss="offcanvas">
-							<i class="fa-solid fa-x" style="color:white; "></i>
+							<i class="fa-solid fa-x" style="color: white;"></i>
 						</button>
 					</div>
 
@@ -31,16 +33,22 @@
 								<div class="side-profile">
 									<div class="nav-item" style="height: 180px">
 										<div class="box" style="background: #BDBDBD;">
-											<img class="profile" src="/images/logo.png">
+											<img class="profile"
+												th:if="${not #strings.isEmpty(member.imgUrl)}"
+												th:src="${member.imgUrl}">
 										</div>
 									</div>
 									<div class="side-name">
-										<a>디그다님<br>오늘 하루도 열일하세요. : )
+										<a sec:authorize="hasRole('USER')">[[${member.userNm}]]님<br>오늘
+											하루도 열일하세요. : )
+										</a> <a sec:authorize="hasRole('ADMIN')">[[${member.userNm}]]
+											점주님<br>좋은 하루 보내세요. : )
 										</a>
 									</div>
 								</div>
 								<div class="side-logout">
-									<a href="#">로그아웃</a>
+									<a href="/member/login" sec:authorize="isAnonymous()">로그인</a> <a
+										href="/member/logout" sec:authorize="isAuthenticated()">로그아웃</a>
 								</div>
 							</li>
 							<li>
@@ -60,7 +68,7 @@
 						</ul>
 					</div>
 					<div class="bottom-image">
-						<a href="https://github.com/eunbiro/tomorrow"> <img alt=""
+						<a onclick="window.open('https://github.com/eunbiro/tomorrow ')"> <img alt=""
 							src="/images/gitimage.png">
 						</a>
 					</div>

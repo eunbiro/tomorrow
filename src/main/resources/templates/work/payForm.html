@@ -14,7 +14,7 @@
 }
 
 .calendar {
-	width: 80%;
+	width: 90%;
 	margin: 50px auto;
 }
 
@@ -152,57 +152,66 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="calendar">
-			<div class="header">
-				<div class="year-month"></div>
-				<div class="nav">
-					<button class="nav-btn go-prev" onclick="prevMonth()">&lt;</button>
-					<button class="nav-btn go-today" onclick="goToday()">Today</button>
-					<button class="nav-btn go-next" onclick="nextMonth()">&gt;</button>
+		<form method="get" th:object="${payListDto}">
+			<div class="calendar">
+				<div class="header">
+					<div class="year-month"></div>
+					<div class="nav">
+						<button class="nav-btn go-prev" onclick="prevMonth()">&lt;</button>
+						<button class="nav-btn go-today" onclick="goToday()">Today</button>
+						<button class="nav-btn go-next" onclick="nextMonth()">&gt;</button>
+					</div>
 				</div>
-			</div>
-			<div class="main">
-				<div class="days">
-					<div class="day">일</div>
-					<div class="day">월</div>
-					<div class="day">화</div>
-					<div class="day">수</div>
-					<div class="day">목</div>
-					<div class="day">금</div>
-					<div class="day">토</div>
+				<div class="main">
+					<div class="days">
+						<div class="day">일</div>
+						<div class="day">월</div>
+						<div class="day">화</div>
+						<div class="day">수</div>
+						<div class="day">목</div>
+						<div class="day">금</div>
+						<div class="day">토</div>
+					</div>
+					<div class="dates"></div>
 				</div>
-				<div class="dates"></div>
-			</div>
-			<div class="shop-box">
-				<ul class="shop-box-ul">
-					<li
-						style="background-color: #13223D; width: 20px; height: 20px; float: left;"></li>
-					<li>(주)이젠</li>
-					<li
-						style="background-color: #FCA211; width: 20px; height: 20px; float: left;"></li>
-					<li>(주)EBS</li>
-				</ul>
-			</div>
+				<div class="shop-box">
+					<ul class="shop-box-ul">
+						<li
+							style="background-color: #13223D; width: 20px; height: 20px; float: left;"></li>
+						<li>(주)이젠</li>
+						<li
+							style="background-color: #FCA211; width: 20px; height: 20px; float: left;"></li>
+						<li>(주)EBS</li>
+					</ul>
 
-			<div class="shop-box-pay">
-				<ul class="shop-box-pay-ul">
-					<li style="background-color: #13223D; width: 20px; height: 20px;"></li>
-					<li>(주)이젠</li>
-					<li>9,000 (원) * 7 (일)</li>
-					<li style="text-align: right; font-size: 1.3rem">630,000 (원)</li>
-				</ul>
-				<ul class="shop-box-pay-ul">
-					<li style="background-color: #FCA211; width: 20px; height: 20px;"></li>
-					<li>(주)EBS</li>
-					<li>10,000 (원) * 1 (일)</li>
-					<li style="text-align: right; font-size: 1.3rem">100,000 (원)</li>
-				</ul>
+				</div>
+
+				<div class="shop-box-pay">
+					<ul class="shop-box-pay-ul">
+						<li style="background-color: #13223D; width: 20px; height: 20px;"></li>
+						<li>(주)이젠</li>
+						<li>9,000 (원) * 7 (일)</li>
+						<li style="text-align: right; font-size: 1.3rem">630,000 (원)</li>
+					</ul>
+					<ul class="shop-box-pay-ul">
+						<li style="background-color: #FCA211; width: 20px; height: 20px;"></li>
+						<li>(주)EBS</li>
+						<li>10,000 (원) * 1 (일)</li>
+						<li style="text-align: right; font-size: 1.3rem">100,000 (원)</li>
+					</ul>
+				</div>
+
+				<div class="pay-sum" style="text-align: right; font-size: 1.3rem">
+					합계 : <span
+						style="text-align: right; font-size: 1.6rem; font-weight: bold;">730,000
+					</span>(원)
+				</div>
+
 			</div>
-
-			<div class="pay-sum" style="text-align: right; font-size: 1.3rem">합계 : <span style="text-align: right; font-size: 1.6rem; font-weight: bold;">730,000 </span>(원)</div>
-
-		</div>
-		<script type="text/javascript" src="../js/calendar.js"></script>
+			<script type="text/javascript" src="../js/calendar.js"></script>
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}">
+		</form>
 	</div>
 </body>
 </html>

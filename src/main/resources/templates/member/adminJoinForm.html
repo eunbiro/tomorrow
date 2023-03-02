@@ -34,6 +34,19 @@
             	alert(errorMessage);
         	}
     	});
+	    
+	    //회원가입 시 이미지가 들어갔는지
+		function readURL(input) {
+			  if (input.files && input.files[0]) {
+			    var reader = new FileReader();
+			    reader.onload = function(e) {
+			      document.getElementById('uploadImg').src = e.target.result;
+			    };
+			    reader.readAsDataURL(input.files[0]);
+			  } else {
+			    document.getElementById('uploadImg').src = "";
+			  }
+			}
 	</script>
 
 <!-- 각 페이지의 CSS가 작성될 위치 -->
@@ -50,8 +63,8 @@
 				<div class="join-input-top">
 					<p class="join_word">기업 회원가입</p>
 					<label for="profileImgFile" class="img_hover">
-						<img src="/images/joinImg.png" style="width: 120px; position: relative;" /> 
-						<input type="file" name="profileImgFile" id="profileImgFile" style="position: absolute; display:none" />
+						<img src="/images/joinImg.png" style="width: 120px; position: relative;" id="uploadImg" />
+						<input type="file" name="profileImgFile" id="profileImgFile" style="position: absolute; display: none;" onchange="readURL(this);" />
 					</label>
 				</div>
 				<div class="join_input_info">
@@ -62,11 +75,17 @@
 					<input type="text" th:field="*{userId}" />
 					<p th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" class="fieldError">Incorrect Data</p>
 					<label th:for="password">비밀번호</label>
-					<input type="password" th:field="*{password}" />
+					<input type="password" th:field="*{password}" maxlength="16" />
 					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
 					<label th:for="pNum">전화번호</label>
-					<input type="text" th:field="*{pNum}" />
+					<input type="text" th:field="*{pNum}" maxlength="13" />
 					<p th:if="${#fields.hasErrors('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
+					<label th:for="hintQ">힌트질문</label>
+					<input type="text" th:field="*{hintQ}" placeholder="ex) 기억에 남는 선물은?" />
+					<p th:if="${#fields.hasErrors('hintQ')}" th:errors="*{hintQ}" class="fieldError">Incorrect Data</p>
+					<label th:for="hintA">힌트대답</label>
+					<input type="text" th:field="*{hintA}" />
+					<p th:if="${#fields.hasErrors('hintA')}" th:errors="*{hintA}" class="fieldError">Incorrect Data</p>
 					<button type="submit" class="join_new">가입하기</button>
 				</div>
 			</div>
