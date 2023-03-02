@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.tomorrow.constant.Role;
@@ -80,9 +81,10 @@ public class Member extends BaseEntity {
 		this.imgNm = imgNm;
 		this.imgUrl = imgUrl;
 	}
+	
 	//비밀번호 수정
-	public void updatePassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
-		String password = passwordEncoder.encode(memberFormDto.getPassword());
-		this.password = passwordEncoder.encode(password);
+	public void updatePassword(String password, PasswordEncoder passwordEncoder) {
+		String passwordEncode = passwordEncoder.encode(password);
+		this.password = passwordEncode;
 	}
 }

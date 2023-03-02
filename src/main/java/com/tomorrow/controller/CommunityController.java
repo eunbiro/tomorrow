@@ -145,7 +145,7 @@ public class CommunityController {
 	}
 	
 	@PostMapping(value = "/update/{boardId}")
-	public String boardUpdate(@Valid BoardFormDto boardFormDto, BindingResult bindingResult, 
+	public String boardUpdate(@PathVariable("boardId") Long boardId, @Valid BoardFormDto boardFormDto, BindingResult bindingResult, 
 			Model model, @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, Principal principal) {
 		
 		getSideImg(model, principal);
@@ -153,6 +153,8 @@ public class CommunityController {
 		if(bindingResult.hasErrors()) {
 			return "community/boardForm";
 		}
+		boardFormDto.setId(boardId);
+		
 		try {
 			boardService.updateBoard(boardFormDto, boardImgFileList);
 		} catch (Exception e) {
