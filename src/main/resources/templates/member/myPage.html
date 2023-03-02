@@ -207,7 +207,7 @@
 			<div class="profile-shop-form ">
 				<div class="profile-shop-register w-75 mx-auto ">
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
-						th:onclick="|location.href='@{/shopcreate/createshop}'|">매장생성</button>
+						th:onclick="|location.href='@{/shopcreate/createshopp}'|">매장생성</button>
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER')"
 						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
 				</div>
