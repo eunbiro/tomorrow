@@ -42,6 +42,7 @@ public class WorkController {
 	private final CommuteService commuteService;
 	private final MemberService memberService;
 	private final PayListService payListService;
+	
 	// 급여일지 페이지
 	@GetMapping(value = "/pay")
 	public String pay(Model model, Principal principal) {
@@ -55,6 +56,9 @@ public class WorkController {
 		return "work/payForm";
 	}
 
+	
+	
+	
 	// 출퇴근기록 페이지
 	@GetMapping(value = "/commute")
 	public String commute(Model model, Principal principal) {
@@ -68,15 +72,17 @@ public class WorkController {
 
 		return "work/commuteForm";
 	}
+	
+	
 
 	// GET매장 선택 시 출퇴근기록가져옴
 	@GetMapping(value = "/commute/{shopId}")
-	public String getRegister(@PathVariable("shopId") Long shopId, Long memberId, Model model, Principal principal) {
+	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 
-		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId, memberId);
+		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId);
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
-		CommuteDto leavingChk = commuteService.commuteListchk(shopId, memberId); 
+		CommuteDto leavingChk = commuteService.commuteListchk(shopId); 
 		CommuteDto commuteDto = new CommuteDto();
 
 		ShopDto shopDto = new ShopDto();
@@ -130,7 +136,7 @@ public class WorkController {
 		return "redirect:/work/commute/" + commuteDto.getShopDto().getShopId();
 	}
     
-    // 퇴근등록(수정기능)
+    // 퇴근 등록
     @PostMapping(value = "/commute/{commuteId}")
     public String commuteUpdate(@PathVariable("commuteId") Long id, @Valid CommuteDto commuteDto, BindingResult bindingResult, Model model,
 			Principal principal) {
