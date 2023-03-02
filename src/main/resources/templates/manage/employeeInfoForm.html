@@ -12,9 +12,9 @@
 
 			$('.info-sell-shop').off().on("change", function() {
 
-				var shopId = $('.info-sell-shop').val(); 
+				var shopId = $('.info-sell-shop').val();
 				/* var shopId = $(this).val(); */
-				console.log(shopId);
+				/* console.log(shopId); */
 				var url = "/admin/manage/employeeInfo/" + shopId;
 
 				$(location).attr('href', url);
@@ -28,7 +28,7 @@
 	margin-top: 70px;
 }
 
-.emp-info-select {
+.emp-info-select {q
 	box-shadow: 0px 3px 5px gray;
 }
 
@@ -36,7 +36,13 @@
 	font-family: 'SEBANG_Gothic_Bold';
 }
 
-.emp-info-page {
+.info-table {
+	width: 100%;
+	table-layout: fixed;
+	font-size: 0.8rem;
+}
+
+/* .emp-info-page {
 	text-align: center;
 	margin-top: 40px;
 	font-weight: bold;
@@ -44,32 +50,32 @@
 	margin: 0 auto;
 	left: 0;
 	right: 0;
-}
+} */
 
-.emp-info-pgeList {
+/* .emp-info-pgeList {
 	list-style: none;
 }
-
+ */
 li {
 	display: inline;
 }
 
-thead th:nth-child(n+2):nth-child(-n+6) {
+/* thead th:nth-child(n+2):nth-child(-n+6) {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-top: none;
 }
 
 tbody td:nth-child(n+2):nth-child(-n+6) {
 	border: 1px solid rgba(0, 0, 0, 0.1);
-}
+} */
 
-tr {
+/* tr {
 	height: 40px;
-}
+} */
 
-table {
+/* table {
 	height: 323px;
-}
+} */
 </style>
 </th:block>
 </head>
@@ -82,9 +88,11 @@ table {
 						class="info-sell-shop form-select w-75 my-3 emp-info-select"
 						th:value="${shopDto.shopId}" th:name="${shopDto.shopId}">
 						<option value="">매장 선택</option>
-						<th:block th:each="myShop: ${myShopList}"
-							th:value="${myShop.shopDto.shopId}">
-							<option th:selected = "${shopDto.shopId} == ${myShop.shopDto.shopId}" th:value="${myShop.shopDto.shopId}" th:text="${myShop.shopDto.shopNm}"></option>
+						<th:block th:each="myShop: ${myShopList}" th:value="${myShop.shopDto.shopId}">
+							<option
+								th:selected="${shopDto.shopId} == ${myShop.shopDto.shopId}"
+								th:value="${myShop.shopDto.shopId}"
+								th:text="${myShop.shopDto.shopNm}"></option>
 						</th:block>
 					</select>
 				</div>
@@ -95,9 +103,9 @@ table {
 
 			<!-- read -->
 			<div>
-				<table class="table table-hover text-center">
+				<table class="info-table table table-hover text-center my-4">
 					<thead style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
-						<tr class="fs-4">
+						<tr>
 							<th scope="col">이름</th>
 							<th scope="col">전화번호</th>
 							<th scope="col">근무시간</th>
@@ -113,28 +121,14 @@ table {
 							<td class="fs-5" th:text="${emplInfo.memberFormDto.pNum}"></td>
 							<td class="fs-5" th:text="${emplInfo.partTime}"></td>
 							<td class="fs-5" th:text="${emplInfo.timePay}"></td>
-							<td class="fs-5" th:text="${emplInfo.sw}"><a>승인대기</a></td>
+							<td class="fs-5" th:text="${emplInfo.workStatus}"><a>승인대기</a></td>
 							<!-- <td class="fs-5"><a href="#">승인대기</a></td> -->
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<!-- 페이징 버튼 -->
-		<!-- <div class="emp-info-page fs-4">
-			<ul class="emp-info-pgeList">
-				<li><a>&lt;&lt;</a></li>
-				<li><a>&lt;</a></li>
-				<li><a>1</a></li>
-				<li><a>2</a></li>
-				<li><a>3</a></li>
-				<li><a>4</a></li>
-				<li><a>5</a></li>
-				<li><a>&gt;</a></li>
-				<li><a>&gt;&gt;</a></li>
-
-			</ul>
-		</div> -->
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 	</div>
 </body>
 </html>
