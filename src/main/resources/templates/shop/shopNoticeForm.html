@@ -398,8 +398,8 @@
 					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
 						<div class="row pt-auto">
 							<input type="hidden" id="noticeId" th:value=${noti.noticeId}/>
-							<a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer;"><i class="fa-regular fa-circle-check"></i></a>
-							<span class="col-7 text-start" th:text="${noti.notiLike} + '명'">1명</span>
+							<!-- <a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer;"><i class="fa-regular fa-circle-check"></i></a>
+							<span class="col-7 text-start" th:text="${noti.notiLike} + '명'">1명</span> -->
 						</div>
 						<div th:if="${noti.regTime == noti.updateTime}">
 							<div class="pt-auto" style="font-size: 0.8rem; color: #A6A6A6;" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
