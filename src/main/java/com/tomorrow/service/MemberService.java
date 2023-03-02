@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.repository.MemberRepository;
 
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -95,7 +97,7 @@ public class MemberService implements UserDetailsService {
 		return member;
 	}
 	//비밀번호 리턴 메소드
-	public Member findEmailPhone(String userId, String pNum) {
+	public Member findIdPhone(String userId, String pNum) {
 		Member member =  memberRepository.findPassword(userId, pNum);
 		return member;
 	}
@@ -106,11 +108,12 @@ public class MemberService implements UserDetailsService {
 		String check = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
 		return Pattern.matches(check, pNum);
 	}
-
+	
 	//비밀번호를 바꾸려는 계정의 시퀀스 id값
-	public Member updatePassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
-		Member member = memberRepository.findById(memberFormDto.getId()).orElseThrow(EntityNotFoundException::new);
-		member.updatePassword(memberFormDto, passwordEncoder);
-		return member;
+	public void newPassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		
+		Member member = memberRepository.findByUserId(memberFormDto.getUserId());
+		
+		member.updatePassword(memberFormDto.getPassword(), passwordEncoder);
 	}
 }

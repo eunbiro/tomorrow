@@ -22,7 +22,6 @@
 <script src="https://kit.fontawesome.com/b7b38ee981.js" crossorigin="anonymous"></script>
 <title>Insert title here</title>
 <style>
-<style>
 .dropbtn_icon{
   font-family : 'Material Icons';
 }
@@ -63,7 +62,6 @@
   display: block;
 }
 </style>
-</style>
 </head>
 <body>
 <div class="container-lg find_info_page" id="findId_div">
@@ -84,7 +82,8 @@
 							<i class="fa-regular fa-circle-check"></i>
 						</div>
 						<div>
-							<span>디그다 회원님의 아이디는</span>
+							<span th:text="${findID.userNm}"></span>
+							<span>회원님의 아이디는</span>
 							<span th:text="${findID.userId}"></span>
 							<span>입니다.</span>
 						</div>
