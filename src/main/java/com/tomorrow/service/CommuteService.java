@@ -33,6 +33,7 @@ public class CommuteService {
 	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
 	private final ShopService shopService;
+	private final PayListService payListService;
 	
 	// 출퇴근 기록 리스트
 	
@@ -82,6 +83,7 @@ public class CommuteService {
 	
 		Commute commute = commuteRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 		commute.updateCommute(commuteDto, member, shop);
+		payListService.savePayList(id, member, shop);
 	}
 	
 	//최근 출근기록찾기

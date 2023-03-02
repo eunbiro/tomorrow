@@ -15,10 +15,12 @@ import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
 import com.tomorrow.dto.ShopDto;
+import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.PayList;
 import com.tomorrow.entity.Shop;
+import com.tomorrow.repository.CommuteRepository;
 import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
 import com.tomorrow.repository.PayListRepository;
@@ -33,6 +35,7 @@ public class PayListService {
 	private final MemberRepository memberRepository;
 	private final MemShopMapRepository memShopMapRepository;
 	private final PayListRepository payListRepository;
+	private final CommuteRepository commuteRepository;
 	
 	// 현재 접속해있는 회원정보를 불러옴
 	@Transactional(readOnly = true)
@@ -52,17 +55,17 @@ public class PayListService {
 	}
 	
 	// 퇴근 update 시 일급 insert
-	public PayList savePayList(CommuteDto commuteDto, Member member, Shop shop) {
+	public PayList savePayList(Long commteId, Member member, Shop shop) {
 		
 		MemShopMapping memShopMapping = memShopMapRepository.findByMemberIdAndShopId(member.getId(), shop.getId());
 		
-		LocalDateTime working = commuteDto.getWorking();
-		LocalDateTime leaving = commuteDto.getLeaving();
+		Commute commute = commuteRepository.findById(commteId).orElseThrow(EntityNotFoundException::new);
+		
+		LocalDateTime working = commute.getWorking();
+		LocalDateTime leaving = commute.getLeaving();
 		
 		long workTime = ChronoUnit.HOURS.between(leaving, working);
-		
 		int timePay = memShopMapping.getTimePay();
-		
 		int dayPay = (int)workTime * timePay;
 		
 		PayList payList = PayList.createPayList(dayPay, memShopMapping);
@@ -77,10 +80,10 @@ public class PayListService {
 	}
 	
 	// mapping id로 정보가져오기
-	public PayList getPayList (Long MapId) {
-		
-		return payListRepository.findByMapId(MapId).orElseThrow(EntityNotFoundException::new);
-	}
+//	public PayList getPayList (Long MapId) {
+//		
+//		return payListRepository.findByMapId(MapId).orElse(null);
+//	}
 	
 	// shop 정보 DTO 저장
 	public ShopDto getShopDto(Shop shop) {
@@ -108,7 +111,7 @@ public class PayListService {
 			PayListDto payListDto = new PayListDto();
 			
 			payListDto.setShopDto(getShopDto(memShopMapping.getShop()));
-			payListDto.setDayPay(getPayList(memShopMapping.getId()).getDayPay());
+//			payListDto.setDayPay(getPayList(memShopMapping.getId()).getDayPay());
 			
 			payListDtoList.add(payListDto);
 		}
