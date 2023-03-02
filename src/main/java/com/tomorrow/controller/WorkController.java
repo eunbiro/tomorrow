@@ -46,12 +46,9 @@ public class WorkController {
 	// 급여일지 페이지
 	@GetMapping(value = "/pay")
 	public String pay(Model model, Principal principal) {
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		
 		getSideImg(model, principal);
 
-		model.addAttribute("myShopList", myShopList);
-	    model.addAttribute("payListDto", new PayListDto());
 		
 		return "work/payForm";
 	}
