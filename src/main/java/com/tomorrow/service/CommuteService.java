@@ -34,9 +34,9 @@ public class CommuteService {
 	
 	// 출퇴근 기록 리스트
 	@Transactional(readOnly = true)
-	public List<CommuteDto> getCommuteList(Long shopId, Long memberId){
+	public List<CommuteDto> getCommuteList(Long shopId){
 
-		List<Commute> commuteList = commuteRepository.findByShopIdAndMemberIdOrderByIdDesc(shopId, memberId);
+		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
 		List<CommuteDto> commuteDtoList = new ArrayList<>();
 
 		for (Commute commute : commuteList) {
@@ -81,9 +81,9 @@ public class CommuteService {
 	}
 	
 	//최근 출근기록찾기
-	public CommuteDto commuteListchk(Long shopId, Long memberId) {
+	public CommuteDto commuteListchk(Long shopId) {
 				
-    	List<CommuteDto> commuteList = getCommuteList(shopId, memberId);
+    	List<CommuteDto> commuteList = getCommuteList(shopId);
     	    			
     	if(commuteList.size() == 0 ) {
     		CommuteDto commuteDto = new CommuteDto();	
