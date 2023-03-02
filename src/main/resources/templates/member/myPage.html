@@ -86,14 +86,21 @@
 	margin-top: 50px;
 }
 
-.table {
+table {
 	text-align: center;
+	border: none;
 }
 
+.profile-admin-shop-name {
+	width: 50%; border : none;
+	margin: 0 auto;
+	border: none;
+}
 
 .profile-shop-name {
-	
-	width: 150px;
+	width: 180px;
+	border: none;
+	margin: 0 auto;
 }
 
 .profile-shop-register button {
@@ -105,47 +112,30 @@
 	margin: 20px 0;
 }
 
-.profile-shop-number {
-	font-weight: bold;
-	float: left;
-}
-
-.profile-shop-wage {
-	text-decoration: none;
-	
-}
-
 .profile-shop-real-number {
-	border: 1px solid;
-	border-radius: 10%;
+	border: none;
+	border-radius: 5%;
 	text-decoration: none;
 	text-align: center;
-	display: flex; 
-	box-shadow : 1px 5px 6px 0px rgba( 87, 87, 87, 0.64);
-	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	width: 80px;
+	
 }
 
 .profile-user-shop-real-number {
-	border: 1px solid;
-	border-radius: 10%;
-	text-decoration: none;
-	text-align: center;
-	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
-	display: flex;
-	width:80px;
-	margin:0 auto;
-	
-	}
+	border: none;
+	margin: 0 auto;
+	width: 33%;
+}
 
+.profile-shop-wage {
+	border: none;
+	width: 33%;
+	text-decoration: none;
+}
 
 .profile-shop-real-number a {
 	margin: 0 auto;
+	border: none;
 }
 
 .profile-form-button {
@@ -217,7 +207,7 @@
 						<table class="table">
 							<tbody>
 								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
-									<th class="profile-shop-name"
+									<th class="profile-admin-shop-name"
 										th:text="${memShopMappingDto.shopDto.shopNm}"></th>
 									<td class="profile-shop-real-number"
 										th:text="${memShopMappingDto.shopDto.shopId}"></td>
@@ -229,16 +219,16 @@
 						sec:authorize="hasAnyAuthority('ROLE_USER')">
 						<table class="table">
 							<tbody>
-								
+
 								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
 									<th class="profile-shop-name"
 										th:text="${memShopMappingDto.shopDto.shopNm}"></th>
-									<td class="profile-user-shop-real-number " th:text="${memShopMappingDto.shopDto.shopId}" 
-										></td>
+									<td class="profile-user-shop-real-number"
+										th:text="${memShopMappingDto.shopDto.shopId}"></td>
 									<td class="profile-shop-wage"
-										th:text="${memShopMappingDto.timePay}"></td>
+										th:text="'시급: '+${memShopMappingDto.timePay}"></td>
 								</tr>
-								
+
 							</tbody>
 						</table>
 					</div>
