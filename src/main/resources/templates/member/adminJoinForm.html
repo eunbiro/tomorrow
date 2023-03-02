@@ -78,7 +78,7 @@
 					<input type="password" th:field="*{password}" maxlength="16" />
 					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
 					<label th:for="pNum">전화번호</label>
-					<input type="text" th:field="*{pNum}" maxlength="13" />
+					<input type="text" th:field="*{pNum}" maxlength="13" onkeyup="numberCheck();" />
 					<p th:if="${#fields.hasErrors('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
 					<label th:for="hintQ">힌트질문</label>
 					<input type="text" th:field="*{hintQ}" placeholder="ex) 기억에 남는 선물은?" />

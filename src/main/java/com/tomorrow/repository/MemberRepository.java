@@ -16,5 +16,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	//비밀번호 찾기
 	@Query("select m from Member m where m.userId=:userId and m.pNum=:pNum")
-	public Member findPassword(@Param("userId") String userNm, @Param("pNum") String pNum);
+	public Member findPassword(@Param("userId") String userId, @Param("pNum") String pNum);
+	
+	//비밀번호 수정 전 힌트 맞추기
+	@Query("select m from Member m where m.hintA=:hintA and m.userId=:userId and m.pNum=:pNum")
+	public Member findHint(@Param("hintA") String hintA, @Param("userId") String userId, @Param("pNum") String pNum);
 }

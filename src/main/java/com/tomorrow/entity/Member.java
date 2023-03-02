@@ -82,7 +82,7 @@ public class Member extends BaseEntity {
 		this.imgUrl = imgUrl;
 	}
 	
-	//비밀번호 수정
+	//비밀번호 수정 (encoding은 한번만~~)
 	public void updatePassword(String password, PasswordEncoder passwordEncoder) {
 		String passwordEncode = passwordEncoder.encode(password);
 		this.password = passwordEncode;

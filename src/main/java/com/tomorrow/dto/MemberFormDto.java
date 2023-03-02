@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.modelmapper.ModelMapper;
@@ -36,6 +37,7 @@ public class MemberFormDto {
 	
 	@NotEmpty(message = "전화번호는 필수 입력 값입니다.")
 	@Length(min = 13, max = 13, message = "-포함 13자리를 입력해주세요.")
+	@Pattern(regexp = "^(010|011|016|017|018|019)[-]?\\d{3,4}[-]?\\d{4}$", message = "전화번호를 형식에 맞게 입력해 주세요")
 	private String pNum; // 회원 전화번호
 
 	private String oriImgNm; // 원본 이미지명
@@ -55,7 +57,7 @@ public class MemberFormDto {
 	private LocalDateTime regTime;
 	
 	private static ModelMapper modelMapper = new ModelMapper();
-
+	
 	public Member createUserProfile() {
 		return modelMapper.map(this, Member.class);
 	}
