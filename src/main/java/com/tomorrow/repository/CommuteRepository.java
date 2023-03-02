@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import com.tomorrow.entity.Commute;
@@ -11,12 +12,13 @@ import com.tomorrow.entity.Commute;
 
 public interface CommuteRepository extends JpaRepository<Commute, Long>, QuerydslPredicateExecutor<Commute>{
 	
-	List<Commute> findByShopIdOrderByIdDesc(Long id);
+	List<Commute> findByShopIdOrderByIdDesc(Long shopId);
 
-	List<Commute> findByShopIdAndMemberIdOrderByIdDesc(Long shopId, Long memberId);
-	
 	Optional<Commute> findByIdOrderByIdDesc(Long id);
 	
+	List<Commute> findByMemberId(Long memberId);
+	
+	/* List<Commute> findByUserIdOrderByIdDesc(String userId); */
 	//Commute findByShopIdAndMemberIdOrderByIdDesc(Long ShopId, Long CommuteId);
-
+	
 }

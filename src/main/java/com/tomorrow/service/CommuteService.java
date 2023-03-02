@@ -14,6 +14,7 @@ import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.ManagerCommuteDto;
 import com.tomorrow.dto.MemberFormDto;
+import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Member;
@@ -31,8 +32,11 @@ public class CommuteService {
 	private final CommuteRepository commuteRepository;
 	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
+	private final ShopService shopService;
+	private final PayListService payListService;
 	
 	// 출퇴근 기록 리스트
+	
 	@Transactional(readOnly = true)
 	public List<CommuteDto> getCommuteList(Long shopId){
 
@@ -54,6 +58,7 @@ public class CommuteService {
 		return commuteDtoList;
 
 	}
+	
 	
 	public List<Commute> getCommuteListForManager(Long shopId){
 		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
@@ -78,6 +83,7 @@ public class CommuteService {
 	
 		Commute commute = commuteRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 		commute.updateCommute(commuteDto, member, shop);
+		payListService.savePayList(id, member, shop);
 	}
 	
 	//최근 출근기록찾기
@@ -126,5 +132,77 @@ public class CommuteService {
 			
 			return memShopMappingDtoList;
 		}*/
+	
+	/*
+	 * @Transactional(readOnly = true) public List<CommuteDto> getCommuteList(Long
+	 * shopId){
+	 * 
+	 * List<Commute> commuteList =
+	 * commuteRepository.findByShopIdOrderByIdDesc(shopId); List<CommuteDto>
+	 * commuteDtoList = new ArrayList<>();
+	 * 
+	 * for (Commute commute : commuteList) {
+	 * 
+	 * CommuteDto commuteDto = new CommuteDto();
+	 * 
+	 * commuteDto.setId(commute.getId());
+	 * commuteDto.setWorking(commute.getWorking());
+	 * commuteDto.setWorking(commute.getWorking());
+	 * commuteDto.setLeaving(commute.getLeaving());
+	 * 
+	 * commuteDtoList.add(commuteDto); }
+	 * 
+	 * return commuteDtoList;
+	 * 
+	 * }
+	 */
+
+	/*
+	 * // 은비언니 조언 듣고 만들어봄
+	 * 
+	 * public List<CommuteDto> getMyShop(String userId) { Member member =
+	 * findMember(userId); List<CommuteDto> myShopList =
+	 * getMyCommute(member.getId()); return myShopList; }
+	 * 
+	 * 
+	 * @Transactional(readOnly = true) public List<CommuteDto> getMyCommute(Long
+	 * memberId) { List<Commute> commuteList =
+	 * commuteRepository.findByMemberId(memberId); List<CommuteDto> commuteDtoList =
+	 * new ArrayList<>();
+	 * 
+	 * for (Commute commute : commuteList) { CommuteDto commuteDto = new
+	 * CommuteDto();
+	 * 
+	 * commuteDto.setMemberFormDto(getMember(commute.getMember()));
+	 * commuteDto.setShopDto(getShop(commute.getShop()));
+	 * commuteDto.setWorking(commute.getWorking());
+	 * commuteDto.setLeaving(commute.getLeaving());
+	 * 
+	 * commuteDtoList.add(commuteDto); }
+	 * 
+	 * return commuteDtoList; }
+	 * 
+	 * @Transactional(readOnly = true) public Member findMember(String userId) {
+	 * return memberRepository.findByUserId(userId); }
+	 * 
+	 * public ShopDto getShop(Shop shop) {
+	 * 
+	 * ShopDto shopDto = new ShopDto();
+	 * 
+	 * if (shop != null) {
+	 * 
+	 * shopDto.setShopId(shop.getId()); shopDto.setShopNm(shop.getShopNm());
+	 * shopDto.setShopPlace(shop.getShopPlace()); }
+	 * 
+	 * return shopDto; }
+	 * 
+	 * public MemberFormDto getMember(Member member) {
+	 * 
+	 * MemberFormDto memberFormDto = new MemberFormDto();
+	 * memberFormDto.setUserId(member.getUserId());
+	 * memberFormDto.setUserNm(member.getUserNm());
+	 * 
+	 * return memberFormDto; }
+	 */
 	
 }

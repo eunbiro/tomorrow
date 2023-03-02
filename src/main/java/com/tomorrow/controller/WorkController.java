@@ -46,12 +46,9 @@ public class WorkController {
 	// 급여일지 페이지
 	@GetMapping(value = "/pay")
 	public String pay(Model model, Principal principal) {
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		
 		getSideImg(model, principal);
 
-		model.addAttribute("myShopList", myShopList);
-	    model.addAttribute("payListDto", new PayListDto());
 		
 		return "work/payForm";
 	}
@@ -78,25 +75,32 @@ public class WorkController {
 	// GET매장 선택 시 출퇴근기록가져옴
 	@GetMapping(value = "/commute/{shopId}")
 	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+		getSideImg(model, principal);
 
-		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId);
+		// 내가 등록된 매장 리스트를 불러옴 
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-
-		CommuteDto leavingChk = commuteService.commuteListchk(shopId); 
-		CommuteDto commuteDto = new CommuteDto();
-
+		model.addAttribute("myShopList", myShopList);
+		
+		// 매장 별 출퇴근기록 가져오기 
 		ShopDto shopDto = new ShopDto();
 		shopDto.setShopId(shopId);
+		CommuteDto commuteDto = new CommuteDto();
 		commuteDto.setShopDto(shopDto);
-
-		getSideImg(model, principal);
-		model.addAttribute("leavingChk", leavingChk);
-		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("commuteList", commuteList);
 		model.addAttribute("commuteDto", commuteDto);
+
+		// 출퇴근기록 뽑아오기 
+		List<CommuteDto> commuteList = commuteService.getCommuteList(shopId);
+		model.addAttribute("commuteList", commuteList);
+
+		// 최근 출근기록 찾아오기 
+		CommuteDto leavingChk = commuteService.commuteListchk(shopId); 
+		model.addAttribute("leavingChk", leavingChk);
+		
 
 		return "work/commuteForm";
 	}
+	
+
 
 	// 사이드바 프로필정보 가져옴
 	public Model getSideImg(Model model, Principal principal) {
