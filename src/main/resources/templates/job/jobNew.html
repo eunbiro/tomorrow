@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>공고등록</title>
+
+<th:block layout:fragment="css">
+	<style>
+	
+	*{
+	  
+	}
+	
+.jobNew-wrap {
+	
+	margin: 50px auto;
+	 font-size: 10px; 
+	
+
+}
+
+.form-select {
+	width: 100%;
+	 margin-top:50px; 
+}
+
+.jobNew-info {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.jobNew{
+    border-bottom: 2px solid #d9d9d9;
+    border-top: 2px solid #d9d9d9;
+    margin-top:50px; 
+}
+
+.jobNew label{
+   width: 30%;
+   font-size: 1.7em;
+  padding: 10px;
+  background: #f1f1f1;
+}
+
+.jobNew  input {
+width: 68%;
+border: none;
+padding: 10px;
+margin-bottom: 0;
+}
+
+.btn-primary {
+	background-color: #13223D;
+	border: none;
+	
+	
+}
+
+.btn-primary:hover {
+	background-color: #13223D;
+	opacity: 0.5;
+}
+
+.jobNew-btn-wrap {
+	width: 30%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin-top: 50px;
+	margin: 0 auto;
+}
+
+.jobNew-btn-wrap .btn {
+	margin: 10px;
+	font-size: 0.9rem;
+	text-align: center;
+	width: 100px;
+	
+}
+</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="jobNew-wrap">
+			<div class="title fs-1"
+				style="font-weight: bold; color: #13223D; border-bottom: 6px solid #fca211; margin-bottom: 20px;">공고등록</div>
+			<!-- <select class="form-select commute-select commute-sel-shop"
+					th:field="*{shopDto.shopId}" id="shopId">
+					<option value="">매장 선택</option>
+					<th:block th:each="myShop : ${myShopList}"
+						th:value="${myShop.shopDto.shopId}">
+						<option th:value="${myShop.shopDto.shopId}"
+							th:text="${myShop.shopDto.shopNm}"></option>
+					</th:block>
+				</select> -->
+
+
+			<select class="form-select jobNew-select jobNew-sel-shop">
+				<option>매장을 선택하세요.</option>
+				<option>이젠</option>
+			</select>
+
+			<div class="jobNew-info">
+				<div class="jobNew">
+					<label>시급</label>
+					<input type="text" placeholder="시급을 입력해주세요">
+				
+					<label>기간/요일</label>
+					<input type="text" placeholder="기간/요일을 입력해주세요">
+				
+					<label>근무시간</label>
+					<input type="text" placeholder="근무시간을 입력해주세요">
+				
+					<label>업/직종</label>
+					<input type="text" placeholder="카페" readonly="readonly">
+				
+					<label>근무지</label>
+					<input type="text" placeholder="서울시 서초" readonly="readonly">
+				</div>	
+			</div>
+			
+			<div class="jobNew-btn-wrap">
+						<button class="btn btn-primary">취소</button>		
+						<button class="btn btn-primary">등록</button>
+				</div>
+		</div>
+	</div>
+</body>
+
+</html>

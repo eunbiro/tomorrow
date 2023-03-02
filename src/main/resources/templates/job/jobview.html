@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout1}">
+<head>
+<meta charset="UTF-8">
+<title>공고보기</title>
+
+<th:block layout:fragment="css">
+	<style>
+	.jobView-wrap {
+	   margin-top: 50px;
+	}
+</style>
+</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="jobView-wrap">
+			<!-- 검색폼 -->
+			<div class="jobView-title" style="border: 1px solid gray;">
+				<label class="">
+					<i class="fa-solid fa-magnifying-glass" style="color: #5D5D5D;"></i>
+					<input id="shopCode" class="" type="text" placeholder="회사를 입력하세요" style="border: none; ">
+				</label>
+			</div>
+				<button type="button" class="">검색</button>
+		</div>
+	</div>
+</body>
+
+</html>
