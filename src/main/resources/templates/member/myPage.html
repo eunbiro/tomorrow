@@ -90,13 +90,10 @@
 	text-align: center;
 }
 
-.profile-shop-register {
-	
-}
 
 .profile-shop-name {
 	
-	display: inline-block;
+	width: 150px;
 }
 
 .profile-shop-register button {
@@ -110,36 +107,45 @@
 
 .profile-shop-number {
 	font-weight: bold;
-	
 	float: left;
-		
 }
 
 .profile-shop-wage {
-	display: inline-block;
 	text-decoration: none;
-}
-
-.profile-shop-down {
-	width: 100%;
-	margin: 0 auto;
-	padding-bottom: 40px;
-}
-
-.profile-shop-down a {
-	float: left;
-	font-size: 0.8rem;
+	
 }
 
 .profile-shop-real-number {
 	border: 1px solid;
 	border-radius: 10%;
 	text-decoration: none;
-	width: 120px;
+	text-align: center;
+	display: flex; 
+	box-shadow : 1px 5px 6px 0px rgba( 87, 87, 87, 0.64);
+	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+}
+
+.profile-user-shop-real-number {
+	border: 1px solid;
+	border-radius: 10%;
+	text-decoration: none;
 	text-align: center;
 	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
 	-webkit-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
 	-moz-box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	box-shadow: 1px 5px 6px 0px rgba(87, 87, 87, 0.64);
+	display: flex;
+	width:80px;
+	margin:0 auto;
+	
+	}
+
+
+.profile-shop-real-number a {
+	margin: 0 auto;
 }
 
 .profile-form-button {
@@ -155,11 +161,11 @@
 	background-color: black;
 	color: white;
 	border-radius: 5px;
-	
 }
-.profile-form-modify a{
-		text-decoration: none;
-		color:white;
+
+.profile-form-modify a {
+	text-decoration: none;
+	color: white;
 }
 
 .profile-form-cancel {
@@ -170,9 +176,10 @@
 	color: white;
 	margin: 5px;
 }
-.profile-form-cancel a{
-	text-decoration:none; 
-	color:white;
+
+.profile-form-cancel a {
+	text-decoration: none;
+	color: white;
 }
 </style>
 </th:block>
@@ -200,7 +207,7 @@
 			<div class="profile-shop-form ">
 				<div class="profile-shop-register w-75 mx-auto ">
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
-						th:onclick="|location.href='@{/shopCreate/shopCreate}'|">매장생성</button>
+						th:onclick="|location.href='@{/shopcreate/createshopp}'|">매장생성</button>
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER')"
 						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
 				</div>
@@ -210,9 +217,8 @@
 						<table class="table">
 							<tbody>
 								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
-									<th class="profile-shop-number" th:value="매장번호">매장번호</th>
-									<td class="profile-shop-name"
-										th:text="${memShopMappingDto.shopDto.shopNm}"></td>
+									<th class="profile-shop-name"
+										th:text="${memShopMappingDto.shopDto.shopNm}"></th>
 									<td class="profile-shop-real-number"
 										th:text="${memShopMappingDto.shopDto.shopId}"></td>
 								</tr>
@@ -223,19 +229,23 @@
 						sec:authorize="hasAnyAuthority('ROLE_USER')">
 						<table class="table">
 							<tbody>
+								
 								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
-									<th class="profile-shop-number" th:value="매장번호">매장번호</th>
+									<th class="profile-shop-name"
+										th:text="${memShopMappingDto.shopDto.shopNm}"></th>
+									<td class="profile-user-shop-real-number " th:text="${memShopMappingDto.shopDto.shopId}" 
+										></td>
 									<td class="profile-shop-wage"
-										th:text="${memShopMappingDto.timePay}">시급 13000원</td>
-									<td class="profile-shop-real-number"
-										th:text="${memShopMappingDto.shopDto.shopId}"></td>
+										th:text="${memShopMappingDto.timePay}"></td>
 								</tr>
+								
 							</tbody>
 						</table>
 					</div>
 				</form>
 				<div class="profile-form-button   mx-auto ">
-					<button class="profile-form-modify" onclick="location.href='/member/myPagePassword'">내정보 수정</button>
+					<button class="profile-form-modify"
+						onclick="location.href='/member/myPagePassword'">내정보 수정</button>
 					<button class="profile-form-cancel" onclick="location.href='/'">취소</button>
 				</div>
 
