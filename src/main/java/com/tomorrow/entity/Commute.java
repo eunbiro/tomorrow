@@ -48,7 +48,7 @@ public class Commute {
 	private LocalDateTime working; // 출근날짜시간
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private LocalDateTime leaving; // 퇴근날짜시간
 
 	@ManyToOne(fetch = FetchType.LAZY)
