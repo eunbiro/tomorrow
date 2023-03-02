@@ -33,8 +33,9 @@ public class MemberFormDto {
 	@NotEmpty(message = "비밀번호는 필수 입력 값입니다.")
 	@Length(min = 8, max = 16, message = "비밀번호는 8자 이상, 16자 이하로 입력해주세요.")
 	private String password; // 회원 비밀번호
-
+	
 	@NotEmpty(message = "전화번호는 필수 입력 값입니다.")
+	@Length(min = 13, max = 13, message = "-포함 13자리를 입력해주세요.")
 	private String pNum; // 회원 전화번호
 
 	private String oriImgNm; // 원본 이미지명
