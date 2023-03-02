@@ -85,7 +85,8 @@
 							    </h2>
 							    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
 									<div class="accordion-body bg-dark">
-							      		<a class="nav-link acABtn py-2 ps-5" href="/board/list">게시글</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/board/list">자유게시판</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/review/list" sec:authorize="hasAnyAuthority('ROLE_USER')">매장리뷰</a>
 									</div>
 							    </div>
 							</div>

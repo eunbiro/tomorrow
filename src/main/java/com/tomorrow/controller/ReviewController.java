@@ -10,14 +10,18 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.dto.MemberFormDto;
@@ -25,6 +29,7 @@ import com.tomorrow.dto.ReviewDto;
 import com.tomorrow.dto.ReviewListDto;
 import com.tomorrow.dto.ReviewSearchDto;
 import com.tomorrow.dto.RvCommentDto;
+import com.tomorrow.entity.Review;
 import com.tomorrow.entity.RvComment;
 import com.tomorrow.repository.RvCommentRepository;
 import com.tomorrow.service.MemberService;
@@ -80,13 +85,13 @@ public class ReviewController {
 
 	//댓글 생성
 	@PostMapping(value="/comment/{reviewId}")
-	public String reviewComment(@Valid RvCommentDto rvCommentDto ,@PathVariable("reviewId") Long reviewId, BindingResult bindingResult, Model model, Principal principal) {
+	public String reviewComment(@Valid RvCommentDto rvCommentDto, @PathVariable("reviewId") Long reviewId, BindingResult bindingResult, Model model, Principal principal) {
 		
 		getSideImg(model, principal);
 		
 		if(bindingResult.hasErrors()) {
 			
-			return "redirect:/review/list";
+			return "redirect:/review/" + reviewId;
 		}
 		try {
 			
@@ -175,7 +180,15 @@ public class ReviewController {
 			model.addAttribute("reviewDto", reviewDto);
 			return "review/reviewForm";
 		}
-		return "redirect:/review/list";
+		return "redirect:/review/" + reviewId;
+	}
+	
+	// 게시글 삭제
+	@DeleteMapping(value = "/{reviewId}/delete")
+	public @ResponseBody ResponseEntity deleteReview(@PathVariable("reviewId") Long reviewId) {
+		
+		reviewService.deleteReview(reviewId);
+		return new ResponseEntity<Long>(reviewId, HttpStatus.OK);
 	}
 	
 	//사이드바 프로필 이미지 가져오기 

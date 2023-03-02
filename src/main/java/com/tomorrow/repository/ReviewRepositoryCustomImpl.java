@@ -63,7 +63,8 @@ private JPAQueryFactory queryFactory;
 					new QReviewListDto(
 							review.id,
 							review.reviewTitle,
-							review.createdBy)
+							review.createdBy,
+							review.regTime)
 					)
 					 .from(reviewImg)
 					 .join(reviewImg.review, review)
