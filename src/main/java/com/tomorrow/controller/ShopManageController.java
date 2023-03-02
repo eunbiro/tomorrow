@@ -67,9 +67,11 @@ public class ShopManageController {
 			List<MemShopMappingDto> myShopList = emplInfoService.getMyShopList(principal.getName());
 			model.addAttribute("myShopList", myShopList); // 매장 이름 리스트를 가져옴
 			
+			// 매장 선택한 후 매장 데이터 가져오기
 			Shop shop = shopInfoService.findShop(shopId);
 			ShopDto shopDto = shopInfoService.getShop(shop);
 			model.addAttribute("shopDto", shopDto);
+			
 			// 직원 리스트 뽑아오기 
 			List<MemShopMappingDto> emplList = emplInfoService.getMappingList(shopId);
 			model.addAttribute("emplList", emplList);
