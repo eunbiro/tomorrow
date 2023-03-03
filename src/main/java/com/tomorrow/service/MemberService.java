@@ -91,29 +91,32 @@ public class MemberService implements UserDetailsService {
 		return memberFormDto;
 	}
 	
-	//아이디 리턴 메소드
-	public Member findNmPhone(String userNm, String pNum) {
-		Member member =  memberRepository.findId(userNm, pNum);
-		return member;
-	}
-	//비밀번호 리턴 메소드
-	public Member findIdPhone(String userId, String pNum) {
-		Member member =  memberRepository.findPassword(userId, pNum);
-		return member;
+	//아이디 찾을 때
+	public MemberFormDto findNmPhone(String userNm, String pNum) {
+		MemberFormDto memberFormDto =  memberRepository.findId(userNm, pNum);
+		return memberFormDto;
 	}
 	
-	//전화번호 형식에 맞게 쓰기 (미적용)
-	public boolean isPhoneNum(String pNum) {
-		//전화번호 정규식
-		String check = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$";
-		return Pattern.matches(check, pNum);
+	//비밀번호 찾을 때 (힌트 찾기 페이지로 넘어감)
+	public MemberFormDto haveMemberInfo(String userId, String pNum) {
+		MemberFormDto memberFormDto =  memberRepository.findPassword(userId, pNum);
+		return memberFormDto;
 	}
 	
-	//비밀번호를 바꾸려는 계정의 시퀀스 id값
+	//힌트 찾을 때 (비밀번호 수정 페이지로 넘어감)
+	public MemberFormDto findMemberHint(String hintA, String hintQ, String userId) {
+		MemberFormDto memberFormDto =  memberRepository.findHint(hintA, hintQ, userId);
+		return memberFormDto;
+	}
+	
+	//비밀번호를 바꿔보자
 	public void newPassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
 		
+		//현재 dto에는 로그인 아이디 데이터가 흐르기 떄문에 findByUserId를 쓴다
 		Member member = memberRepository.findByUserId(memberFormDto.getUserId());
 		
+		//dto에 적용시킬 건 password 뿐이기 때문에 memberFormDto.getPassword()로 쓴다
 		member.updatePassword(memberFormDto.getPassword(), passwordEncoder);
 	}
+	
 }

@@ -29,6 +29,7 @@ public class FindMemberController {
 	// ID/PASSWORD 찾기화면
 	@GetMapping(value = "/find/info")
 	public String findMemberInfo(Model model) {
+		
 		model.addAttribute("memberFormDto", new MemberFormDto());
 		return "member/findMemberInfo";
 	}
@@ -39,23 +40,15 @@ public class FindMemberController {
 	@PostMapping(value = "/find/info/id")
 	public String memberFindId(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 
-		/*
-		 if (!memberService.isPhoneNum(memberFormDto.getPNum())) {
-		 model.addAttribute("errorPhone", "전화번호를 형식대로 입력해주세요!");
-		 return "member/findMemberInfo";
-		 }
-		*/
 		try {
-			 Member memberFindID = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum()); 
+			memberFormDto = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum()); 
 			 
-			 if (memberFindID == null) {
+			 if (memberFormDto == null) {
 				 model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
 				 return "member/findMemberInfo";
 			 } else {
-				 model.addAttribute("findID", memberFindID);				 
+				 model.addAttribute("findID", memberFormDto);				 
 			 }
-			 
-			// Post방식으로 다음 페이지 넘어감
 			return "member/memberFindIdResult";
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "검색 중 오류가 발생했습니다.");
@@ -63,40 +56,47 @@ public class FindMemberController {
 		}
 	}
 	
-	/* -------------------------------------------------------- FIND ID RESULT ------------------------------------------------- */
-
-	// Id 찾기 페이지에서 Post 방식으로 정보 전달 메소드
-	/*
-	@PostMapping(value = "/find/result/id")
-	public String memberFindResultId(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
-		Member memberFindID = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum());
-		model.addAttribute("findID", memberFindID);
-		// System.out.println(memberFindID.getUserId());
-		return "member/memberFindIdResult";
-	}
-	*/
-	
 	/* -------------------------------------------------------- FIND PASSWORD ------------------------------------------------- */
 	
 	// PASSWORD 찾기
 		@PostMapping(value = "/find/info/password")
 		public String memberFindPassword(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 	
-			/*
-			 if (!memberService.isPhoneNum(memberFormDto.getPNum())) {
-			 model.addAttribute("errorPhone", "전화번호를 형식대로 입력해주세요!");
-			 return "member/findMemberInfo";
-			 }
-			*/
 			try {
-				Member memberFindPASS = memberService.findIdPhone(memberFormDto.getUserId(), memberFormDto.getPNum());
-				model.addAttribute("findPassword", memberFindPASS);
-				model.addAttribute("memberFormDto", memberFormDto);
-				// Post방식으로 다음 페이지 넘어감
+				memberFormDto = memberService.haveMemberInfo(memberFormDto.getUserId(), memberFormDto.getPNum());
+				
+				if (memberFormDto == null) {
+					 model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
+					 return "member/findMemberInfo";
+				 } else {
+					 model.addAttribute("memberFormDto", memberFormDto);
+				 }
+				return "member/passwordHint";
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMessage", "검색 중 오류가 발생했습니다.");
+				return "member/findMemberInfo";
+			}
+		}
+		
+		/* -------------------------------------------------------- PASSWORD HINT  ------------------------------------------------- */
+		
+		@PostMapping(value ="/find/hint")
+		public String memberHint(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+			
+			memberFormDto = memberService.findMemberHint(memberFormDto.getHintA(), memberFormDto.getHintQ(), memberFormDto.getUserId());
+			try {
+				//하기 전에 memberFormDto에 있는 정보를 전에 있던 정보와 같이 끌어와야 한다 (Service에 저장 메소드를 만들자)
+				if (memberFormDto == null) {
+					model.addAttribute("errorMessage", "힌트 답변이 틀렸습니다. 다시 확인해주세요.");
+					return "member/passwordHint";
+				} else {
+					model.addAttribute("memberFormDto", memberFormDto);
+				}
 				return "member/modifyPassword";
 			} catch (Exception e) {
-				model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
-				return "member/findMemberInfo";
+				model.addAttribute("errorMessage", "오류가 발생하였습니다.");
+				return "main";
 			}
 		}
 		

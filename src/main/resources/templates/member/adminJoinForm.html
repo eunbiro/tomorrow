@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>기업 회원가입</title>
 <!-- bootstrap css -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -78,7 +78,7 @@
 					<input type="password" th:field="*{password}" maxlength="16" />
 					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="fieldError">Incorrect Data</p>
 					<label th:for="pNum">전화번호</label>
-					<input type="text" th:field="*{pNum}" maxlength="13" />
+					<input type="text" th:field="*{pNum}" maxlength="13" onkeyup="numberCheck();" />
 					<p th:if="${#fields.hasErrors('pNum')}" th:errors="*{pNum}" class="fieldError">Incorrect Data</p>
 					<label th:for="hintQ">힌트질문</label>
 					<input type="text" th:field="*{hintQ}" placeholder="ex) 기억에 남는 선물은?" />

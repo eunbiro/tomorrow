@@ -62,12 +62,18 @@ input {
 	background-color: #13223D;
 	color: white;
 }
+
+.allcheck {
+	background-color: #13223D;
+	color: white;
+}
 </style>
 </th:block>
 </head>
 <body>
 	<div layout:fragment="content">
 		<div class="container-lg d-flex flex-column text-center"
+
 			style="margin-top: 60px;">
 			<div class="noti-title   fs-3 fw-bold  my-2 ps-4">
 				<a>매장생성</a>
@@ -75,7 +81,8 @@ input {
 
 			<!-- shopCreate부분 -->
 			<form class="shop-create ps-4" role="form" method="post"
-				th:object="${createShopFormDto}" enctype="multipart/form-data">
+				th:object="${createShopFormDto}"  onsubmit="return allCheck()"
+				enctype="multipart/form-data">
 				<input type="hidden" th:field="*{id}" />
 				<div class="shop-info">
 					<div class="shop-item">
@@ -237,7 +244,55 @@ input {
 
 				</div>
 				<div class="shop-createbtn" style="padding-bottom: 30px;">
-					<button type="submit" class="btn " style="width: 30%; left: 0;">등록</button>
+				<button  type="submit" style="width: 30%; left: 0;" class="btn">확인</button>
+					
+					<script>
+					$(function allCheck() {
+						$('.btn')
+								.off()
+								.on(
+										"click",
+										function() {
+
+											var b_no_check = $('.b_no')
+													.val();
+											const settings = {
+												"async" : true,
+												"crossDomain" : true,
+												"url" : "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=NfQiliboeTPFJ%2FLo8dp7BxJwm6pdXiycUStOQU0S1MIvu50CnJ7XttUrAwOGjKy06ow8%2BDOQQRwES%2Bnelnk%2B%2BQ%3D%3D",
+												"method" : "POST",
+												"headers" : {
+													"accept" : "application/json",
+													"Authorization" : "NfQiliboeTPFJ/Lo8dp7BxJwm6pdXiycUStOQU0S1MIvu50CnJ7XttUrAwOGjKy06ow8+DOQQRwES+nelnk++Q==",
+													"Content-Type" : "application/json"
+												},
+												"processData" : false,
+												"data" : "{  \"b_no\": [    \""
+														+ b_no_check
+														+ "\"  ]}"
+											};
+											//번호를 입력한 값ㅇ
+											$
+													.ajax(settings)
+													.done(
+															function(
+																	response) {
+																console
+																		.log(response);
+																var bsstcd = response.data[0].b_stt_cd
+																if (bsstcd === "") {
+																	document.getElementById("b_no").value = '';
+																	alert('옳지 않은 사업자 등록 번호입니다.')
+																	return false;
+																} else {
+																	alert('옳게된 사업자 등록 번호입니다.')
+																}
+															});
+
+										});
+					});
+					</script>
+
 					<button id="tblbutton" type="button" value="매장취소"
 						onclick="cancelCheck()" style="width: 30%; left: 0;" class="btn">취소</button>
 					<script>
