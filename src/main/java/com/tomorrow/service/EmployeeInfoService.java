@@ -91,7 +91,7 @@ public class EmployeeInfoService {
 
 	// shopId로 매핑DTO 정보 가져오기 
 	public List<MemShopMappingDto> getMappingList(Long shopId) {
-		List<MemShopMapping> memShopMappingList = mapRepository.findByShopId(shopId);
+		List<MemShopMapping> memShopMappingList = mapRepository.findByShopIdNotAdmin(shopId);
 		List<MemShopMappingDto> memShopMappingDtoList = new ArrayList<>();
 
 		for (MemShopMapping mapping : memShopMappingList) {
