@@ -91,23 +91,23 @@ public class MemberService implements UserDetailsService {
 		return memberFormDto;
 	}
 	
-	//아이디 리턴 메소드
-	public Member findNmPhone(String userNm, String pNum) {
-		Member member =  memberRepository.findId(userNm, pNum);
-		return member;
+	//아이디 찾을 때
+	public MemberFormDto findNmPhone(String userNm, String pNum) {
+		MemberFormDto memberFormDto =  memberRepository.findId(userNm, pNum);
+		return memberFormDto;
 	}
 	
-	//비밀번호 리턴 메소드
-	public Member findIdPhone(String userId, String pNum) {
-		Member member =  memberRepository.findPassword(userId, pNum);
-		return member;
+	//비밀번호 찾을 때 (힌트 찾기 페이지로 넘어감)
+	public MemberFormDto haveMemberInfo(String userId, String pNum) {
+		MemberFormDto memberFormDto =  memberRepository.findPassword(userId, pNum);
+		return memberFormDto;
 	}
 	
-	public Member findMemberHint(String hintA, String userId, String pNum) {
-		Member member = memberRepository.findHint(hintA, userId, pNum);
-		return member;
+	//힌트 찾을 때 (비밀번호 수정 페이지로 넘어감)
+	public MemberFormDto findMemberHint(String hintA, String hintQ, String userId) {
+		MemberFormDto memberFormDto =  memberRepository.findHint(hintA, hintQ, userId);
+		return memberFormDto;
 	}
-	
 	
 	//비밀번호를 바꿔보자
 	public void newPassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
