@@ -41,13 +41,13 @@ public class FindMemberController {
 	public String memberFindId(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 
 		try {
-			 Member memberFindID = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum()); 
+			memberFormDto = memberService.findNmPhone(memberFormDto.getUserNm(), memberFormDto.getPNum()); 
 			 
-			 if (memberFindID == null) {
+			 if (memberFormDto == null) {
 				 model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
 				 return "member/findMemberInfo";
 			 } else {
-				 model.addAttribute("findID", memberFindID);				 
+				 model.addAttribute("findID", memberFormDto);				 
 			 }
 			return "member/memberFindIdResult";
 		} catch (Exception e) {
@@ -63,13 +63,12 @@ public class FindMemberController {
 		public String memberFindPassword(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 	
 			try {
-				Member memberFindPASS = memberService.findIdPhone(memberFormDto.getUserId(), memberFormDto.getPNum());
+				memberFormDto = memberService.haveMemberInfo(memberFormDto.getUserId(), memberFormDto.getPNum());
 				
-				if (memberFindPASS == null) {
-					model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
-					return "member/findMemberInfo";
+				if (memberFormDto == null) {
+					 model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
+					 return "member/findMemberInfo";
 				 } else {
-					 model.addAttribute("memberFindPASS", memberFindPASS);
 					 model.addAttribute("memberFormDto", memberFormDto);
 				 }
 				return "member/passwordHint";
@@ -85,15 +84,14 @@ public class FindMemberController {
 		@PostMapping(value ="/find/hint")
 		public String memberHint(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 			
-			Member memberHint = memberService.findMemberHint(memberFormDto.getHintA() ,memberFormDto.getUserId(), memberFormDto.getPNum());
+			memberFormDto = memberService.findMemberHint(memberFormDto.getHintA(), memberFormDto.getHintQ(), memberFormDto.getUserId());
 			try {
-			
 				//하기 전에 memberFormDto에 있는 정보를 전에 있던 정보와 같이 끌어와야 한다 (Service에 저장 메소드를 만들자)
-				if (memberHint.getHintA() == null) {
-					model.addAttribute("errorMessage", "일치하는 회원정보가 없습니다.");
+				if (memberFormDto == null) {
+					model.addAttribute("errorMessage", "힌트 답변이 틀렸습니다. 다시 확인해주세요.");
 					return "member/passwordHint";
 				} else {
-					model.addAttribute("memberHint", memberHint);
+					model.addAttribute("memberFormDto", memberFormDto);
 				}
 				return "member/modifyPassword";
 			} catch (Exception e) {
