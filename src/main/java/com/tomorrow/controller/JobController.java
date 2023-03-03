@@ -52,5 +52,7 @@ public class JobController {
 
 		return "job/jobview";
 	}
+	
+	
 
 }
