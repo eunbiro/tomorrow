@@ -1,5 +1,8 @@
 package com.tomorrow.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -48,7 +52,8 @@ public class MemShopMapping extends BaseEntity{
 	
 	private int workStatus;					// 알바 상태 0: 관리자, 1: 승인대기, 2: 승인완료, 3: 퇴사, 4: 휴직
 	
-	
+	@OneToMany(mappedBy = "memShopMapping")
+	private List<PayList> PayLists = new ArrayList<>();
 	
 	// 직원등록
 	public static MemShopMapping createMemMapping(Shop shop, Member member) {
