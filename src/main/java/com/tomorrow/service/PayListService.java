@@ -158,4 +158,15 @@ public class PayListService {
 		return workDayCountList;
 	}
 */
+	
+
+	public List<PayList> getPayListByMsm(List<MemShopMapping> msmList){
+		List<PayList> payList = new ArrayList<PayList>();
+		
+		for(MemShopMapping msm : msmList) {
+			
+		}
+		
+		return payList;
+	}
 }
