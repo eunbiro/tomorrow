@@ -9,10 +9,13 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
@@ -24,6 +27,7 @@ import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopCheckService;
 import com.tomorrow.service.ShopService;
 
+import javassist.expr.NewArray;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -32,7 +36,7 @@ public class MypageController {
 	private final MemberService memberService;
 	private final ShopCheckService shopCheckService;
 	private final ShopService shopService;
-	
+	private final PasswordEncoder passwordEncoder;
 	
 	
 	// 마이페이지 (매장)
@@ -63,6 +67,17 @@ public class MypageController {
 		
 		model.addAttribute("memberFormDto", new MemberFormDto());
 		return "member/myPagePassword";
+	}
+	//마이페이지 (패스워드 바꾸기);
+	@PostMapping(value="/mebmer/myPagePassword")
+	public String memberPasswordModify(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+		try {
+			memberService.newPassword(memberFormDto, passwordEncoder);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "member/myPagePassword";
+		}
+		return "redirect:/";
 	}
 	
 	

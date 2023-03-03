@@ -50,7 +50,33 @@ public class JobController {
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("payListDto", new PayListDto());
 
-		return "job/jobview";
+		return "job/jobView";
+	}
+
+	// 알바신청리스트 페이지
+	@GetMapping(value = "admin/job/list")
+	public String jobList(Model model, Principal principal) {
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+
+		getSideImg(model, principal);
+
+		model.addAttribute("myShopList", myShopList);
+		model.addAttribute("payListDto", new PayListDto());
+
+		return "job/jobList";
+	}
+
+	// 채용등록리스트 페이지
+	@GetMapping(value = "admin/job/openingList")
+	public String jobOpeningList(Model model, Principal principal) {
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+
+		getSideImg(model, principal);
+
+		model.addAttribute("myShopList", myShopList);
+		model.addAttribute("payListDto", new PayListDto());
+
+		return "job/jobOpeningList";
 	}
 
 }

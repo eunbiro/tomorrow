@@ -10,12 +10,13 @@
 	<style>
 	
 	*{
-	  
+	  margin: 0;
+	  padding: 0;
 	}
 	
 .jobNew-wrap {
 	
-	margin: 50px auto;
+	margin: 100px auto;
 	 font-size: 10px; 
 	
 
@@ -49,6 +50,7 @@ width: 68%;
 border: none;
 padding: 10px;
 margin-bottom: 0;
+font-size: 1.2rem;
 }
 
 .btn-primary {
@@ -85,6 +87,7 @@ margin-bottom: 0;
 <body>
 	<div layout:fragment="content">
 		<div class="jobNew-wrap">
+		<form method="post" th:object="${shopDto}"></form>
 			<div class="title fs-1"
 				style="font-weight: bold; color: #13223D; border-bottom: 6px solid #fca211; margin-bottom: 20px;">공고등록</div>
 			<!-- <select class="form-select commute-select commute-sel-shop"
@@ -128,6 +131,7 @@ margin-bottom: 0;
 				</div>
 		</div>
 	</div>
+	
 </body>
 
 </html>

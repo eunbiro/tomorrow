@@ -49,6 +49,10 @@ public class WorkController {
 		
 		getSideImg(model, principal);
 
+		List<List<PayListDto>> payList = payListService.getMapShopList(principal.getName());
+		List<PayListDto> workCount = payListService.getWorkCount(payList);
+		
+		model.addAttribute("payList", payList);
 		
 		return "work/payForm";
 	}

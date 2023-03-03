@@ -12,6 +12,8 @@ public class PayListDto {
 	
 	private int dayPay;
 	
+	private String regTime;
+	
 	private int monthPay;
 	
 	private int workDayCount;
