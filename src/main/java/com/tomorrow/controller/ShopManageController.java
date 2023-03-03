@@ -78,7 +78,7 @@ public class ShopManageController {
 			
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "직원 정보를 불러오는 중 에러가 발생했습니다.");
-			return "main";
+			return "manage/employeeInfoForm";
 		}
 
 		return "manage/employeeInfoForm";

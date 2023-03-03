@@ -73,14 +73,15 @@ input {
 <body>
 	<div layout:fragment="content">
 		<div class="container-lg d-flex flex-column text-center"
-			onsubmit="return allCheck()" style="margin-top: 60px;">
+
+			style="margin-top: 60px;">
 			<div class="noti-title   fs-3 fw-bold  my-2 ps-4">
 				<a>매장생성</a>
 			</div>
 
 			<!-- shopCreate부분 -->
 			<form class="shop-create ps-4" role="form" method="post"
-				 th:object="${createShopFormDto}" onsubmit="return allCheck()"
+				th:object="${createShopFormDto}"  onsubmit="return allCheck()"
 				enctype="multipart/form-data">
 				<input type="hidden" th:field="*{id}" />
 				<div class="shop-info">
@@ -195,7 +196,7 @@ input {
 					<button id="check" class="check" type="button">확인</button>
 					<p id="demo1"></p>
 					<script>
-						$(function(form) {
+						$(function() {
 							$('.check')
 									.off()
 									.on(
@@ -243,11 +244,11 @@ input {
 
 				</div>
 				<div class="shop-createbtn" style="padding-bottom: 30px;">
-					<button type="submit" class="btn" id="allcheck"
-						onclick="allCheck()" style="width: 30%; left: 0;">등록</button>
+				<button  type="submit" style="width: 30%; left: 0;" class="btn">확인</button>
+					
 					<script>
 					$(function allCheck() {
-						$('#allcheck')
+						$('.btn')
 								.off()
 								.on(
 										"click",
@@ -280,9 +281,9 @@ input {
 																		.log(response);
 																var bsstcd = response.data[0].b_stt_cd
 																if (bsstcd === "") {
+																	document.getElementById("b_no").value = '';
 																	alert('옳지 않은 사업자 등록 번호입니다.')
 																	return false;
-																	document.getElementById("b_no").value = '';
 																} else {
 																	alert('옳게된 사업자 등록 번호입니다.')
 																}
