@@ -74,7 +74,7 @@ public class WorkController {
 	}
 	
 	
-/*
+
 	// GET매장 선택 시 출퇴근기록가져옴
 	@GetMapping(value = "/commute/{shopId}")
 	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
@@ -103,7 +103,7 @@ public class WorkController {
 		return "work/commuteForm";
 	}
 	
-*/
+
 
 	// 사이드바 프로필정보 가져옴
 	public Model getSideImg(Model model, Principal principal) {
