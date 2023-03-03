@@ -35,7 +35,7 @@ public class MypageController {
 	
 	
 	
-	// 마이페이지
+	// 마이페이지 (매장)
 	@GetMapping(value = "/member/mypage")
 	public String myPageForm(Model model, Principal principal) {
 		
@@ -56,11 +56,14 @@ public class MypageController {
 	     return model.addAttribute("member", memberFormDto);
 	}
 	
+	//마이페이지 (패스워드)
 	@GetMapping(value="/member/myPagePassword")
 	public String myPagePasswordForm(Model model, Principal principal) {
 		getSideImg(model, principal);
 		
+		model.addAttribute("memberFormDto", new MemberFormDto());
 		return "member/myPagePassword";
 	}
-	//프로필 정보 가져오기
+	
+	
 }
