@@ -127,42 +127,42 @@ public class CommuteService {
 	 */
 
 	//최근 출근기록찾기
-		public CommuteDto commuteListchk(String userId, Long shopId) {
-			// TODO USER_ID로 member_id 가져오기
-			Member member =	memberRepository.findMemberId(userId);
-			List<Commute> myCommute = commuteRepository.findCommuteByMemberId(member.getId(), shopId);
-					
-	    	List<CommuteDto> commuteList = getCommuteList(member.getId());
-	    	    			
-	    	if(commuteList.size() == 0 ) {
-	    		CommuteDto commuteDto = new CommuteDto();	
-	        	return commuteDto;
-	    		
-	    	} 
-	    	
-			return commuteList.get(0);	
-	    	    
-		}
+//		public CommuteDto commuteListchk(String userId, Long shopId) {
+//			// TODO USER_ID로 member_id 가져오기
+//			Member member =	memberRepository.findMemberId(userId);
+//			List<Commute> myCommute = commuteRepository.findCommuteByMemberId(member.getId(), shopId);
+//					
+//	    	List<CommuteDto> commuteList = getCommuteList(member.getId());
+//	    	    			
+//	    	if(commuteList.size() == 0 ) {
+//	    		CommuteDto commuteDto = new CommuteDto();	
+//	        	return commuteDto;
+//	    		
+//	    	} 
+//	    	
+//			return commuteList.get(0);	
+//	    	    
+//		}
 
-	public List<CommuteDto> getMyCommuteList(String userId, Long shopId) {
-		// TODO USER_ID로 member_id 가져오기
-		Member member =	memberRepository.findMemberId(userId);
-		List<Commute> myCommute = commuteRepository.findCommuteByMemberId(member.getId(), shopId);
-		List<CommuteDto> myCommuteList = new ArrayList<>();
-		
-		for (Commute commute : myCommute) {
-			CommuteDto commuteDto = new CommuteDto();
-			
-			commuteDto.setMemberFormDto(getMember(commute.getMember()));
-			commuteDto.setShopDto(getShop(commute.getShop()));
-			commuteDto.setWorking(commute.getWorking());
-			commuteDto.setLeaving(commute.getLeaving());
-			
-			myCommuteList.add(commuteDto);
-		}
-		
-		return myCommuteList;
-	}
+//	public List<CommuteDto> getMyCommuteList(String userId, Long shopId) {
+//		// TODO USER_ID로 member_id 가져오기
+//		Member member =	memberRepository.findMemberId(userId);
+//		List<Commute> myCommute = commuteRepository.findCommuteByMemberId(member.getId(), shopId);
+//		List<CommuteDto> myCommuteList = new ArrayList<>();
+//		
+//		for (Commute commute : myCommute) {
+//			CommuteDto commuteDto = new CommuteDto();
+//			
+//			commuteDto.setMemberFormDto(getMember(commute.getMember()));
+//			commuteDto.setShopDto(getShop(commute.getShop()));
+//			commuteDto.setWorking(commute.getWorking());
+//			commuteDto.setLeaving(commute.getLeaving());
+//			
+//			myCommuteList.add(commuteDto);
+//		}
+//		
+//		return myCommuteList;
+//	}
 
 	// 내가 가진 매장 정보를 불러오기 (select)
 	/*@Transactional(readOnly = true)
@@ -288,6 +288,11 @@ public class CommuteService {
 			shopDto.setShopNm(shop.getShopNm());
 
 			return shopDto;
+		}
+		@Transactional(readOnly = true)
+		public List<Commute> getCommuteListByShop(Long shopId){
+			List<Commute> comList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
+			return comList;
 		}
 	
 }

@@ -113,8 +113,8 @@ public class ShopManageController {
 		model.addAttribute("myShopList", myShopList);
 		
 		//전체 직원 근태 리스트
-//		List<Commute> commuteList = commuteService.getCommuteListByShop(shopId);
-//		model.addAttribute("commuteList", commuteList);
+		List<Commute> commuteList = commuteService.getCommuteListByShop(shopId);
+		model.addAttribute("commuteList", commuteList);
 		return "manage/managerCommuteForm";
 	}
 		
