@@ -12,7 +12,7 @@ import com.tomorrow.entity.PayList;
 
 public interface PayListRepository extends JpaRepository<PayList, Long>, QuerydslPredicateExecutor<PayList> {
 
-	@Query(value = "select * from pay_list p where p.map_id = :mapId", nativeQuery = true)
+	@Query(value = "select * from pay_list p where p.map_id = :mapId order by reg_time Asc", nativeQuery = true)
 	List<PayList> findByMapId(@Param("mapId") Long mapId);
 
 
