@@ -78,5 +78,14 @@ public class JobController {
 
 		return "job/jobOpeningList";
 	}
+	
+	// 구인공고 목록 페이지
+	@GetMapping(value = "/admin/job/postingList")
+	public String jobPostingList(Model model, Principal principal) {
+		
+		getSideImg(model, principal);
+		
+		return "job/jobPostingList";
+	}
 
 }
