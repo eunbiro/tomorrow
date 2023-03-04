@@ -140,9 +140,10 @@ public class ShopManageController {
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);
 		
-		//전체 직원 근태 리스트
+		//전체 직원 급여 리스트
 		List<MemShopMapping> msmList = mapRepository.findByShopId(shopId);
 		List<PayList> payList = payListService.getPayListByMsm(msmList);
+		//payList엔 msmList로 가져온 mapping정보에 담긴 직원들 각각의 급여
 		model.addAttribute("payList", payList);
 		return "manage/managerPayForm";
 	}

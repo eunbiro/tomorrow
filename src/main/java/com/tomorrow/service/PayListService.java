@@ -164,7 +164,9 @@ public class PayListService {
 		List<PayList> payList = new ArrayList<PayList>();
 		
 		for(MemShopMapping msm : msmList) {
-			
+			PayList pl = new PayList();
+			pl.setMemShopMapping(msm);
+			payList.add(pl);
 		}
 		
 		return payList;
