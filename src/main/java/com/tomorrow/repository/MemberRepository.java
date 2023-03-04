@@ -22,5 +22,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	//비밀번호 수정 전 힌트 맞추기
 	@Query("select m from Member m where m.hintA=:hintA and m.hintQ=:hintQ and m.userId=:userId")
 	public MemberFormDto findHint(@Param("hintA") String hintA, @Param("hintQ") String hintQ, @Param("userId") String userId);
-
+	
 }

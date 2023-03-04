@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class CommuteService {
+	private static final Long Long = null;
 	private final CommuteRepository commuteRepository;
 	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
@@ -37,10 +38,34 @@ public class CommuteService {
 	
 	// 출퇴근 기록 리스트
 	
+	/*
+	 * @Transactional(readOnly = true) public List<CommuteDto> getCommuteList(Long
+	 * shopId){
+	 * 
+	 * List<Commute> commuteList =
+	 * commuteRepository.findByShopIdOrderByIdDesc(shopId); List<CommuteDto>
+	 * commuteDtoList = new ArrayList<>();
+	 * 
+	 * for (Commute commute : commuteList) {
+	 * 
+	 * CommuteDto commuteDto = new CommuteDto();
+	 * 
+	 * commuteDto.setId(commute.getId());
+	 * commuteDto.setWorking(commute.getWorking());
+	 * commuteDto.setWorking(commute.getWorking());
+	 * commuteDto.setLeaving(commute.getLeaving());
+	 * 
+	 * commuteDtoList.add(commuteDto); }
+	 * 
+	 * return commuteDtoList;
+	 * 
+	 * }
+	 */
+	
 	@Transactional(readOnly = true)
-	public List<CommuteDto> getCommuteList(Long shopId){
+	public List<CommuteDto> getCommuteList(Long memberId){
 
-		List<Commute> commuteList = commuteRepository.findByShopIdOrderByIdDesc(shopId);
+		List<Commute> commuteList = commuteRepository.findByMemberIdOrderByIdDesc(memberId);
 		List<CommuteDto> commuteDtoList = new ArrayList<>();
 
 		for (Commute commute : commuteList) {
@@ -86,19 +111,57 @@ public class CommuteService {
 		payListService.savePayList(id, member, shop);
 	}
 	
+	/*
+	 * //최근 출근기록찾기 public CommuteDto commuteListchk(Long shopId) {
+	 * 
+	 * List<CommuteDto> commuteList = getCommuteList(shopId);
+	 * 
+	 * if(commuteList.size() == 0 ) { CommuteDto commuteDto = new CommuteDto();
+	 * return commuteDto;
+	 * 
+	 * }
+	 * 
+	 * return commuteList.get(0);
+	 * 
+	 * }
+	 */
+
 	//최근 출근기록찾기
-	public CommuteDto commuteListchk(Long shopId) {
-				
-    	List<CommuteDto> commuteList = getCommuteList(shopId);
-    	    			
-    	if(commuteList.size() == 0 ) {
-    		CommuteDto commuteDto = new CommuteDto();	
-        	return commuteDto;
-    		
-    	} 
-    	
-		return commuteList.get(0);	
-    	    
+		public CommuteDto commuteListchk(String userId, Long shopId) {
+			// TODO USER_ID로 member_id 가져오기
+			Member member =	memberRepository.findMemberId(userId);
+			List<Commute> myCommute = commuteRepository.findCommuteByMemberId(member.getId(), shopId);
+					
+	    	List<CommuteDto> commuteList = getCommuteList(member.getId());
+	    	    			
+	    	if(commuteList.size() == 0 ) {
+	    		CommuteDto commuteDto = new CommuteDto();	
+	        	return commuteDto;
+	    		
+	    	} 
+	    	
+			return commuteList.get(0);	
+	    	    
+		}
+
+	public List<CommuteDto> getMyCommuteList(String userId, Long shopId) {
+		// TODO USER_ID로 member_id 가져오기
+		Member member =	memberRepository.findMemberId(userId);
+		List<Commute> myCommute = commuteRepository.findCommuteByMemberId(member.getId(), shopId);
+		List<CommuteDto> myCommuteList = new ArrayList<>();
+		
+		for (Commute commute : myCommute) {
+			CommuteDto commuteDto = new CommuteDto();
+			
+			commuteDto.setMemberFormDto(getMember(commute.getMember()));
+			commuteDto.setShopDto(getShop(commute.getShop()));
+			commuteDto.setWorking(commute.getWorking());
+			commuteDto.setLeaving(commute.getLeaving());
+			
+			myCommuteList.add(commuteDto);
+		}
+		
+		return myCommuteList;
 	}
 
 	// 내가 가진 매장 정보를 불러오기 (select)
@@ -204,5 +267,27 @@ public class CommuteService {
 	 * 
 	 * return memberFormDto; }
 	 */
+	
+		// 회원 DTO 가져오기 (매핑 DTO에 넣어줄 데이터)
+		public MemberFormDto getMember(Member member) {
+			MemberFormDto memberFormDto = new MemberFormDto();
+
+			memberFormDto.setUserId(member.getUserId());
+			memberFormDto.setUserNm(member.getUserNm());
+			memberFormDto.setPNum(member.getPNum());
+			memberFormDto.setRole(member.getRole());
+
+			return memberFormDto;
+		}
+		
+		// 매장 DTO 가져오기 (매핑 DTO에 넣어줄 데이터)
+		public ShopDto getShop(Shop shop) {
+			ShopDto shopDto = new ShopDto();
+
+			shopDto.setShopId(shop.getId());
+			shopDto.setShopNm(shop.getShopNm());
+
+			return shopDto;
+		}
 	
 }
