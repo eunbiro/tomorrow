@@ -62,19 +62,28 @@
 	width: calc(100%/ 7);
 	text-align: center;
 	font-weight: bold;
+	font-size: 1rem;
 }
 
 .dates {
 	display: flex;
 	flex-flow: row wrap;
-	height: 500px;
 	border-top: 1px solid #333333;
+	border-right: 1px solid #eee;
 }
 
 .date {
 	width: calc(100%/ 7);
-	padding: 15px;
+	padding-top: 15px;
 	text-align: right;
+	border-left: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	height: 140px; 
+}
+
+.date > span {
+	padding-right: 15px;
+	font-size: 0.8rem;
 }
 
 .day:nth-child(7n+1), .date:nth-child(7n+1) {
@@ -98,7 +107,7 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-75%, -50%);
 	z-index: -1;
 	width: 30px;
 	height: 30px;
@@ -176,115 +185,241 @@
 				</div>
 				<div class="dates"></div>
 			</div>
+			
+			<!-- 오른쪽 하단 매장별 색 -->
 			<div class="shop-box">
-				<ul class="shop-box-ul">
-					<li style="background-color: #13223D; width: 20px; height: 20px; float: left;"></li>
-					<li>(주)이젠</li>
-					<li style="background-color: #FCA211; width: 20px; height: 20px; float: left;"></li>
-					<li>(주)EBS</li>
-				</ul>
-
+				<ul class="shop-box-ul"></ul>
 			</div>
 
-			<div class="shop-box-pay">
-				<ul class="shop-box-pay-ul">
-					<li style="background-color: #13223D; width: 20px; height: 20px;"></li>
-					<li>(주)이젠</li>
-					<li>9,000 (원) * 7 (일)</li>
-					<li style="text-align: right; font-size: 1.3rem">630,000 (원)</li>
-				</ul>
-				<ul class="shop-box-pay-ul">
-					<li style="background-color: #FCA211; width: 20px; height: 20px;"></li>
-					<li>(주)EBS</li>
-					<li>10,000 (원) * 1 (일)</li>
-					<li style="text-align: right; font-size: 1.3rem">100,000 (원)</li>
-				</ul>
-			</div>
+			<!-- 매장별 일급 * 일수 = total-->
+			<div class="shop-box-pay"></div>
 
-			<div class="pay-sum" style="text-align: right; font-size: 1.3rem">
-				합계 : <span style="text-align: right; font-size: 1.6rem; font-weight: bold;">730,000</span>(원)
-			</div>
-
+			<!-- 총 월급 -->
+			<div class="pay-sum" style="text-align: right; font-size: 1.3rem"></div>
 		</div>
-		<!-- <script type="text/javascript" src="../js/calendar.js"></script> -->
 		<script th:inline="javascript">
 			var payListAll = new Array();
 			[# th:each="payList, stat : ${payList}"]
 			
-			payListAll.push([[${payList}]])
+				payListAll.push([[${payList}]])
 			[/]
-			console.log(payListAll);
 			
 			let date = new Date();
 	
 			const renderCalender = () => {
-			  const viewYear = date.getFullYear();
-			  const viewMonth = date.getMonth();
+			const viewYear = date.getFullYear();
+			const viewMonth = date.getMonth();
 	
-			  document.querySelector('.year-month').textContent = `${viewYear}. ${viewMonth + 1}`;
+			document.querySelector('.year-month').textContent = `${viewYear}. ${viewMonth + 1}`;
 	
-			  const prevLast = new Date(viewYear, viewMonth, 0);
-			  const thisLast = new Date(viewYear, viewMonth + 1, 0);
+			const prevLast = new Date(viewYear, viewMonth, 0);
+			const thisLast = new Date(viewYear, viewMonth + 1, 0);
 	
-			  const PLDate = prevLast.getDate();
-			  const PLDay = prevLast.getDay();
+			const PLDate = prevLast.getDate();
+			const PLDay = prevLast.getDay();
 	
-			  const TLDate = thisLast.getDate();
-			  const TLDay = thisLast.getDay();
+			const TLDate = thisLast.getDate();
+			const TLDay = thisLast.getDay();
 	
-			  const prevDates = [];
-			  const thisDates = [...Array(TLDate + 1).keys()].slice(1);
-			  const nextDates = [];
+			const prevDates = [];
+			const thisDates = [...Array(TLDate + 1).keys()].slice(1);
+			const nextDates = [];
 	
-			  if (PLDay !== 6) {
+			if (PLDay !== 6) {
+				
 			    for (let i = 0; i < PLDay + 1; i++) {
-			      prevDates.unshift(PLDate - i);
+			    	
+					prevDates.unshift(PLDate - i);
 			    }
-			  }
+			}
 	
-			  for (let i = 1; i < 7 - TLDay; i++) {
-			    nextDates.push(i);
-			  }
+			for (let i = 1; i < 7 - TLDay; i++) {
+				
+				nextDates.push(i);
+			}
 	
-			  const dates = prevDates.concat(thisDates, nextDates);
-			  const firstDateIndex = dates.indexOf(1);
-			  const lastDateIndex = dates.lastIndexOf(TLDate);
+			const dates = prevDates.concat(thisDates, nextDates);
+			const firstDateIndex = dates.indexOf(1);
+			const lastDateIndex = dates.lastIndexOf(TLDate);
 	
-			  dates.forEach((date, i) => {
-			    const condition = i >= firstDateIndex && i < lastDateIndex + 1
-			                      ? 'this'
-			                      : 'other';
-			    dates[i] = `<div class="date"><span class=${condition}>${date}</span></div>`;
-			  });
+			dates.forEach((date, i) => {
+				  
+				const condition = i >= firstDateIndex && i < lastDateIndex + 1 ? 'this' : 'other';
+				const months = firstDateIndex > i  ? viewMonth : i < lastDateIndex + 1 ? viewMonth + 1 : viewMonth + 2;
+				viewAllDay = viewYear + (months < 10 ? "0" + months : months) + (date < 10 ? "0" + date : date);
+				
+			    dates[i] = `<div class="date">
+			    				<span class="${condition}">${date}</span>
+			    				<div class="h-75 d-flex flex-column-reverse ${viewAllDay}"></div>
+			    			</div>`;
+			  	});
 	
-			  document.querySelector('.dates').innerHTML = dates.join('');
+			  	document.querySelector('.dates').innerHTML = dates.join('');
 	
-			  const today = new Date();
-			  if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
-			    for (let date of document.querySelectorAll('.this')) {
-			      if (+date.innerText === today.getDate()) {
-			        date.classList.add('today');
-			        break;
-			      }
-			    }
-			  }
+			  	const today = new Date();
+			  	
+			  	if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
+			  		
+			    	for (let date of document.querySelectorAll('.this')) {
+			    		
+			      		if (+date.innerText === today.getDate()) {
+			      			
+			        		date.classList.add('today');
+			        		break;
+			      		}
+			    	}
+			  	}
 			};
 	
 			renderCalender();
-	
+			
+			const renderData = () => {
+				
+				const viewYear = date.getFullYear();
+				const viewMonth = date.getMonth();
+		
+				document.querySelector('.year-month').textContent = `${viewYear}. ${viewMonth + 1}`;
+		
+				const prevLast = new Date(viewYear, viewMonth, 0);
+				const thisLast = new Date(viewYear, viewMonth + 1, 0);
+		
+				const PLDate = prevLast.getDate();
+				const PLDay = prevLast.getDay();
+		
+				const TLDate = thisLast.getDate();
+				const TLDay = thisLast.getDay();
+		
+				const prevDates = [];
+				const thisDates = [...Array(TLDate + 1).keys()].slice(1);
+				const nextDates = [];
+		
+				if (PLDay !== 6) {
+					
+				    for (let i = 0; i < PLDay + 1; i++) {
+				      prevDates.unshift(PLDate - i);
+				    }
+				}
+		
+				for (let i = 1; i < 7 - TLDay; i++) {
+					
+				    nextDates.push(i);
+				}
+		
+				const dates = prevDates.concat(thisDates, nextDates);
+				const firstDateIndex = dates.indexOf(1);
+				const lastDateIndex = dates.lastIndexOf(TLDate);
+				  
+				dates.forEach((date, i) => {
+					  
+				    const months = firstDateIndex > i  ? viewMonth : i < lastDateIndex + 1 ? viewMonth + 1 : viewMonth + 2;
+					const viewAllDay = viewYear + (months < 10 ? "0" + months : months) + (date < 10 ? "0" + date : date);
+				    			
+					payListAll.forEach((payList, j) => {
+
+						let color;
+						switch (j) {
+							case 0 :
+								color = '#FCA211';
+							break;
+							case 1 :
+								color = '#AAD365';
+							break;
+							case 2 :
+								color = '#65CDD3';
+							break;
+							case 3 :
+								color = '#6E65D3';
+							break;
+							case 4 :
+								color = '#B765D3';
+							break;
+							case 5 :
+								color = '#FC68A6';
+							break;
+						}
+						
+						payList.forEach((paylist, k) => {
+							
+							if (viewAllDay == paylist.regTime) {
+								
+								$('<div>').addClass('text-start ps-1 payList' + j + k).css('background', color).css({'font-size':'0.8rem', 'width':'100%', 'height':'20px','margin':'2px 0'}).appendTo('.' + viewAllDay);
+								let pay = paylist.regTime == viewAllDay ? '일급 : ' + paylist.dayPay : '';
+								
+								if($('.payList' + j + k).children('span').text() == '') {
+									
+									$('<span>').addClass('pay' + j + k).text(pay).appendTo('.payList' + j + k);
+								}
+							}
+						})
+					})
+				});
+				
+				let monthPay;
+				$('.shop-box-pay').empty();
+				$('.shop-box-ul').empty();
+				$('.pay-sum').empty();
+				
+				payListAll.forEach((payList, j) => {
+
+					let color;
+					switch (j) {
+						case 0 :
+							color = '#FCA211';
+						break;
+						case 1 :
+							color = '#AAD365';
+						break;
+						case 2 :
+							color = '#65CDD3';
+						break;
+						case 3 :
+							color = '#6E65D3';
+						break;
+						case 4 :
+							color = '#B765D3';
+						break;
+						case 5 :
+							color = '#FC68A6';
+						break;
+					}
+					
+					$('<ul>').addClass('shop-box-pay-ul pay-ul' + j).appendTo('.shop-box-pay');
+					$('<li>').css('background', color).css({'width':'20px', 'height':'20px'}).appendTo('.pay-ul'+  j);
+					$('<li>').text(payList[j].shopDto.shopNm).css('font-size', '1rem').appendTo('.pay-ul'+  j);
+					$('<li>').text(payList[j].dayPay + ' (원) * ' + payList.length + ' (일)').css('font-size', '0.8rem').appendTo('.pay-ul'+  j);
+					$('<li>').text(payList[j].dayPay * payList.length + ' (원)').css({'text-align':'right', 'font-size':'1.3rem'}).appendTo('.pay-ul'+  j);
+					
+				//	$('<li>').css('background', color).css({'width':'20px', 'height':'20px'}).appendTo('.shop-box-ul');
+				//	$('<li>').text(payList[j].shopDto.shopNm).css('font-size', '1rem').appendTo('.shop-box-ul');
+					
+					monthPay =+ payList[j].dayPay * payList.length;
+				})
+					
+					
+					$('<span>').text('합계 : ' + monthPay + ' (원)').css({'text-align':'right', 'font-size':'1.6rem', 'font-weight':'bold'}).appendTo('.pay-sum');
+			};
+			
+			renderData();
+			
 			const prevMonth = () => {
-			  date.setMonth(date.getMonth() - 1);
-			  renderCalender();
+				
+				date.setMonth(date.getMonth() - 1);
+				renderCalender();
+				renderData();
 			};
 	
 			const nextMonth = () => {
-			  date.setMonth(date.getMonth() + 1);
-			  renderCalender();
+				
+				date.setMonth(date.getMonth() + 1);
+				renderCalender();
+				renderData();
 			};
 	
 			const goToday = () => {
-			  date = new Date();
-			  renderCalender();
+				
+				date = new Date();
+				renderCalender();
+				renderData();
 			};
 		</script>
 	</div>
