@@ -73,7 +73,7 @@ public class JobController {
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
 		getSideImg(model, principal);
-		myShopList.stream().forEach(System.out::println);
+		System.out.println(myShopList.toString());
 
 		model.addAttribute("myShopList", myShopList);
 //		model.addAttribute("payListDto", new PayListDto());
