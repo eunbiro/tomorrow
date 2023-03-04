@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
 import com.tomorrow.service.MemberService;
+import com.tomorrow.service.MyPageService;
 import com.tomorrow.service.ShopCheckService;
 import com.tomorrow.service.ShopService;
 
@@ -37,7 +39,7 @@ public class MypageController {
 	private final ShopCheckService shopCheckService;
 	private final ShopService shopService;
 	private final PasswordEncoder passwordEncoder;
-	
+	private final MyPageService myPageService;
 	
 	// 마이페이지 (매장)
 	@GetMapping(value = "/member/mypage")
@@ -69,15 +71,16 @@ public class MypageController {
 		return "member/myPagePassword";
 	}
 	//마이페이지 (패스워드 바꾸기);
-	@PostMapping(value="/mebmer/myPagePassword")
-	public String memberPasswordModify(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+	@PostMapping(value="/member/passwordChange")
+	public String memberPasswordModify(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model, Principal principal) {
+		getSideImg(model, principal);
 		try {
 			memberService.newPassword(memberFormDto, passwordEncoder);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return "member/myPagePassword";
 		}
-		return "redirect:/";
+		return "redirect:/intro";
 	}
 	
 	

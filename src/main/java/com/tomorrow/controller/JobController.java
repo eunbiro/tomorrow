@@ -1,6 +1,7 @@
 package com.tomorrow.controller;
 
 import java.security.Principal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -67,15 +68,15 @@ public class JobController {
 	}
 
 	// 채용등록리스트 페이지
-	@GetMapping(value = "admin/job/openingList")
+	@GetMapping(value = "/admin/job/openingList")
 	public String jobOpeningList(Model model, Principal principal) {
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
 		getSideImg(model, principal);
+		System.out.println(myShopList.toString());
 
 		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("payListDto", new PayListDto());
-
+//		model.addAttribute("payListDto", new PayListDto());
 		return "job/jobOpeningList";
 	}
 

@@ -23,7 +23,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	@Query("select m from Member m where m.hintA=:hintA and m.hintQ=:hintQ and m.userId=:userId")
 	public MemberFormDto findHint(@Param("hintA") String hintA, @Param("hintQ") String hintQ, @Param("userId") String userId);
 	
-	// userId로 memberId 찾기 
-	@Query(value = "select member_id from member where user_id = :userId", nativeQuery = true)
-	public Member findMemberId(@Param("userId") String userId);
 }

@@ -95,13 +95,13 @@ public class WorkController {
 		// 출퇴근기록 뽑아오기
 		MemberFormDto memberFormDto = new MemberFormDto();
 		memberFormDto.setUserId(principal.getName());
-		List<CommuteDto> myCommuteList = commuteService.getMyCommuteList(principal.getName(), shopId);
+//		List<CommuteDto> myCommuteList = commuteService.getMyCommuteList(principal.getName(), shopId);
 		//List<CommuteDto> commuteList = commuteService.getMyCommuteList(memberFormDto);
-		model.addAttribute("myCommuteList", myCommuteList);
+//		model.addAttribute("myCommuteList", myCommuteList);
 
 		// 최근 출근기록 찾아오기
-		CommuteDto leavingChk = commuteService.commuteListchk(principal.getName(), shopId); 
-		model.addAttribute("leavingChk", leavingChk);
+//		CommuteDto leavingChk = commuteService.commuteListchk(principal.getName(), shopId); 
+//		model.addAttribute("leavingChk", leavingChk);
 
 		return "work/commuteForm";
 	}
