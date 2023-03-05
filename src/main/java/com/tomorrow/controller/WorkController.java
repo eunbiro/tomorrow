@@ -50,12 +50,7 @@ public class WorkController {
 		getSideImg(model, principal);
 
 		List<List<PayListDto>> payList = payListService.getMapShopList(principal.getName());
-<<<<<<< HEAD
-		List<PayListDto> workCount = payListService.getWorkCount(payList);
 
-=======
-		
->>>>>>> cec677ff8040d05679d81fcfd6821c0e0d55e1e6
 		model.addAttribute("payList", payList);
 
 		return "work/payForm";
