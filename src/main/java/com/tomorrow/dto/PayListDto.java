@@ -16,7 +16,5 @@ public class PayListDto {
 	
 	private int monthPay;
 	
-	private int workDayCount;
-	
 	private ShopDto shopDto;
 }

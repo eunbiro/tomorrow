@@ -1,5 +1,8 @@
 package com.tomorrow.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.tomorrow.dto.NoticeDto;
@@ -40,6 +44,9 @@ public class Notice extends BaseEntity {
 	@Lob
 	@Column(nullable = false)
 	private String noticeCont;				// 공지내용
+	
+	@OneToMany(mappedBy = "notice")
+	private List<NoticeLike> NoticeLikeList = new ArrayList<>();
 
 	public static Notice createNotice(NoticeDto noticeDto, Member member, Shop shop) {
 		
