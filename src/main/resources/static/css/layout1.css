@@ -641,7 +641,9 @@ result_section_id {
 	align-content: space-around;
 }
 
-.posting_info_three > a {
+.posting_info_three > button {
+	border : none;
+	background: none;
 	text-decoration: none;
 	color: #FA5858;
 	font-weight: bold;

@@ -301,4 +301,14 @@ public class ShopService {
 			return 1;
 		}
 	}
+	/*
+	// 채용등록리스트 찾기
+	public MemShopMapping findMapping(Long mappingId) {
+		return mapRepository.findById(mappingId).orElseThrow(EntityNotFoundException::new);
+	}
+	*/
+	// 채용등록리스트 delete
+	public void deleteMapping(MemShopMapping mappingId) {
+		mapRepository.delete(mappingId);
+	}
 }

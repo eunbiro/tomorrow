@@ -4,13 +4,19 @@ import java.security.Principal;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
+import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopService;
 
@@ -76,8 +82,15 @@ public class JobController {
 		System.out.println(myShopList.toString());
 
 		model.addAttribute("myShopList", myShopList);
-//		model.addAttribute("payListDto", new PayListDto());
+		model.addAttribute("payListDto", new PayListDto());
 		return "job/jobOpeningList";
 	}
-
+	/*
+	@DeleteMapping(value = "/job/opening/{mappingId}/delete")
+	public @ResponseBody ResponseEntity<Long> deleteMapping(@PathVariable("mappingId") Long mappingId, Principal principal ) {
+		MemShopMapping memShopMapping = shopService.findMapping(mappingId);
+		shopService.deleteMapping(memShopMapping);
+		return new ResponseEntity<Long>(mappingId, HttpStatus.OK);
+	}
+	*/
 }
