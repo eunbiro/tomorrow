@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tomorrow.dto.CommuteDto;
+import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
 import com.tomorrow.dto.ShopDto;
@@ -104,43 +105,39 @@ public class PayListService {
 		for (MemShopMapping memShopMapping : memShopMappingList) {
 			
 			List<PayList> payLists = payListRepository.findByMapId(memShopMapping.getId());
-			List<PayListDto> payListDtos = new ArrayList<>();
 			
-			for (PayList payList : payLists) {
+			if (payLists.size() != 0) {
 				
-				PayListDto payListDto = new PayListDto();
+				List<PayListDto> payListDtos = new ArrayList<>();
 				
-				payListDto.setDayPay(payList.getDayPay());
-				payListDto.setShopDto(getShopDto(payList.getMemShopMapping().getShop()));
-				payListDto.setRegTime(payList.getRegTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+				for (PayList payList : payLists) {
+					
+					PayListDto payListDto = new PayListDto();
+					
+					payListDto.setDayPay(payList.getDayPay());
+					payListDto.setShopDto(getShopDto(payList.getMemShopMapping().getShop()));
+					payListDto.setRegTime(payList.getRegTime().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+					payListDto.setMemShopMappingDto(getMSDto(payList.getMemShopMapping()));
+					
+					payListDtos.add(payListDto);
+				}
 				
-				payListDtos.add(payListDto);
+				payListDtoList.add(payListDtos);
 			}
-			
-			payListDtoList.add(payListDtos);
 		}
 		
 		return payListDtoList;
 	}
 	
-	public List<PayListDto> getWorkCount(List<List<PayListDto>> payListDtoLists) {
+	// memShop DTO로 변환
+	public MemShopMappingDto getMSDto (MemShopMapping memShopMapping) {
 		
-		List<PayListDto> payListDtos = new ArrayList<>();
+		MemShopMappingDto memShopMappingDto = new MemShopMappingDto();
+		memShopMappingDto.setWorkStatus(memShopMapping.getWorkStatus());
 		
-		for (List<PayListDto> payListDtoList : payListDtoLists) {
-			
-			int pay = 0;
-			
-			for (PayListDto payListDto : payListDtoList) {
-				
-				
-			}
-		}
-		
-		return payListDtos;
+		return memShopMappingDto;
 	}
 	
-/*	
 	// 매장별 근무일 수 구하기
 	public List<PayListDto> getWorkDay(List<PayListDto> payListDtoList) {
 		
@@ -157,18 +154,18 @@ public class PayListService {
 		
 		return workDayCountList;
 	}
-*/
 	
-
-	public List<PayList> getPayListByMsm(List<MemShopMapping> msmList){
-		List<PayList> payList = new ArrayList<PayList>();
+	//매장별 급여 리스트 가져오기 
+	public List<PayListDto> getPayListByMsm(List<MemShopMapping> msmList){
+		   List<PayListDto> payListDto = new ArrayList<PayListDto>();	
 		
 		for(MemShopMapping msm : msmList) {
-			PayList pl = new PayList();
-			pl.setMemShopMapping(msm);
-			payList.add(pl);
+			PayListDto pl = new PayListDto();
+			MemShopMappingDto msmd =  MemShopMappingDto.of(msm);
+			pl.setMemShopMappingDto(msmd);
+			payListDto.add(pl);
 		}
 		
-		return payList;
+		return payListDto;
 	}
 }

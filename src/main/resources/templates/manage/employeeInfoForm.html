@@ -42,40 +42,9 @@
 	font-size: 0.8rem;
 }
 
-/* .emp-info-page {
-	text-align: center;
-	margin-top: 40px;
-	font-weight: bold;
-	position: fixed;
-	margin: 0 auto;
-	left: 0;
-	right: 0;
-} */
-
-/* .emp-info-pgeList {
-	list-style: none;
-}
- */
 li {
 	display: inline;
 }
-
-/* thead th:nth-child(n+2):nth-child(-n+6) {
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-top: none;
-}
-
-tbody td:nth-child(n+2):nth-child(-n+6) {
-	border: 1px solid rgba(0, 0, 0, 0.1);
-} */
-
-/* tr {
-	height: 40px;
-} */
-
-/* table {
-	height: 323px;
-} */
 </style>
 </th:block>
 </head>
@@ -117,11 +86,11 @@ tbody td:nth-child(n+2):nth-child(-n+6) {
 					<tbody>
 						<tr th:each="emplInfo : ${emplList}">
 							<td scope="row" class="fs-5"
-								th:text="${emplInfo.memberFormDto.userNm}"><a href="#"></a></td>
+								th:text="${emplInfo.memberFormDto.userNm}"></td>
 							<td class="fs-5" th:text="${emplInfo.memberFormDto.pNum}"></td>
-							<td class="fs-5" th:text="${emplInfo.partTime}"><input type="text"/></td>
+							<td class="fs-5" th:text="${emplInfo.partTime}"></td>
 							<td class="fs-5" th:text="${emplInfo.timePay}"></td>
-							<td class="fs-5" th:text="${emplInfo.workStatus}"><a>승인대기</a></td>
+							<td class="fs-5" th:value="${emplInfo.workStatus}"><a th:text="승인대기"></a></td>
 							<!-- <td class="fs-5"><a href="#">승인대기</a></td> -->
 						</tr>
 					</tbody>
