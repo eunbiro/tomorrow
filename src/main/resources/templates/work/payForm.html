@@ -17,7 +17,7 @@
 
 .calendar {
 	width: 90%;
-	margin: 60px auto;
+	margin: 80px auto;
 }
 
 .header {
@@ -160,6 +160,35 @@
 	border-top: 1px solid gray;
 }
 
+.pay-fs {
+	font-size: 0.8rem;
+	height: 20px;
+}
+
+</style>
+<style media="all and (max-width: 1200px)">
+	.content {
+  	 	width: 75%;
+ 	}
+ 	
+ 	.date {
+		height: 100px; 
+	}
+	
+	.pay-fs {
+		font-size: 0.6rem;
+		height: 16px;
+	}
+</style>
+
+<style media="all and (max-width: 768px)">
+	.content {
+  	 	width: 90%;
+  	}
+  	
+  	.pay-fs {
+		font-size: 0.4rem; 
+	}
 </style>
 </head>
 <body>
@@ -205,6 +234,7 @@
 			
 				payListAll.push([[${payList}]])
 			[/]
+			console.log(payListAll);
 			
 			let date = new Date();
 	
@@ -231,10 +261,10 @@
 	
 				if (PLDay !== 6) {
 					
-				    for (let i = 0; i < PLDay + 1; i++) {
+					for (let i = 0; i < PLDay + 1; i++) {
 				    	
 						prevDates.unshift(PLDate - i);
-				    }
+					}
 				}
 	
 				for (let i = 1; i < 7 - TLDay; i++) {
@@ -253,28 +283,28 @@
 					const months = firstDateIndex > i  ? viewMonth : i < lastDateIndex + 1 ? viewMonth + 1 : viewMonth + 2;
 					viewAllDay = viewYear + (months < 10 ? "0" + months : months) + (date < 10 ? "0" + date : date);
 				
-				    dates[i] = `<div class="date">
-				    				<span class="${condition}">${date}</span>
-				    				<div class="h-75 d-flex flex-column-reverse ${viewAllDay}"></div>
-				    			</div>`;
-			  	});
+					dates[i] = `<div class="date">
+									<span class="${condition}">${date}</span>
+									<div class="h-75 d-flex flex-column-reverse ${viewAllDay}"></div>
+								</div>`;
+				});
 	
 				/* 날짜데이터 html에 주입 */
-			  	document.querySelector('.dates').innerHTML = dates.join('');
+				document.querySelector('.dates').innerHTML = dates.join('');
 	
-			  	const today = new Date();
+				const today = new Date();
 			  	
-			  	if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
+				if (viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
 			  		
-			    	for (let date of document.querySelectorAll('.this')) {
+					for (let date of document.querySelectorAll('.this')) {
 			    		
-			      		if (+date.innerText === today.getDate()) {
+						if (+date.innerText === today.getDate()) {
 			      			
-			        		date.classList.add('today');
-			        		break;
-			      		}
-			    	}
-			  	}
+							date.classList.add('today');
+							break;
+						}
+					}
+				}
 			};
 	
 			/* 위에서 선언한 캘린더 함수 실행 */
@@ -301,14 +331,15 @@
 		
 				if (PLDay !== 6) {
 					
-				    for (let i = 0; i < PLDay + 1; i++) {
-				      prevDates.unshift(PLDate - i);
-				    }
+					for (let i = 0; i < PLDay + 1; i++) {
+						
+						prevDates.unshift(PLDate - i);
+					}
 				}
 		
 				for (let i = 1; i < 7 - TLDay; i++) {
 					
-				    nextDates.push(i);
+					nextDates.push(i);
 				}
 		
 				const dates = prevDates.concat(thisDates, nextDates);
@@ -355,7 +386,7 @@
 							/* 캘린더에 선언하는 날짜와 가져온 데이터 날짜와 일치하는 곳에만 태그삽입 */
 							if (viewAllDay == paylist.regTime) {
 								
-								$('<div>').addClass(condition + ' text-start ps-1 payList' + j + k).css('background', color).css({'font-size':'0.8rem', 'width':'100%', 'height':'20px','margin':'2px 0'}).appendTo('.' + viewAllDay);
+								$('<div>').addClass(condition + ' text-start ps-1 pay-fs payList' + j + k).css('background', color).css({'width':'100%','margin':'2px 0'}).appendTo('.' + viewAllDay);
 								
 								/* 일급데이터 태그삽입 (if문 안쓰면 루프 도는게 한두개가 아니라 중복으로 삽입되기 때문에 해당태그가 비어있을때만 삽입) */
 								if($('.payList' + j + k).children('span').text() == '') {
@@ -415,23 +446,28 @@
 						}
 					})
 						
-					/* 금액 컴마찍어주는 정규식 (규식이형 너무좋음) */
-					let payFommat = (payList[j].dayPay).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-					let totalPayFommat = (payList[j].dayPay * workDay).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+					if (payList[j].memShopMappingDto.workStatus != 1) {
 						
-					/* 본격적으로 태그삽입 (아직 매장리스트 루프안이라서 매장별로 태그 삽입해 줌) */
-					$('<ul>').addClass('shop-box-pay-ul pay-ul' + j).appendTo('.shop-box-pay');
-					$('<li>').css('background', color).css({'width':'20px', 'height':'20px'}).appendTo('.pay-ul'+  j);
-					$('<li>').text(payList[j].shopDto.shopNm).css('font-size', '1rem').appendTo('.pay-ul'+  j);
-					$('<li>').text(payFommat + ' (원) * ' + workDay + ' (일)').css('font-size', '0.8rem').appendTo('.pay-ul'+  j);
-					$('<li>').text(totalPayFommat + ' (원)').css({'text-align':'right', 'font-size':'1.3rem'}).appendTo('.pay-ul'+  j);
+						/* 금액 컴마찍어주는 정규식 (규식이형 너무좋음) */
+						let payFommat = (payList[j].dayPay).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						let totalPayFommat = (payList[j].dayPay * workDay).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 						
-					//	$('<li>').css('background', color).css({'width':'20px', 'height':'20px'}).appendTo('.shop-box-ul');
-					//	$('<li>').text(payList[j].shopDto.shopNm).css('font-size', '1rem').appendTo('.shop-box-ul');
-						
-					/* 월급 총 합계 구하는 중*/
-					monthPay = monthPay + (payList[j].dayPay * workDay);
-					
+						if (payList[j].dayPay * workDay > 0) {
+							
+							/* 본격적으로 태그삽입 (아직 매장리스트 루프안이라서 매장별로 태그 삽입해 줌) */
+							$('<ul>').addClass('shop-box-pay-ul pay-ul' + j).appendTo('.shop-box-pay');
+							$('<li>').css('background', color).css({'width':'20px', 'height':'20px'}).appendTo('.pay-ul'+  j);
+							$('<li>').text(payList[j].shopDto.shopNm).css('font-size', '1rem').appendTo('.pay-ul'+  j);
+							$('<li>').text(payFommat + ' (원) * ' + workDay + ' (일)').css('font-size', '0.8rem').appendTo('.pay-ul'+  j);
+							$('<li>').text(totalPayFommat + ' (원)').css({'text-align':'right', 'font-size':'1.3rem'}).appendTo('.pay-ul'+  j);
+								
+						}
+						//	$('<li>').css('background', color).css({'width':'20px', 'height':'20px'}).appendTo('.shop-box-ul');
+						//	$('<li>').text(payList[j].shopDto.shopNm).css('font-size', '1rem').appendTo('.shop-box-ul');
+							
+						/* 월급 총 합계 구하는 중*/
+						monthPay = monthPay + (payList[j].dayPay * workDay);
+					}
 				})
 				
 				/* 월급 총합계 태그삽입 */

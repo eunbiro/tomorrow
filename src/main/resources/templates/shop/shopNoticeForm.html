@@ -51,7 +51,7 @@
 			
 		// 좋아요 insert
 		
-		/* $(function() {
+		$(function() {
 			
 			$('#noti-like').off().on("click", function() {
 				
@@ -123,7 +123,7 @@
 				}
 	        });
 			
-		}); */
+		});
 		
 		// 해당 공지 삭제
 		function deleteNoticeId(noticeId) {
@@ -195,18 +195,19 @@
 <!-- 사용자 CSS 추가 --> 
 <th:block layout:fragment="css">
      <style>
-	     .fieldError {
+		.fieldError {
 	        color: #bd2130;
 	        font-size: 1rem;
-	     }
+		}
 	     
-     	#cont-wrap {
+		#cont-wrap {
      		margin: 0 auto;
      		padding: 0;
      		font-size: 10px;
-     	}
+     		width: 66%;
+		}
      	
-     	.noti-wrap {
+		.noti-wrap {
 			margin-top: 60px;
 			width: 88%;
 		}
@@ -310,11 +311,23 @@
     	 	border-radius: 5px;
     	 }
 	</style>
+	
+	<style media="all and (max-width: 1200px)">
+		#cont-wrap {
+   	 		width: 75%;
+   	 	}
+	</style>
+	
+	<style media="all and (max-width: 768px)">
+		#cont-wrap {
+   	 		width: 90%;
+   	 	}
+	</style>
 </th:block>
 </head>
 <body>
 	<div layout:fragment="content" id="cont-wrap">
-		<div class="container d-flex flex-column text-center noti-wrap">
+		<div class="container-lg d-flex flex-column text-center noti-wrap">
 		
 			<form class="noti-form my-4 mx-auto container-md" method="post" th:object="${noticeDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
@@ -395,11 +408,11 @@
 						</div>
 					</div>
 					<!-- 하단부분 -->
-					<div class="d-flex py-3 fs-6 justify-content-between mx-auto">
+					<div class="d-flex px-5 py-3 fs-6 justify-content-between mx-auto">
 						<div class="row pt-auto">
 							<input type="hidden" id="noticeId" th:value=${noti.noticeId}/>
-							<!-- <a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer;"><i class="fa-regular fa-circle-check"></i></a>
-							<span class="col-7 text-start" th:text="${noti.notiLike} + '명'">1명</span> -->
+							<a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer; padding-right: 2px;"><i class="fa-regular fa-circle-check"></i></a>
+							<span class="col-7 text-start" style="padding-left: 2px;" th:text="${noti.notiLike} + '명'">1명</span>
 						</div>
 						<div th:if="${noti.regTime == noti.updateTime}">
 							<div class="pt-auto" style="font-size: 0.8rem; color: #A6A6A6;" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
