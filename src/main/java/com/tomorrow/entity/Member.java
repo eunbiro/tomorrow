@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.tomorrow.constant.Role;
@@ -40,7 +41,7 @@ public class Member extends BaseEntity {
 	@Column(nullable = false)
 	private String password; // 유저 회원가입/로그인 시 필요한 비밀번호
 
-	@Column(length = 13, nullable = false)
+	@Column(length = 13, nullable = false, unique = true)
 	private String pNum; // 유저 회원가입 시 필요한 전화번호
 
 	@Enumerated(EnumType.STRING)
@@ -80,9 +81,10 @@ public class Member extends BaseEntity {
 		this.imgNm = imgNm;
 		this.imgUrl = imgUrl;
 	}
-	//비밀번호 수정
-	public void updatePassword(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
-		String password = passwordEncoder.encode(memberFormDto.getPassword());
-		this.password = passwordEncoder.encode(password);
+	
+	//비밀번호 수정 (encoding은 한번만~~)
+	public void updatePassword(String password, PasswordEncoder passwordEncoder) {
+		String passwordEncode = passwordEncoder.encode(password);
+		this.password = passwordEncode;
 	}
 }

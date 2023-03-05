@@ -37,7 +37,6 @@ footer {
 
 /*======================매장메뉴CSS======================*/
 
-
 /*======================로그인CSS======================*/
 .login-logo {
 	margin: 0 auto;
@@ -187,7 +186,8 @@ input[type="checkbox"] {
 	font-size: 1.1em;
 }
 
-.join_input_info>p:nth-of-type(1), p:nth-of-type(2), p:nth-of-type(4), p:nth-of-type(5), p:nth-of-type(6) {
+.join_input_info>p:nth-of-type(1), p:nth-of-type(2), p:nth-of-type(4), p:nth-of-type(5),
+	p:nth-of-type(6) {
 	margin-bottom: -3px;
 }
 
@@ -220,15 +220,15 @@ input[type="checkbox"] {
 
 /*======================아이디/비번찾기CSS======================*/
 .find_total {
-	transform:translate(0%, 11%);
+	transform: translate(0%, 11%);
 }
 
 .find_info_page {
 	width: 800px;
 }
 
-.find_form > p {
-	margin : 30px 0 30px 0;
+.find_form>p {
+	margin: 30px 0 30px 0;
 	font-size: 1.2em;
 	font-weight: bold;
 	color: gray;
@@ -255,7 +255,7 @@ input[type="checkbox"] {
 	margin: 30px 0 70px 0;
 }
 
-.input_section_one input , .input_section_two input {
+.input_section_one input, .input_section_two input {
 	box-shadow: 0 4px 4px -4px black;
 	border: 3px solid gray;
 }
@@ -265,7 +265,7 @@ input[type="checkbox"] {
 	color: gray;
 	font-size: 1.3em;
 	font-weight: bold;
-	width : 15%;
+	width: 15%;
 }
 
 .input_section input {
@@ -289,30 +289,30 @@ input[type="checkbox"] {
 
 .under_buttons  a {
 	text-decoration: none;
-	color : black;
+	color: black;
 	font-weight: bold;
 }
 
-.under_buttons > div:nth-of-type(1) {
+.under_buttons>div:nth-of-type(1) {
 	width: calc(100% - 85%);
 }
 
-.under_buttons > div:nth-of-type(2) {
+.under_buttons>div:nth-of-type(2) {
 	width: calc(100% - 99%);
 }
 
-.under_buttons > div:nth-of-type(3) {
+.under_buttons>div:nth-of-type(3) {
 	width: calc(100% - 85%);
 }
 
-.under_buttons > div:nth-of-type(4) {
+.under_buttons>div:nth-of-type(4) {
 	width: calc(100% - 31%);
 }
 
-.under_buttons > div:nth-of-type(4) > button {
+.under_buttons>div:nth-of-type(4)>button {
 	border-radius: 5px;
 	font-size: 1em;
-	font-weight:bold;
+	font-weight: bold;
 	color: white;
 	background-color: black;
 	padding: 4px 45px;
@@ -320,19 +320,19 @@ input[type="checkbox"] {
 }
 /*======================비밀번호 수정 CSS======================*/
 .result_total {
-	transform:translate(0%, 5%);
+	transform: translate(0%, 5%);
 }
 
 .find_info_page {
 	width: 800px;
 }
 
-.result_form > p {
-	margin : 30px 0 30px 0;
+.result_form>p {
+	margin: 30px 0 30px 0;
 	font-size: 1.4em;
 	font-weight: bolder;
 	display: flex;
-	text-align:center;
+	text-align: center;
 	justify-content: center;
 	border-bottom: 3px solid #5d6b72;
 	padding-bottom: 15px;
@@ -378,7 +378,7 @@ result_section_id {
 	color: gray;
 	font-size: 1.3em;
 	font-weight: bold;
-	width : 15%;
+	width: 15%;
 }
 
 .result_section input {
@@ -417,27 +417,26 @@ result_section_id {
 	display: flex;
 	justify-content: space-between;
 	width: 30%;
-	float:right;
+	float: right;
 }
 
 .modify_login_btn a {
 	text-decoration: none;
-	color:black;
+	color: black;
 	font-weight: bold;
 	margin-right: 30px;
 }
 
 /*======================아이디결과 CSS======================*/
-
 .findId_result_total {
-	transform:translate(0%, 11%);
+	transform: translate(0%, 11%);
 }
 
 .result_top {
 	border-bottom: 2px solid black;
 }
 
-.fa-circle-check {
+.id_result_form .fa-circle-check {
 	font-size: 100px;
 	color: #32CD32;
 }
@@ -446,12 +445,12 @@ result_section_id {
 	display: flex;
 	justify-content: space-between;
 	width: 30%;
-	float:right;
+	float: right;
 }
 
 .id_result_login_btn a {
 	text-decoration: none;
-	color:black;
+	color: black;
 	font-weight: bold;
 	margin-right: 30px;
 }
@@ -464,7 +463,7 @@ result_section_id {
 }
 
 .id_result_buttons a {
-	text-decoration:none;
+	text-decoration: none;
 	width: 100%;
 	height: 50px;
 	line-height: 50px;
@@ -485,32 +484,188 @@ result_section_id {
 	padding-bottom: 10px;
 }
 
-.id_result_form > div:nth-of-type(1) > p {
+.id_result_form>div:nth-of-type(1)>p {
 	font-size: 1em;
 	font-weight: 800;
 	color: gray;
 	text-align: center;
 }
 
-.id_result_form > div:nth-of-type(2) {
+.id_result_form>div:nth-of-type(2) {
 	padding: 20px;
-	text-align: center;	
+	text-align: center;
 }
 
-.id_result_form > div:nth-of-type(3) {
+.id_result_form>div:nth-of-type(3) {
 	text-align: center;
 	margin-bottom: 30px;
 }
 
-.id_result_form > div:nth-of-type(3) > span:nth-of-type(1), span:nth-of-type(3) {
-	font-weight: bold;
-	color : gray;
-}
-
-.id_result_form > div:nth-of-type(3) > span:nth-of-type(2) {
+.id_result_form>div:nth-of-type(3)>span:nth-of-type(1), span:nth-of-type(3)
+	{
 	font-weight: bold;
 	font-size: 1.1em;
 	text-decoration: underline;
+}
+
+.id_result_form>div:nth-of-type(3)>span:nth-of-type(2), span:nth-of-type(4)
+	{
+	font-weight: bold;
+	color: gray;
+}
+
+/*======================Hint CSS======================*/
+.hint_section {
+	display: flex;
+	align-items: center;
+}
+
+.hint_section_two input {
+	box-shadow: 0 4px 4px -4px black;
+	border: 3px solid gray;
+}
+
+.hint_section_id {
+	width: 25%;
+	float: left;
+}
+
+.found_id {
+	width: 75%;
+}
+
+.hint_section_one {
+	margin: 30px 0 30px 0;
+}
+
+.hint_section_two {
+	margin: 30px 0 70px 0;
+}
+
+.hint_section p {
+	margin: 0 auto;
+	color: gray;
+	font-size: 1.2em;
+	font-weight: bold;
+	width: 25%;
+}
+
+.hint_section input {
+	padding: 20px 15px;
+	width: 75%;
+}
+/*====================== 구인공고목록 CSS ======================*/
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.jobPosting-wrap {
+	margin: 100px auto;
+	font-size: 10px;
+}
+
+.form-select {
+	width: 100%;
+	margin-top: 50px;
+}
+
+.jobPosting-info {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.title_t {
+	font-size: 1.5em;
+	margin-bottom: 15px;
+	font-weight: 600;
+	color: gray;
+}
+
+.posting_info {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100px;
+	border: 2px solid #2E2E2E;
+	border-radius: 5px;
+	margin-bottom: 30px;
+	padding: 15px 45px;
+	display: flex;
+	justify-content: center;
+}
+
+.posting_info div {
+	box-sizing: border-box;
+	overflow: hidden;
+	flex-grow: 1;
+}
+
+.posting_info_one {
+	height: 100%;
+	width: 25%;
+	display: gird;
+}
+
+.posting_info_one > p {
+	flex-grow: 0;
+	align-content: space-around;
+}
+
+.posting_info_one > p:nth-of-type(1) {
+	font-size: 1.5em;
+	font-weight: bold;	
+}
+
+.posting_info_one > p:nth-of-type(2) {
+	font-size: 0.8em;
+}
+
+.posting_info_two > span:nth-of-type(1) {
+	color: #FCA211;
+}
+
+.posting_info_two > span:nth-of-type(2) {
+	font-weight: bold;
+}
+
+.posting_info_two {
+	width: 65%;
+	line-height: 65px;
+	height: 65px;
+	font-size: 1.5em;
+}
+
+.posting_info_three {
+	text-align: right;
+	width: 10%;
+	align-content: space-around;
+}
+
+.posting_info_three > a {
+	text-decoration: none;
+	color: #FA5858;
+	font-weight: bold;
+	font-size: 1.6em;
+}
+
+.posting_info_one, .posting_info_three {
+	display : grid;
+}
+
+.posting_info > p:nth-last-of-type(1) {
+	font-size: 1.5em;
+}
+
+.posting_info > p:nth-last-of-type(2) {
+	font-size: 1.5em;
+}	
+
+.posting_info > p:nth-last-of-type(3) {
+	font-size: 1.5em;
+}	
+	
+.jobPosting_list > div:last-child {
+	margin-bottom: 0;
 }
 
 /*======================매장근무기록CSS======================*/
@@ -600,8 +755,6 @@ header .logo-img {
 	text-decoration: none;
 }
 
-
-
 .profile-menu {
 	list-style: none;
 }
@@ -609,8 +762,9 @@ header .logo-img {
 .profile-menu a {
 	color: white;
 }
-.profile-menu a:hover{
-	text-decoration: underline;	
+
+.profile-menu a:hover {
+	text-decoration: underline;
 }
 
 .navbar-btn {
@@ -621,16 +775,17 @@ header .logo-img {
 .nav-item a:hover {
 	color: white;
 }
-.offcanvas-header{
+
+.offcanvas-header {
 	border: none;
-	
 }
-.btn-close{
-	color:white;
-	
+
+.btn-close {
+	color: white;
 }
+
 .bottom-image {
-	bottom: 0; 
+	bottom: 0;
 	right: 0;
 	position: absolute;
 }
@@ -641,46 +796,38 @@ header .logo-img {
 }
 
 .acTapBtn {
-	
 	border: none;
 	color: #fff;
 }
 
 .accordion-body {
-	
 	padding: 0;
 }
 
 .acBtn {
-	
 	border: none;
 	color: #fff;
 }
 
 .acBtn:hover {
-	
 	background: #dfdfdf;
 	color: #000;
 }
 
 .acABtn {
-	
 	font-size: 0.9rem;
 }
 
 .acABtn:hover {
-	
 	background: #606060;
 	color: #000;
 }
 
-.acTapBtn > show {
+.acTapBtn>show { #fff;
 	
-	#fff;
 }
 
 .side-logout a:hover {
-	
 	text-decoration: underline;
 	color: #696969;
 }

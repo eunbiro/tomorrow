@@ -1,7 +1,5 @@
 package com.tomorrow.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +8,13 @@ import lombok.Setter;
 public class PayListDto {
 	private Long id; //급여일지 식별자
 	
-	private ShopDto shopDto;
-	
-	private MemberFormDto memberFormDto;	
-	
     private MemShopMappingDto memShopMappingDto;
 	
+	private int dayPay;
 	
+	private String regTime;
+	
+	private int monthPay;
+	
+	private ShopDto shopDto;
 }

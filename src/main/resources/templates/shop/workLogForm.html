@@ -108,6 +108,7 @@
      		margin: 0 auto;
      		padding: 0;
      		font-size: 10px;
+     		width: 66%;
      	}
      	
      	.noti-wrap {
@@ -152,44 +153,79 @@
 			background: #F1F1F1;
 		}
 		
-    	 .modal-wrap > div > div {
+		.modal-wrap > div > div {
     	 	border-radius: 15px;
     	 	background: #424E64;
     	 	color: #fff;
     	 	border: none;
     	 	width: 20rem;
-    	 	height: 6.6rem;
-    	 }
+			height: 6.6rem;
+		}
     	 
-    	 .modal-btn > .btn {
+		.modal-btn > .btn {
     	 	background: #13223D;
     	 	color: #fff;
     	 	border-radius: 15px;
     	 	opacity: 100%;
-    	 }
+		}
     	 
-    	 .log-cont-btn button {
+		.log-cont-btn button {
     	 	font-size: 0.8rem;
     	 	border: none;
     	 	background: none;
-    	 }
+		}
     	 
-    	 .log-cont-btn button:hover {
+		.log-cont-btn button:hover {
     	 	text-decoration: underline;
 			color: #A9A9A9;
-    	 }
+		}
     	 
-    	 .log-cont-ipt {
+		.log-cont-ipt {
     	 	resize: none;
     	 	border-radius: 5px;
-    	 }
-				
+		}
+    	 
+		.worklog-th-fs {
+    	 	font-size: 1.2rem;
+		}
+    	 
+		.worklog-td-fs {
+    	 	font-size: 1rem;
+		}
+	</style>
+	
+	<style media="all and (max-width: 1300px)">
+		#cont-wrap {
+			width: 80%;
+   	 	}
+   	 	
+   	 	.worklog-th-fs {
+			font-size: 1rem;
+    	}
+    	 
+		.worklog-td-fs {
+			font-size: 0.9rem;
+		}
+	</style>
+	
+	<style media="all and (max-width: 790px)">
+		#cont-wrap {
+   	 		width: 98%;
+   	 	}
+		
+		.worklog-th-fs {
+			font-size: 1rem;
+		}
+    	 
+		.worklog-td-fs {
+			font-size: 0.8rem;
+		}
 	</style>
 </th:block>
 </head>
 <body>
 	<div layout:fragment="content" id="cont-wrap">
-		<div class="container d-flex flex-column text-center noti-wrap">
+		<div class="container-lg d-flex flex-column text-center noti-wrap">
 			<div class="mx-auto w-100 text-end">
 				<button type="button" class="btn position-relative" onclick="location.href='/shop/info'">
 					<i class="fa-solid fa-bell fs-3"></i>
@@ -221,22 +257,22 @@
 			
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 			</form>
-			<form class="noti-form my-4 mx-auto container-md" method="post" th:object="${updateWorkLogDto}">
+			<form class="noti-form my-3 mx-auto container-md" method="post" th:object="${updateWorkLogDto}">
 				<input type="hidden" th:field="*{shopDto.shopId}">
 				<!-- read부분 -->
 				<div class="mx-auto" th:if="${not #lists.isEmpty(logList)}">
 					<div class="mx-auto my-4 w-100">
 						<table class="table work-log align-middle mx-auto">
 							<thead class="table-light">
-								<tr class="fs-5">
+								<tr class="worklog-th-fs">
 									<th class="col-2">일자</th>
-									<th class="col-2">파트타임</th>
+									<th class="col-2">파트 타임</th>
 									<th colspan="2" class="col-8">업무내용</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="log : ${logList}" style="height: 60px;">
-									<td class="fs-6">
+									<td class="worklog-td-fs">
 										<i class="fa-regular fa-calendar pe-2"></i>[[${#temporals.format(log.regTime, 'yyyy.MM.dd')}]]
 									</td>
 									<td class="fs-6" th:text="${log.partTime}">오후 마감</td>
