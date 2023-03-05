@@ -114,7 +114,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<form method="get" th:object="${commuteDto}">
+		<form method="post" th:object="${commuteDto}">
 			<div class="commute-wrap">
 				<select class="form-select commute-select commute-sel-shop"
 					th:field="*{shopDto.shopId}" id="shopId">
