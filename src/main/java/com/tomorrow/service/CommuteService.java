@@ -1,5 +1,6 @@
 package com.tomorrow.service;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -100,7 +101,13 @@ public class CommuteService {
 
 		Commute commute = commuteRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 		commute.updateCommute(commuteDto, member, shop);
-		payListService.savePayList(id, member, shop);
+		
+		long workTime = ChronoUnit.HOURS.between(commute.getWorking(), commuteDto.getLeaving());
+		
+		if (workTime > 0) {
+			
+			payListService.savePayList(id, member, shop);
+		}
 	}
 
 	/*

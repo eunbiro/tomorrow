@@ -3,6 +3,7 @@ package com.tomorrow.controller;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,13 +12,19 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
@@ -27,6 +34,7 @@ import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
+import com.tomorrow.entity.WorkLog;
 import com.tomorrow.service.CommuteService;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.PayListService;
@@ -139,12 +147,23 @@ public class WorkController {
 		return "redirect:/work/commute/" + commuteDto.getShopDto().getShopId();
 	}
 
-	// 퇴근 등록
-	@PostMapping(value = "/commute/{commuteId}")
-	public String commuteUpdate(@PathVariable("commuteId") Long id, @Valid CommuteDto commuteDto,
-			BindingResult bindingResult, Model model, Principal principal) {
+	// 출근정보 가져오기
+	@GetMapping(value = "/getcommute/{commuteId}")
+	public @ResponseBody ResponseEntity getWorking(@PathVariable("commuteId") Long commuteId, Principal principal) {
 
-		if (bindingResult.hasErrors()) {
+		Commute commute = commuteService.findByCommuteId(commuteId);
+		LocalDateTime leaving = LocalDateTime.now();
+		
+		long workTime = ChronoUnit.HOURS.between(commute.getWorking(), leaving);
+		return new ResponseEntity<Long>(workTime, HttpStatus.OK);
+	}
+	
+	// 퇴근 등록
+    @PostMapping(value = "/commute/{commuteId}")
+    public String commuteUpdate(@PathVariable("commuteId") Long id, @Valid CommuteDto commuteDto, BindingResult bindingResult, Model model,
+			Principal principal) {
+    	
+    	if (bindingResult.hasErrors()) {
 
 			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName()); // 내가 갖고 있는 매장 정보를 가져옴
 
@@ -152,29 +171,32 @@ public class WorkController {
 			model.addAttribute("myShopList", myShopList);
 			return "work/commuteForm";
 		}
-
-		// 현재날짜
-		LocalDateTime date = LocalDateTime.now();
-
-		commuteDto.setLeaving(date);
-
-		Member member = shopService.findMember(principal.getName());
-		Shop shop = shopService.findShop(commuteDto.getShopDto().getShopId());
-
-		Commute commute = commuteService.findByCommuteId(id); // 출퇴근 기록 찾기
-
-		commute.setLeaving(commuteDto.getLeaving());
-
-		try {
-
-			commuteService.updateCommute(id, commuteDto, member, shop);
-
+    	
+    	
+    	//현재날짜
+    	LocalDateTime date = LocalDateTime.now();
+    	
+    	commuteDto.setLeaving(date);
+    	
+    	
+    	Member member = shopService.findMember(principal.getName());
+    	Shop shop = shopService.findShop(commuteDto.getShopDto().getShopId());
+    	
+    	Commute commute = commuteService.findByCommuteId(id); //출퇴근 기록 찾기
+    
+    	commute.setLeaving(commuteDto.getLeaving());
+    	
+    	
+    	try {
+    		
+    		 commuteService.updateCommute(id, commuteDto, member, shop);
+    		
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("errorMessage", "퇴근 처리 중 에러가 발생했습니다.");
+			model.addAttribute("errorMessage", "퇴근 처리 중 에러가 발생했습니다.");			
 			return "redirect:/work/commute/" + commuteDto.getShopDto().getShopId();
 		}
 		return "redirect:/work/commute/" + commuteDto.getShopDto().getShopId();
-	}
+    }
 
 }

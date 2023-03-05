@@ -436,28 +436,34 @@
 					}
 					
 					let workDay = 0;
+					let workPay = 0;
+					let workStatus;
+					let shopName;
 					
 					payList.forEach((paylist, k) => {
 						
 						/* 근무일수는 array.length로 구하고 있었는데 그렇게하면 전달 다음달 데이터 다 카운트 해서 날짜데이터 자르고 해당 월에 속하는 것만 카운터 */
 						if ((paylist.regTime).slice(5, 6) >= months - 1 && (paylist.regTime).slice(5, 6) <= months - 1) {
 							
-							workDay = workDay + 1;
+							workDay = workDay + 1;								// 일수
+							workPay = workPay + paylist.dayPay;					// 일급 다 더한거
+							workStatus = paylist.memShopMappingDto.workStatus;	// 매장별 등급
+							shopName = paylist.shopDto.shopNm;					// 매장이름
 						}
 					})
-						
-					if (payList[j].memShopMappingDto.workStatus != 1) {
+					
+					if (workStatus != 1) {
 						
 						/* 금액 컴마찍어주는 정규식 (규식이형 너무좋음) */
-						let payFommat = (payList[j].dayPay).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-						let totalPayFommat = (payList[j].dayPay * workDay).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						let payFommat = ((workPay/workDay).toFixed(0)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+						let totalPayFommat = (workPay).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 						
-						if (payList[j].dayPay * workDay > 0) {
+						if (workPay * workDay > 0) {
 							
 							/* 본격적으로 태그삽입 (아직 매장리스트 루프안이라서 매장별로 태그 삽입해 줌) */
 							$('<ul>').addClass('shop-box-pay-ul pay-ul' + j).appendTo('.shop-box-pay');
 							$('<li>').css('background', color).css({'width':'20px', 'height':'20px'}).appendTo('.pay-ul'+  j);
-							$('<li>').text(payList[j].shopDto.shopNm).css('font-size', '1rem').appendTo('.pay-ul'+  j);
+							$('<li>').text(shopName).css('font-size', '1rem').appendTo('.pay-ul'+  j);
 							$('<li>').text(payFommat + ' (원) * ' + workDay + ' (일)').css('font-size', '0.8rem').appendTo('.pay-ul'+  j);
 							$('<li>').text(totalPayFommat + ' (원)').css({'text-align':'right', 'font-size':'1.3rem'}).appendTo('.pay-ul'+  j);
 								
@@ -466,9 +472,9 @@
 						//	$('<li>').text(payList[j].shopDto.shopNm).css('font-size', '1rem').appendTo('.shop-box-ul');
 							
 						/* 월급 총 합계 구하는 중*/
-						monthPay = monthPay + (payList[j].dayPay * workDay);
+						monthPay = monthPay + (workPay);
 					}
-				})
+				});
 				
 				/* 월급 총합계 태그삽입 */
 				let payMonthFommat = monthPay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
