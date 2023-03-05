@@ -64,7 +64,7 @@ public class ShopManageController {
 		return "manage/employeeInfoForm";
 	}
 
-	// 직원정보 불러오기
+// 직원정보 불러오기
 	@GetMapping(value = "/manage/employeeInfo/{shopId}")
 	public String emplInfoDtl(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 		try {
@@ -142,8 +142,10 @@ public class ShopManageController {
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);	//사용자가 가진 매장 리스트
 		
-		//전체 직원 급여 리스트
+		//해당 매장의 전체 직원 급여 리스트
 		List<MemShopMapping> msmList = mapRepository.findByShopId(shopId);
+		
+		//앞단에 뿌릴 dto에 담기
 		List<PayListDto> payListDto = payListService.getPayListByMsm(msmList);
 		//payList엔 msmList로 가져온 mapping정보에 담긴 직원들 각각의 급여
 		model.addAttribute("payListDto", payListDto);

@@ -181,12 +181,12 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="pay : ${payList}">
-							<!-- 	<th th:text="${commute.id}"></th> -->
-								<td class="fs-6" th:text="${pay.memShopMapping.member.userNm}">
-								<td class="fs-6" th:text="${pay.memShopMapping.partTime}"></td>
-								<td class="fs-6" th:text="${pay.id}"></td>
-								<td class="fs-6" th:text="${pay.dayPay}"></td>	
+							<tr th:each="pay : ${payListDto}">
+								<!-- <th th:text="${commute.id}"></th> -->
+								<td class="fs-6" th:text="${pay.memShopMappingDto.memberFormDto.userNm}"
+-->								<td class="fs-6" th:text="${pay.memShopMappingDto.partTime}"></td>
+								<td class="fs-6" th:text="${pay.shopDto.shopNm}"></td>
+								<td class="fs-6" th:text="${pay.memShopMappingDto.dayPay}"></td>	
 							</tr>
 						</tbody>
 					</table>
