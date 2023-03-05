@@ -138,15 +138,34 @@ public class PayListService {
 		return memShopMappingDto;
 	}
 	
-	public List<PayList> getPayListByMsm(List<MemShopMapping> msmList){
-		List<PayList> payList = new ArrayList<PayList>();
+	// 매장별 근무일 수 구하기
+	public List<PayListDto> getWorkDay(List<PayListDto> payListDtoList) {
+		
+		List<PayListDto> workDayCountList = new ArrayList<>();
+		
+		for (PayListDto payListDto : payListDtoList) {
+			
+			if (workDayCountList.size() == 0) {
+				
+				
+			}
+		}
+		// Collections.frequency(리스트, 특정데이터)
+		
+		return workDayCountList;
+	}
+	
+	//매장별 급여 리스트 가져오기 
+	public List<PayListDto> getPayListByMsm(List<MemShopMapping> msmList){
+		   List<PayListDto> payListDto = new ArrayList<PayListDto>();	
 		
 		for(MemShopMapping msm : msmList) {
-			PayList pl = new PayList();
-			pl.setMemShopMapping(msm);
-			payList.add(pl);
+			PayListDto pl = new PayListDto();
+			MemShopMappingDto msmd =  MemShopMappingDto.of(msm);
+			pl.setMemShopMappingDto(msmd);
+			payListDto.add(pl);
 		}
 		
-		return payList;
+		return payListDto;
 	}
 }

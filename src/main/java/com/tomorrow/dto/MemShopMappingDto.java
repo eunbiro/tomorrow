@@ -43,6 +43,4 @@ public class MemShopMappingDto {
 		memShopMappingDtoList.add(memShopMappingDto);
 	}
 
-
-	
 	}
