@@ -114,15 +114,9 @@ public class JobController {
 			model.addAttribute("errorMessage", "구인 등록 중 에러가 발생했습니다.");
 			return "job/jobNew";
 		}
-<<<<<<< HEAD
     	
     	return "job/jobOpeningList";
     }
-=======
-
-		return "job/jobOpeningList";
-
-	}
 
 	// 구인공고 수정페이지 보기
 //	@GetMapping(value = "/admin/job/new/{hireId}")
@@ -135,7 +129,6 @@ public class JobController {
 //
 //		return "job/jobNew";
 //	}
->>>>>>> 7b885590b633e4e124c0622a13b80d0dc967a860
 
 	// 구인공고뷰 페이지
 	@GetMapping(value = "/job/view")
@@ -161,7 +154,6 @@ public class JobController {
 	}
 
 	// 알바신청리스트 페이지
-<<<<<<< HEAD
 	@GetMapping(value = "/admin/job/list/{shopId}")
 	public String jobList(Model model, Principal principal, @PathVariable("shopId") Long shopId, HireListDto hireListDto) {
 		
@@ -178,14 +170,6 @@ public class JobController {
 		
 		model.addAttribute("hireDtoList", hireDtoList);
 		
-		
-=======
-	@GetMapping(value = "/admin/job/list/{shop_id}")
-	public String jobList(Model model, Principal principal, @PathVariable("shopId") Long shopId) {
-
-		getSideImg(model, principal);
-
->>>>>>> 7b885590b633e4e124c0622a13b80d0dc967a860
 		return "job/jobList";
 	}
 
@@ -201,18 +185,11 @@ public class JobController {
 		model.addAttribute("hireDtoList", hireDtoList);
 		return "job/jobOpeningList";
 	}
-<<<<<<< HEAD
-	
-	// 공고 삭제
-	@DeleteMapping(value = "/job/opening/delete/{Id}")
-	public @ResponseBody ResponseEntity<Long> deleteHire(@PathVariable("Id") Long Id, Principal principal ) {
-		
-=======
 
+		// 공고 삭제
 	@DeleteMapping(value = "/job/opening/delete/{Id}")
 	public @ResponseBody ResponseEntity<Long> deleteHire(@PathVariable("Id") Long Id, Principal principal) {
 
->>>>>>> 7b885590b633e4e124c0622a13b80d0dc967a860
 		hireService.deleteHire(Id);
 		return new ResponseEntity<Long>(Id, HttpStatus.OK);
 	}
