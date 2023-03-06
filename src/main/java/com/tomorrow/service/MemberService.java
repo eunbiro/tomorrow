@@ -1,19 +1,11 @@
 package com.tomorrow.service;
 
-import java.util.regex.Pattern;
-
-import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
-
 import org.apache.groovy.parser.antlr4.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +15,6 @@ import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
 import com.tomorrow.repository.MemberRepository;
 
-import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -33,7 +24,9 @@ public class MemberService implements UserDetailsService {
 	
 	@Value("${userProfileImgLocation}")
 	private String userProfileImgLocation;
+	
 	private final FileService fileService;
+	
 	private final MemberRepository memberRepository;
 
 	@Override
@@ -118,5 +111,15 @@ public class MemberService implements UserDetailsService {
 		//dto에 적용시킬 건 password 뿐이기 때문에 memberFormDto.getPassword()로 쓴다
 		member.updatePassword(memberFormDto.getPassword(), passwordEncoder);
 	}
-	
+	public void newPasswordpNum(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		
+		//현재 dto에는 로그인 아이디 데이터가 흐르기 떄문에 findByUserId를 쓴다
+		Member member = memberRepository.findByUserId(memberFormDto.getUserId());
+		
+		//dto에 적용시킬 건 password 뿐이기 때문에 memberFormDto.getPassword()로 쓴다
+		member.updatePassword(memberFormDto.getPassword(), passwordEncoder);
+		member.updatepNum(memberFormDto.getPNum());
+	}
+
+
 }

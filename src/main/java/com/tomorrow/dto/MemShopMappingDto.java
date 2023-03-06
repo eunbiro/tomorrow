@@ -14,6 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemShopMappingDto {
+	
+	private Long mappingId;
 
 	private MemberFormDto memberFormDto;
 	

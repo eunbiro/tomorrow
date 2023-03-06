@@ -9,21 +9,21 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ReviewListDto {
+public class ShareTipListDto {
 
 	private Long id;
 	
-	private String reviewTitle;
+	private String tipTitle;
 	
 	private String userNm;
 	
 	private LocalDateTime regTime;
 	
 	@QueryProjection
-	public ReviewListDto (Long id, String reviewTitle, String userNm, LocalDateTime regTime) {
+	public ShareTipListDto (Long id, String tipTitle, String userNm, LocalDateTime regTime) {
 		
 		this.id = id;
-		this.reviewTitle = reviewTitle;
+		this.tipTitle = tipTitle;
 		this.userNm = userNm;
 		this.regTime = regTime;
 	}
