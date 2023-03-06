@@ -5,6 +5,31 @@
 <head>
 <meta charset="UTF-8">
 <title>공고등록</title>
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+$(document).ready(function() {
+		
+		var errorMessage = [[${errorMessage}]];
+		if (errorMessage != null) {
+			
+			alert(errorMessage);
+		}
+	});
+	
+		// 매장선택 시 해당 매장정보 불러옴
+		$(function() {
+
+			$('.jobNew-sel-shop').off().on("change", function() {
+
+				var shopId = $('.jobNew-sel-shop').val();
+
+				var url = "/admin/job/new/" + shopId;
+
+				$(location).attr('href', url);
+			});
+		});
+	</script>
+</th:block>
 
 <th:block layout:fragment="css">
 	<style>
@@ -84,31 +109,7 @@ margin: 0;
 }
 </style>
 </th:block>
-<th:block layout:fragment="script">
-	<script th:inline="javascript">
-$(document).ready(function() {
-		
-		var errorMessage = [[${errorMessage}]];
-		if (errorMessage != null) {
-			
-			alert(errorMessage);
-		}
-	});
-	
-		// 매장선택 시 해당 매장정보 불러옴
-		$(function() {
 
-			$('.jobNew-sel-shop').off().on("change", function() {
-
-				var shopId = $('.jobNew-sel-shop').val();
-
-				var url = "/admin/job/new/" + shopId;
-
-				$(location).attr('href', url);
-			});
-		});
-	</script>
-</th:block>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -128,7 +129,7 @@ $(document).ready(function() {
 
 				<div class="jobNew-info">
 					<div class="jobNew">
-                      <!-- <input type="hidden" th:field="*{id}" /> -->
+                     <!--  <input type="hidden" th:field="*{id}" /> -->
                       
 						<label class="shop-name">매장명</label> 
 						<input th:field="*{shopDto.shopNm}"
@@ -167,7 +168,6 @@ $(document).ready(function() {
 				th:value="${_csrf.token}">
 		</form>
 	</div>
-
 </body>
 
 </html>

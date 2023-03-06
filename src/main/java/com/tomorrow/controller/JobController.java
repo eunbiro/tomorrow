@@ -56,25 +56,23 @@ public class JobController {
 		return "job/jobNew";
 	}
 
+	//TODO 셀렉트 매장 정보 불러오기 에러,공고 등록 유효성검사 완료
 	// 구인공고 등록 매장 정보 불러오기
 	@GetMapping(value = "/admin/job/new/{shopId}")
 	public String getShopJobNew(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 		
 		getSideImg(model, principal);
 		
-		List<MemShopMappingDto> myShopList = shopInfoService.getMyShop(principal.getName());
+		List<MemShopMappingDto> myShopList = jobService.getMyShop(principal.getName());
 
         Shop shop = shopInfoService.findShop(shopId);
-        ShopDto shopDto = shopInfoService.getShop(shop);
-		// ShopDto shopDto = new ShopDto();
-		// shopDto.setShopId(shopId);
+        ShopDto shopDto = jobService.getShop(shop);
 		
-		
-		HireDto hireDto = new HireDto();
-		hireDto.setShopDto(shopDto);
-		
+        HireDto hireDto = new HireDto();
+        hireDto.setShopDto(shopDto);
+        
 		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("shopDto", shopDto);
+	    model.addAttribute("shopDto", shopDto);
 	    model.addAttribute("hireDto", hireDto);
 		
 
@@ -90,12 +88,13 @@ public class JobController {
     		List<MemShopMappingDto> myShopList = jobService.getMyShop(principal.getName());
     		getSideImg(model, principal);
     		model.addAttribute("myShopList", myShopList); 
+    		model.addAttribute("hireDto", hireDto);
     		return "job/jobNew";
     	}
     	
     	try {
     		getSideImg(model, principal);
-    		Shop shop = shopService.findShop(hireDto.getShopDto().getShopId());
+         	Shop shop = shopService.findShop(hireDto.getShopDto().getShopId());
     		Member member = shopService.findMember(principal.getName());
     		Hire hire = Hire.createHire(hireDto, member, shop);
 			jobService.saveHire(hire);
