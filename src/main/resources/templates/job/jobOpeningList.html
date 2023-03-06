@@ -5,13 +5,52 @@
 	<link th:href="@{/css/layout1.css}" rel="stylesheet">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>공고목록</title>
-
-<th:block layout:fragment="css">
-	<style>
-	
-</style>
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		function deleteMapping(Id) {
+			
+			const deleteConf = confirm("삭제하시겠습니까?");
+			
+			if (!deleteConf) return;
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = "/job/opening/delete/" + Id;
+			console.log(Id);
+			
+			$.ajax({
+				
+				url			: url,
+				type 		: "DELETE",
+				contentType : "application/json",
+				beforeSend 	: function(xhr) {
+					
+					xhr.setRequestHeader(header, token)
+				},
+				dataType 	:"Json",
+				cache 		: false,
+				success 	: function(result, status) {
+					
+					alert("목록이 삭제되었습니다.");
+					location.href = '/admin/job/openingList';
+				},
+				error 		: function(jqXHR, status, error) {
+					if (jqXHR.status == '401') {
+						alert('로그인 후 이용하시오.');
+						location.href = '/member/login';
+					} else {
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+		}
+	</script>
 </th:block>
+
 </head>
 <body>
 	<div layout:fragment="content">
@@ -20,19 +59,19 @@
 			<div class="title_t">현재 등록하신 구인공고 리스트 입니다.</div>
 			<div class="jobPosting-info">
 				<div class="jobPosting_list">
-					<th:block th:each="myshop, status : ${myShopList}">
+					<th:block th:each="hire, status : ${hireDtoList}">
 						<div class="posting_info">
 							<div class="posting_info_one">
-								<p>[[${myshop.shopDto.shopNm}]]</p>
-								<p>[[${myshop.shopDto.shopPlace}]]</p>
+								<p>[[${hire.shopDto.shopNm}]]</p>
+								<p>[[${hire.shopDto.shopPlace}]]</p>
 							</div>
 							<div class="posting_info_two">
 								<span>시급</span>
-								<span>[[${#numbers.formatInteger(myshop.timePay, 0, 'COMMA')}]]원</span>
+								<span>[[${#numbers.formatInteger(hire.hirePay, 0, 'COMMA')}]]원</span>
 							</div>
 							<div class="posting_info_three">
-								<a href="#">보기</a>
-								<a href="#">삭제</a>
+								<button type="button">보기</button>
+								<button type="button" th:value="${hire.Id}" onclick="deleteMapping(this.value)">삭제</button>
 							</div>
 						</div>
 					</th:block>
@@ -40,7 +79,6 @@
 			</div>
 		</div>
 	</div>
-	
 </body>
 
 </html>

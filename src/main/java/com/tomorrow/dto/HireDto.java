@@ -1,6 +1,8 @@
 package com.tomorrow.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,7 +24,6 @@ public class HireDto {
 
 	private MemberFormDto memberFormDto;
 
-	
 	@NotNull
 	private int hirePay;
 	
@@ -39,6 +40,8 @@ public class HireDto {
 	private LocalDateTime updateTime;
 
 	private static ModelMapper modelMapper = new ModelMapper();
+	
+	private List<HireDto> hireDtoList = new ArrayList<>();
 	
 	public Hire createHire() {
 		return modelMapper.map(this, Hire.class);
