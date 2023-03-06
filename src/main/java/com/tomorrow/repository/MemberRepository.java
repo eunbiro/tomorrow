@@ -27,4 +27,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	// userId로 memberId 찾기
 	@Query(value = "select member_id from member where user_id = :userId", nativeQuery = true)
 	public Member findMemberId(@Param("userId") String userId);
+
+	// memberId로 Member 정보 찾기?
+	@Query(value = "select * from member where memberId = :memberId", nativeQuery = true)
+	public Member findByEmplMemberId(@Param("memberId") Long memberId);
+	
 }

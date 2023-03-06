@@ -3,9 +3,12 @@ package com.tomorrow.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,7 @@ import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.MemShopMapping;
+import com.tomorrow.entity.Member;
 import com.tomorrow.entity.PayList;
 import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.PayListRepository;
@@ -82,6 +86,8 @@ public class ShopManageController {
 			// 직원 리스트 뽑아오기 
 			List<MemShopMappingDto> emplList = emplInfoService.getMappingList(shopId);
 			model.addAttribute("emplList", emplList);
+			model.addAttribute("updateMemShopMappingDto", emplList);
+			
 			
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "직원 정보를 불러오는 중 에러가 발생했습니다.");
@@ -90,6 +96,7 @@ public class ShopManageController {
 
 		return "manage/employeeInfoForm";
 	}
+	
 
 	// 매니저 출근관리 화면
 	@GetMapping(value = "/commute")
@@ -150,6 +157,34 @@ public class ShopManageController {
 		//payList엔 msmList로 가져온 mapping정보에 담긴 직원들 각각의 급여
 		model.addAttribute("payListDto", payListDto);
 		return "manage/managerPayForm";
+	}
+
+	// 직원 정보 수정
+	@PostMapping(value = "/manage/employeeInfo/{mapId}/update")
+	public String updateEmployeeInfo(@PathVariable("mapId") Long mapId, @Valid MemShopMappingDto updateMemShopMappingDto, BindingResult bindingResult, Model model, Principal principal ) {
+		if (bindingResult.hasErrors()) {
+			getSideImg(model, principal);
+			List<MemShopMappingDto> myShopList = emplInfoService.getMyShopList(principal.getName());
+			model.addAttribute("myShopList", myShopList);
+			return "manage/employeeInfo";
+		}
+		
+		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
+		memShopMapping.setWorkStatus(updateMemShopMappingDto.getWorkStatus());
+		memShopMapping.setPartTime(memShopMapping.getPartTime());
+		memShopMapping.setTimePay(memShopMapping.getTimePay());
+		Shop shop = shopService.findShop(memShopMapping.getShop().getId());
+		Member member = emplInfoService.findEmplMember(memShopMapping.getMember().getId());
+		
+		try {
+			emplInfoService.updateEmplInfo(mapId, updateMemShopMappingDto, member, shop);
+		} catch (Exception e) {
+			model.addAttribute("errorMessage", "공지 등록 중 에러가 발생했습니다.");
+			
+			return "redirect:/admin/manage/employeeInfo/" + shop.getId();
+		}
+		
+		return "redirect:/admin/manage/employeeInfo/" + shop.getId();
 	}
 
 }

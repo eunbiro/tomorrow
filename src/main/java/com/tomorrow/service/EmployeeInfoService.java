@@ -3,6 +3,8 @@ package com.tomorrow.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,10 @@ public class EmployeeInfoService {
 	@Transactional(readOnly = true)
 	public Member findMember(String userId) {
 		return memberRepository.findByUserId(userId);
+	}
+	
+	public Member findEmplMember(Long memberId) {
+		return memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
 	}
 
 	// 내가 가진 매장 정보를 불러오기 (select)
@@ -109,6 +115,18 @@ public class EmployeeInfoService {
 		}
 		
 		return memShopMappingDtoList;
+	}
+	
+	// 매장 직원 정보 내용 update
+	public void updateEmplInfo(Long mapId, MemShopMappingDto updateMemShopMappingDto, Member member, Shop shop) {
+		MemShopMapping memShopMapping = findMapping(mapId);
+		memShopMapping.updateEmplInfo(updateMemShopMappingDto, member, shop);
+		
+	}
+
+	public MemShopMapping findMapping(Long mapId) {
+
+		return mapRepository.findById(mapId).orElseThrow(EntityNotFoundException::new);
 	}
 
 }
