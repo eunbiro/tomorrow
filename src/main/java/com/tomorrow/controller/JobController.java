@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.HireDto;
+import com.tomorrow.dto.HireListDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
+import com.tomorrow.service.HireListService;
 import com.tomorrow.service.HireService;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Hire;
+import com.tomorrow.entity.HireList;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
 import com.tomorrow.repository.HireRepository;
@@ -41,6 +44,7 @@ public class JobController {
 	private final ShopInfoService shopInfoService;
 	private final JobService jobService;
 	private final HireService hireService;
+	private final HireListService hireListService;
 
 	// 사이드바 프로필정보 가져옴
 	public Model getSideImg(Model model, Principal principal) {
@@ -113,8 +117,6 @@ public class JobController {
 		}
     	
     	return "job/jobOpeningList";
- 
-    	
     }
 
 	// 구인공고뷰 페이지
@@ -128,12 +130,35 @@ public class JobController {
 
 		return "job/jobView";
 	}
+	
+	@GetMapping(value = "/admin/job/list")
+	public String jobListShow(Model model, Principal principal) {
+		getSideImg(model, principal);
+		//출력 하기 전 principal로 자기 매장에 구인구직한 알바생들 불러오기
+		//출력 하기 전 자신의 매장 정보 불러오기
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		model.addAttribute("myShopList", myShopList);
+		
+		return "job/jobList";
+	}
 
 	// 알바신청리스트 페이지
-	@GetMapping(value = "/admin/job/list/{shop_id}")
-	public String jobList(Model model, Principal principal, @PathVariable("shopId") Long shopId) {
+	@GetMapping(value = "/admin/job/list/{shopId}")
+	public String jobList(Model model, Principal principal, @PathVariable("shopId") Long shopId, HireListDto hireListDto) {
 		
 		getSideImg(model, principal);
+		//출력 하기 전 principal로 자기 매장에 구인구직한 알바생들 불러오기
+		//출력 하기 전 자신의 매장 정보 불러오기
+		
+		// 사장이 가지고 있는 매장
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		model.addAttribute("myShopList", myShopList);
+		
+		// 사장 매장에 신청한 사람들
+		List<HireListDto> hireDtoList = hireListService.getHireList(shopId);
+		
+		model.addAttribute("hireDtoList", hireDtoList);
+		
 		
 		return "job/jobList";
 	}
@@ -151,10 +176,11 @@ public class JobController {
 		return "job/jobOpeningList";
 	}
 	
+	// 공고 삭제
 	@DeleteMapping(value = "/job/opening/delete/{Id}")
 	public @ResponseBody ResponseEntity<Long> deleteHire(@PathVariable("Id") Long Id, Principal principal ) {
 		
-			hireService.deleteHire(Id);
-			return new ResponseEntity<Long>(Id, HttpStatus.OK);
+		hireService.deleteHire(Id);
+		return new ResponseEntity<Long>(Id, HttpStatus.OK);
 	}
 }
