@@ -2,7 +2,6 @@ package com.tomorrow.dto;
 
 import org.modelmapper.ModelMapper;
 
-import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.PayList;
 import com.tomorrow.dto.PayListDto;
 import lombok.Getter;

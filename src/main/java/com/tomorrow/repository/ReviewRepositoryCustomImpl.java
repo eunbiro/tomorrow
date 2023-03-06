@@ -41,7 +41,7 @@ private JPAQueryFactory queryFactory;
 	}
 	
 	private BooleanExpression searchByLike(String searchBy, String searchQuery) {
-		if(StringUtils.equals("boardTitle", searchBy)) {
+		if(StringUtils.equals("rvTitle", searchBy)) {
 			return QReview.review.reviewTitle.like("%" + searchQuery + "%"); 
 		} else if(StringUtils.equals("createdBy", searchBy)) {
 			return QReview.review.createdBy.like("%" + searchQuery + "%"); 
