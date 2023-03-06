@@ -86,7 +86,7 @@ public class ShopManageController {
 			// 직원 리스트 뽑아오기 
 			List<MemShopMappingDto> emplList = emplInfoService.getMappingList(shopId);
 			model.addAttribute("emplList", emplList);
-			model.addAttribute("updateMemShopMappingDto", emplList);
+			model.addAttribute("updateMappingDto", new MemShopMappingDto());
 			
 			
 		} catch (Exception e) {
@@ -159,23 +159,26 @@ public class ShopManageController {
 
 	// 직원 정보 수정
 	@PostMapping(value = "/manage/employeeInfo/{mapId}/update")
-	public String updateEmployeeInfo(@PathVariable("mapId") Long mapId, @Valid MemShopMappingDto updateMemShopMappingDto, BindingResult bindingResult, Model model, Principal principal ) {
+	public String updateEmployeeInfo(@PathVariable("mapId") Long mapId, @Valid MemShopMappingDto updateMappingDto, BindingResult bindingResult, Model model, Principal principal ) {
+		
 		if (bindingResult.hasErrors()) {
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			
 			getSideImg(model, principal);
-			List<MemShopMappingDto> myShopList = emplInfoService.getMyShopList(principal.getName());
 			model.addAttribute("myShopList", myShopList);
 			return "manage/employeeInfo";
 		}
 		
+		
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
-		memShopMapping.setWorkStatus(updateMemShopMappingDto.getWorkStatus());
-		memShopMapping.setPartTime(memShopMapping.getPartTime());
-		memShopMapping.setTimePay(memShopMapping.getTimePay());
+		memShopMapping.setWorkStatus(memShopMapping.getWorkStatus());
+		memShopMapping.setPartTime(updateMappingDto.getPartTime());
+		memShopMapping.setTimePay(updateMappingDto.getTimePay());
 		Shop shop = shopService.findShop(memShopMapping.getShop().getId());
 		Member member = emplInfoService.findEmplMember(memShopMapping.getMember().getId());
 		
 		try {
-			emplInfoService.updateEmplInfo(mapId, updateMemShopMappingDto, member, shop);
+			emplInfoService.updateEmplInfo(mapId, updateMappingDto, member, shop);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "공지 등록 중 에러가 발생했습니다.");
 			

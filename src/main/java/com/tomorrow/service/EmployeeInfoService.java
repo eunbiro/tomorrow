@@ -118,9 +118,9 @@ public class EmployeeInfoService {
 	}
 	
 	// 매장 직원 정보 내용 update
-	public void updateEmplInfo(Long mapId, MemShopMappingDto updateMemShopMappingDto, Member member, Shop shop) {
+	public void updateEmplInfo(Long mapId, MemShopMappingDto updateMappingDto, Member member, Shop shop) {
 		MemShopMapping memShopMapping = findMapping(mapId);
-		memShopMapping.updateEmplInfo(updateMemShopMappingDto, member, shop);
+		memShopMapping.updateEmplInfo(updateMappingDto, member, shop);
 		
 	}
 

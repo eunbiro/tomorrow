@@ -74,7 +74,6 @@ li {
 			</div>
 			<!-- read -->
 			<div>
-				<form method="post" th:object="${updateMemShopMappingDto}">
 					<div class="row text-center border-bottom" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">
 						<div class="col ">이름</div>
 						<div class="col">전화번호</div>
@@ -90,6 +89,7 @@ li {
 						<div class="fs-5 col" th:value="${emplInfo.workStatus}">
 							<a  style="cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${emplInfo.mapId}" href="#">승인대기</a>
 							<!-- Modal -->
+						<form method="post" th:object="${updateMappingDto}" >
 							<div class="modal fade" th:id="'exampleModal' + ${emplInfo.mapId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							  <div class="modal-dialog">
 							    <div class="modal-content">
@@ -99,11 +99,11 @@ li {
 							      <div class="modal-body">
 							          <div class="mb-3">
 							            <label class="col-form-label">시급 설정:</label>
-							            <input th:value="${emplInfo.timePay}" name="timePay" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}">
+							            <input th:field="*{timePay}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" placeholder="숫자만 입력해주세요.">
 							          </div>
 							          <div class="mb-3">
 							            <label class="col-form-label">근무시간 설정: </label>
-							            <input th:value="${emplInfo.partTime}" name="partTime" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}">
+							            <input th:field="*{partTime}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" placeholder="(예시) 09:00~18:00">
 							          </div>
 							      </div>
 							      <div class="modal-footer">
@@ -113,10 +113,10 @@ li {
 							    </div>
 							  </div>
 							</div>
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+						</form>
 						</div>
 					</div>
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-				</form>
 			</div>
 		</div>
 	</div>
