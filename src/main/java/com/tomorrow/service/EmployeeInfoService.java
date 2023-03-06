@@ -3,6 +3,8 @@ package com.tomorrow.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +23,12 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class EmployeeInfoService {
-	/*
-	 * TODO 일단 오늘 도전해볼 일 (02.27) 1. 매장 정보 불러오기 (1. 접속한 관리자 정보 가져오기 2. 매장 정보 가져오기) ->
-	 * 0228 완료 ㅅㅂ... 컨트롤러 똑바로 2. 직원 정보 불러오기 (근무시간, 시급 = null / 승인대기)
+	/* TODO
+	 * 1. DELETE 버튼 
+	 * 2. workStatus = 2로 바뀌면 role도 바꾸기 
+	 * 3. 시급 0으로 뜨는거 고치기 (직원이 매장 등록하면 null로 들어오기 때문에 0부터 뜸)
+	 * 4. th:text가 왜 input창 아래에 뜨는것임... 이거도 고치기 
+	 * 5. css 손보기 
 	 */
 	private final MemberRepository memberRepository;
 	private final MemShopMapRepository mapRepository;
@@ -32,6 +37,10 @@ public class EmployeeInfoService {
 	@Transactional(readOnly = true)
 	public Member findMember(String userId) {
 		return memberRepository.findByUserId(userId);
+	}
+	
+	public Member findEmplMember(Long memberId) {
+		return memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
 	}
 
 	// 내가 가진 매장 정보를 불러오기 (select)
@@ -109,6 +118,18 @@ public class EmployeeInfoService {
 		}
 		
 		return memShopMappingDtoList;
+	}
+	
+	// 매장 직원 정보 내용 update
+	public void updateEmplInfo(Long mapId, MemShopMappingDto updateMappingDto, Member member, Shop shop) {
+		MemShopMapping memShopMapping = findMapping(mapId);
+		memShopMapping.updateEmplInfo(updateMappingDto, member, shop);
+		
+	}
+
+	public MemShopMapping findMapping(Long mapId) {
+
+		return mapRepository.findById(mapId).orElseThrow(EntityNotFoundException::new);
 	}
 
 }
