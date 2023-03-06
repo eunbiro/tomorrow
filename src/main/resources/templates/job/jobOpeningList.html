@@ -59,19 +59,19 @@
 			<div class="title_t">현재 등록하신 구인공고 리스트 입니다.</div>
 			<div class="jobPosting-info">
 				<div class="jobPosting_list">
-					<th:block th:each="myshop, status : ${myShopList}">
+					<th:block th:each="hire, status : ${hireDtoList}">
 						<div class="posting_info">
 							<div class="posting_info_one">
-								<p>[[${myshop.shopDto.shopNm}]]</p>
-								<p>[[${myshop.shopDto.shopPlace}]]</p>
+								<p>[[${hire.shopDto.shopNm}]]</p>
+								<p>[[${hire.shopDto.shopPlace}]]</p>
 							</div>
 							<div class="posting_info_two">
 								<span>시급</span>
-								<span>[[${#numbers.formatInteger(myshop.timePay, 0, 'COMMA')}]]원</span>
+								<span>[[${#numbers.formatInteger(hire.hirePay, 0, 'COMMA')}]]원</span>
 							</div>
 							<div class="posting_info_three">
 								<button type="button">보기</button>
-								<button type="button" th:value="${myShopList.mappingId}" onclick="deleteMapping(this.value)">삭제</button>
+								<button type="button" onclick="deleteMapping(this.value)">삭제</button>
 							</div>
 						</div>
 					</th:block>
