@@ -205,7 +205,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			<div class="w-100">
 			<p class="fs-6 mt-3">댓글 리스트</p>
 				<form method="post" th:object="${shareTipCommentDto}">
-				    <input type="hidden" id="tipId" th:field="*{shareTipDto.id}" th:value="${shareTipDto.id}">
+				    <input type="hidden" id="tipId" th:field="*{shareTipBoard.id}" th:value="${shareTipDto.id}">
   	   				<input type="hidden" th:field="*{member}" th:value="${member}"/>
 				    
 				    <div class="d-flex justify-content-around rv-cmt-ipt">
