@@ -4,32 +4,76 @@
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>출퇴근기록</title>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
-	$(document).ready(function() {
-		
-		var errorMessage = [[${errorMessage}]];
-		if (errorMessage != null) {
+		$(document).ready(function() {
 			
-			alert(errorMessage);
-		}
-	});
-	
-	// 매장선택 시 해당 매장정보 불러옴
-	$(function() {
-		
-		$('.commute-sel-shop').off().on("change", function() {
-			
-			var shopId = $('.commute-sel-shop').val();
-			
-			var url = "/work/commute/" + shopId;
-			
-			$(location).attr('href', url);
+			var errorMessage = [[${errorMessage}]];
+			if (errorMessage != null) {
+				
+				alert(errorMessage);
+			}
 		});
-	});
+		
+		// 매장선택 시 해당 매장정보 불러옴
+		$(function() {
+			
+			$('.commute-sel-shop').off().on("change", function() {
+				
+				var shopId = $('.commute-sel-shop').val();
+				
+				var url = "/work/commute/" + shopId;
+				
+				$(location).attr('href', url);
+			});
+		});
 	
-	
+		function updateChk(commuteId) {
+			
+			var shopId = $('#shopId').val();
+			var url = "/work/getcommute/" + commuteId;
+			
+			$.ajax({
+				
+				url			: url,
+				type 		: "GET",
+				contentType : "application/json",
+				dataType 	:"Json",
+				cache 		: false,
+				success 	: function(result, status) {
+					
+					if (result < 1) {
+						
+						const updateConf = confirm("1시간 미만의 근무시간은 급여일지에 반영되지 않습니다. 퇴근 하시겠습니까?")
+						
+						if (!updateConf) {
+							
+							location.href = '/work/commute/' + shopId;
+							return;
+						}
+						
+						$('form').attr('action', '/work/commute/' + commuteId).submit();
+					}
+					
+					$('form').attr('action', '/work/commute/' + commuteId).submit();
+				},
+				error 		: function(jqXHR, status, error) {
+
+					if (jqXHR.status == '401') {
+						
+						alert('로그인 후 이용하시오.');
+						location.href = '/member/login';
+					} else {
+						
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+			
+		}
 	</script>
 </th:block>
 <style>
@@ -114,7 +158,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<form method="get" th:object="${commuteDto}">
+		<form method="post" th:object="${commuteDto}">
 			<div class="commute-wrap">
 				<select class="form-select commute-select commute-sel-shop"
 					th:field="*{shopDto.shopId}" id="shopId">
@@ -134,16 +178,13 @@
 					</div>
 					<div th:unless="${#strings.isEmpty(leavingChk?.id)}">
 						<div th:if="${not #strings.isEmpty(leavingChk?.leaving)}">
-							<button class="btn btn-primary" type="submit"
-								th:formaction="@{'/work/commute'}">출근</button>
+							<button class="btn btn-primary" type="submit" th:formaction="@{'/work/commute'}">출근</button>
 						</div>
 
 						<div th:unless="${not #strings.isEmpty(leavingChk?.leaving)}">
-							<button class="btn btn-primary" type="submit"
-								th:formaction="@{'/work/commute/' + ${leavingChk?.id}}">퇴근</button>
+							<button class="btn btn-primary" type="button" th:value="${leavingChk?.id}" onclick="updateChk(this.value)">퇴근</button>
 						</div>
 					</div>
-
 				</div>
 
 				<div>

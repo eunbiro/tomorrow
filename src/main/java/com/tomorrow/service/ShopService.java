@@ -309,6 +309,8 @@ public class ShopService {
 	*/
 	// 채용등록리스트 delete
 	public void deleteMapping(MemShopMapping mappingId) {
-		mapRepository.delete(mappingId);
+		
+		
+//		mapRepository.delete(mappingId);
 	}
 }

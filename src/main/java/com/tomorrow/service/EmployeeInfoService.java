@@ -103,6 +103,7 @@ public class EmployeeInfoService {
 			memShopMappingDto.setTimePay(mapping.getTimePay());
 			memShopMappingDto.setPartTime(mapping.getPartTime());
 			memShopMappingDto.setWorkStatus(mapping.getWorkStatus());
+			memShopMappingDto.setMapId(mapping.getId());
 			
 			memShopMappingDtoList.add(memShopMappingDto);
 		}

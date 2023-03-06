@@ -24,7 +24,6 @@ public interface CommuteRepository extends JpaRepository<Commute, Long>, Queryds
 	
 	@Query(value = "select * from commute where member_id = :memberId and shop_id = :shopId order by working desc", nativeQuery = true)
 	public List<Commute> findCommuteByMemberId(@Param("memberId") Long memberId, @Param("shopId") Long shopId);
-	
+
 	List<Commute> findByMemberIdOrderByIdDesc(Long memberId);
-	
 }

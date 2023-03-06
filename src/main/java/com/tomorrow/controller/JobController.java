@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tomorrow.dto.HireDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
 import com.tomorrow.entity.MemShopMapping;
+import com.tomorrow.service.HireService;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopService;
 
@@ -77,6 +79,10 @@ public class JobController {
 	@GetMapping(value = "/admin/job/openingList")
 	public String jobOpeningList(Model model, Principal principal) {
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		List<HireDto> hireDtoList = HireService.getHireList();
+		
+		//구인공고에서 시급 가져오기
+//		List<HireDto> hireDtoList = hireService
 
 		getSideImg(model, principal);
 		System.out.println(myShopList.toString());

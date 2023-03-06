@@ -21,6 +21,8 @@ public class MemShopMappingDto {
 	
 	private ShopDto shopDto;
 	
+	private Long mapId;
+	
 	private int timePay;
 	
 	private String partTime;

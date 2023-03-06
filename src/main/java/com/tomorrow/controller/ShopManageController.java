@@ -3,10 +3,12 @@ package com.tomorrow.controller;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tomorrow.dto.CommuteDto;
@@ -113,8 +115,8 @@ public class ShopManageController {
 		model.addAttribute("myShopList", myShopList);
 		
 		//전체 직원 근태 리스트
-//		List<Commute> commuteList = commuteService.getCommuteListByShop(shopId);
-//		model.addAttribute("commuteList", commuteList);
+		List<Commute> commuteList = commuteService.getCommuteListByShop(shopId);
+		model.addAttribute("commuteList", commuteList);
 		return "manage/managerCommuteForm";
 	}
 		
@@ -140,9 +142,10 @@ public class ShopManageController {
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);
 		
-		//전체 직원 근태 리스트
+		//전체 직원 급여 리스트
 		List<MemShopMapping> msmList = mapRepository.findByShopId(shopId);
 		List<PayList> payList = payListService.getPayListByMsm(msmList);
+		//payList엔 msmList로 가져온 mapping정보에 담긴 직원들 각각의 급여
 		model.addAttribute("payList", payList);
 		return "manage/managerPayForm";
 	}

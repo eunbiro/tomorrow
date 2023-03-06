@@ -436,7 +436,7 @@ result_section_id {
 	border-bottom: 2px solid black;
 }
 
-.fa-circle-check {
+.id_result_form .fa-circle-check {
 	font-size: 100px;
 	color: #32CD32;
 }

@@ -3,6 +3,7 @@ package com.tomorrow.controller;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,13 +12,19 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
@@ -27,6 +34,7 @@ import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Commute;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
+import com.tomorrow.entity.WorkLog;
 import com.tomorrow.service.CommuteService;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.PayListService;
@@ -42,49 +50,42 @@ public class WorkController {
 	private final CommuteService commuteService;
 	private final MemberService memberService;
 	private final PayListService payListService;
-	
+
 	// 급여일지 페이지
 	@GetMapping(value = "/pay")
 	public String pay(Model model, Principal principal) {
-		
+
 		getSideImg(model, principal);
 
 		List<List<PayListDto>> payList = payListService.getMapShopList(principal.getName());
-		List<PayListDto> workCount = payListService.getWorkCount(payList);
-		
+
 		model.addAttribute("payList", payList);
-		
+
 		return "work/payForm";
 	}
 
-	
-	
-	
 	// 출퇴근기록 페이지
 	@GetMapping(value = "/commute")
 	public String commute(Model model, Principal principal) {
 
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 
-		
 		getSideImg(model, principal);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("commuteDto", new CommuteDto());
 
 		return "work/commuteForm";
 	}
-	
-	
 
 	// GET매장 선택 시 출퇴근기록가져옴
 	@GetMapping(value = "/commute/{shopId}")
 	public String getRegister(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 		getSideImg(model, principal);
 
-		// user_id로 가지고 있는 매장 리스트 뽑아오기 
+		// user_id로 가지고 있는 매장 리스트 뽑아오기
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);
-		
+
 		// 매장 별 출퇴근기록 가져오기
 		ShopDto shopDto = new ShopDto();
 		shopDto.setShopId(shopId);
@@ -96,17 +97,17 @@ public class WorkController {
 		MemberFormDto memberFormDto = new MemberFormDto();
 		memberFormDto.setUserId(principal.getName());
 		List<CommuteDto> myCommuteList = commuteService.getMyCommuteList(principal.getName(), shopId);
-		//List<CommuteDto> commuteList = commuteService.getMyCommuteList(memberFormDto);
+		// List<CommuteDto> commuteList =
+		// commuteService.getMyCommuteList(memberFormDto);
 		model.addAttribute("myCommuteList", myCommuteList);
 
 		// 최근 출근기록 찾아오기
-		CommuteDto leavingChk = commuteService.commuteListchk(principal.getName(), shopId); 
+		CommuteDto leavingChk = commuteService.commuteListchk(principal.getName(), shopId);
 		model.addAttribute("leavingChk", leavingChk);
 
 		return "work/commuteForm";
-	}
-	
 
+	}
 
 	// 사이드바 프로필정보 가져옴
 	public Model getSideImg(Model model, Principal principal) {
@@ -115,7 +116,7 @@ public class WorkController {
 	}
 
 	// 출근 등록
-    @PostMapping(value = "/commute")
+	@PostMapping(value = "/commute")
 	public String commuteCreate(@Valid CommuteDto commuteDto, BindingResult bindingResult, Model model,
 			Principal principal) {
 
@@ -129,24 +130,35 @@ public class WorkController {
 
 		}
 
-		try {			
+		try {
 			LocalDateTime date = LocalDateTime.now();
 			commuteDto.setWorking(date);
 			Member member = shopService.findMember(principal.getName());
 			Shop shop = shopService.findShop(commuteDto.getShopDto().getShopId());
 			Commute commute = Commute.createCommute(commuteDto, member, shop);
-		    commuteService.saveCommute(commute);		    
-		    
+			commuteService.saveCommute(commute);
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("errorMessage", "출근 처리 중 에러가 발생했습니다.");			
+			model.addAttribute("errorMessage", "출근 처리 중 에러가 발생했습니다.");
 			return "redirect:/work/commute/" + commuteDto.getShopDto().getShopId();
 		}
 
 		return "redirect:/work/commute/" + commuteDto.getShopDto().getShopId();
 	}
-    
-    // 퇴근 등록
+
+	// 출근정보 가져오기
+	@GetMapping(value = "/getcommute/{commuteId}")
+	public @ResponseBody ResponseEntity getWorking(@PathVariable("commuteId") Long commuteId, Principal principal) {
+
+		Commute commute = commuteService.findByCommuteId(commuteId);
+		LocalDateTime leaving = LocalDateTime.now();
+		
+		long workTime = ChronoUnit.HOURS.between(commute.getWorking(), leaving);
+		return new ResponseEntity<Long>(workTime, HttpStatus.OK);
+	}
+	
+	// 퇴근 등록
     @PostMapping(value = "/commute/{commuteId}")
     public String commuteUpdate(@PathVariable("commuteId") Long id, @Valid CommuteDto commuteDto, BindingResult bindingResult, Model model,
 			Principal principal) {
@@ -186,6 +198,5 @@ public class WorkController {
 		}
 		return "redirect:/work/commute/" + commuteDto.getShopDto().getShopId();
     }
-    
-    
+
 }

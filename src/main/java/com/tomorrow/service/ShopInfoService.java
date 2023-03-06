@@ -35,6 +35,9 @@ public class ShopInfoService {
 	private final MemShopMapRepository mapRepository;
 	private final ShopImgService shopImgService;
 
+	// TODO 1. 버튼 누르면 workStaus 1에서 2로 바뀌게 만들기 2. 그 다음 시급, 근무시간 입력할 수 있게 하기 
+	// TODO 우선순위는 상태 변경, 그리고 그 이후에 시급, 시간 변경 가능하게 만들기. 
+	
 	// 현재 접속해있는 관리자정보를 불러옴
 	@Transactional(readOnly = true)
 	public Member findMember(String userId) {
@@ -160,4 +163,11 @@ public class ShopInfoService {
 		return shop.getId();
 	}
 
+	/*=====================================================*/
+	/* 직원 상태 변경하는 곳 */
+	public Long updateWorkSatus() {
+		return null;
+	}
+	
+	// TODO: 해야 하는 것 - 1. 직원 상태 변경 2. 시급, 시간 업데이트 3. 엑셀 다운로드 
 }
