@@ -148,14 +148,13 @@ public class JobController {
 		System.out.println(hireDtoList.toString());
 		
 		model.addAttribute("hireDtoList", hireDtoList);
-
-//		model.addAttribute("hireDtoList", hireDtoList);
 		return "job/jobOpeningList";
 	}
 	
-	@DeleteMapping(value = "/job/opening/{mappingId}/delete")
-	public @ResponseBody ResponseEntity<Long> deleteMapping(@PathVariable("mappingId") Long hireId, Principal principal ) {
-		return new ResponseEntity<Long>(hireId, HttpStatus.OK);
+	@DeleteMapping(value = "/job/opening/delete/{Id}")
+	public @ResponseBody ResponseEntity<Long> deleteHire(@PathVariable("Id") Long Id, Principal principal ) {
+		
+			hireService.deleteHire(Id);
+			return new ResponseEntity<Long>(Id, HttpStatus.OK);
 	}
-	
 }

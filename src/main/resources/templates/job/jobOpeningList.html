@@ -10,7 +10,7 @@
 <title>공고목록</title>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
-		function deleteNoticeId(noticeId) {
+		function deleteMapping(Id) {
 			
 			const deleteConf = confirm("삭제하시겠습니까?");
 			
@@ -19,8 +19,8 @@
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
 			
-			var url = "/job/opening/" + mappingId + "/delete";
-			console.log(mappingId);
+			var url = "/job/opening/delete/" + Id;
+			console.log(Id);
 			
 			$.ajax({
 				
@@ -36,7 +36,7 @@
 				success 	: function(result, status) {
 					
 					alert("목록이 삭제되었습니다.");
-					/* location.href = '/shop/info/' + shopId; */
+					location.href = '/admin/job/openingList';
 				},
 				error 		: function(jqXHR, status, error) {
 					if (jqXHR.status == '401') {
@@ -71,7 +71,7 @@
 							</div>
 							<div class="posting_info_three">
 								<button type="button">보기</button>
-								<button type="button" onclick="deleteMapping(this.value)">삭제</button>
+								<button type="button" th:value="${hire.Id}" onclick="deleteMapping(this.value)">삭제</button>
 							</div>
 						</div>
 					</th:block>
@@ -79,7 +79,6 @@
 			</div>
 		</div>
 	</div>
-	
 </body>
 
 </html>

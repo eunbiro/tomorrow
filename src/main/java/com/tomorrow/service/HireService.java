@@ -3,6 +3,7 @@ package com.tomorrow.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -62,6 +63,7 @@ public class HireService {
 			hireDto.setShopDto(getShop(hire.getShop()));
 			hireDto.setMemberFormDto(getMember(hire.getMember()));
 			hireDto.setHirePay(hire.getHirePay());
+			hireDto.setId(hire.getId());
 			
 			
 			hireDtoList.add(hireDto);
@@ -93,5 +95,12 @@ public class HireService {
 			memberFormDto.setUserNm(member.getUserNm());
 
 			return memberFormDto;
+		}
+
+		public void deleteHire(Long hireId) {
+			
+			Hire hire = hireRepository.findById(hireId).orElseThrow(EntityNotFoundException::new);
+			hireRepository.delete(hire);
+			
 		}
 }
