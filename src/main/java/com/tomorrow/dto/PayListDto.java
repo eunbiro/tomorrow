@@ -2,7 +2,6 @@ package com.tomorrow.dto;
 
 import org.modelmapper.ModelMapper;
 
-import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.PayList;
 import com.tomorrow.dto.PayListDto;
 import lombok.Getter;
@@ -17,6 +16,8 @@ public class PayListDto {
 	
 	private int dayPay;
 	
+	private int workDays;
+	
 	private String regTime;
 	
 	private int monthPay;
@@ -24,6 +25,10 @@ public class PayListDto {
 	private ShopDto shopDto;
 	
 	public static ModelMapper modelMapper = new ModelMapper();
+	
+	public PayList createPayList() {
+		return modelMapper.map(this, PayList.class);
+	}
 
 	public static PayListDto of(PayList payList) {
 		return modelMapper.map(payList, PayListDto.class);

@@ -11,21 +11,21 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.tomorrow.dto.ReviewDto;
+import com.tomorrow.dto.ShareTipBoardDto;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "review")
+@Table(name = "share_tip_board")
 @Getter
 @Setter
 @ToString
-public class Review extends BaseEntity {
+public class ShareTipBoard extends BaseEntity {
 
 	@Id
-	@Column(name = "review_id")
+	@Column(name = "tip_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;						// 매장리뷰 식별번호
 	
@@ -38,15 +38,15 @@ public class Review extends BaseEntity {
 	private Shop shop;						// 매장코드 FK
 	
 	@Column(length = 50, nullable = false)
-	private String reviewTitle;				// 매장리뷰 제목
+	private String tipTitle;				// 매장리뷰 제목
 	
 	@Lob
 	@Column(nullable = false)
-	private String reviewCont;				// 매장리뷰 내용
+	private String tipCont;				// 매장리뷰 내용
 	
-	public void updateReview(ReviewDto reviewDto) {
+	public void updateTip(ShareTipBoardDto shareTipBoardDto) {
 		
-		this.reviewTitle = reviewDto.getReviewTitle();
-		this.reviewCont = reviewDto.getReviewCont();
+		this.tipTitle = shareTipBoardDto.getTipTitle();
+		this.tipCont = shareTipBoardDto.getTipCont();
 	}
 }

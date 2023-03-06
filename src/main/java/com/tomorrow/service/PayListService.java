@@ -157,15 +157,29 @@ public class PayListService {
 	
 	//매장별 급여 리스트 가져오기 
 	public List<PayListDto> getPayListByMsm(List<MemShopMapping> msmList){
-		   List<PayListDto> payListDto = new ArrayList<PayListDto>();	
+	   List<PayListDto> payListDto = new ArrayList<PayListDto>();	
 		
-		for(MemShopMapping msm : msmList) {
-			PayListDto pl = new PayListDto();
-			MemShopMappingDto msmd =  MemShopMappingDto.of(msm);
-			pl.setMemShopMappingDto(msmd);
-			payListDto.add(pl);
+		for(MemShopMapping memShopMapping : msmList) {
+			PayListDto pld = new PayListDto();
+			MemShopMappingDto memShopMappingDto  = new MemShopMappingDto();
+			memShopMappingDto.setMapId(memShopMapping.getId());
+			memShopMappingDto.setMemberFormDto(MemberFormDto.of(memShopMapping.getMember()));
+			memShopMappingDto.setShopDto(ShopDto.of(memShopMapping.getShop()));
+			memShopMappingDto.setTimePay(memShopMapping.getTimePay());
+			memShopMappingDto.setPartTime(memShopMapping.getPartTime());
+			memShopMappingDto.setWorkStatus(2);
+			pld.setMemShopMappingDto(memShopMappingDto);
+			pld.setWorkDays(getWorkDays(memShopMapping));
+			payListDto.add(pld);
 		}
 		
 		return payListDto;
+	}
+	
+	public int getWorkDays(MemShopMapping msm) {
+		List<Commute> commuteListByMember = commuteRepository.findCommuteByMemberId(msm.getMember().getId(), msm.getShop().getId());
+		int workDays = commuteListByMember.size();
+		
+		return workDays;
 	}
 }

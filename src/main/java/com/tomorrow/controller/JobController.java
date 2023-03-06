@@ -1,26 +1,31 @@
 package com.tomorrow.controller;
 
 import java.security.Principal;
-import java.text.DecimalFormat;
 import java.util.List;
 
-import javax.validation.Valid;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import javax.validation.Valid;
+
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.HireDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
+import com.tomorrow.service.HireService;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.Hire;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Shop;
+import com.tomorrow.repository.HireRepository;
 import com.tomorrow.service.JobService;
 import com.tomorrow.service.MemberService;
 import com.tomorrow.service.ShopInfoService;
@@ -35,6 +40,7 @@ public class JobController {
 	private final MemberService memberService;
 	private final ShopInfoService shopInfoService;
 	private final JobService jobService;
+	private final HireService hireService;
 
 	// 사이드바 프로필정보 가져옴
 	public Model getSideImg(Model model, Principal principal) {
@@ -123,29 +129,31 @@ public class JobController {
 	}
 
 	// 알바신청리스트 페이지
-	@GetMapping(value = "admin/job/list")
-	public String jobList(Model model, Principal principal) {
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-
+	@GetMapping(value = "/admin/job/list/{shop_id}")
+	public String jobList(Model model, Principal principal, @PathVariable("shopId") Long shopId) {
+		
 		getSideImg(model, principal);
-
-		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("payListDto", new PayListDto());
-
+		
 		return "job/jobList";
 	}
 
 	// 채용등록리스트 페이지
 	@GetMapping(value = "/admin/job/openingList")
 	public String jobOpeningList(Model model, Principal principal) {
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		
+		List<HireDto> hireDtoList = hireService.getHire(principal.getName());
 
 		getSideImg(model, principal);
-		System.out.println(myShopList.toString());
-
-		model.addAttribute("myShopList", myShopList);
-//		model.addAttribute("payListDto", new PayListDto());
+		System.out.println(hireDtoList.toString());
+		
+		model.addAttribute("hireDtoList", hireDtoList);
 		return "job/jobOpeningList";
 	}
-
+	
+	@DeleteMapping(value = "/job/opening/delete/{Id}")
+	public @ResponseBody ResponseEntity<Long> deleteHire(@PathVariable("Id") Long Id, Principal principal ) {
+		
+			hireService.deleteHire(Id);
+			return new ResponseEntity<Long>(Id, HttpStatus.OK);
+	}
 }

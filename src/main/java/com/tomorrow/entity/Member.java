@@ -87,4 +87,7 @@ public class Member extends BaseEntity {
 		String passwordEncode = passwordEncoder.encode(password);
 		this.password = passwordEncode;
 	}
+	public void updatepNum(String pNum) {
+		this.pNum=pNum;
+	}
 }

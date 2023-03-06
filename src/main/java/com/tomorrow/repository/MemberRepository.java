@@ -21,10 +21,14 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 	// 비밀번호 수정 전 힌트 맞추기
 	@Query("select m from Member m where m.hintA=:hintA and m.hintQ=:hintQ and m.userId=:userId")
-	public MemberFormDto findHint(@Param("hintA") String hintA, @Param("hintQ") String hintQ,
-			@Param("userId") String userId);
+	public MemberFormDto findHint(@Param("hintA") String hintA, @Param("hintQ") String hintQ, @Param("userId") String userId);
 
 	// userId로 memberId 찾기
 	@Query(value = "select member_id from member where user_id = :userId", nativeQuery = true)
 	public Member findMemberId(@Param("userId") String userId);
+
+	// memberId로 Member 정보 찾기?
+	@Query(value = "select * from member where memberId = :memberId", nativeQuery = true)
+	public Member findByEmplMemberId(@Param("memberId") Long memberId);
+	
 }
