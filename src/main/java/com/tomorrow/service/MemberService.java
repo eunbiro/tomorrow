@@ -118,5 +118,15 @@ public class MemberService implements UserDetailsService {
 		//dto에 적용시킬 건 password 뿐이기 때문에 memberFormDto.getPassword()로 쓴다
 		member.updatePassword(memberFormDto.getPassword(), passwordEncoder);
 	}
-	
+	public void newPasswordpNum(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		
+		//현재 dto에는 로그인 아이디 데이터가 흐르기 떄문에 findByUserId를 쓴다
+		Member member = memberRepository.findByUserId(memberFormDto.getUserId());
+		
+		//dto에 적용시킬 건 password 뿐이기 때문에 memberFormDto.getPassword()로 쓴다
+		member.updatePassword(memberFormDto.getPassword(), passwordEncoder);
+		member.updatepNum(memberFormDto.getPNum());
+	}
+
+
 }
