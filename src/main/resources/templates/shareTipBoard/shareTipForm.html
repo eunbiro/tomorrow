@@ -4,7 +4,7 @@
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
-<title>리뷰작성</title>
+<title>정보공유 작성</title>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
 		$(document).ready(function(){
@@ -141,7 +141,7 @@
 				</div>
 	   			<!-- 수정 -->
 	   			<div th:if="${not #lists.isEmpty(shareTipBoardDto.shareTipImgDtoList)}">
-					<div th:each="tipImgDto, status: ${shareTipBoardDto.tipImgDtoList}">
+					<div th:each="tipImgDto, status: ${shareTipBoardDto.shareTipImgDtoList}">
 						<div class="my-3 fs-6">
 	  						<label for="formFile" class="form-label ms-3 custom-file-label" th:text="${not #strings.isEmpty(tipImgDto.tipOriImgNm)} ? ${tipImgDto.tipOriImgNm} : '게시판이미지' + ${status.index+1}"></label>
 	  						<input type="hidden" name="tipImgIds" th:value="${tipImgDto.id}">
@@ -157,7 +157,7 @@
 					</div> 
 					<div class="ms-auto" th:unless="${#strings.isEmpty(shareTipBoardDto.id)}">
 						<button th:formaction="@{'/sharetip/update/' + ${shareTipBoardDto.id} }" type="submit" class="mx-auto fs-6 px-4 py-2 rv-saveBtn">수정</button>
-						<button type="button" th:onclick="|location.href='@{/sharetip/{tipId}(haretip = ${shareTipBoardDto.id})}'|" class="mx-auto fs-6 px-4 py-2 rv-saveBtn">취소</button>
+						<button type="button" th:onclick="|location.href='@{/sharetip/{tipId}(sharetip = ${shareTipBoardDto.id})}'|" class="mx-auto fs-6 px-4 py-2 rv-saveBtn">취소</button>
 					</div>
 				</div>
 				

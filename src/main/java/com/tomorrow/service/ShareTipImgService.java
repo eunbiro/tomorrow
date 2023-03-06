@@ -55,7 +55,7 @@ public class ShareTipImgService {
 			
 			String oriImgNm = shareTipImgFile.getOriginalFilename();
 			String imgNm = fileService.uploadFile(sharetipImgLocation, oriImgNm, shareTipImgFile.getBytes());
-			String imgUrl = "/images/review/" + imgNm;
+			String imgUrl = "/images/sharetip/" + imgNm;
 			
 			savedShareTipImg.updateReviewImg(oriImgNm, imgNm, imgUrl);
 		}
