@@ -28,7 +28,7 @@ public class PayList extends BaseEntity  {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "map_id")
-	private MemShopMapping memShopMapping;					// 관리자 아이디 FK
+	private MemShopMapping memShopMapping;	// 관리자 아이디 FK
 	
 	private int dayPay;
 	
