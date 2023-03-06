@@ -62,59 +62,70 @@ public class JobController {
 		return "job/jobNew";
 	}
 
-	//TODO 셀렉트 매장 정보 불러오기 에러,공고 등록 유효성검사 완료
+	// TODO 셀렉트 선택 안됨, 임의로 shopId 값 넣고 등록 가능
 	// 구인공고 등록 매장 정보 불러오기
 	@GetMapping(value = "/admin/job/new/{shopId}")
 	public String getShopJobNew(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
-		
-		getSideImg(model, principal);
-		
-		List<MemShopMappingDto> myShopList = jobService.getMyShop(principal.getName());
 
-        Shop shop = shopInfoService.findShop(shopId);
-        ShopDto shopDto = jobService.getShop(shop);
-		
-        HireDto hireDto = new HireDto();
-        hireDto.setShopDto(shopDto);
-        
+		getSideImg(model, principal);
+
+		List<MemShopMappingDto> myShopList = shopInfoService.getMyShop(principal.getName());
+
+		Shop shop = jobService.findShop(shopId);
+		ShopDto shopDto = jobService.getShop(shop);
+
+		shopDto.setShopId(shopId);
+		HireDto hireDto = new HireDto();
+		hireDto.setShopDto(shopDto);
+
 		model.addAttribute("myShopList", myShopList);
-	    model.addAttribute("shopDto", shopDto);
-	    model.addAttribute("hireDto", hireDto);
-		
+		model.addAttribute("shopDto", shopDto);
+		model.addAttribute("hireDto", hireDto);
 
 		return "job/jobNew";
 	}
 
 	// 구인공고 등록하기
-    @PostMapping(value = "/admin/job/new")
-    public String jobHireNew(@Valid HireDto hireDto, BindingResult bindingResult, Model model, Principal principal) {
-	
-    	if (bindingResult.hasErrors()) {
-    		
-    		List<MemShopMappingDto> myShopList = jobService.getMyShop(principal.getName());
-    		getSideImg(model, principal);
-    		model.addAttribute("myShopList", myShopList); 
-    		model.addAttribute("hireDto", hireDto);
-    		return "job/jobNew";
-    	}
-    	
-    	try {
-    		getSideImg(model, principal);
-         	Shop shop = shopService.findShop(hireDto.getShopDto().getShopId());
-    		Member member = shopService.findMember(principal.getName());
-    		Hire hire = Hire.createHire(hireDto, member, shop);
+	@PostMapping(value = "/admin/job/new")
+	public String jobHireNew(@Valid HireDto hireDto, BindingResult bindingResult, Model model, Principal principal) {
+
+		if (bindingResult.hasErrors()) {
+
+			List<MemShopMappingDto> myShopList = jobService.getMyShop(principal.getName());
+			getSideImg(model, principal);
+			model.addAttribute("myShopList", myShopList);
+			model.addAttribute("hireDto", hireDto);
+			return "job/jobNew";
+		}
+
+		try {
+			getSideImg(model, principal);
+			Shop shop = shopService.findShop(hireDto.getShopDto().getShopId());
+			Member member = shopService.findMember(principal.getName());
+			Hire hire = Hire.createHire(hireDto, member, shop);
 			jobService.saveHire(hire);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMessage", "구인 등록 중 에러가 발생했습니다.");
 			return "job/jobNew";
 		}
-    	
-    	return "job/jobOpeningList";
- 
-    	
-    }
+
+		return "job/jobOpeningList";
+
+	}
+
+	// 구인공고 수정페이지 보기
+//	@GetMapping(value = "/admin/job/new/{hireId}")
+//	public String jobHireDtl(@PathVariable("hireId") Long hireId, Model model) {
+//		try {
+//
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//
+//		return "job/jobNew";
+//	}
 
 	// 구인공고뷰 페이지
 	@GetMapping(value = "/job/view")
@@ -131,29 +142,29 @@ public class JobController {
 	// 알바신청리스트 페이지
 	@GetMapping(value = "/admin/job/list/{shop_id}")
 	public String jobList(Model model, Principal principal, @PathVariable("shopId") Long shopId) {
-		
+
 		getSideImg(model, principal);
-		
+
 		return "job/jobList";
 	}
 
 	// 채용등록리스트 페이지
 	@GetMapping(value = "/admin/job/openingList")
 	public String jobOpeningList(Model model, Principal principal) {
-		
+
 		List<HireDto> hireDtoList = hireService.getHire(principal.getName());
 
 		getSideImg(model, principal);
 		System.out.println(hireDtoList.toString());
-		
+
 		model.addAttribute("hireDtoList", hireDtoList);
 		return "job/jobOpeningList";
 	}
-	
+
 	@DeleteMapping(value = "/job/opening/delete/{Id}")
-	public @ResponseBody ResponseEntity<Long> deleteHire(@PathVariable("Id") Long Id, Principal principal ) {
-		
-			hireService.deleteHire(Id);
-			return new ResponseEntity<Long>(Id, HttpStatus.OK);
+	public @ResponseBody ResponseEntity<Long> deleteHire(@PathVariable("Id") Long Id, Principal principal) {
+
+		hireService.deleteHire(Id);
+		return new ResponseEntity<Long>(Id, HttpStatus.OK);
 	}
 }
