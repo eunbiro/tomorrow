@@ -144,8 +144,6 @@ public class ShopManageController {
 		
 		//해당 매장의 전체 직원 급여 리스트
 		List<MemShopMapping> msmList = mapRepository.findByShopId(shopId);
-		
-		//앞단에 뿌릴 dto에 담기
 		List<PayListDto> payListDto = payListService.getPayListByMsm(msmList);
 		//payList엔 msmList로 가져온 mapping정보에 담긴 직원들 각각의 급여
 		model.addAttribute("payListDto", payListDto);

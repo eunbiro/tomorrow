@@ -16,6 +16,8 @@ public class PayListDto {
 	
 	private int dayPay;
 	
+	private int workDays;
+	
 	private String regTime;
 	
 	private int monthPay;
@@ -23,6 +25,10 @@ public class PayListDto {
 	private ShopDto shopDto;
 	
 	public static ModelMapper modelMapper = new ModelMapper();
+	
+	public PayList createPayList() {
+		return modelMapper.map(this, PayList.class);
+	}
 
 	public static PayListDto of(PayList payList) {
 		return modelMapper.map(payList, PayListDto.class);
