@@ -70,8 +70,10 @@ public class MypageController {
 	public String myPagePasswordForm(Model model, Principal principal) {
 		Member member = findMember(principal.getName());
 		getSideImg(model, principal);
+		MemberFormDto memberFormDto = new MemberFormDto();
+		memberFormDto.setPNum(member.getPNum());
 		model.addAttribute("member",member);
-		model.addAttribute("memberFormDto", new MemberFormDto());
+		model.addAttribute("memberFormDto", memberFormDto);
 		return "member/myPagePassword";
 	}
   
