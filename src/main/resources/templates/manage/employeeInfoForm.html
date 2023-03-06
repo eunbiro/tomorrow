@@ -87,34 +87,35 @@ li {
 						<div class="fs-5 col" th:text="${emplInfo.partTime}"></div>
 						<div class="fs-5 col" th:text="${emplInfo.timePay}"></div>
 						<div class="fs-5 col" th:value="${emplInfo.workStatus}">
-							<a  style="cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${emplInfo.mapId}" href="#">승인대기</a>
+							<a th:if="${emplInfo.workStatus} == 1" style="cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${emplInfo.mapId}" href="#">승인대기</a>
+							<a th:if="${emplInfo.workStatus} == 2"style="cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${emplInfo.mapId}" href="#">승인완료</a>
 							<!-- Modal -->
-						<form method="post" th:object="${updateMappingDto}" >
-							<div class="modal fade" th:id="'exampleModal' + ${emplInfo.mapId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							  <div class="modal-dialog">
-							    <div class="modal-content">
-							      <div class="modal-header">
-							        <h1 class="modal-title fs-5" id="exampleModalLabel">직원 정보(시급, 근무시간) 수정</h1>
-							      </div>
-							      <div class="modal-body">
-							          <div class="mb-3">
-							            <label class="col-form-label">시급 설정:</label>
-							            <input th:field="*{timePay}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" placeholder="숫자만 입력해주세요.">
-							          </div>
-							          <div class="mb-3">
-							            <label class="col-form-label">근무시간 설정: </label>
-							            <input th:field="*{partTime}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" placeholder="(예시) 09:00~18:00">
-							          </div>
-							      </div>
-							      <div class="modal-footer">
-							        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">삭제하기</button>
-							        <button type="submit" th:formaction="@{'/admin/manage/employeeInfo/' + ${emplInfo.mapId} + '/update'}" class="btn btn-primary">수정 완료</button>
-							      </div>
-							    </div>
-							  </div>
-							</div>
-							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-						</form>
+							<form method="post" th:object="${updateMappingDto}" >
+								<div class="modal fade" th:id="'exampleModal' + ${emplInfo.mapId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h1 class="modal-title fs-5" id="exampleModalLabel">직원 정보(시급, 근무시간) 수정</h1>
+								      </div>
+								      <div class="modal-body">
+								          <div class="mb-3">
+								            <label class="col-form-label">시급 설정:</label>
+								            <input th:text="${emplInfo.timePay}" name="timePay" th:field="*{timePay}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" placeholder="숫자만 입력해주세요.">
+								          </div>
+								          <div class="mb-3">
+								            <label class="col-form-label">근무시간 설정: </label>
+								            <input th:text="${emplInfo.partTime}" name="partTime" th:field="*{partTime}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" placeholder="(예시) 09:00~18:00">
+								          </div>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">삭제하기</button>
+								        <button type="submit" th:formaction="@{'/admin/manage/employeeInfo/' + ${emplInfo.mapId} + '/update'}" class="btn btn-primary">수정 완료</button>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+							</form>
 						</div>
 					</div>
 			</div>
