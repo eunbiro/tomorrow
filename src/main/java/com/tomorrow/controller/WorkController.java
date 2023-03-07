@@ -84,13 +84,14 @@ public class WorkController {
 
 		// user_id로 가지고 있는 매장 리스트 뽑아오기
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-		model.addAttribute("myShopList", myShopList);
 
 		// 매장 별 출퇴근기록 가져오기
 		ShopDto shopDto = new ShopDto();
 		shopDto.setShopId(shopId);
 		CommuteDto commuteDto = new CommuteDto();
 		commuteDto.setShopDto(shopDto);
+
+		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("commuteDto", commuteDto);
 
 		// 출퇴근기록 뽑아오기

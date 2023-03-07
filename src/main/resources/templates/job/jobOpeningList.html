@@ -70,7 +70,7 @@
 								<span>[[${#numbers.formatInteger(hire.hirePay, 0, 'COMMA')}]]원</span>
 							</div>
 							<div class="posting_info_three">
-								<button type="button">보기</button>
+								<button type="button" th:action="@{'/admin/job/new/' + {hire.shopDto.shopId}}">보기</button>
 								<button type="button" th:value="${hire.Id}" onclick="deleteMapping(this.value)">삭제</button>
 							</div>
 						</div>
