@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
+import com.tomorrow.entity.Notice;
+import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class MemberService implements UserDetailsService {
 	
 	private final FileService fileService;
 	
+	private final ShopCreateService shopCreateService;
 	private final MemberRepository memberRepository;
 
 	@Override
@@ -123,5 +126,10 @@ public class MemberService implements UserDetailsService {
 		member.updatepNum(memberFormDto.getPNum());
 	}
 
+	// 회원아이디 삭제
+	public void deleteMember(Member member) {
 
+		shopCreateService.deleteMapId(member.getId());
+		memberRepository.delete(member);
+	}
 }

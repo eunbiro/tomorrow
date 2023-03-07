@@ -40,7 +40,7 @@ public class ShopInfoController {
 	
 	/* TODO
 	 * 1. 조회하는 HTML form 태그 쓰는 거 아니라고 했던 것 같으니 나중에 확실하게 알게되면 수정
-	 * 2. 지도랑 사업자번호 API 가져오기 ㅎㅎ 
+	 * 2. 지도 가져오기 ㅎㅎ 
 	 * 3. 사진 누르면 원본 크기로 뜨게하는거 도전  
 	 */
 
@@ -76,7 +76,7 @@ public class ShopInfoController {
 	/* 매장정보 수정 페이지 */
 	
 	// 매장정보 수정 페이지 보기 
-	@PostMapping(value = "/shop/shopInfoEdit/{shopId}")
+	@GetMapping(value = "/shop/shopInfoEdit/{shopId}")
 	public String shopDtl(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 		try {
 			getSideImg(model, principal);
