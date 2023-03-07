@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.tomorrow.auth.PrincipalOauth2UserService;
 import com.tomorrow.service.MemberService;
 
 
@@ -20,6 +21,9 @@ public class SecurityConfig {
 	@Autowired
 	MemberService memberService;
 	
+	@Autowired
+	PrincipalOauth2UserService pricipalOauth2UserService;
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
@@ -28,11 +32,20 @@ public class SecurityConfig {
 			.loginPage("/member/login")		// 로그인 페이지 url설정
 			.defaultSuccessUrl("/")				// 로그인 성공 시 이동 할 페이지
 			.usernameParameter("userId")			// 로그인 시 사용 할 파라메터 이름
+			.passwordParameter("password")
+			.loginProcessingUrl("/login")
 			.failureUrl("/member/login/error")	// 로그인 실패 시 이동 할 url
-			.and()
+		.and()
 			.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))	// 로그아웃 url
-			.logoutSuccessUrl("/");				// 로그아웃 성공 시 이동 할 url
+			.logoutSuccessUrl("/")				// 로그아웃 성공 시 이동 할 url
+		.and()
+			.oauth2Login()
+			.loginPage("/members/login")
+			.defaultSuccessUrl("/")
+			.failureUrl("/members/login")
+			.userInfoEndpoint()
+			.userService(pricipalOauth2UserService);
 		
 		// 페이지의 접근에 관한 설정
 		http.authorizeRequests()
@@ -48,11 +61,6 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
-	
-	@Bean		// @Configuration 얘랑 주로 같이 사용하고 싱글톤이 보장된다.
-	public PasswordEncoder passwordEncoder() { // 비밀번호 암호화를 위해서 사용하는 빈(Bean)
-		return new BCryptPasswordEncoder();
-	}
-	
+
 	
 }

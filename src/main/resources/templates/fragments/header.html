@@ -49,6 +49,12 @@
 								</div>
 							</li>
 						</ul>
+						<div class="accordion-collapse collapse">
+							<div class="accordion-body bg-dark">
+					      		<a sec:authorize="hasAnyAuthority('ROLE_USER') or hasAnyAuthority('ROLE_ALBA')" class="nav-link acABtn py-2 ps-5" href="/shop/search">매장등록</a>
+					      		<a sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="nav-link acABtn py-2 ps-5" href="/shopcreate/createshopp">매장생성</a>
+							</div>
+					    </div>
 						<div class="accordion accordion-flush" id="accordionFlushExample">
 							<div class="accordion-item acTapBtn" sec:authorize="isAuthenticated()">
 							    <h2 class="accordion-header" id="flush-headingOne">
@@ -77,7 +83,7 @@
 									</div>
 							    </div>
 							</div>
-							<div class="accordion-item acTapBtn" sec:authorize="isAuthenticated()">
+							<div class="accordion-item acTapBtn" sec:authorize="hasAnyAuthority('ROLE_ALBA')">
 							    <h2 class="accordion-header" id="flush-headingThree">
 									<button class="accordion-button bg-dark acBtn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
 										매장
