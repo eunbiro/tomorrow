@@ -7,9 +7,26 @@
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>근무일지</title>
-
+<script type="text/javascript" src="/js/loadingoverlay.min.js"></script>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
+		$(function() {
+			
+			$.LoadingOverlaySetup({
+				background		: "rgba(0, 0, 0, 0.3)",
+				image			: "",
+				maxSize			: 60,
+				fontawesome		: "fas fa-carrot fa-spin",
+				color			: "rgba(252, 162, 17, 0.8)",
+			});
+			
+			$.LoadingOverlay("show");
+			
+			setTimeout(function(){
+			    $.LoadingOverlay("hide");
+			}, 2000);
+		});
+		
 		$(document).ready(function() {
 			
 			var errorMessage = [[${errorMessage}]];

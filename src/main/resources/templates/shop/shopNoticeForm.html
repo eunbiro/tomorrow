@@ -7,9 +7,26 @@
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>매장공지</title>
-
+<script type="text/javascript" src="/js/loadingoverlay.min.js"></script>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
+		$(function() {
+			
+			$.LoadingOverlaySetup({
+				background		: "rgba(0, 0, 0, 0.3)",
+				image			: "",
+				maxSize			: 60,
+				fontawesome		: "fas fa-carrot fa-spin",
+				color			: "rgba(252, 162, 17, 0.8)",
+			});
+			
+			$.LoadingOverlay("show");
+			
+			setTimeout(function(){
+			    $.LoadingOverlay("hide");
+			}, 2000);
+		});
+	
 		$(document).ready(function() {
 			
 			var errorMessage = [[${errorMessage}]];
@@ -41,7 +58,7 @@
 			$('.noti-sel-shop').off().on("change", function() {
 				
 				var chkStatus = $(this).val();
-				
+				console.log(chkStatus);
 				if (chkStatus == "") return;
 				
 				var shopId = $('.noti-sel-shop').val();
@@ -268,6 +285,7 @@
     	 	resize: none;
     	 	border-radius: 5px;
     	 }
+		
 	</style>
 	
 	<style media="all and (max-width: 1200px)">
@@ -286,7 +304,6 @@
 <body>
 	<div layout:fragment="content" id="cont-wrap">
 		<div class="container-lg d-flex flex-column text-center noti-wrap">
-		
 			<form class="noti-form my-4 mx-auto container-md" method="post" th:object="${noticeDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">매장공지</a>
