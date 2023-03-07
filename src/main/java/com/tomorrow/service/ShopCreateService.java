@@ -44,5 +44,14 @@ public class ShopCreateService {
 			
 			return shop.getId(); 
 		}
+		public void deleteMapId(Long memberId) {
+			
+			List<MemShopMapping> memShopMappingList = memShopMapRepository.findByMemberId(memberId);
+			
+			for (MemShopMapping memShopMapping : memShopMappingList) {
+				
+				memShopMapRepository.delete(memShopMapping);
+			}
+		}
 		
 }
