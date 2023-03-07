@@ -2,6 +2,7 @@ package com.tomorrow.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,7 +19,7 @@ public class WorkLogDto {
 	
 	private ShopDto shopDto;
 	
-	@NotNull
+	@NotBlank
 	@Size(min = 1, message = "내용은 필수 입력 값입니다.")
 	private String logCont;
 	

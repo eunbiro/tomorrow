@@ -11,18 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.NoticeDto;
-import com.tomorrow.dto.NoticeLikeDto;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.dto.WorkLogDto;
 import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
-import com.tomorrow.entity.NoticeLike;
 import com.tomorrow.entity.Shop;
 import com.tomorrow.entity.WorkLog;
 import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
-import com.tomorrow.repository.NoticeLikeRepository;
 import com.tomorrow.repository.ShopRepository;
 import com.tomorrow.repository.WorkLogRepository;
 import com.tomorrow.repository.NoticeRepository;
@@ -35,7 +32,6 @@ import lombok.RequiredArgsConstructor;
 public class ShopService {
 
 	private final NoticeRepository noticeRepository;
-	private final NoticeLikeRepository noticeLikeRepository;
 	private final WorkLogRepository workLogRepository;
 	private final MemberRepository memberRepository;
 	private final ShopRepository shopRepository;
@@ -43,9 +39,9 @@ public class ShopService {
 
 	// 매장공지 내용을 가져옴
 	@Transactional(readOnly = true)
-	public List<NoticeDto> getNoticeList(String shopId) {
+	public List<NoticeDto> getNoticeList(Long shopId) {
 
-		List<Notice> noticList = noticeRepository.findByShopIdOrderByIdDesc(Long.parseLong(shopId));
+		List<Notice> noticList = noticeRepository.findByShopIdOrderByIdDesc(shopId);
 		List<NoticeDto> noticeDtoList = new ArrayList<>();
 
 		for (Notice notice : noticList) {
@@ -55,8 +51,8 @@ public class ShopService {
 			noticeDto.setNoticeId(notice.getId());
 			noticeDto.setMemberFormDto(getMember(notice.getMember()));
 			noticeDto.setNoticeCont(notice.getNoticeCont());
-			noticeDto.setNotiLike(getNotiLikeList(notice.getId()));
-			noticeDto.setNoticeLikeDto(getNoticeLikeDto(notice.getId(), notice.getMember().getId()));
+//			noticeDto.setNotiLike(getNotiLikeList(notice.getId()));
+//			noticeDto.setNoticeLikeDto(getNoticeLikeDto(notice.getId(), notice.getMember().getId()));
 			noticeDto.setRegTime(notice.getRegTime());
 			noticeDto.setUpdateTime(notice.getUpDateTime());
 
@@ -66,28 +62,28 @@ public class ShopService {
 		return noticeDtoList;
 	}
 
-	// 공지번호로 좋아요 갯수 가져옴
-	@Transactional(readOnly = true)
-	public int getNotiLikeList(Long noticeId) {
-
-		List<NoticeLike> noticeLikeList = noticeLikeRepository.findByNoticeId(noticeId).orElse(null);
-
-		return noticeLikeList.size();
-	}
-
-	// 공지번호랑 회원번호로 좋아요 정보 가져옴
-	public NoticeLikeDto getNoticeLikeDto(Long noticeId, Long memberId) {
-
-		NoticeLike noticeLike = noticeLikeRepository.findByNoticeIdAndMemberId(noticeId, memberId).orElse(null);
-
-		NoticeLikeDto noticeLikeDto = new NoticeLikeDto();
-
-		if (noticeLike != null) {
-
-			noticeLikeDto.setNotiLikeId(noticeLike.getId());
-		}
-		return noticeLikeDto;
-	}
+//	// 공지번호로 좋아요 갯수 가져옴
+//	@Transactional(readOnly = true)
+//	public int getNotiLikeList(Long noticeId) {
+//
+//		List<NoticeLike> noticeLikeList = noticeLikeRepository.findByNoticeId(noticeId).orElse(null);
+//
+//		return noticeLikeList.size();
+//	}
+//
+//	// 공지번호랑 회원번호로 좋아요 정보 가져옴
+//	public NoticeLikeDto getNoticeLikeDto(Long noticeId, Long memberId) {
+//
+//		NoticeLike noticeLike = noticeLikeRepository.findByNoticeIdAndMemberId(noticeId, memberId).orElse(null);
+//
+//		NoticeLikeDto noticeLikeDto = new NoticeLikeDto();
+//
+//		if (noticeLike != null) {
+//
+//			noticeLikeDto.setNotiLikeId(noticeLike.getId());
+//		}
+//		return noticeLikeDto;
+//	}
 
 	// 내가 가지고 있는 매장정보를 불러옴
 	@Transactional(readOnly = true)
@@ -180,24 +176,24 @@ public class ShopService {
 		return noticeRepository.findById(noticeId).orElseThrow(EntityNotFoundException::new);
 	}
 
-	// 공지 좋아요 찾기
-	@Transactional(readOnly = true)
-	public NoticeLike findNoticeLike(Long notiLikeId) {
-
-		return noticeLikeRepository.findById(notiLikeId).orElseThrow(EntityNotFoundException::new);
-	}
-
-	// 매장공지 좋아요 insert
-	public NoticeLike saveNoticeLike(NoticeLike noticeLike) {
-
-		return noticeLikeRepository.save(noticeLike);
-	}
-
-	// 매장공지 좋아요 delete
-	public void deleteNoticeLike(NoticeLike noticeLike) {
-
-		noticeLikeRepository.delete(noticeLike);
-	}
+//	// 공지 좋아요 찾기
+//	@Transactional(readOnly = true)
+//	public NoticeLike findNoticeLike(Long notiLikeId) {
+//
+//		return noticeLikeRepository.findById(notiLikeId).orElseThrow(EntityNotFoundException::new);
+//	}
+//
+//	// 매장공지 좋아요 insert
+//	public NoticeLike saveNoticeLike(NoticeLike noticeLike) {
+//
+//		return noticeLikeRepository.save(noticeLike);
+//	}
+//
+//	// 매장공지 좋아요 delete
+//	public void deleteNoticeLike(NoticeLike noticeLike) {
+//
+//		noticeLikeRepository.delete(noticeLike);
+//	}
 
 	// 매장공지 내용을 insert
 	public Notice saveNotice(Notice notice) {
@@ -293,6 +289,19 @@ public class ShopService {
 		MemShopMapping mapping = mapRepository.findByMemberIdAndShopId(member.getId(), shopId);
 		
 		if (mapping == null) {
+			
+			return 0;
+		} else {
+			
+			return 1;
+		}
+	}
+	
+	public int shopChk(Long shopId, Long memberId) {
+		
+		MemShopMapping memShopMapping = mapRepository.findByMemberIdAndShopIdAndWorkStatus(memberId, shopId, 1);
+
+		if (memShopMapping != null) {
 			
 			return 0;
 		} else {

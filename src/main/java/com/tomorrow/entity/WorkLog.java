@@ -29,10 +29,6 @@ public class WorkLog extends BaseEntity  {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;						//  근무일지 식별번호
 	
-	@Lob
-	@Column(nullable = false)
-	private String logCont;					// 전달내용
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;					// 회원 식별번호 FK
@@ -41,6 +37,10 @@ public class WorkLog extends BaseEntity  {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shop_id")
 	private Shop shop;						// 매장코드 FK
+	
+	@Lob
+	@Column(nullable = false)
+	private String logCont;					// 전달내용
 	
 	public static WorkLog createWorkLog(WorkLogDto workLogDto, Member member, Shop shop) {
 		
