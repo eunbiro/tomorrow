@@ -92,7 +92,8 @@ table {
 }
 
 .profile-admin-shop-name {
-	width: 50%; border : none;
+	width: 50%;
+	border: none;
 	margin: 0 auto;
 	border: none;
 }
@@ -118,7 +119,6 @@ table {
 	text-decoration: none;
 	text-align: center;
 	width: 80px;
-	
 }
 
 .profile-user-shop-real-number {
@@ -219,7 +219,6 @@ table {
 						sec:authorize="hasAnyAuthority('ROLE_USER')">
 						<table class="table">
 							<tbody>
-
 								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
 									<th class="profile-shop-name"
 										th:text="${memShopMappingDto.shopDto.shopNm}"></th>
@@ -228,7 +227,6 @@ table {
 									<td class="profile-shop-wage"
 										th:text="'시급: '+${memShopMappingDto.timePay}"></td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>
@@ -236,7 +234,6 @@ table {
 				<div class="profile-form-button   mx-auto ">
 					<button class="profile-form-modify"
 						onclick="location.href='/member/myPagePassword'">내정보 수정</button>
-							
 					<button class="profile-form-cancel" onclick="location.href='/'">취소</button>
 				</div>
 

@@ -41,9 +41,9 @@ public class SecurityConfig {
 			.logoutSuccessUrl("/")				// 로그아웃 성공 시 이동 할 url
 		.and()
 			.oauth2Login()
-			.loginPage("/members/login")
+			.loginPage("/member/login")
 			.defaultSuccessUrl("/")
-			.failureUrl("/members/login")
+			.failureUrl("/member/login")
 			.userInfoEndpoint()
 			.userService(pricipalOauth2UserService);
 		
