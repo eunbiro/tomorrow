@@ -106,4 +106,8 @@ public class Member extends BaseEntity {
         this.providerId = providerId;
         this.pNum = "000-0000-0000";
     }
+
+	public void updateRole(Role role) {
+		this.role = role;
+	}
 }

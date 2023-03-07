@@ -185,7 +185,7 @@ public class ShopManageController {
 	}
 	
 	// 직원 정보 삭제
-	@DeleteMapping(value = "/admin/manage/employeeInfo/{mapId}/delete")
+	@DeleteMapping(value = "/manage/employeeInfo/{mapId}/delete")
 	public @ResponseBody ResponseEntity deleteEmployee(@PathVariable("mapId") Long mapId, Principal principal) {
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
 		emplInfoService.deleteEmployee(memShopMapping);

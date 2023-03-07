@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tomorrow.constant.Role;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopDto;
@@ -24,11 +25,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmployeeInfoService {
 	/* TODO
-	 * 1. DELETE 버튼 
-	 * 2. workStatus = 2로 바뀌면 role도 바꾸기 
-	 * 3. 시급 0으로 뜨는거 고치기 (직원이 매장 등록하면 null로 들어오기 때문에 0부터 뜸)
-	 * 4. th:text가 왜 input창 아래에 뜨는것임... 이거도 고치기 
-	 * 5. css 손보기 
+	 * 1. DELETE 버튼 ✔
+	 * 2. workStatus랑 ROLE 처리  
+	 * 3. 시급 0으로 뜨는거 고칠 수 있나 확인해보기 
+	 * 4. input에 원래 있는 값 불러오지 못하는 거 해결  
+	 * 5. 엑셀 다운로드
+	 * 6. CSS 수정 
 	 */
 	private final MemberRepository memberRepository;
 	private final MemShopMapRepository mapRepository;
@@ -124,7 +126,9 @@ public class EmployeeInfoService {
 	public void updateEmplInfo(Long mapId, MemShopMappingDto updateMappingDto, Member member, Shop shop) {
 		MemShopMapping memShopMapping = findMapping(mapId);
 		memShopMapping.updateEmplInfo(updateMappingDto, member, shop);
+		//Member member = memberRepository.findById(memShopMapping.getMember().getId()).orElseThrow(EntityNotFoundException::new);
 		
+		member.updateRole(Role.ALBA);
 	}
 
 	public MemShopMapping findMapping(Long mapId) {
