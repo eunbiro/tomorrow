@@ -1,6 +1,7 @@
 package com.tomorrow.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tomorrow.constant.Role;
 import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
@@ -167,15 +169,23 @@ public class ShopManageController {
 			return "manage/employeeInfo";
 		}
 		
+		// 현재 해당 mapId를 가지고 있는 연관매핑, 매장, 멤버 엔티티를 가져옴 
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
-		memShopMapping.setWorkStatus(statusUpdateDto.getWorkStatus());
-		memShopMapping.setPartTime(statusUpdateDto.getPartTime());
-		memShopMapping.setTimePay(statusUpdateDto.getTimePay());
+		memShopMapping.setWorkStatus(memShopMapping.getWorkStatus());
+		memShopMapping.setPartTime(memShopMapping.getPartTime());
+		memShopMapping.setTimePay(memShopMapping.getTimePay());
 		Shop shop = shopService.findShop(memShopMapping.getShop().getId());
 		Member member = emplInfoService.findEmplMember(memShopMapping.getMember().getId());
 		
 		try {
-			emplInfoService.updateStatus(mapId, statusUpdateDto, member, shop);
+			if(memShopMapping.getWorkStatus() == 1) {
+				emplInfoService.updateStatus(mapId, statusUpdateDto, member, shop);
+			} else if (memShopMapping.getWorkStatus() == 2) {
+					emplInfoService.updateStatus(mapId, statusUpdateDto, member, shop);
+			} else if (memShopMapping.getWorkStatus() == 3) {
+				emplInfoService.updateStatus(mapId, statusUpdateDto, member, shop);
+			}
+			
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "상태를 변경하지 못했습니다..");
 			
@@ -198,6 +208,7 @@ public class ShopManageController {
 			return "manage/employeeInfo";
 		}
 		
+		// 현재 해당 mapId를 가지고 있는 연관매핑, 매장, 멤버 엔티티를 가져옴 
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
 		memShopMapping.setWorkStatus(memShopMapping.getWorkStatus());
 		memShopMapping.setPartTime(updateMappingDto.getPartTime());
@@ -216,7 +227,7 @@ public class ShopManageController {
 		return "redirect:/admin/manage/employeeInfo/" + shop.getId();
 	}
 	
-	// 직원 정보 삭제
+	// 직원 등록 삭제 
 	@DeleteMapping(value = "/manage/employeeInfo/{mapId}/delete")
 	public @ResponseBody ResponseEntity deleteEmployee(@PathVariable("mapId") Long mapId, Principal principal) {
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);

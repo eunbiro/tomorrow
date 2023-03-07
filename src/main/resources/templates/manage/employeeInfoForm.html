@@ -125,6 +125,7 @@ li {
 						<!-- 승인 멤버 -->
 						<span th:if="${emplInfo.workStatus} == 1" th:text="${emplInfo.memberFormDto.userNm}"></span> 
 						<a th:if="${emplInfo.workStatus} == 2" style="cursor: pointer;" th:text="${emplInfo.memberFormDto.userNm}" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal2${emplInfo.mapId}" href="#"></a>
+						<span th:if="${emplInfo.workStatus} == 3" th:text="${emplInfo.memberFormDto.userNm}"></span> 
 						<!-- Modal -->
 						<form method="post" th:object="${updateMappingDto}">
 							<div class="modal fade"
@@ -163,7 +164,7 @@ li {
 					<div class="fs-5 col" th:value="${emplInfo.workStatus}">
 						<a th:if="${emplInfo.workStatus} == 1" style="cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${emplInfo.mapId}" href="#">승인대기</a>
 						<a th:if="${emplInfo.workStatus} == 2" style="cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${emplInfo.mapId}">승인완료</a>
-						<span th:if="${emplInfo.workStatus} == 3">퇴사</span>
+						<a th:if="${emplInfo.workStatus} == 3" style="cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${emplInfo.mapId}">퇴사자</a>
 						<!-- Modal -->
 						<form method="post" th:object="${statusUpdateDto}">
 							<div class="modal fade" th:id="'exampleModal' + ${emplInfo.mapId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -175,36 +176,24 @@ li {
 											<h1 th:if="${emplInfo.workStatus} == 3" class="modal-title fs-5" id="exampleModalLabel">재입사 확인</h1>
 										</div>
 										<div class="modal-body">
-											<span th:if="${emplInfo.workStatus} == 1">매장 등록을 승인하시겠습니까?</span> 
+											<span th:if="${emplInfo.workStatus} == 1">직원 등록을 승인하시겠습니까?</span> 
 											<span th:if="${emplInfo.workStatus} == 2">퇴사를 승인하시겠습니까?</span> 
 											<span th:if="${emplInfo.workStatus} == 3">재입사를 승인하시겠습니까?</span>
 										</div>
 										<div class="modal-footer">
-											<button th:if="${emplInfo.workStatus} == 1" type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-												th:value="${emplInfo.mapId}"
-												onclick="deleteMapId(this.value)">삭제하기</button>
-											<button th:if="${emplInfo.workStatus} == 1" type="submit"
-												th:formaction="@{'/admin/manage/emplStatus/' + ${emplInfo.mapId} + '/update'}"
-												class="btn btn-primary">승인완료</button>
-											<button th:if="${emplInfo.workStatus} == 2" type="button"
-												class="btn btn-secondary" data-bs-dismiss="modal"
-												th:value="${emplInfo.mapId}"
-												onclick="deleteMapId(this.value)">취소</button>
-											<button th:if="${emplInfo.workStatus} == 2" type="submit"
-												th:formaction="@{'/admin/manage/emplStatus/' + ${emplInfo.mapId} + '/update'}"
-												class="btn btn-primary">승인완료</button>
-											<button th:if="${emplInfo.workStatus} == 3" type="button"
-												class="btn btn-secondary" data-bs-dismiss="modal"
-												th:value="${emplInfo.mapId}"
-												onclick="deleteMapId(this.value)">취소</button>
-											<button th:if="${emplInfo.workStatus} == 3" type="submit"
-												th:formaction="@{'/admin/manage/emplStatus/' + ${emplInfo.mapId} + '/update'}"
-												class="btn btn-primary">승인완료</button>
+											<!-- workStatus 1일 때 -->
+											<button th:if="${emplInfo.workStatus} == 1" type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:value="${emplInfo.mapId}" onclick="deleteMapId(this.value)">등록삭제</button>
+											<button th:if="${emplInfo.workStatus} == 1" type="submit" th:formaction="@{'/admin/manage/emplStatus/' + ${emplInfo.mapId} + '/update'}" class="btn btn-primary">승인완료</button>
+											<!-- workStatus 2일 때 -->
+											<button th:if="${emplInfo.workStatus} == 2" type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:value="${emplInfo.mapId}" onclick="deleteMapId(this.value)">취소</button>
+											<button th:if="${emplInfo.workStatus} == 2" type="submit" th:formaction="@{'/admin/manage/emplStatus/' + ${emplInfo.mapId} + '/update'}" class="btn btn-primary">퇴사승인</button>
+											<!-- workStatus 3일 때 -->
+											<button th:if="${emplInfo.workStatus} == 3" type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:value="${emplInfo.mapId}" onclick="deleteMapId(this.value)">취소</button>
+											<button th:if="${emplInfo.workStatus} == 3" type="submit" th:formaction="@{'/admin/manage/emplStatus/' + ${emplInfo.mapId} + '/update'}" class="btn btn-primary">승인완료</button>
 										</div>
 									</div>
 								</div>
-								<input type="hidden" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}" />
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 							</div>
 						</form>
 					</div>
