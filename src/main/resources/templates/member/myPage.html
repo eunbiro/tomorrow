@@ -4,8 +4,8 @@
 	layout:decorate="~{layouts/layout2}">
 <head>
 <meta charset="UTF-8">
-<meta name="_csrf" th:content="${_csrf.token}"/>
-<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>마이 페이지</title>
 
 <script type="text/javascript" th:src="@{/js/cookie.js}"></script>
@@ -296,8 +296,50 @@ table {
 				<div class="profile-form-button   mx-auto ">
 					<button class="profile-form-modify"
 						onclick="location.href='/member/myPagePassword'">내정보 수정</button>
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#exampleModal">
+						내정보 수정</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">현재
+										비밀번호를 입력해주세요</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<input type="password" id="typeNowPassword" class="typeNowPassword"> 		
+									<label th:text="${member.password}"></label>
+									<input type="hidden" th:value="${member.password}" class="nowPassword">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary checkPassword">확인</button>
+								</div>
+								<script>
+										$(function(){
+											$('.checkPassword').off().on("click", function(){
+												if(passwordEncoder.matches($('.typeNowPassword'), $('.nowPassword'))=true){
+													alert('비밀번호가 동일합니다.')
+												}else{
+													alert('비밀번호가 동일하지 않습니다.')
+												}
+											})
+										})
+									</script>
+
+							</div>
+						</div>
+					</div>
+
+
 					<button class="profile-form-cancel" onclick="location.href='/'">취소</button>
-					<button class="profile-form-cancel" th:value="${member.id}" onclick="deleteMemberId(this.value)">회원탈퇴</button>
+					<button class="profile-form-cancel" th:value="${member.id}"
+						onclick="deleteMemberId(this.value)">회원탈퇴</button>
 				</div>
 
 			</div>
