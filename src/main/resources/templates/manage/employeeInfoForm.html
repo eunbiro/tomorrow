@@ -4,6 +4,8 @@
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>직원정보</title>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
@@ -20,8 +22,50 @@
 				$(location).attr('href', url);
 			});
 		});
+		
+		// 해당 직원 삭제 
+		function deleteMapId(mapId) {
+			
+			const deleteConf = confirm("이 직원을 삭제하시겠습니까?");
+			
+			if(!deleteConf) return;
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = "/admin/manage/employeeInfo/" + mapId + "/delete";
+			var shopId = $('#shopId').val();
+			console.log(mapId);
+			
+			$.ajax({
+				url			: url,
+				type 		: "DELETE",
+				contentType : "application/json",
+				beforeSend 	: function(xhr) {
+					
+					xhr.setRequestHeader(header, token)
+				},
+				dataType 	:"Json",
+				cache 		: false,
+				success 	: function(result, status) {
+					
+					alert("해당 직원이 삭제되었습니다.");
+					location.href = '/admin/manage/employeeInfo/' + shopId;
+				},
+				error 		: function(jqXHR, status, error) {
 
-		// 수정 페이지 불러오기
+					if (jqXHR.status == '401') {
+						
+						alert('로그인 후 이용하시오.');
+						location.href = '/member/login';
+					} else {
+						
+						alert(jqXHR.responseText);
+					}
+				}
+			})
+		}
+
 	</script>
 </th:block>
 <th:block layout:fragment="css">
@@ -55,7 +99,7 @@ li {
 		<div class="wrap">
 			<div class="row my-4">
 				<div class="col-lg-4">
-					<select class="info-sell-shop form-select w-75 my-3 emp-info-select" th:value="${shopDto.shopId}" th:name="${shopDto.shopId}">
+					<select class="info-sell-shop form-select w-75 my-3 emp-info-select" th:value="${shopDto.shopId}" th:name="${shopDto.shopId}" id="shopId">
 						<option value="">매장 선택</option>
 						<th:block th:each="myShop: ${myShopList}" th:value="${myShop.shopDto.shopId}">
 							<option th:selected="${shopDto.shopId} == ${myShop.shopDto.shopId}" th:value="${myShop.shopDto.shopId}" th:text="${myShop.shopDto.shopNm}"></option>
@@ -75,7 +119,9 @@ li {
 						<div class="col">승인</div>
 					</div>
 					<div class="row text-center border-bottom" th:each="emplInfo : ${emplList}">
-						<div class="fs-5 col" th:text="${emplInfo.memberFormDto.userNm}"></div>
+						<div class="fs-5 col" th:value="${emplInfo.memberFormDto.userNm}">
+							<a style="cursor: pointer;" th:text="${emplInfo.memberFormDto.userNm}" href="#"></a>
+						</div>
 						<div class="fs-5 col" th:text="${emplInfo.memberFormDto.pNum}"></div>
 						<div class="fs-5 col" th:text="${emplInfo.partTime}"></div>
 						<div class="fs-5 col" th:text="${emplInfo.timePay}"></div>
@@ -93,15 +139,17 @@ li {
 								      <div class="modal-body">
 								          <div class="mb-3">
 								            <label class="col-form-label">시급 설정:</label>
-								            <input th:text="${emplInfo.timePay}" name="timePay" th:field="*{timePay}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" placeholder="숫자만 입력해주세요.">
+								            <input name="timePay" th:field="*{timePay}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}"  th:placeholder="${emplInfo.timePay}" >
+								          	<span>숫자만 입력해주세요.</span>
 								          </div>
 								          <div class="mb-3">
 								            <label class="col-form-label">근무시간 설정: </label>
-								            <input th:text="${emplInfo.partTime}" name="partTime" th:field="*{partTime}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" placeholder="(예시) 09:00~18:00">
+								            <input name="partTime" th:field="*{partTime}" type="text" class="form-control" th:id="'exampleModal' + ${emplInfo.mapId}" th:placeholder="${emplInfo.partTime}">
+								          	<span>(예시) 09:00~18:00</span>
 								          </div>
 								      </div>
 								      <div class="modal-footer">
-								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">삭제하기</button>
+								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:value="${emplInfo.mapId}" onclick="deleteMapId(this.value)">삭제하기</button>
 								        <button type="submit" th:formaction="@{'/admin/manage/employeeInfo/' + ${emplInfo.mapId} + '/update'}" class="btn btn-primary">수정 완료</button>
 								      </div>
 								    </div>
