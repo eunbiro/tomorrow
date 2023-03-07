@@ -38,6 +38,7 @@ import com.tomorrow.service.ShopInfoService;
 import com.tomorrow.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 @Controller
 @RequiredArgsConstructor
@@ -153,6 +154,37 @@ public class ShopManageController {
 		model.addAttribute("payListDto", payListDto);
 		return "manage/managerPayForm";
 	}
+	
+	// 직원 상태 변경 
+	@PostMapping(value = "/manage/emplStatus/{mapId}/update")
+	public String updateWorkStatus(@PathVariable("mapId") Long mapId, @Valid MemShopMappingDto statusUpdateDto, BindingResult bindingResult, Model model, Principal principal) {
+		
+		if (bindingResult.hasErrors()) {
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			
+			getSideImg(model, principal);
+			model.addAttribute("myShopList", myShopList);
+			return "manage/employeeInfo";
+		}
+		
+		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
+		memShopMapping.setWorkStatus(statusUpdateDto.getWorkStatus());
+		memShopMapping.setPartTime(statusUpdateDto.getPartTime());
+		memShopMapping.setTimePay(statusUpdateDto.getTimePay());
+		Shop shop = shopService.findShop(memShopMapping.getShop().getId());
+		Member member = emplInfoService.findEmplMember(memShopMapping.getMember().getId());
+		
+		try {
+			emplInfoService.updateStatus(mapId, statusUpdateDto, member, shop);
+		} catch (Exception e) {
+			model.addAttribute("errorMessage", "상태를 변경하지 못했습니다..");
+			
+			return "redirect:/admin/manage/employeeInfo/" + shop.getId();		
+		}
+		
+		return "redirect:/admin/manage/employeeInfo/" + shop.getId();
+	}
+	
 
 	// 직원 정보 수정
 	@PostMapping(value = "/manage/employeeInfo/{mapId}/update")

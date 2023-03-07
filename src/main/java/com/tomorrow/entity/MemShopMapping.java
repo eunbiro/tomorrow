@@ -82,12 +82,19 @@ public class MemShopMapping extends BaseEntity{
 		return mapping;
 	}
 	
+	// 상태 업데이트 
+	public void updateStatus(MemShopMappingDto memShopMappingDto, Member member, Shop shop) {
+		this.shop = shop;
+		this.member = member;
+		this.workStatus = 2;
+	}
+
 	// 직원 정보 수정
 	public void updateEmplInfo(MemShopMappingDto memShopMappingDto, Member member, Shop shop) {
 		this.shop = shop;
 		this.member = member;
 		this.partTime = memShopMappingDto.getPartTime();
 		this.timePay = memShopMappingDto.getTimePay();
-		this.workStatus = 2; 
 	}
+	
 }

@@ -36,8 +36,9 @@ public class ShopInfoService {
 	private final ShopImgService shopImgService;
 	
 	/* TODO 
-	 * 1. 매장 정보 불러올 때 사진 클릭하면 원본 사진 팝업으로 띄우기 (새 창 X)
-	 * 2. 매장 정보 불러올 때 map API 띄우기 
+	 * 1. 폼태그 수정 (사용 X) ✔✔
+	 * 2. 매장 정보 불러올 때 사진 클릭하면 원본 사진 팝업으로 띄우기 (새 창 X)
+	 * 3. 매장 정보 불러올 때 map API 띄우기 
 	 * */
 	
 	// 현재 접속해있는 관리자정보를 불러옴
@@ -130,7 +131,7 @@ public class ShopInfoService {
 		return memShopMappingDtoList;
 	}
 	
-	// 상품 가져오기
+	// 매장 정보 가져오기
 	@Transactional(readOnly = true)
 	public CreateShopFormDto getShopInfoDtl(Long shopId) {
 		List<ShopImg> shopImgList = shopImgRepository.findByShopId(shopId);
@@ -150,7 +151,7 @@ public class ShopInfoService {
 		
 	}
 	
-	// 상품 수정 
+	// 매장 정보 수정 
 	public Long updateShopInfo(CreateShopFormDto createShopFormDto, List<MultipartFile> shopImgFileList) throws Exception {
 		Shop shop = shopRepository.findById(createShopFormDto.getId())
 				.orElseThrow(EntityNotFoundException::new);

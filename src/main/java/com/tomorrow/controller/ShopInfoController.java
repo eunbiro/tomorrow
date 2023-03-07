@@ -38,12 +38,6 @@ public class ShopInfoController {
 		return model.addAttribute("member", memberFormDto);
 	}
 	
-	/* TODO
-	 * 1. 조회하는 HTML form 태그 쓰는 거 아니라고 했던 것 같으니 나중에 확실하게 알게되면 수정
-	 * 2. 지도 가져오기 ㅎㅎ 
-	 * 3. 사진 누르면 원본 크기로 뜨게하는거 도전  
-	 */
-
 	/* 매장 조회 페이지 */
 	
 	// 매장정보폼 불러오기
