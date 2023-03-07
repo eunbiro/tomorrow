@@ -5,59 +5,77 @@
 <head>
 <meta charset="UTF-8">
 <title>공고등록</title>
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+$(document).ready(function() {
+		
+		var errorMessage = [[${errorMessage}]];
+		if (errorMessage != null) {
+			
+			alert(errorMessage);
+		}
+	});
+	
+		// 매장선택 시 해당 매장정보 불러옴
+		$(function() {
+			$('.jobNew-sel-shop').off().on("change", function() {
+
+				var shopId = $('.jobNew-sel-shop').val();
+
+				var url = "/admin/job/new/" + shopId;
+
+				$(location).attr('href', url);
+			});
+		});
+	</script>
+</th:block>
 
 <th:block layout:fragment="css">
 	<style>
-	
-	*{
-	  margin: 0;
-	  padding: 0;
-	}
-	
-.jobNew-wrap {
-	
-	margin: 100px auto;
-	 font-size: 10px; 
-	
+* {
+	margin: 0;
+	padding: 0;
+}
 
+.jobNew-wrap {
+	margin: 100px auto;
+	font-size: 10px;
 }
 
 .form-select {
 	width: 100%;
-	 margin-top:50px; 
+	margin-top: 50px;
 }
 
 .jobNew-info {
-    width: 100%;
-    margin-bottom: 20px;
+	width: 100%;
+	margin-bottom: 20px;
 }
 
-.jobNew{
-    border-bottom: 2px solid #d9d9d9;
-    border-top: 2px solid #d9d9d9;
-    margin-top:50px; 
+.jobNew {
+	border-bottom: 2px solid #d9d9d9;
+	border-top: 2px solid #d9d9d9;
+	margin-top: 50px;
 }
 
-.jobNew label{
-   width: 30%;
-   font-size: 1.7em;
-  padding: 10px;
-  background: #f1f1f1;
+.jobNew label {
+	width: 30%;
+	font-size: 1.7em;
+	padding: 10px;
+	background: #f1f1f1;
 }
 
 .jobNew  input {
-width: 68%;
-border: none;
-padding: 10px;
-margin-bottom: 0;
-font-size: 1.2rem;
+	width: 68%;
+	border: none;
+	padding: 10px;
+	margin-bottom: 0;
+	font-size: 1rem;
 }
 
 .btn-primary {
 	background-color: #13223D;
 	border: none;
-	
-	
 }
 
 .btn-primary:hover {
@@ -79,18 +97,26 @@ font-size: 1.2rem;
 	font-size: 0.9rem;
 	text-align: center;
 	width: 100px;
-	
+}
+
+.fieldError {
+color : red;
+width: 100%;
+position: absolute;
+text-align: right;
+margin: 0;
 }
 </style>
 </th:block>
+
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="jobNew-wrap">
-		<form method="post" th:object="${shopDto}"></form>
-			<div class="title fs-1"
-				style="font-weight: bold; color: #13223D; border-bottom: 6px solid #fca211; margin-bottom: 20px;">공고등록</div>
-			<!-- <select class="form-select commute-select commute-sel-shop"
+		<form method="post" th:object="${hireDto}">
+			<div class="jobNew-wrap">
+				<div class="title fs-1"
+					style="font-weight: bold; color: #13223D; border-bottom: 6px solid #fca211; margin-bottom: 20px;">공고등록</div>
+				<select class="jobNew-sel-shop form-select jobNew-select"
 					th:field="*{shopDto.shopId}" id="shopId">
 					<option value="">매장 선택</option>
 					<th:block th:each="myShop : ${myShopList}"
@@ -98,40 +124,57 @@ font-size: 1.2rem;
 						<option th:value="${myShop.shopDto.shopId}"
 							th:text="${myShop.shopDto.shopNm}"></option>
 					</th:block>
-				</select> -->
+				</select>
 
-
-			<select class="form-select jobNew-select jobNew-sel-shop">
-				<option>매장을 선택하세요.</option>
-				<option>이젠</option>
-			</select>
-
-			<div class="jobNew-info">
-				<div class="jobNew">
-					<label>시급</label>
-					<input type="text" placeholder="시급을 입력해주세요">
+				<div class="jobNew-info">
+					<div class="jobNew">
+                     <!--  <input type="hidden" th:field="*{id}" /> -->
+                      
+						<label class="shop-name">매장명</label> 
+						<input th:field="*{shopDto.shopNm}"
+							readonly style="border: none;"> 
+							
+							<label class="hire-pay">시급</label>
+							<input type="text" placeholder="시급을 입력해주세요" th:field="*{hirePay}"> 
+							<p th:if="${#fields.hasErrors('hirePay')}" th:errors="*{hirePay}" class="fieldError text-start">Incorrect Data</p>
+							
+							<label>기간/요일</label>
+					    	<input type="text" placeholder="기간/요일을 입력해주세요" th:field="*{hirePeriod}"> 
+						    <p th:if="${#fields.hasErrors('hirePeriod')}" th:errors="*{hirePeriod}" class="fieldError text-start">Incorrect Data</p>
+						 
+						    <label>근무타임</label>
+						    <input type="text" placeholder="근무타임을 입력해주세요" th:field="*{hireTime}">
+						    <p th:if="${#fields.hasErrors('hireTime')}" th:errors="*{hireTime}" class="fieldError text-start">Incorrect Data</p>
+							
+							
+							<label class="shop-type">업종</label>
+							<input th:field="*{shopDto.shopType}" readonly style="border: none;">
 				
-					<label>기간/요일</label>
-					<input type="text" placeholder="기간/요일을 입력해주세요">
-				
-					<label>근무시간</label>
-					<input type="text" placeholder="근무시간을 입력해주세요">
-				
-					<label>업/직종</label>
-					<input type="text" placeholder="카페" readonly="readonly">
-				
-					<label>근무지</label>
-					<input type="text" placeholder="서울시 서초" readonly="readonly">
-				</div>	
-			</div>
-			
-			<div class="jobNew-btn-wrap">
-						<button class="btn btn-primary">취소</button>		
-						<button class="btn btn-primary">등록</button>
+								<label class="shop-location">근무지</label>					
+							<input th:field="*{shopDto.shopPlace}" readonly style="border: none;">
+					
+					</div>
 				</div>
-		</div>
+
+                 <div class="jobNew-btn-wrap">
+                 <button th:formaction="@{'/admin/job/new'}" class="btn btn-primary" type="submit">등록</button>
+                 </div>
+				
+				<!-- <div class="jobNew-btn-wrap">
+				  <div th:if="${#strings.isEmpty(hireDto.id)}">
+                 <button th:formaction="@{'/admin/job/new'}" class="btn btn-primary" type="submit">등록</button>
+                 </div>
+                 <div th:unless="${#strings.isEmpty(hireDto.id)}">
+                 <button th:formaction="@{'/admin/job/' + ${hireDto.id}" class="btn btn-primary" type="submit">등록</button>
+                 </div>
+                 
+				</div> -->
+				
+			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}">
+		</form>
 	</div>
-	
 </body>
 
 </html>

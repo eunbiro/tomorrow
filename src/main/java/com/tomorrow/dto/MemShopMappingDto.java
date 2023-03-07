@@ -14,10 +14,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemShopMappingDto {
+	
+	private Long mappingId;
 
 	private MemberFormDto memberFormDto;
 	
 	private ShopDto shopDto;
+	
+	private Long mapId;
 	
 	private int timePay;
 	
@@ -41,6 +45,4 @@ public class MemShopMappingDto {
 		memShopMappingDtoList.add(memShopMappingDto);
 	}
 
-
-	
 	}

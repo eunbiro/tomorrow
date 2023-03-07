@@ -37,9 +37,9 @@ public class ReviewImg extends BaseEntity {
 	private String rvImgUrl;	
 	
 	//원본 이미지 파일명, 업데이트 할 이미지 파일명, 이미지 경로를 파라메터로 받아서 이미지 정보를 업데이트하는 메소드
-	public void updateReviewImg(String boOriImgNm, String boImgNm, String boImgUrl){
-		this.rvOriImgNm = boOriImgNm; 
-		this.rvImgNm = boImgNm;
-		this.rvImgUrl = boImgUrl;
+	public void updateReviewImg(String rvOriImgNm, String rvImgNm, String rvImgUrl){
+		this.rvOriImgNm = rvOriImgNm; 
+		this.rvImgNm = rvImgNm;
+		this.rvImgUrl = rvImgUrl;
 	}
 }

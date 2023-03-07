@@ -11,6 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.tomorrow.dto.HireDto;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -35,10 +37,25 @@ public class Hire extends BaseEntity {
 	@JoinColumn(name = "member_id")
 	private Member member;					// 회원 아이디 FK
 	
-	@Column(length = 50, nullable = false)
-	private String hireTitle;				// 구인공고제목
-	
-	@Lob
 	@Column(nullable = false)
-	private String hireCont;				// 구인공고내용
+	private int hirePay;       		    	// 구인공고 시급
+	
+	@Column(nullable = false)
+	private String hirePeriod;				// 구인공고 기간/요일
+	
+	@Column(nullable = false)
+	private String hireTime;                // 구인공고 근무타임
+	
+	public static Hire createHire(HireDto hireDto, Member member, Shop shop) {
+		Hire hire = new Hire();
+		
+		hire.setShop(shop);
+		hire.setMember(member);
+		hire.setHirePay(hireDto.getHirePay());
+		hire.setHirePeriod(hireDto.getHirePeriod());
+		hire.setHireTime(hireDto.getHireTime());
+		
+		return hire;
+		
+	}
 }

@@ -138,15 +138,48 @@ public class PayListService {
 		return memShopMappingDto;
 	}
 	
-	public List<PayList> getPayListByMsm(List<MemShopMapping> msmList){
-		List<PayList> payList = new ArrayList<PayList>();
+	// 매장별 근무일 수 구하기
+	public List<PayListDto> getWorkDay(List<PayListDto> payListDtoList) {
 		
-		for(MemShopMapping msm : msmList) {
-			PayList pl = new PayList();
-			pl.setMemShopMapping(msm);
-			payList.add(pl);
+		List<PayListDto> workDayCountList = new ArrayList<>();
+		
+		for (PayListDto payListDto : payListDtoList) {
+			
+			if (workDayCountList.size() == 0) {
+				
+				
+			}
+		}
+		// Collections.frequency(리스트, 특정데이터)
+		
+		return workDayCountList;
+	}
+	
+	//매장별 급여 리스트 가져오기 
+	public List<PayListDto> getPayListByMsm(List<MemShopMapping> msmList){
+	   List<PayListDto> payListDto = new ArrayList<PayListDto>();	
+		
+		for(MemShopMapping memShopMapping : msmList) {
+			PayListDto pld = new PayListDto();
+			MemShopMappingDto memShopMappingDto  = new MemShopMappingDto();
+			memShopMappingDto.setMapId(memShopMapping.getId());
+			memShopMappingDto.setMemberFormDto(MemberFormDto.of(memShopMapping.getMember()));
+			memShopMappingDto.setShopDto(ShopDto.of(memShopMapping.getShop()));
+			memShopMappingDto.setTimePay(memShopMapping.getTimePay());
+			memShopMappingDto.setPartTime(memShopMapping.getPartTime());
+			memShopMappingDto.setWorkStatus(2);
+			pld.setMemShopMappingDto(memShopMappingDto);
+			pld.setWorkDays(getWorkDays(memShopMapping));
+			payListDto.add(pld);
 		}
 		
-		return payList;
+		return payListDto;
+	}
+	
+	public int getWorkDays(MemShopMapping msm) {
+		List<Commute> commuteListByMember = commuteRepository.findCommuteByMemberId(msm.getMember().getId(), msm.getShop().getId());
+		int workDays = commuteListByMember.size();
+		
+		return workDays;
 	}
 }

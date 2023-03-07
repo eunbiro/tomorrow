@@ -1,8 +1,8 @@
 package com.tomorrow.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,7 +19,7 @@ public class NoticeDto {
 	
 	private ShopDto shopDto;
 	
-	@NotNull
+	@NotBlank
 	@Size(min = 1, message = "내용은 필수 입력 값입니다.")
 	private String noticeCont;
 	
@@ -27,9 +27,4 @@ public class NoticeDto {
 	
 	private LocalDateTime updateTime;
 	
-	private NoticeLikeDto noticeLikeDto;
-	
-	private int notiLike;
-	
-	private List<NoticeLikeDto> noticeLikeDtoList;
 }

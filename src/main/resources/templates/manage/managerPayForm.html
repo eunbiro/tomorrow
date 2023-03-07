@@ -181,30 +181,16 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="pay : ${payList}">
-							<!-- 	<th th:text="${commute.id}"></th> -->
-								<td class="fs-6" th:text="${pay.memShopMapping.member.userNm}">
-								<td class="fs-6" th:text="${pay.memShopMapping.partTime}"></td>
-								<td class="fs-6" th:text="${pay.id}"></td>
-								<td class="fs-6" th:text="${pay.dayPay}"></td>	
+							<tr th:each="pay : ${payListDto}">
+								<td class="fs-6" th:text="${pay.memShopMappingDto.memberFormDto.userNm}"></td>
+								<td class="fs-6" th:text="${pay.memShopMappingDto.partTime}"></td>
+								<td class="fs-6" th:text="${pay.workDays}"></td>
+								<td class="fs-6" th:text="${#numbers.formatInteger(pay.workDays * pay.memShopMappingDto.timePay, 0,'COMMA')} + ' 원'"></td>	
 							</tr>
 						</tbody>
 					</table>
 				</div>
-			</div>
-			<nav style="margin-top: 20px;">
-				<ul class="pagination justify-content-center">
-					<li class="page-item"><a class="page-link">&lt;&lt;</a></li>
-					<li class="page-item"><a class="page-link">&lt;</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#">4</a></li>
-					<li class="page-item"><a class="page-link" href="#">5</a></li>
-					<li class="page-item"><a class="page-link" href="#">&gt;</a></li>
-					<li class="page-item"><a class="page-link" href="#">&gt;&gt;</a></li>
-				</ul>
-			</nav>
+ 			</div>
 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 		</form>
 	</div>

@@ -3,9 +3,12 @@ package com.tomorrow.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tomorrow.constant.Role;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopDto;
@@ -21,9 +24,13 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class EmployeeInfoService {
-	/*
-	 * TODO 일단 오늘 도전해볼 일 (02.27) 1. 매장 정보 불러오기 (1. 접속한 관리자 정보 가져오기 2. 매장 정보 가져오기) ->
-	 * 0228 완료 ㅅㅂ... 컨트롤러 똑바로 2. 직원 정보 불러오기 (근무시간, 시급 = null / 승인대기)
+	/* TODO
+	 * 1. DELETE 버튼 ✔
+	 * 2. workStatus랑 ROLE 처리  
+	 * 3. 시급 0으로 뜨는거 고칠 수 있나 확인해보기 
+	 * 4. input에 원래 있는 값 불러오지 못하는 거 해결  
+	 * 5. 엑셀 다운로드
+	 * 6. CSS 수정 
 	 */
 	private final MemberRepository memberRepository;
 	private final MemShopMapRepository mapRepository;
@@ -32,6 +39,10 @@ public class EmployeeInfoService {
 	@Transactional(readOnly = true)
 	public Member findMember(String userId) {
 		return memberRepository.findByUserId(userId);
+	}
+	
+	public Member findEmplMember(Long memberId) {
+		return memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
 	}
 
 	// 내가 가진 매장 정보를 불러오기 (select)
@@ -103,11 +114,32 @@ public class EmployeeInfoService {
 			memShopMappingDto.setTimePay(mapping.getTimePay());
 			memShopMappingDto.setPartTime(mapping.getPartTime());
 			memShopMappingDto.setWorkStatus(mapping.getWorkStatus());
+			memShopMappingDto.setMapId(mapping.getId());
 			
 			memShopMappingDtoList.add(memShopMappingDto);
 		}
 		
 		return memShopMappingDtoList;
+	}
+	
+	// 매장 직원 정보 내용 update
+	public void updateEmplInfo(Long mapId, MemShopMappingDto updateMappingDto, Member member, Shop shop) {
+		MemShopMapping memShopMapping = findMapping(mapId);
+		memShopMapping.updateEmplInfo(updateMappingDto, member, shop);
+		//Member member = memberRepository.findById(memShopMapping.getMember().getId()).orElseThrow(EntityNotFoundException::new);
+		
+		member.updateRole(Role.ALBA);
+	}
+
+	public MemShopMapping findMapping(Long mapId) {
+
+		return mapRepository.findById(mapId).orElseThrow(EntityNotFoundException::new);
+	}
+	
+	// 직원 정보 내용 delete 
+	public void deleteEmployee(MemShopMapping memShopMapping) {
+		
+		mapRepository.delete(memShopMapping);
 	}
 
 }

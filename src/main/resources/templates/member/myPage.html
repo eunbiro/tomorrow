@@ -4,7 +4,69 @@
 	layout:decorate="~{layouts/layout2}">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>마이 페이지</title>
+
+<script type="text/javascript" th:src="@{/js/cookie.js}"></script>
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			
+			var errorMessage = [[${errorMessage}]];
+			if (errorMessage != null) {
+				
+				alert(errorMessage);
+			}
+		});
+		// 해당 공지 삭제
+		function deleteMemberId(memberId) {
+			
+			const deleteConf = confirm("삭제하시겠습니까?");
+			
+			if (!deleteConf) return;
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var userInputId = getCookie("userInputId");
+			var setCookieYN = getCookie("setCookieYN");
+			
+			var url = "/member/" + memberId + "/delete";
+			
+			$.ajax({
+				
+				url			: url,
+				type 		: "DELETE",
+				contentType : "application/json",
+				beforeSend 	: function(xhr) {
+					
+					xhr.setRequestHeader(header, token)
+				},
+				dataType 	:"Json",
+				cache 		: false,
+				success 	: function(result, status) {
+					
+					deleteCookie("userInputId");
+					deleteCookie("setCookieYN");
+					alert("회원탈퇴 되었습니다.");
+					location.href = '/member/logout';
+				},
+				error 		: function(jqXHR, status, error) {
+
+					if (jqXHR.status == '401') {
+						
+						alert('로그인 후 이용하시오.');
+						location.href = '/member/login';
+					} else {
+						
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+		}
+	</script>
+</th:block>
 <th:block layout:fragment="css">
 	<style>
 * {
@@ -92,7 +154,8 @@ table {
 }
 
 .profile-admin-shop-name {
-	width: 50%; border : none;
+	width: 50%;
+	border: none;
 	margin: 0 auto;
 	border: none;
 }
@@ -118,7 +181,6 @@ table {
 	text-decoration: none;
 	text-align: center;
 	width: 80px;
-	
 }
 
 .profile-user-shop-real-number {
@@ -219,7 +281,6 @@ table {
 						sec:authorize="hasAnyAuthority('ROLE_USER')">
 						<table class="table">
 							<tbody>
-
 								<tr th:each="memShopMappingDto : ${memShopMappingDtoList}">
 									<th class="profile-shop-name"
 										th:text="${memShopMappingDto.shopDto.shopNm}"></th>
@@ -228,7 +289,6 @@ table {
 									<td class="profile-shop-wage"
 										th:text="'시급: '+${memShopMappingDto.timePay}"></td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>
@@ -236,7 +296,50 @@ table {
 				<div class="profile-form-button   mx-auto ">
 					<button class="profile-form-modify"
 						onclick="location.href='/member/myPagePassword'">내정보 수정</button>
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#exampleModal">
+						내정보 수정</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">현재
+										비밀번호를 입력해주세요</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<input type="password" id="typeNowPassword" class="typeNowPassword"> 		
+									<label th:text="${member.password}"></label>
+									<input type="hidden" th:value="${member.password}" class="nowPassword">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary checkPassword">확인</button>
+								</div>
+								<script>
+										$(function(){
+											$('.checkPassword').off().on("click", function(){
+												if(passwordEncoder.matches($('.typeNowPassword'), $('.nowPassword'))=true){
+													alert('비밀번호가 동일합니다.')
+												}else{
+													alert('비밀번호가 동일하지 않습니다.')
+												}
+											})
+										})
+									</script>
+
+							</div>
+						</div>
+					</div>
+
+
 					<button class="profile-form-cancel" onclick="location.href='/'">취소</button>
+					<button class="profile-form-cancel" th:value="${member.id}"
+						onclick="deleteMemberId(this.value)">회원탈퇴</button>
 				</div>
 
 			</div>

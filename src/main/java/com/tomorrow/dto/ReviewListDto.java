@@ -13,7 +13,7 @@ public class ReviewListDto {
 
 	private Long id;
 	
-	private String ReviewTitle;
+	private String reviewTitle;
 	
 	private String userNm;
 	
@@ -23,7 +23,7 @@ public class ReviewListDto {
 	public ReviewListDto (Long id, String reviewTitle, String userNm, LocalDateTime regTime) {
 		
 		this.id = id;
-		this.ReviewTitle = reviewTitle;
+		this.reviewTitle = reviewTitle;
 		this.userNm = userNm;
 		this.regTime = regTime;
 	}

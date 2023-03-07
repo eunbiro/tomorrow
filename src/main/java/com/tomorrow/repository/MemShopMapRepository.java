@@ -22,4 +22,7 @@ public interface MemShopMapRepository extends JpaRepository<MemShopMapping, Long
 	
 	@Query(value = "select * from mem_shop_mapping where work_status != 0 and shop_id = :shopId", nativeQuery = true)
 	List<MemShopMapping> findByShopIdNotAdmin(@Param("shopId") Long shopId);
+
+	MemShopMapping findByMemberIdAndShopIdAndWorkStatus(Long memberId, Long shopId, int workStatus);
+	
 }

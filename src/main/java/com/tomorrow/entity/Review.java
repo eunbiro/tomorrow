@@ -37,8 +37,6 @@ public class Review extends BaseEntity {
 	@JoinColumn(name = "shop_id")
 	private Shop shop;						// 매장코드 FK
 	
-	private int reviewGrade;
-	
 	@Column(length = 50, nullable = false)
 	private String reviewTitle;				// 매장리뷰 제목
 	

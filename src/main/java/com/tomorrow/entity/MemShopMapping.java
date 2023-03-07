@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.tomorrow.dto.MemShopMappingDto;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -44,10 +46,10 @@ public class MemShopMapping extends BaseEntity{
 	@JoinColumn(name = "shop_id")
 	private Shop shop;						// 매장코드 FK
 	
-	@Column(nullable = false)
+	
 	private int timePay;					// 시급
 	
-	@Column(length = 30, nullable = false)
+	@Column(length = 30)
 	private String partTime;				// 파트타임(오전,오후,야간)
 	
 	private int workStatus;					// 알바 상태 0: 관리자, 1: 승인대기, 2: 승인완료, 3: 퇴사, 4: 휴직
@@ -74,9 +76,18 @@ public class MemShopMapping extends BaseEntity{
 		mapping.setShop(shop);
 		mapping.setMember(member);
 		mapping.setWorkStatus(0);
-		mapping.setPartTime("");
+		mapping.setPartTime("관리자");
 		mapping.setTimePay(0);
 		
 		return mapping;
+	}
+	
+	// 직원 정보 수정
+	public void updateEmplInfo(MemShopMappingDto memShopMappingDto, Member member, Shop shop) {
+		this.shop = shop;
+		this.member = member;
+		this.partTime = memShopMappingDto.getPartTime();
+		this.timePay = memShopMappingDto.getTimePay();
+		this.workStatus = 2; 
 	}
 }
