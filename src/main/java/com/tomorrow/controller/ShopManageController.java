@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
@@ -68,10 +70,9 @@ public class ShopManageController {
 		return "manage/employeeInfoForm";
 	}
 
-// 직원정보 불러오기
+	// 직원정보 불러오기
 	@GetMapping(value = "/manage/employeeInfo/{shopId}")
 	public String emplInfoDtl(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
-		try {
 			getSideImg(model, principal);
 			
 			// USER_ID로 가지고 있는 매장 리스트 뽑기
@@ -88,12 +89,6 @@ public class ShopManageController {
 			model.addAttribute("emplList", emplList);
 			model.addAttribute("updateMappingDto", new MemShopMappingDto());
 			
-			
-		} catch (Exception e) {
-			model.addAttribute("errorMessage", "직원 정보를 불러오는 중 에러가 발생했습니다.");
-			return "manage/employeeInfoForm";
-		}
-
 		return "manage/employeeInfoForm";
 	}
 	
@@ -169,7 +164,6 @@ public class ShopManageController {
 			return "manage/employeeInfo";
 		}
 		
-		
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
 		memShopMapping.setWorkStatus(memShopMapping.getWorkStatus());
 		memShopMapping.setPartTime(updateMappingDto.getPartTime());
@@ -180,12 +174,14 @@ public class ShopManageController {
 		try {
 			emplInfoService.updateEmplInfo(mapId, updateMappingDto, member, shop);
 		} catch (Exception e) {
-			model.addAttribute("errorMessage", "공지 등록 중 에러가 발생했습니다.");
+			model.addAttribute("errorMessage", "직원 정보 수정 중 에러가 발생했습니다.");
 			
 			return "redirect:/admin/manage/employeeInfo/" + shop.getId();
 		}
 		
 		return "redirect:/admin/manage/employeeInfo/" + shop.getId();
 	}
+	
+	// 직원 정보 삭제
 
 }

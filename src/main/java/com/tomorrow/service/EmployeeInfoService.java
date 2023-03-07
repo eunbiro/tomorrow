@@ -131,5 +131,11 @@ public class EmployeeInfoService {
 
 		return mapRepository.findById(mapId).orElseThrow(EntityNotFoundException::new);
 	}
+	
+	// 직원 정보 내용 delete 
+	public void deleteEmployee(MemShopMapping memShopMapping) {
+		
+		mapRepository.delete(memShopMapping);
+	}
 
 }
