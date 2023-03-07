@@ -113,21 +113,19 @@ input {
 							<div class="shop-item">
 								<label class="shop-name">매장명</label>
 							</div>
-							<input th:text="${shopDto.shopNm}" readonly style="border: none;">
+							<div th:text="${shopDto.shopNm}" style="border: none;"></div>
 						</div>
-
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-location">위치</label>
 							</div>
-							<input th:text="${shopDto.shopPlace}" readonly style="border: none;">
+							<div th:text="${shopDto.shopPlace}" style="border: none;"></div>
 						</div>
-
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-type">업종</label>
 							</div>
-							<input th:text="${shopDto.shopType}" readonly style="border: none;">
+							<div th:text="${shopDto.shopType}" style="border: none;"></div>
 						</div>
 						<div class="mb-3 shop-info">
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
@@ -140,16 +138,16 @@ input {
 							<div class="shop-item">
 								<label class="shop-business">사업자 번호</label>
 							</div>
-							<input th:text="${shopDto.businessId}" readonly style="border: none;">
+							<div th:text="${shopDto.businessId}" style="border: none;"></div>
 						</div>
 						<div class="shop-info">
 							<div class="shop-item">
 								<label class="shop-business">매장 코드</label>
 							</div>
-							<input th:text="${shopDto.shopId}" readonly style="border: none;">
+							<div th:text="${shopDto.shopId}" style="border: none;"></div>
 						</div>
 						<div class="shop-createbtn">
-							<button type="submit" class="btn " style="width: 30%; left: 0;" onclick="location.href='/shop/shopInfoEdit/${shopDto.shopId}">수정</button>
+							<button type="submit" class="btn " style="width: 30%; left: 0;" onclick="location.href='/shop/shopInfoEdit/${shopDto.shopId}'">수정</button>
 							<button type="button" class="btn " style="width: 30%; right: 0;">취소</button>
 						</div>
 					</div>
