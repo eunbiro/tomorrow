@@ -55,21 +55,14 @@ li {
 		<div class="wrap">
 			<div class="row my-4">
 				<div class="col-lg-4">
-					<select
-						class="info-sell-shop form-select w-75 my-3 emp-info-select"
-						th:value="${shopDto.shopId}" th:name="${shopDto.shopId}">
+					<select class="info-sell-shop form-select w-75 my-3 emp-info-select" th:value="${shopDto.shopId}" th:name="${shopDto.shopId}">
 						<option value="">매장 선택</option>
-						<th:block th:each="myShop: ${myShopList}"
-							th:value="${myShop.shopDto.shopId}">
-							<option
-								th:selected="${shopDto.shopId} == ${myShop.shopDto.shopId}"
-								th:value="${myShop.shopDto.shopId}"
-								th:text="${myShop.shopDto.shopNm}"></option>
+						<th:block th:each="myShop: ${myShopList}" th:value="${myShop.shopDto.shopId}">
+							<option th:selected="${shopDto.shopId} == ${myShop.shopDto.shopId}" th:value="${myShop.shopDto.shopId}" th:text="${myShop.shopDto.shopNm}"></option>
 						</th:block>
 					</select>
 				</div>
-				<div class="col-lg-4 text-center fs-1 fw-bold emp-info-title">근무자
-					정보</div>
+				<div class="col-lg-4 text-center fs-1 fw-bold emp-info-title">근무자 정보</div>
 				<div class="col-lg-4"></div>
 			</div>
 			<!-- read -->

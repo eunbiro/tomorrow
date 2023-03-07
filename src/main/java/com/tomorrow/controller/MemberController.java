@@ -1,8 +1,13 @@
 package com.tomorrow.controller;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tomorrow.auth.PrincipalDetails;
 import com.tomorrow.constant.Role;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
@@ -90,5 +96,17 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 카카오api
+	@GetMapping(value = "/oauth/logininfo")
+	public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal) {
+		
+		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+		Map<String, Object> attributes = oAuth2User.getAttributes();
+		System.out.println(attributes);
+		
+		Map<String, Object> attributes2 = oAuth2UserPrincipal.getAttributes();
+		
+		return attributes.toString();
+	}
 
 }

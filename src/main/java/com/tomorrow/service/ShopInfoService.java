@@ -163,11 +163,4 @@ public class ShopInfoService {
 		return shop.getId();
 	}
 
-	/*=====================================================*/
-	/* 직원 상태 변경하는 곳 */
-	public Long updateWorkSatus() {
-		return null;
-	}
-	
-	// TODO: 해야 하는 것 - 1. 직원 상태 변경 2. 시급, 시간 업데이트 3. 엑셀 다운로드 
 }

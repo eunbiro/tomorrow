@@ -9,13 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.tomorrow.constant.Role;
 import com.tomorrow.dto.MemberFormDto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -57,6 +56,10 @@ public class Member extends BaseEntity {
 
 	private String hintA;	//비밀번호 수정 시 사용
 	
+	private String provider;    // oauth2를 이용할 경우 어떤 플랫폼을 이용하는지
+	
+    private String providerId;  // oauth2를 이용할 경우 아이디값
+    
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "shop_id")
 //	private Shop shop; // 매장코드 FK
@@ -90,4 +93,17 @@ public class Member extends BaseEntity {
 	public void updatepNum(String pNum) {
 		this.pNum=pNum;
 	}
+	
+	public Member() {};
+	
+	@Builder(builderClassName = "OAuth2Register", builderMethodName = "OAuth2Register")
+    public Member(String username, String password, String name, Role role, String provider, String providerId) {
+        this.userId = username;
+        this.password = password;
+        this.role = role;
+        this.userNm = name;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.pNum = "000-0000-0000";
+    }
 }
