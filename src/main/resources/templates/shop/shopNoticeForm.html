@@ -30,8 +30,7 @@
 				if (shopId == "") {
 					
 					alert("매장을 선택해주세요");
-					
-					return;
+					$(location).attr('href', url);
 				}
 			});
 		});
@@ -41,88 +40,47 @@
 			
 			$('.noti-sel-shop').off().on("change", function() {
 				
+				var chkStatus = $(this).val();
+				
+				if (chkStatus == "") return;
+				
 				var shopId = $('.noti-sel-shop').val();
 				
-				var url = "/shop/info/" + shopId;
+				var url = "/shop/shopChk/" + shopId;
 				
-				$(location).attr('href', url);
+			//	$(location).attr('href', url);
+			
+				$.ajax({
+					
+					url			: url,
+					type 		: "GET",
+					contentType : "application/json",
+					dataType 	:"Json",
+					cache 		: false,
+					success 	: function(result, status) {
+						
+						if (result == 0) {
+							
+							alert('근무중인 매장이 아닙니다.');
+							location.href = '/shop/info';
+						} else {
+							
+							location.href = '/shop/info/' + shopId;
+						}
+					},
+					error 		: function(jqXHR, status, error) {
+
+						if (jqXHR.status == '401') {
+							
+							alert('로그인 후 이용하시오.');
+							location.href = '/member/login';
+						} else {
+							
+							alert(jqXHR.responseText);
+						}
+					}
+				});
 			});
-		});
-			
-		// 좋아요 insert
-		
-		$(function() {
-			
-			$('#noti-like').off().on("click", function() {
-				
-				var token = $("meta[name='_csrf']").attr("content");
-				var header = $("meta[name='_csrf_header']").attr("content");
-				
-				var memberId = $('#memberId').val();
-				var url = "/shop/info/" + memberId;
-				var noticeId = $('#noticeId').val();
-				var notiLikeId = $('#noti-like').val();
-				var shopId = $('.noti-sel-shop').val();
-				
-				if (notiLikeId == null) {
-					
-					$.ajax({
-						url			: url + '/like',
-						type		: "POST",
-						contentType : "application/json",
-						data		: noticeId,
-						beforeSend	: function(xhr) {
-							xhr.setRequestHeader(header, token);
-						},
-						dataType	: "json",
-						cache		: false,
-						success		: function(result, status) {
-							
-							location.href = '/shop/info/' + shopId;
-						},
-						error		: function(jqXHR, status, error) {
-							
-							if (jqXHR.status == '401') {
-								
-								alert('로그인 후 이용하시오.');
-								location.href = '/member/login';
-							} else {
-								
-								alert(jqXHR.responseText);
-							}
-						}
-					});
-				} else {
-					
-					$.ajax({
-						url			: url + '/likeDel',
-						type		: "DELETE",
-						contentType : "application/json",
-						data		: notiLikeId,
-						beforeSend	: function(xhr) {
-							xhr.setRequestHeader(header, token);
-						},
-						dataType	: "json",
-						cache		: false,
-						success		: function(result, status) {
-							
-							location.href = '/shop/info/' + shopId;
-						},
-						error		: function(jqXHR, status, error) {
-							
-							if (jqXHR.status == '401') {
-								
-								alert('로그인 후 이용하시오.');
-								location.href = '/member/login';
-							} else {
-								
-								alert(jqXHR.responseText);
-							}
-						}
-					});
-				}
-	        });
-			
 		});
 		
 		// 해당 공지 삭제
@@ -408,12 +366,7 @@
 						</div>
 					</div>
 					<!-- 하단부분 -->
-					<div class="d-flex px-5 py-3 fs-6 justify-content-between mx-auto">
-						<div class="row pt-auto">
-							<input type="hidden" id="noticeId" th:value=${noti.noticeId}/>
-							<a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer; padding-right: 2px;"><i class="fa-regular fa-circle-check"></i></a>
-							<span class="col-7 text-start" style="padding-left: 2px;" th:text="${noti.notiLike} + '명'">1명</span>
-						</div>
+					<div class="px-5 py-3 fs-6 text-end">
 						<div th:if="${noti.regTime == noti.updateTime}">
 							<div class="pt-auto" style="font-size: 0.8rem; color: #A6A6A6;" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
 								23-02-12

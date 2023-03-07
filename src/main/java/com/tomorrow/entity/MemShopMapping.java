@@ -76,7 +76,7 @@ public class MemShopMapping extends BaseEntity{
 		mapping.setShop(shop);
 		mapping.setMember(member);
 		mapping.setWorkStatus(0);
-		mapping.setPartTime("");
+		mapping.setPartTime("관리자");
 		mapping.setTimePay(0);
 		
 		return mapping;

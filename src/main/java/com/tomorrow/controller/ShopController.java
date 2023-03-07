@@ -22,6 +22,7 @@ import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.NoticeDto;
 import com.tomorrow.dto.ShopDto;
 import com.tomorrow.dto.WorkLogDto;
+import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.Notice;
 import com.tomorrow.entity.Shop;
@@ -58,15 +59,23 @@ public class ShopController {
 		return model.addAttribute("member", memberFormDto);
 	}
 
+	@GetMapping(value = "/shop/shopChk/{shopId}")
+	public @ResponseBody ResponseEntity shopChk(@PathVariable("shopId") Long shopId, Principal principal) {
+
+		Member member = shopService.findMember(principal.getName());
+		int chkNum = shopService.shopChk(shopId, member.getId());
+		return new ResponseEntity<Integer>(chkNum, HttpStatus.OK);
+	}
+	
 	// GET매장 선택 시 공지내역가져옴
 	@GetMapping(value = "/shop/info/{shopId}")
-	public String shopGetNoti(@PathVariable("shopId") String shopId, Model model, Principal principal) {
+	public String shopGetNoti(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 		
 		List<NoticeDto> notiList = shopService.getNoticeList(shopId);
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		NoticeDto noticeDto = new NoticeDto();
 		ShopDto shopDto = new ShopDto();
-		shopDto.setShopId(Long.parseLong(shopId));
+		shopDto.setShopId(shopId);
 		noticeDto.setShopDto(shopDto);
 
 		getSideImg(model, principal);
@@ -85,7 +94,7 @@ public class ShopController {
 			
 			Long shopId = noticeDto.getShopDto().getShopId();
 			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-			List<NoticeDto> notiList = shopService.getNoticeList(String.valueOf(shopId));
+			List<NoticeDto> notiList = shopService.getNoticeList(shopId);
 			
 			getSideImg(model, principal);
 			model.addAttribute("notiList", notiList);
@@ -190,24 +199,23 @@ public class ShopController {
 	}
 	
 	// GET매장 선택 시 근무일지가져옴
-		@GetMapping(value = "/shop/log/{shopId}")
-		public String shopGetLog(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+	@GetMapping(value = "/shop/log/{shopId}")
+	public String shopGetLog(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 
-			List<WorkLogDto> logList = shopService.getLogList(shopId);
-			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-			WorkLogDto workLogDto = new WorkLogDto();
-			ShopDto shopDto = new ShopDto();
-			shopDto.setShopId(shopId);
-			workLogDto.setShopDto(shopDto);
+		List<WorkLogDto> logList = shopService.getLogList(shopId);
+		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		WorkLogDto workLogDto = new WorkLogDto();
+		ShopDto shopDto = new ShopDto();
+		shopDto.setShopId(shopId);
+		workLogDto.setShopDto(shopDto);
 
-			getSideImg(model, principal);
-			model.addAttribute("logList", logList);
-			model.addAttribute("myShopList", myShopList);
-			model.addAttribute("workLogDto", workLogDto);
-			model.addAttribute("updateWorkLogDto", new WorkLogDto());
-			return "shop/workLogForm";
-		}
-
+		getSideImg(model, principal);
+		model.addAttribute("logList", logList);
+		model.addAttribute("myShopList", myShopList);
+		model.addAttribute("workLogDto", workLogDto);
+		model.addAttribute("updateWorkLogDto", new WorkLogDto());
+		return "shop/workLogForm";
+	}
 
 	// POST근무일지폼
 	@PostMapping(value = "/shop/log")
