@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 				$(location).attr('href', url);
 			});
-		});
+		}); 
 	</script>
 </th:block>
 
@@ -146,6 +146,9 @@ margin: 0;
 						    <input type="text" placeholder="근무타임을 입력해주세요" th:field="*{hireTime}">
 						    <p th:if="${#fields.hasErrors('hireTime')}" th:errors="*{hireTime}" class="fieldError text-start">Incorrect Data</p>
 							
+							<label>전화번호</label>
+						    <input type="text" placeholder="전화번호를 입력해주세요" th:field="*{hireNum}">
+						    <p th:if="${#fields.hasErrors('hireNum')}" th:errors="*{hireNum}" class="fieldError text-start">Incorrect Data</p>
 							
 							<label class="shop-type">업종</label>
 							<input th:field="*{shopDto.shopType}" readonly style="border: none;">
@@ -155,8 +158,22 @@ margin: 0;
 					
 					</div>
 				</div>
-
                  <div class="jobNew-btn-wrap">
+                 <button id="tblbutton" class="btn btn-primary" type="button" value="공고등록취소"
+						onclick="cancelCheck()" >취소</button>
+					<script>
+						function cancelCheck() {
+
+							if (confirm("정말 취소하시겠습니까??") == true) { //확인
+								
+								var link = 'http://localhost/admin/job/openingList';
+								location.href = link;
+							} else { //취소
+
+								return false;
+							}
+						};
+					</script>
                  <button th:formaction="@{'/admin/job/new'}" class="btn btn-primary" type="submit">등록</button>
                  </div>
 				

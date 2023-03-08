@@ -104,11 +104,49 @@ public class JobService {
 		return hireRepository.save(hire);
 	}
 	
+	    // 공고 DTO 저장
+		@Transactional(readOnly = true)
+		public List<HireDto> getJobView(Long memberId) {
+
+			List<Hire> hireList = hireRepository.findByMemberId(memberId);
+			List<HireDto> hireDtoList = new ArrayList<>();
+
+			for (Hire hire : hireList) {
+
+				HireDto hireDto = new HireDto();
+				
+				hireDto.setShopDto(getShop(hire.getShop()));
+				hireDto.setMemberFormDto(getMember(hire.getMember()));
+				hireDto.setHirePeriod(hire.getHirePeriod());
+				hireDto.setHireTime(hire.getHireTime());
+				hireDto.setHirePay(hire.getHirePay());
+				hireDto.setHireNum(hire.getHireNum());
+				hireDto.setId(hire.getId());
+				
+				
+				hireDtoList.add(hireDto);
+			}
+
+			return hireDtoList;
+		}
+		
+		// 구인공고 내용을 가져옴
+		@Transactional
+		public List<HireDto> getHire(String userId) {
+			
+			Member member = findMember (userId);
+			List<HireDto> hireList = getJobView(member.getId());
+			return hireList;
+		}
+	
 	
 
 	// 매장찾기
 	public Shop findShop(Long shopId) {
 		return shopRepository.findById(shopId).orElseThrow(EntityNotFoundException::new);
 	}
+
+
+
 
 }

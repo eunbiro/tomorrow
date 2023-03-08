@@ -66,7 +66,7 @@ public class JobController {
 		return "job/jobNew";
 	}
 
-	// TODO 셀렉트 선택 안됨, 임의로 shopId 값 넣고 등록 가능
+	// TODO 셀렉트 선택 안됨, 임의로 shopId 값 넣고 등록 가능, 등록 후 페이지 이동
 	// 구인공고 등록 매장 정보 불러오기
 	@GetMapping(value = "/admin/job/new/{shopId}")
 	public String getShopJobNew(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
@@ -118,26 +118,16 @@ public class JobController {
     	return "job/jobOpeningList";
     }
 
-	// 구인공고 수정페이지 보기
-//	@GetMapping(value = "/admin/job/new/{hireId}")
-//	public String jobHireDtl(@PathVariable("hireId") Long hireId, Model model) {
-//		try {
-//
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//
-//		return "job/jobNew";
-//	}
 
 	// 구인공고뷰 페이지
 	@GetMapping(value = "/job/view")
 	public String jobView(Model model, Principal principal) {
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+		
+		List<HireDto> hireDtoList = jobService.getHire(principal.getName());
 
 		getSideImg(model, principal);
 
-		model.addAttribute("myShopList", myShopList);
+		model.addAttribute("hireDtoList", hireDtoList);
 
 		return "job/jobView";
 	}
