@@ -34,9 +34,12 @@ public class ShopInfoService {
 	private final ShopImgRepository shopImgRepository;
 	private final MemShopMapRepository mapRepository;
 	private final ShopImgService shopImgService;
-
-	// TODO 1. 버튼 누르면 workStaus 1에서 2로 바뀌게 만들기 2. 그 다음 시급, 근무시간 입력할 수 있게 하기 
-	// TODO 우선순위는 상태 변경, 그리고 그 이후에 시급, 시간 변경 가능하게 만들기. 
+	
+	/* TODO 
+	 * 1. 폼태그 수정 (사용 X) ✔
+	 * 2. 매장 정보 불러올 때 사진 클릭하면 원본 사진 팝업으로 띄우기 (새 창 X)
+	 * 3. 매장 정보 불러올 때 map API 띄우기 
+	 * */
 	
 	// 현재 접속해있는 관리자정보를 불러옴
 	@Transactional(readOnly = true)
@@ -128,7 +131,7 @@ public class ShopInfoService {
 		return memShopMappingDtoList;
 	}
 	
-	// 상품 가져오기
+	// 매장 정보 가져오기
 	@Transactional(readOnly = true)
 	public CreateShopFormDto getShopInfoDtl(Long shopId) {
 		List<ShopImg> shopImgList = shopImgRepository.findByShopId(shopId);
@@ -148,7 +151,7 @@ public class ShopInfoService {
 		
 	}
 	
-	// 상품 수정 
+	// 매장 정보 수정 
 	public Long updateShopInfo(CreateShopFormDto createShopFormDto, List<MultipartFile> shopImgFileList) throws Exception {
 		Shop shop = shopRepository.findById(createShopFormDto.getId())
 				.orElseThrow(EntityNotFoundException::new);
@@ -163,11 +166,4 @@ public class ShopInfoService {
 		return shop.getId();
 	}
 
-	/*=====================================================*/
-	/* 직원 상태 변경하는 곳 */
-	public Long updateWorkSatus() {
-		return null;
-	}
-	
-	// TODO: 해야 하는 것 - 1. 직원 상태 변경 2. 시급, 시간 업데이트 3. 엑셀 다운로드 
 }

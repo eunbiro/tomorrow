@@ -7,9 +7,26 @@
 <meta name="_csrf" th:content="${_csrf.token}"/>
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>매장공지</title>
-
+<script type="text/javascript" src="/js/loadingoverlay.min.js"></script>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
+		$(function() {
+			
+			$.LoadingOverlaySetup({
+				background			: "rgba(41, 55, 91, 0.25)",
+				image				: "",
+				maxSize				: 60,
+				fontawesome			: "fas fa-carrot fa-spin",
+				fontawesomeColor	: "rgba(255, 150, 53, 1)",
+			});
+			
+		//	$.LoadingOverlay("show");
+			
+		//	setTimeout(function(){
+		//	    $.LoadingOverlay("hide");
+		//	}, 2000);
+		});
+		
 		$(document).ready(function() {
 			
 			var errorMessage = [[${errorMessage}]];
@@ -30,7 +47,7 @@
 				if (shopId == "") {
 					
 					alert("매장을 선택해주세요");
-					
+					$(location).attr('href', url);
 					return;
 				}
 			});
@@ -41,88 +58,53 @@
 			
 			$('.noti-sel-shop').off().on("change", function() {
 				
+				var chkStatus = $(this).val();
+				
+				if (chkStatus == "") return location.href = '/shop/info';
+				
 				var shopId = $('.noti-sel-shop').val();
 				
-				var url = "/shop/info/" + shopId;
+				var url = "/shop/shopChk/" + shopId;
 				
-				$(location).attr('href', url);
+				$.ajax({
+					
+					url			: url,
+					type 		: "GET",
+					contentType : "application/json",
+					dataType 	:"Json",
+					cache 		: false,
+					success 	: function(result, status) {
+						
+						if (result == 0) {
+							
+							alert('근무중인 매장이 아닙니다.');
+							location.href = '/shop/info';
+						} else {
+							
+							location.href = '/shop/info/' + shopId;
+						}
+					},
+					beforeSend	: function() {
+						
+						$.LoadingOverlay("show");
+					},
+					complate	: function() {
+						
+						$.LoadingOverlay("hide");
+					},
+					error 		: function(jqXHR, status, error) {
+
+						if (jqXHR.status == '401') {
+							
+							alert('로그인 후 이용하시오.');
+							location.href = '/member/login';
+						} else {
+							
+							alert(jqXHR.responseText);
+						}
+					}
+				});
 			});
-		});
-			
-		// 좋아요 insert
-		
-		$(function() {
-			
-			$('#noti-like').off().on("click", function() {
-				
-				var token = $("meta[name='_csrf']").attr("content");
-				var header = $("meta[name='_csrf_header']").attr("content");
-				
-				var memberId = $('#memberId').val();
-				var url = "/shop/info/" + memberId;
-				var noticeId = $('#noticeId').val();
-				var notiLikeId = $('#noti-like').val();
-				var shopId = $('.noti-sel-shop').val();
-				
-				if (notiLikeId == null) {
-					
-					$.ajax({
-						url			: url + '/like',
-						type		: "POST",
-						contentType : "application/json",
-						data		: noticeId,
-						beforeSend	: function(xhr) {
-							xhr.setRequestHeader(header, token);
-						},
-						dataType	: "json",
-						cache		: false,
-						success		: function(result, status) {
-							
-							location.href = '/shop/info/' + shopId;
-						},
-						error		: function(jqXHR, status, error) {
-							
-							if (jqXHR.status == '401') {
-								
-								alert('로그인 후 이용하시오.');
-								location.href = '/member/login';
-							} else {
-								
-								alert(jqXHR.responseText);
-							}
-						}
-					});
-				} else {
-					
-					$.ajax({
-						url			: url + '/likeDel',
-						type		: "DELETE",
-						contentType : "application/json",
-						data		: notiLikeId,
-						beforeSend	: function(xhr) {
-							xhr.setRequestHeader(header, token);
-						},
-						dataType	: "json",
-						cache		: false,
-						success		: function(result, status) {
-							
-							location.href = '/shop/info/' + shopId;
-						},
-						error		: function(jqXHR, status, error) {
-							
-							if (jqXHR.status == '401') {
-								
-								alert('로그인 후 이용하시오.');
-								location.href = '/member/login';
-							} else {
-								
-								alert(jqXHR.responseText);
-							}
-						}
-					});
-				}
-	        });
-			
 		});
 		
 		// 해당 공지 삭제
@@ -147,6 +129,7 @@
 				beforeSend 	: function(xhr) {
 					
 					xhr.setRequestHeader(header, token)
+					$.LoadingOverlay("show");
 				},
 				dataType 	:"Json",
 				cache 		: false,
@@ -154,6 +137,10 @@
 					
 					alert("기입내용이 삭제되었습니다.");
 					location.href = '/shop/info/' + shopId;
+				},
+				complate	: function() {
+					
+					$.LoadingOverlay("hide");
 				},
 				error 		: function(jqXHR, status, error) {
 
@@ -188,7 +175,6 @@
 			$('#noti-cont-update' + noticeId).children('div').children('textarea').attr('disabled', true);
 			$('#noti-cont-update' + noticeId).hide();
 		}
-		
 		
 	</script>
 </th:block>
@@ -310,6 +296,7 @@
     	 	resize: none;
     	 	border-radius: 5px;
     	 }
+		
 	</style>
 	
 	<style media="all and (max-width: 1200px)">
@@ -328,8 +315,7 @@
 <body>
 	<div layout:fragment="content" id="cont-wrap">
 		<div class="container-lg d-flex flex-column text-center noti-wrap">
-		
-			<form class="noti-form my-4 mx-auto container-md" method="post" th:object="${noticeDto}">
+			<form class="noti-form my-4 mx-auto container-md" method="post" action="/shop/info" th:object="${noticeDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">매장공지</a>
 					<!-- 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
@@ -340,11 +326,12 @@
 						</th:block>
 					</select>
 				</div>
-				<!-- create부분  sec:authorize="hasAnyAuthority('ROLE_ADMIN')" -->
+				<!-- create부분 -->
 				<div class="mx-auto" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 					<div class="row notice mx-auto my-2">
 						<textarea class="col-10 py-2 notice-ipt" th:field="*{noticeCont}" placeholder="공지사항 작성"></textarea>
-						<button type="submit" th:formaction="@{'/shop/info'}" class="col-2 notice-icon text-end">
+						<!--  th:formaction="@{'/shop/info'}" -->
+						<button th:if="${not #strings.isEmpty(noticeDto.shopDto.shopId)}" type="submit" class="col-2 notice-icon text-end">
 							<i class="fa-sharp fa-solid fa-file-pen"></i>
 						</button>
 					</div>
@@ -408,12 +395,7 @@
 						</div>
 					</div>
 					<!-- 하단부분 -->
-					<div class="d-flex px-5 py-3 fs-6 justify-content-between mx-auto">
-						<div class="row pt-auto">
-							<input type="hidden" id="noticeId" th:value=${noti.noticeId}/>
-							<a class="col-5 text-end" id="noti-like" style="color: blue; cursor: pointer; padding-right: 2px;"><i class="fa-regular fa-circle-check"></i></a>
-							<span class="col-7 text-start" style="padding-left: 2px;" th:text="${noti.notiLike} + '명'">1명</span>
-						</div>
+					<div class="px-5 py-3 fs-6 text-end">
 						<div th:if="${noti.regTime == noti.updateTime}">
 							<div class="pt-auto" style="font-size: 0.8rem; color: #A6A6A6;" th:text="${#temporals.format(noti.regTime, 'yyyy-MM-dd HH:mm')}">
 								23-02-12

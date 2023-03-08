@@ -27,15 +27,15 @@
 							<i class="fa-solid fa-x" style="color:white; "></i>
 						</button>	
 					</div>
-					<div class="offcanvas-body" style="padding: 0">
+					<div class="offcanvas-body" >
 						<ul class="navbar-nav ">
 							<li>
 								<div class="side-profile">
 										<div class="nav-item" style="height: 180px">
 											<div class="box" style="background: #BDBDBD;">
-												<div class="box" style="background: #BDBDBD; transform: translate(0%, -40%);">
-												<img th:if="${not #strings.isEmpty(member.imgUrl)}" th:src="${member.imgUrl}" class="profile" style="border-radius: 60%">
-											</div>
+												
+												<img th:if="${not #strings.isEmpty(member.imgUrl)}" th:src="${member.imgUrl}" class="profile" >
+											
 										</div>
 										<div class="side-name mt-5 ms-4">
 											<a sec:authorize="hasRole('USER')">[[${member.userNm}]]님<br>오늘 하루도 열일하세요. : )</a>
@@ -49,6 +49,12 @@
 								</div>
 							</li>
 						</ul>
+						<div class="accordion-collapse collapse">
+							<div class="accordion-body bg-dark">
+					      		<a sec:authorize="hasAnyAuthority('ROLE_USER') or hasAnyAuthority('ROLE_ALBA')" class="nav-link acABtn py-2 ps-5" href="/shop/search">매장등록</a>
+					      		<a sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="nav-link acABtn py-2 ps-5" href="/shopcreate/createshopp">매장생성</a>
+							</div>
+					    </div>
 						<div class="accordion accordion-flush" id="accordionFlushExample">
 							<div class="accordion-item acTapBtn" sec:authorize="isAuthenticated()">
 							    <h2 class="accordion-header" id="flush-headingOne">

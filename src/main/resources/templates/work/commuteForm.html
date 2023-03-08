@@ -18,16 +18,76 @@
 			}
 		});
 		
+		$(function() {
+			
+			$.LoadingOverlaySetup({
+				background			: "rgba(41, 55, 91, 0.25)",
+				image				: "",
+				maxSize				: 60,
+				fontawesome			: "fas fa-carrot fa-spin",
+				fontawesomeColor	: "rgba(255, 150, 53, 1)",
+			});
+			
+		//	$.LoadingOverlay("show");
+			
+		//	setTimeout(function(){
+		//	    $.LoadingOverlay("hide");
+		//	}, 2000);
+		});
+		
 		// 매장선택 시 해당 매장정보 불러옴
 		$(function() {
 			
 			$('.commute-sel-shop').off().on("change", function() {
 				
+				var chkStatus = $(this).val();
+				
+				if (chkStatus == "") return location.href = '/work/commute';
+				
 				var shopId = $('.commute-sel-shop').val();
 				
-				var url = "/work/commute/" + shopId;
+				var url = "/shop/shopChk/" + shopId;
 				
-				$(location).attr('href', url);
+			//	$(location).attr('href', url);
+			
+				$.ajax({
+					
+					url			: url,
+					type 		: "GET",
+					contentType : "application/json",
+					dataType 	: "Json",
+					cache 		: false,
+					success 	: function(result, status) {
+						
+						if (result == 0) {
+							
+							alert('근무중인 매장이 아닙니다.');
+							location.href = '/work/commute';
+						} else {
+							
+							location.href = '/work/commute/' + shopId;
+						}
+					},
+					beforeSend	: function() {
+						
+						$.LoadingOverlay("show");
+					},
+					complate	: function() {
+						
+						$.LoadingOverlay("hide");
+					},
+					error 		: function(jqXHR, status, error) {
+
+						if (jqXHR.status == '401') {
+							
+							alert('로그인 후 이용하시오.');
+							location.href = '/member/login';
+						} else {
+							
+							alert(jqXHR.responseText);
+						}
+					}
+				});
 			});
 		});
 	
@@ -59,6 +119,14 @@
 					}
 					
 					$('form').attr('action', '/work/commute/' + commuteId).submit();
+				},
+				beforeSend	: function() {
+					
+					$.LoadingOverlay("show");
+				},
+				complate	: function() {
+					
+					$.LoadingOverlay("hide");
 				},
 				error 		: function(jqXHR, status, error) {
 

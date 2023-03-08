@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tomorrow.constant.Role;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.ShopDto;
@@ -24,11 +26,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class EmployeeInfoService {
 	/* TODO
-	 * 1. DELETE 버튼 
-	 * 2. workStatus = 2로 바뀌면 role도 바꾸기 
-	 * 3. 시급 0으로 뜨는거 고치기 (직원이 매장 등록하면 null로 들어오기 때문에 0부터 뜸)
-	 * 4. th:text가 왜 input창 아래에 뜨는것임... 이거도 고치기 
-	 * 5. css 손보기 
+	 * 1. DELETE 버튼 ✔
+	 * 2. 승인 누르면 workStatus랑 role 변경 ✔
+	 * - workStatus 2일 때 이름 누르면 시간, 시급 업데이트 ✔
+	 * - workStatus 1일 때는 업데이트 불가 ✔
+	 * - workStatus 3 추가(퇴사자) ✔✔
+	 * - role 변경 ➡ 은비언니한테 검토 
+	 * - workStatus 순으로 정렬해야 함! ✔
+	 * 3. 시급 0으로 뜨는거 고칠 수 있나 확인해보기 
+	 * 4. input에 원래 있는 값 불러오지 못하는 거 해결  
+	 * 5. 엑셀 다운로드 ✔✔
+	 * 6. CSS 수정 ✔
 	 */
 	private final MemberRepository memberRepository;
 	private final MemShopMapRepository mapRepository;
@@ -120,16 +128,46 @@ public class EmployeeInfoService {
 		return memShopMappingDtoList;
 	}
 	
+	// 상태 update 
+	public void updateStatus(Long mapId, @Valid MemShopMappingDto statusUpdateDto, Member member, Shop shop) {
+		MemShopMapping memShopMapping = findMapping(mapId);
+		
+		List<MemShopMapping> memberList = new ArrayList<>();
+		memberList.add(memShopMapping);
+		
+		if(memShopMapping.getWorkStatus() == 1) {
+			memShopMapping.updateStatus1(statusUpdateDto, member, shop);
+			member.updateRole(Role.ALBA);
+		} else if (memShopMapping.getWorkStatus() == 2) {
+			if (memberList.size() < 2 ) {
+				memShopMapping.updateStatus2(statusUpdateDto, member, shop);
+				member.updateRole(Role.USER);
+			} else if (memberList.size() >= 2) {
+				memShopMapping.updateStatus2(statusUpdateDto, member, shop);
+				member.updateRole(Role.ALBA);
+			}
+		} else if (memShopMapping.getWorkStatus() == 3) {
+			memShopMapping.updateStatus3(statusUpdateDto, member, shop);
+			member.updateRole(Role.ALBA);
+		}
+	}
+	
 	// 매장 직원 정보 내용 update
 	public void updateEmplInfo(Long mapId, MemShopMappingDto updateMappingDto, Member member, Shop shop) {
 		MemShopMapping memShopMapping = findMapping(mapId);
 		memShopMapping.updateEmplInfo(updateMappingDto, member, shop);
-		
 	}
 
 	public MemShopMapping findMapping(Long mapId) {
 
 		return mapRepository.findById(mapId).orElseThrow(EntityNotFoundException::new);
 	}
+	
+	// 직원 정보 내용 delete 
+	public void deleteEmployee(MemShopMapping memShopMapping) {
+		
+		mapRepository.delete(memShopMapping);
+	}
+
 
 }

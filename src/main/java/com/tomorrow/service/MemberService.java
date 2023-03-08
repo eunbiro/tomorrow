@@ -2,10 +2,12 @@ package com.tomorrow.service;
 
 import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.entity.Member;
+import com.tomorrow.entity.Notice;
+import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ public class MemberService implements UserDetailsService {
 	
 	private final FileService fileService;
 	
+	private final ShopCreateService shopCreateService;
 	private final MemberRepository memberRepository;
 
 	@Override
@@ -121,5 +126,10 @@ public class MemberService implements UserDetailsService {
 		member.updatepNum(memberFormDto.getPNum());
 	}
 
+	// 회원아이디 삭제
+	public void deleteMember(Member member) {
 
+		shopCreateService.deleteMapId(member.getId());
+		memberRepository.delete(member);
+	}
 }
