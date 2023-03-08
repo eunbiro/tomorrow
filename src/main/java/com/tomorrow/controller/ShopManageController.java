@@ -163,6 +163,26 @@ public class ShopManageController {
 		return "manage/managerPayForm";
 	}
 	
+	@GetMapping(value = "/pay/{shopId}/{month}")
+	public String getPayListByMonth(@PathVariable("shopId") Long shopId, @PathVariable("month") int month, Model model, Principal principal) {
+		
+		try {
+			getSideImg(model, principal);
+			
+			//매니저 아이디로 소유중인 매장 목록 띄우기
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			model.addAttribute("myShopList", myShopList);	//사용자가 가진 매장 리스트
+			
+			List<PayListDto> payListDto = payListService.getPayListByMonth(shopId, month);			
+			model.addAttribute("payListDto", payListDto);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "manage/managerPayForm";
+		}
+		return "manage/managerPayForm";
+	}
+	
 	// 직원 상태 변경 
 	@PostMapping(value = "/manage/emplStatus/{mapId}/update")
 	public String updateWorkStatus(@PathVariable("mapId") Long mapId, @Valid MemShopMappingDto statusUpdateDto, BindingResult bindingResult, Model model, Principal principal) {
