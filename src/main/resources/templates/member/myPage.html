@@ -270,7 +270,7 @@ table {
 			</div>
 
 			<div class="profile-basic">
-				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_USER')">[[${member.userNm}]]
+				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')">[[${member.userNm}]]
 					님</a> <a class="profile-name"
 					sec:authorize="hasAnyAuthority('ROLE_ADMIN')">[[${member.userNm}]]
 					님</a> <a class="profile-mini-id">@[[${member.userId}]]</a> <a
@@ -283,7 +283,7 @@ table {
 				<div class="profile-shop-register w-75 mx-auto ">
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
 						th:onclick="|location.href='@{/shopcreate/createshopp}'|">매장생성</button>
-					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER')"
+					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')"
 						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
 				</div>
 				<form role="form" method="get">
