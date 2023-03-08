@@ -14,5 +14,7 @@ public interface PayListRepository extends JpaRepository<PayList, Long>, Queryds
 	@Query(value = "select * from pay_list p where p.map_id = :mapId order by reg_time Asc", nativeQuery = true)
 	List<PayList> findByMapId(@Param("mapId") Long mapId);
 
+	@Query(value = "select * from pay_list p join mem_shop_mapping m on p.map_id = m.map_id where month(p.reg_time) = :month and m.shop_id = :shopId", nativeQuery =  true)
+	List<PayList> findPayListByMonth(@Param("shopId") Long shopId, @Param("month") int month);
 
 }
