@@ -35,7 +35,7 @@ public class EmployeeInfoService {
 	 * - workStatus 순으로 정렬해야 함! ✔
 	 * 3. 시급 0으로 뜨는거 고칠 수 있나 확인해보기 
 	 * 4. input에 원래 있는 값 불러오지 못하는 거 해결  
-	 * 5. 엑셀 다운로드
+	 * 5. 엑셀 다운로드 ✔✔
 	 * 6. CSS 수정 ✔
 	 */
 	private final MemberRepository memberRepository;
