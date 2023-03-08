@@ -40,6 +40,12 @@ public class JobService {
 	public Member findMember(String userId) {
 		return memberRepository.findByUserId(userId);
 	}
+	
+	// 모든 공고 가져오기 test
+		@Transactional(readOnly = true)
+		public Hire findHire() {
+			return (Hire) hireRepository.findAll();
+		}
 
 	// 내가 가지고 있는 매장정보를 불러옴 (select 박스에 매장 목록 가져오기)
 	@Transactional(readOnly = true)
@@ -94,6 +100,7 @@ public class JobService {
 		shopDto.setShopNm(shop.getShopNm());
 		shopDto.setShopPlace(shop.getShopPlace());
 		shopDto.setShopType(shop.getShopType());
+		shopDto.setShopId(shop.getId());
 
 		return shopDto;
 	}
@@ -106,9 +113,9 @@ public class JobService {
 	
 	    // 공고 DTO 저장
 		@Transactional(readOnly = true)
-		public List<HireDto> getJobView(Long memberId) {
+		public List<HireDto> getJobView() {
 
-			List<Hire> hireList = hireRepository.findByMemberId(memberId);
+			List<Hire> hireList = hireRepository.findAll();
 			List<HireDto> hireDtoList = new ArrayList<>();
 
 			for (Hire hire : hireList) {
@@ -130,14 +137,12 @@ public class JobService {
 			return hireDtoList;
 		}
 		
-		// 구인공고 내용을 가져옴
-		@Transactional
-		public List<HireDto> getHire(String userId) {
-			
-			Member member = findMember (userId);
-			List<HireDto> hireList = getJobView(member.getId());
-			return hireList;
-		}
+		// 구인공고 리스트
+//		@Transactional(readOnly = true)
+//      	public List<HireDto> getHireList(HireDto hireDto) {
+//			return hireRepository.getHireList(hireDto);
+//		}
+		
 	
 	
 
