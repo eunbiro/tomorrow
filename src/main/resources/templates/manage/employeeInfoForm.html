@@ -109,7 +109,7 @@ li {
 				<div class="col-lg-4 text-center fs-1 fw-bold emp-info-title">근무자 정보</div>
 				<div class="col-lg-4 w-25 my-3">
 					<div class="excel">
-	             		<a href="/free/excelDown" class="btn  btn-sm btn-default" target="_blank" id="excelDown">excelDown</a>
+	             		<button th:onclick="|location.href='@{/admin/manage/employeeInfo/{shopId}/excelDownload(shopId = ${shopDto.shopId})}'|" class="btn  btn-sm btn-default" target="_blank" id="excelDown">excelDown</button>
 	            	</div>
 				</div>
 			</div>

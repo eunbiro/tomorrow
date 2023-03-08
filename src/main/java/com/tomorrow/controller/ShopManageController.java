@@ -1,11 +1,17 @@
 package com.tomorrow.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -233,6 +239,40 @@ public class ShopManageController {
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
 		emplInfoService.deleteEmployee(memShopMapping);
 		return new ResponseEntity<Long>(mapId, HttpStatus.OK);
+	}
+	
+	// 엑셀 다운로드
+	@GetMapping("/manage/employeeInfo/{shopId}/excelDownload")
+	public void downloadExcel(@PathVariable("shopId") Long shopId, HttpServletResponse response, Principal principal) throws IOException {
+		
+		Workbook workbook = new HSSFWorkbook();
+		Sheet sheet = workbook.createSheet("직원 정보");
+		int rowNo = 0;
+		
+		Row headerRow = sheet.createRow(rowNo++);
+		headerRow.createCell(0).setCellValue("이름");
+		headerRow.createCell(1).setCellValue("전화번호");
+		headerRow.createCell(2).setCellValue("근무시간");
+		headerRow.createCell(3).setCellValue("시급");
+		
+		List<MemShopMapping> list = mapRepository.findByShopId(shopId);
+		
+		for (MemShopMapping memShopMapping : list) {
+			if(memShopMapping.getWorkStatus() == 2) {
+				Row row = sheet.createRow(rowNo++);
+				row.createCell(0).setCellValue(memShopMapping.getMember().getUserNm());
+				row.createCell(1).setCellValue(memShopMapping.getMember().getPNum());
+				row.createCell(2).setCellValue(memShopMapping.getPartTime());
+				row.createCell(3).setCellValue(memShopMapping.getTimePay());
+			}
+		}
+
+		String attachment = "attachment;filename=" + list.get(0).getShop().getShopNm() + ".xls";
+		response.setContentType("ms-vnd/excel");
+		response.setHeader("Content-Disposition", attachment);
+		
+		workbook.write(response.getOutputStream());
+		workbook.close();
 	}
 
 }
