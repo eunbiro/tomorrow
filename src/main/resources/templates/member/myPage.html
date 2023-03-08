@@ -19,6 +19,24 @@
 				alert(errorMessage);
 			}
 		});
+		
+		$(function() {
+			
+			$.LoadingOverlaySetup({
+				background			: "rgba(41, 55, 91, 0.25)",
+				image				: "",
+				maxSize				: 60,
+				fontawesome			: "fas fa-carrot fa-spin",
+				fontawesomeColor	: "rgba(255, 150, 53, 1)",
+			});
+			
+		//	$.LoadingOverlay("show");
+			
+		//	setTimeout(function(){
+		//	    $.LoadingOverlay("hide");
+		//	}, 2000);
+		});
+		
 		// 해당 공지 삭제
 		function deleteMemberId(memberId) {
 			
@@ -42,6 +60,7 @@
 				beforeSend 	: function(xhr) {
 					
 					xhr.setRequestHeader(header, token)
+					$.LoadingOverlay("show");
 				},
 				dataType 	:"Json",
 				cache 		: false,
@@ -51,6 +70,10 @@
 					deleteCookie("setCookieYN");
 					alert("회원탈퇴 되었습니다.");
 					location.href = '/member/logout';
+				},
+				complate	: function() {
+					
+					$.LoadingOverlay("hide");
 				},
 				error 		: function(jqXHR, status, error) {
 
