@@ -38,8 +38,12 @@ public class MyPageService {
 		getSideImg(model, principal);
 	}
 	public  int comparePassword(PasswordDto passwordDto, String userId) {
+		//가져온 유저 아이디로 멤버를 찾습니다.
 		Member member = findMember(userId);
+		
+		//암호화된 비밀번호와 내가 입력한 비밀번호가 잘 맞는 지 확인 
 		if(passwordEncoder.matches(passwordDto.getCheckPassword(), member.getPassword())) {
+			//true 일 시 1을 반환
 			return 1;
 		}else {
 			return 0;

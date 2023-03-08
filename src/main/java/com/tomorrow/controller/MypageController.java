@@ -65,10 +65,10 @@ public class MypageController {
 	}
 
 	// 마이페이지에서 비밀번호 변경 페이지 가기 전 비밀번호 확인 절차
-
 	@PostMapping(value = "/member/passwordcheck")
 	public String comparePassword(@Valid PasswordDto passwordDto, Principal principal, Model model) {
 
+		//passwordDto에 담겨진 checkPassword랑 원래 멤버의 비밀번호랑 비교 할거임 
 		if (myPageService.comparePassword(passwordDto, principal.getName()) == 1) {
 			return "redirect:/member/myPagePassword";
 		}
@@ -81,26 +81,10 @@ public class MypageController {
 		// 가져온 리스트를 "memShopMappingDtoList로 이름 부여
 		model.addAttribute("memShopMappingDtoList", memShopMappingDtoList);
 		model.addAttribute("passwordDto", new PasswordDto());
-		model.addAttribute("errorMessage", "정확한 비밀번호를 입력하세요.");
+		model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
 		return "member/myPage";
 
 	}
-
-	/*
-	 * @PostMapping(value="/member/passwordcheck") public @ResponseBody
-	 * ResponseEntity comparePassword(@RequestBody @Valid PasswordDto passwordDto,
-	 * BindingResult bindingResult ) { if(bindingResult.hasErrors()) { StringBuilder
-	 * sb = new StringBuilder(); List<FieldError> fieldErrors =
-	 * bindingResult.getFieldErrors();
-	 * 
-	 * for(FieldError fieldError : fieldErrors ) {
-	 * sb.append(fieldError.getDefaultMessage()); } return new
-	 * ResponseEntity<String>(sb.toString(),HttpStatus.BAD_REQUEST); } int
-	 * checkPassword;
-	 * 
-	 * try { checkPassword =
-	 * myPageService.comparePassword(passwordDto.getTypeNowPassword(), ) } }
-	 */
 
 	// 사이드바 프로필 이미지 가져오기
 	public Model getSideImg(Model model, Principal principal) {
