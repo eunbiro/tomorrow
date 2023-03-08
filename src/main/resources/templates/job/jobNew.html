@@ -27,6 +27,7 @@ $(document).ready(function() {
 				$(location).attr('href', url);
 			});
 		}); 
+		
 	</script>
 </th:block>
 
@@ -176,16 +177,6 @@ margin: 0;
 					</script>
                  <button th:formaction="@{'/admin/job/new'}" class="btn btn-primary" type="submit">등록</button>
                  </div>
-				
-				<!-- <div class="jobNew-btn-wrap">
-				  <div th:if="${#strings.isEmpty(hireDto.id)}">
-                 <button th:formaction="@{'/admin/job/new'}" class="btn btn-primary" type="submit">등록</button>
-                 </div>
-                 <div th:unless="${#strings.isEmpty(hireDto.id)}">
-                 <button th:formaction="@{'/admin/job/' + ${hireDto.id}" class="btn btn-primary" type="submit">등록</button>
-                 </div>
-                 
-				</div> -->
 				
 			</div>
 			<input type="hidden" th:name="${_csrf.parameterName}"
