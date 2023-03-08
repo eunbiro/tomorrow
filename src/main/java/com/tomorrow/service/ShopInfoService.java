@@ -36,7 +36,7 @@ public class ShopInfoService {
 	private final ShopImgService shopImgService;
 	
 	/* TODO 
-	 * 1. 폼태그 수정 (사용 X) ✔✔
+	 * 1. 폼태그 수정 (사용 X) ✔
 	 * 2. 매장 정보 불러올 때 사진 클릭하면 원본 사진 팝업으로 띄우기 (새 창 X)
 	 * 3. 매장 정보 불러올 때 map API 띄우기 
 	 * */
