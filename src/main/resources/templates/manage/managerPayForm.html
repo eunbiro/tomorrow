@@ -19,13 +19,17 @@
 	});
 	//급여목록 조회버튼 클릭 시
 			
-		function updatePage() {
 			
-			var shopId = $('#shopId').val();
-			var month = $('#month').val();
-			console.log(month);
-			location.href = "/admin/pay/" + shopId + "/"+ month;
-		}
+	function updatePage() {
+		var shopId = $('#shopId').val();
+		var month = $('#month').val();
+
+		if(pay_frm.shopId.value == 'a' || pay_frm.month.value == 'b'){
+			alert("매장과 월을 입력해주세요.");
+			return false;
+		}	
+			location.href = "/admin/pay/" + shopId + "/"+ month;		
+	}
 	
 			
 	</script>
