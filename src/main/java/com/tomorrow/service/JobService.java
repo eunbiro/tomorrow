@@ -111,7 +111,7 @@ public class JobService {
 		return hireRepository.save(hire);
 	}
 	
-	    // 공고 DTO 저장
+//	    // 공고 DTO 저장
 		@Transactional(readOnly = true)
 		public List<HireDto> getJobView() {
 
@@ -136,6 +136,7 @@ public class JobService {
 
 			return hireDtoList;
 		}
+	
 		
 		// 구인공고 리스트
 		@Transactional(readOnly = true)
@@ -143,6 +144,7 @@ public class JobService {
 			List<HireDto> hireList = getJobView();
 			return hireList;		
 		}
+	
 		
 	
 	

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.HireDto;
 import com.tomorrow.dto.HireListDto;
+import com.tomorrow.dto.HireSearchDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
@@ -118,20 +119,23 @@ public class JobController {
     }
 
 
+	//TODO 내림차순...
 	// 구인공고뷰 페이지
 	@GetMapping(value = "/job/view")
 	public String jobView(HireDto hireDto, Model model, Principal principal) {
 		
 		getSideImg(model, principal);
 
-		//List<HireDto> hireDtoList = hireService.getHire(principal.getName());
-	   List<HireDto> hireDtoList = jobService.getHireList();
+	    List<HireDto> hireDtoList = jobService.getHireList();
 
 
 		model.addAttribute("hireDtoList", hireDtoList);
-
+	
 		return "job/jobView";
 	}
+	
+	
+	
 	
 	@GetMapping(value = "/admin/job/list")
 	public String jobListShow(Model model, Principal principal) {
