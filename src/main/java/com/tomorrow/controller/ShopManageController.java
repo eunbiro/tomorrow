@@ -1,17 +1,9 @@
 package com.tomorrow.controller;
-
-import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.tomorrow.constant.Role;
 import com.tomorrow.dto.CommuteDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
@@ -46,7 +38,6 @@ import com.tomorrow.service.ShopInfoService;
 import com.tomorrow.service.ShopService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 
 @Controller
 @RequiredArgsConstructor
@@ -140,26 +131,7 @@ public class ShopManageController {
 
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("payListDto", new PayListDto());
 		
-		return "manage/managerPayForm";
-	}
-	
-	// 매니저 급여관리 화면
-	@GetMapping(value = "/pay/{shopId}")
-	public String getPayListByShop(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
-		
-		getSideImg(model, principal);
-		
-		//매니저 아이디로 소유중인 매장 목록 띄우기
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-		model.addAttribute("myShopList", myShopList);	//사용자가 가진 매장 리스트
-		
-		//해당 매장의 전체 직원 급여 리스트
-		List<MemShopMapping> msmList = mapRepository.findByShopId(shopId);
-		List<PayListDto> payListDto = payListService.getPayListByMsm(msmList);
-		//payList엔 msmList로 가져온 mapping정보에 담긴 직원들 각각의 급여
-		model.addAttribute("payListDto", payListDto);
 		return "manage/managerPayForm";
 	}
 	
@@ -182,45 +154,6 @@ public class ShopManageController {
 		}
 		return "manage/managerPayForm";
 	}
-	
-	// 직원 상태 변경 
-	@PostMapping(value = "/manage/emplStatus/{mapId}/update")
-	public String updateWorkStatus(@PathVariable("mapId") Long mapId, @Valid MemShopMappingDto statusUpdateDto, BindingResult bindingResult, Model model, Principal principal) {
-		
-		if (bindingResult.hasErrors()) {
-			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-			
-			getSideImg(model, principal);
-			model.addAttribute("myShopList", myShopList);
-			return "manage/employeeInfo";
-		}
-		
-		// 현재 해당 mapId를 가지고 있는 연관매핑, 매장, 멤버 엔티티를 가져옴 
-		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
-		memShopMapping.setWorkStatus(memShopMapping.getWorkStatus());
-		memShopMapping.setPartTime(memShopMapping.getPartTime());
-		memShopMapping.setTimePay(memShopMapping.getTimePay());
-		Shop shop = shopService.findShop(memShopMapping.getShop().getId());
-		Member member = emplInfoService.findEmplMember(memShopMapping.getMember().getId());
-		
-		try {
-			if(memShopMapping.getWorkStatus() == 1) {
-				emplInfoService.updateStatus(mapId, statusUpdateDto, member, shop);
-			} else if (memShopMapping.getWorkStatus() == 2) {
-					emplInfoService.updateStatus(mapId, statusUpdateDto, member, shop);
-			} else if (memShopMapping.getWorkStatus() == 3) {
-				emplInfoService.updateStatus(mapId, statusUpdateDto, member, shop);
-			}
-			
-		} catch (Exception e) {
-			model.addAttribute("errorMessage", "상태를 변경하지 못했습니다..");
-			
-			return "redirect:/admin/manage/employeeInfo/" + shop.getId();		
-		}
-		
-		return "redirect:/admin/manage/employeeInfo/" + shop.getId();
-	}
-	
 
 	// 직원 정보 수정
 	@PostMapping(value = "/manage/employeeInfo/{mapId}/update")
@@ -234,7 +167,6 @@ public class ShopManageController {
 			return "manage/employeeInfo";
 		}
 		
-		// 현재 해당 mapId를 가지고 있는 연관매핑, 매장, 멤버 엔티티를 가져옴 
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
 		memShopMapping.setWorkStatus(memShopMapping.getWorkStatus());
 		memShopMapping.setPartTime(updateMappingDto.getPartTime());
@@ -253,46 +185,12 @@ public class ShopManageController {
 		return "redirect:/admin/manage/employeeInfo/" + shop.getId();
 	}
 	
-	// 직원 등록 삭제 
-	@DeleteMapping(value = "/manage/employeeInfo/{mapId}/delete")
+	// 직원 정보 삭제
+	@DeleteMapping(value = "/admin/manage/employeeInfo/{mapId}/delete")
 	public @ResponseBody ResponseEntity deleteEmployee(@PathVariable("mapId") Long mapId, Principal principal) {
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
 		emplInfoService.deleteEmployee(memShopMapping);
 		return new ResponseEntity<Long>(mapId, HttpStatus.OK);
-	}
-	
-	// 엑셀 다운로드
-	@GetMapping("/manage/employeeInfo/{shopId}/excelDownload")
-	public void downloadExcel(@PathVariable("shopId") Long shopId, HttpServletResponse response, Principal principal) throws IOException {
-		
-		Workbook workbook = new HSSFWorkbook();
-		Sheet sheet = workbook.createSheet("직원 정보");
-		int rowNo = 0;
-		
-		Row headerRow = sheet.createRow(rowNo++);
-		headerRow.createCell(0).setCellValue("이름");
-		headerRow.createCell(1).setCellValue("전화번호");
-		headerRow.createCell(2).setCellValue("근무시간");
-		headerRow.createCell(3).setCellValue("시급");
-		
-		List<MemShopMapping> list = mapRepository.findByShopId(shopId);
-		
-		for (MemShopMapping memShopMapping : list) {
-			if(memShopMapping.getWorkStatus() == 2) {
-				Row row = sheet.createRow(rowNo++);
-				row.createCell(0).setCellValue(memShopMapping.getMember().getUserNm());
-				row.createCell(1).setCellValue(memShopMapping.getMember().getPNum());
-				row.createCell(2).setCellValue(memShopMapping.getPartTime());
-				row.createCell(3).setCellValue(memShopMapping.getTimePay());
-			}
-		}
-
-		String attachment = "attachment;filename=" + list.get(0).getShop().getShopNm() + ".xls";
-		response.setContentType("ms-vnd/excel");
-		response.setHeader("Content-Disposition", attachment);
-		
-		workbook.write(response.getOutputStream());
-		workbook.close();
 	}
 
 }
