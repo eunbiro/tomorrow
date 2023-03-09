@@ -91,6 +91,31 @@
 li {
 	display: inline;
 }
+
+.modal-wrap1 > div > div {
+    border-radius: 15px;
+    background: #424E64;
+    color: #fff;
+    border: none;
+    width: 20rem;
+    height: 15rem;
+}
+
+.modal-wrap2 > div > div {
+    border-radius: 15px;
+    background: #424E64;
+    color: #fff;
+    border: none;
+    width: 20rem;
+    height: 30rem;
+}
+    	 
+.modal-btn > .btn {
+    background: #13223D;
+    color: #fff;
+    border-radius: 15px;
+    opacity: 100%;
+}
 </style>
 </th:block>
 </head>
@@ -132,11 +157,11 @@ li {
 						<span th:if="${emplInfo.workStatus} == 3" th:text="${emplInfo.memberFormDto.userNm}"></span> 
 						<!-- Modal -->
 						<form method="post" th:object="${updateMappingDto}">
-							<div class="modal fade"
+							<div class="modal fade modal-wrap2"
 								th:id="'exampleModal2' + ${emplInfo.mapId}" tabindex="-1"
 								aria-labelledby="exampleModal2Label" aria-hidden="true">
 								<div class="modal-dialog">
-									<div class="modal-content">
+									<div class="modal-content mx-auto">
 										<div class="modal-header">
 											<h1 class="modal-title fs-5" id="exampleModal2Label">직원 정보(시급, 근무시간) 수정</h1>
 										</div>
@@ -152,7 +177,7 @@ li {
 													09:00~18:00</span>
 											</div>
 										</div>
-										<div class="modal-footer">
+										<div class="modal-btn modal-footer">
 											<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:value="${emplInfo.mapId}" onclick="deleteMapId(this.value)">삭제하기</button> -->
 											<button type="submit" th:formaction="@{'/admin/manage/employeeInfo/' + ${emplInfo.mapId} + '/update'}" class="btn btn-primary">수정 완료</button>
 										</div>
@@ -171,20 +196,20 @@ li {
 						<a th:if="${emplInfo.workStatus} == 3" style="cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${emplInfo.mapId}">퇴사자</a>
 						<!-- Modal -->
 						<form method="post" th:object="${statusUpdateDto}">
-							<div class="modal fade" th:id="'exampleModal' + ${emplInfo.mapId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal fade modal-wrap1" th:id="'exampleModal' + ${emplInfo.mapId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
-									<div class="modal-content">
+									<div class="modal-content mx-auto">
 										<div class="modal-header">
 											<h1 th:if="${emplInfo.workStatus} == 1" class="modal-title fs-5" id="exampleModalLabel">승인 확인</h1>
 											<h1 th:if="${emplInfo.workStatus} == 2" class="modal-title fs-5" id="exampleModalLabel">퇴사 확인</h1>
 											<h1 th:if="${emplInfo.workStatus} == 3" class="modal-title fs-5" id="exampleModalLabel">재입사 확인</h1>
 										</div>
 										<div class="modal-body">
-											<span th:if="${emplInfo.workStatus} == 1">직원 등록을 승인하시겠습니까?</span> 
-											<span th:if="${emplInfo.workStatus} == 2">퇴사를 승인하시겠습니까?</span> 
-											<span th:if="${emplInfo.workStatus} == 3">재입사를 승인하시겠습니까?</span>
+											<span class="my-auto" th:if="${emplInfo.workStatus} == 1">직원 등록을 승인하시겠습니까?</span> 
+											<span class="my-auto" th:if="${emplInfo.workStatus} == 2">퇴사를 승인하시겠습니까?</span> 
+											<span class="my-auto" th:if="${emplInfo.workStatus} == 3">재입사를 승인하시겠습니까?</span>
 										</div>
-										<div class="modal-footer">
+										<div class="modal-btn modal-footer">
 											<!-- workStatus 1일 때 -->
 											<button th:if="${emplInfo.workStatus} == 1" type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:value="${emplInfo.mapId}" onclick="deleteMapId(this.value)">등록삭제</button>
 											<button th:if="${emplInfo.workStatus} == 1" type="submit" th:formaction="@{'/admin/manage/emplStatus/' + ${emplInfo.mapId} + '/update'}" class="btn btn-primary">승인완료</button>
