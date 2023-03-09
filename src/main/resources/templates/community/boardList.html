@@ -11,7 +11,7 @@
 	<div layout:fragment="content">	
 	    <div class="container-lg d-flex flex-column noti-wrap">
 	    	<div class="board-list-header">
-            	<p class="board-list-title fw-bold">커뮤니티</p>
+            	<p class="board-list-title fw-bold" style="font-size:32px; margin-top:100px; text-align:left;">커뮤니티</p>
             </div>
             <div class="search">
 	            <form class="d-flex" role="search" th:action="@{/board/list}" method="get">
@@ -21,10 +21,11 @@
 			</div>
 	        <table class="board-table">
 	            <thead>
-	                <tr>
-	                    <th>NO.</th>
+	                <tr style="color:#fff; background:#274475;">
+	                
+	                    <th class= "rounded-start">NO.</th>
 	                    <th>제목</th>
-	                    <th>작성자</th>
+	                    <th class="rounded-end">작성자</th>
 	                </tr>
 	            </thead>
 	            <tbody>
