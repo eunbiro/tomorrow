@@ -19,6 +19,8 @@ public interface CommuteRepository extends JpaRepository<Commute, Long>, Queryds
 	
 	List<Commute> findByMemberId(Long memberId);
 	
+	List<Commute> findByShopId(Long shopId);
+	
 	/* List<Commute> findByUserIdOrderByIdDesc(String userId); */
 	//Commute findByShopIdAndMemberIdOrderByIdDesc(Long ShopId, Long CommuteId);
 	

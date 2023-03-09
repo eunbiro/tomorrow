@@ -37,8 +37,7 @@ public class Notice extends BaseEntity {
 	@JoinColumn(name = "member_id")
 	private Member member;					// 회원 아이디 FK
 	
-	@Lob
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	private String noticeCont;				// 공지내용
 	
 	public static Notice createNotice(NoticeDto noticeDto, Member member, Shop shop) {

@@ -35,7 +35,6 @@ public class BoardComment extends BaseEntity {
 	@JoinColumn(name = "board_id")
 	private Board board;					// 커뮤니티 식별번호 FK
 	
-	@Lob
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	private String boCmtText;				// 커뮤니티 댓글 내용
 }

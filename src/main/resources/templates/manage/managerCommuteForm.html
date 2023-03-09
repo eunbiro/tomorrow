@@ -105,6 +105,10 @@
 .commute-select {
 	box-shadow: 0px 3px 5px gray;
 }
+.excel-btn {
+	background: green;
+	color: #fff;
+}
 </style>
 </head>
 <body>
@@ -119,8 +123,8 @@
 					</th:block>
 				</select>
 				<div class="commute-btn-wrap">
-	              <div class="excel">
-	              	 <button th:onclick="|location.href='@{/admin/commute/{shopId}/excelDownload(shopId = ${shopDto.shopId})}'|" class="btn  btn-sm btn-default" target="_blank" id="excelDown">excelDown</button>
+	              <div class="excel text-end">
+	              	 <button th:onclick="|location.href='@{/admin/commute/{shopId}/excelDownload(shopId = ${shopDto.shopId})}'|" class="btn excel-btn p-2 rounded btn-sm btn-default" target="_blank" id="excelDown"><i class="fa-solid fa-file-excel"></i> excelDown</button>
 	              </div>
 				</div> 
 				<form method="post" th:object="${managerCommuteDto}">

@@ -38,8 +38,7 @@ public class WorkLog extends BaseEntity  {
 	@JoinColumn(name = "shop_id")
 	private Shop shop;						// 매장코드 FK
 	
-	@Lob
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	private String logCont;					// 전달내용
 	
 	public static WorkLog createWorkLog(WorkLogDto workLogDto, Member member, Shop shop) {
