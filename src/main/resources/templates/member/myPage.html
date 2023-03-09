@@ -256,6 +256,27 @@ table {
 	text-decoration: none;
 	color: white;
 }
+
+.modal-wrap>div>div {
+	border-radius: 15px;
+	background: #424E64;
+	color: #fff;
+	border: none;
+	width: 25rem;
+	height: 12rem;
+}
+
+
+.modal-wrap input{
+	border-radius: 5px;	
+}
+.modal-btn>.btn {
+	background: #13223D;
+	color: #fff;
+	border-radius: 15px;
+	opacity: 100%;
+	margin-top:5px;
+}
 </style>
 </th:block>
 </head>
@@ -270,7 +291,8 @@ table {
 			</div>
 
 			<div class="profile-basic">
-				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')">[[${member.userNm}]]
+				<a class="profile-name"
+					sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')">[[${member.userNm}]]
 					님</a> <a class="profile-name"
 					sec:authorize="hasAnyAuthority('ROLE_ADMIN')">[[${member.userNm}]]
 					님</a> <a class="profile-mini-id">@[[${member.userId}]]</a> <a
@@ -283,7 +305,8 @@ table {
 				<div class="profile-shop-register w-75 mx-auto ">
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
 						th:onclick="|location.href='@{/shopcreate/createshopp}'|">매장생성</button>
-					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')"
+					<button type="submit"
+						sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')"
 						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
 				</div>
 				<form role="form" method="get">
@@ -318,39 +341,35 @@ table {
 				</form>
 				<div class="profile-form-button   mx-auto ">
 					<!-- Button trigger modal -->
-					<button type="button" class=" profile-form-cancel"
+					<button type="button" class="profile-form-cancel"
 						data-bs-toggle="modal" data-bs-target="#exampleModal">
 						내정보 수정</button>
 					<button class="profile-form-cancel" onclick="location.href='/'">취소</button>
 					<button class="profile-form-cancel" th:value="${member.id}"
 						onclick="deleteMemberId(this.value)">회원탈퇴</button>
-					<form th:object="${passwordDto}" method ="post" action="/member/passwordcheck">
+					<form th:object="${passwordDto}" method="post"
+						action="/member/passwordcheck">
 						<!-- Modal -->
-						<div class="modal fade" id="exampleModal" tabindex="-1"
-							aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
+						<div class="modal fade modal-wrap " tabindex="-1"
+							aria-labelledby="exampleModalLabel" aria-hidden="true"
+							id="exampleModal">
+							<div
+								class="modal-dialog modal-dialog-centered justify-content-center ">
 								<div class="modal-content">
-									<div class="modal-header">
-										<h1 class="modal-title fs-5" id="exampleModalLabel">현재
-											비밀번호를 입력해주세요</h1>
-										<button type="button" class="btn-close"
-											data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										<input type="password" id="typeNowPassword" class="typeNowPassword" th:field="*{checkPassword}"> 
-											
-											<input type="hidden" th:value="${member.password}" class="nowPassword">
-									</div>
-									<div class="modal-footer">
-										<button type="submit" class="btn btn-primary checkPassword">확인</button>
+									<div class="pt-4 pb-2 fs-6">현재비밀번호를 입력해주세요</div>
+									<input type="password" id="typeNowPassword"
+										class="typeNowPassword rounded px-4 py-2 my-3 mx-4" th:field="*{checkPassword}">
+									<div class="modal-btn my-1">
+										<button type="submit" class="btn my-auto px-3 w-25   checkPassword">확인</button>
 									</div>
 								</div>
 							</div>
 						</div>
-						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}">
 					</form>
 
-					
+
 				</div>
 
 			</div>
