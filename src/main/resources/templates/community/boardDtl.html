@@ -43,11 +43,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				var header = $("meta[name='_csrf_header']").attr("content");
 				
 				var url = "/board/delete/" + boardId;
-				var shopId = $('#boardId').val();
-				console.log(noticeId);
 				
 				$.ajax({
-					
 					url			: url,
 					type 		: "DELETE",
 					contentType : "application/json",
@@ -58,18 +55,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 					dataType 	:"Json",
 					cache 		: false,
 					success 	: function(result, status) {
-						
-						alert("기입내용이 삭제되었습니다.");
-						location.href = '/board/' + boardId;
+						alert("게시물이 삭제되었습니다.");
+						location.href = '/board/list';
 					},
-					error 		: function(jqXHR, status, error) {
-
+					error : function(jqXHR, status, error) {
 						if (jqXHR.status == '401') {
-							
 							alert('로그인 후 이용하시오.');
 							location.href = '/member/login';
 						} else {
-							
 							alert(jqXHR.responseText);
 						}
 					}
