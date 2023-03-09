@@ -173,7 +173,7 @@ public class PayListService {
 			PayListDto pld = new PayListDto();
 			pld.setMemShopMappingDto(getMapById(pl.getMemShopMapping().getId()));
 			pld.setId(pl.getId());
-			pld.setWorkDays(getWorkDays(pl.getMemShopMapping()));
+			pld.setWorkDays(payList.size());
 			pld.setRegTime(pl.getRegTime().toString());
 			pld.setMonthPay(pl.getDayPay() * payList.size());
 			pld.setShopDto(ShopDto.of(pl.getMemShopMapping().getShop()));
