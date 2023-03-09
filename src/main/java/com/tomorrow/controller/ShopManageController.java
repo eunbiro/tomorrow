@@ -32,6 +32,7 @@ import com.tomorrow.dto.ShopDto;
 import com.tomorrow.entity.MemShopMapping;
 import com.tomorrow.entity.Member;
 import com.tomorrow.entity.PayList;
+import com.tomorrow.repository.CommuteRepository;
 import com.tomorrow.repository.MemShopMapRepository;
 import com.tomorrow.repository.PayListRepository;
 import com.tomorrow.entity.Commute;
@@ -43,6 +44,7 @@ import com.tomorrow.service.PayListService;
 import com.tomorrow.service.ShopInfoService;
 import com.tomorrow.service.ShopService;
 
+import groovyjarjarantlr4.v4.parse.ANTLRParser.finallyClause_return;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -56,7 +58,7 @@ public class ShopManageController {
 	private final MemShopMapRepository mapRepository;
 	private final ShopInfoService shopInfoService;
 	private final PayListService payListService;
-	private final PayListRepository payListRepository;
+	private final CommuteRepository commuteRepository;
 	
 	// 사이드바 프로필정보 가져옴
 	public Model getSideImg(Model model, Principal principal) {
@@ -109,7 +111,8 @@ public class ShopManageController {
 
 		getSideImg(model, principal);
 		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("commuteDto", new CommuteDto());
+		
+		model.addAttribute("shopDto", new ShopDto()); // 매장 전체 정보를 가지고 있는 DTO
 		
 		return "manage/managerCommuteForm";
 	}
@@ -123,6 +126,11 @@ public class ShopManageController {
 		//매니저 아이디로 소유중인 매장 목록 띄우기
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);
+		
+		Shop shop = shopInfoService.findShop(shopId);
+		ShopDto shopDto = shopInfoService.getShop(shop);
+		model.addAttribute("shopDto", shopDto);
+
 		
 		//전체 직원 근태 리스트
 		List<Commute> commuteList = commuteService.getCommuteListByShop(shopId);
@@ -261,6 +269,38 @@ public class ShopManageController {
 					row.createCell(2).setCellValue(memShopMapping.getPartTime());
 					row.createCell(3).setCellValue(memShopMapping.getTimePay());
 				}
+			}
+
+			String attachment = "attachment;filename=" + list.get(0).getShop().getShopNm() + ".xls";
+			response.setContentType("ms-vnd/excel");
+			response.setHeader("Content-Disposition", attachment);
+
+			workbook.write(response.getOutputStream());
+			workbook.close();
+		}
+		
+		// 엑셀 다운로드
+		@GetMapping("/commute/{shopId}/excelDownload")
+		public void downloadCommuteListExcel(@PathVariable("shopId") Long shopId, HttpServletResponse response, Principal principal) throws IOException {
+
+			Workbook workbook = new HSSFWorkbook();
+			Sheet sheet = workbook.createSheet("직원 출퇴근 정보");
+			int rowNo = 0;
+
+			Row headerRow = sheet.createRow(rowNo++);
+			headerRow.createCell(0).setCellValue("이름");
+			headerRow.createCell(1).setCellValue("출근시간");
+			headerRow.createCell(2).setCellValue("퇴근시간");
+			headerRow.createCell(3).setCellValue("전화번호");
+
+			List<Commute> list = commuteRepository.findByShopId(shopId);
+
+			for (Commute commute : list) {
+				Row row = sheet.createRow(rowNo++);
+				row.createCell(0).setCellValue(commute.getMember().getUserNm());
+				row.createCell(1).setCellValue(commute.getWorking());
+				row.createCell(2).setCellValue(commute.getLeaving());
+				row.createCell(3).setCellValue(commute.getMember().getPNum());
 			}
 
 			String attachment = "attachment;filename=" + list.get(0).getShop().getShopNm() + ".xls";
