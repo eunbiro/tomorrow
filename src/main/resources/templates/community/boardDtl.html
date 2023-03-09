@@ -94,7 +94,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			
 	   		<form method="post">
 	   			<div class="board-header">
-					<p th:text="'제목 : '+${board.boardTitle}+' | 조회수 : ' + ${board.viewCount}"></p>
+					<p th:text="'제목 : '+${board.boardTitle}"></p>
 					<button type="button" id="boardId" class="btn px-4 mx-4" th:value="${board.id}" onclick="deleteBoardId(this.value)">삭제</button>
 	   			</div>
 	   			<hr>
@@ -142,7 +142,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				</div>
 			</div>
 			<div class="post-buttons">
-   				<a class="post-btns m-1" type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정</a>	
+   				<a class="post-btns m-1 " type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정</a>	
    				<a class="post-btns m-1" type="button" onclick="location.href='/board/list'">목록</a>
    			</div>
 	   </div>
