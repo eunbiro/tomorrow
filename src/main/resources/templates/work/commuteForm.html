@@ -240,19 +240,21 @@
 
 				<div class="commute-btn-wrap">
 					<!-- 비어있을 때 출근 보이고, 비어있지 않을 때 버튼보이게  -->
-					<div th:if="${#strings.isEmpty(leavingChk?.id)}">
-						<button class="btn btn-primary" type="submit"
-							th:formaction="@{'/work/commute'}">출근</button>
-					</div>
-					<div th:unless="${#strings.isEmpty(leavingChk?.id)}">
-						<div th:if="${not #strings.isEmpty(leavingChk?.leaving)}">
-							<button class="btn btn-primary" type="submit" th:formaction="@{'/work/commute'}">출근</button>
+					<th:block th:if="${not #strings.isEmpty(commuteDto.shopDto.shopId)}">
+						<div th:if="${#strings.isEmpty(leavingChk?.id)}">
+							<button class="btn btn-primary" type="submit"
+								th:formaction="@{'/work/commute'}">출근</button>
 						</div>
-
-						<div th:unless="${not #strings.isEmpty(leavingChk?.leaving)}">
-							<button class="btn btn-primary" type="button" th:value="${leavingChk?.id}" onclick="updateChk(this.value)">퇴근</button>
+						<div th:unless="${#strings.isEmpty(leavingChk?.id)}">
+							<div th:if="${not #strings.isEmpty(leavingChk?.leaving)}">
+								<button class="btn btn-primary" type="submit" th:formaction="@{'/work/commute'}">출근</button>
+							</div>
+	
+							<div th:unless="${not #strings.isEmpty(leavingChk?.leaving)}">
+								<button class="btn btn-primary" type="button" th:value="${leavingChk?.id}" onclick="updateChk(this.value)">퇴근</button>
+							</div>
 						</div>
-					</div>
+					</th:block>
 				</div>
 
 				<div>
