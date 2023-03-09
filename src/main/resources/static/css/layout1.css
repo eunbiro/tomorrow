@@ -754,42 +754,61 @@ result_section_id {
 /*======================매장근무기록CSS======================*/
 
 /*======================boardList======================*/
-.header {
-	display: flex;
+.board-list-header{
+	text-align: center;
+	
 }
 
-.home {
-	line-height: 250px;
+.board-list-title{
+	font-size: 27px;
 }
 
-header .logo-img {
-	width: 250px;
-	margin: 20px auto;
+.board-contents{
+	width: 65%;
+	margin-top: 100px;
 }
 
-.board-list-title {
-	margin: 0px;
-	font-size: 48px;
+.search{
+	margin: 20px;
 }
 
-.board-table {
-	width: 1000px;
-	margin: 0 auto;
-	border-collapse: collapse;
+.search input{
+	box-shadow: 0px 3px 5px grey;
 }
 
-.board-table thead {
-	background: #D9D9D9;
+.board-table thead{
+	background : #f1f1f1;
+	text-align : center;
 }
 
-.board-table th, .board-table td {
-	font-size: 30px;
+.board-table tbody{
+	text-align : center;
+}
+
+.board-table tbody tr td:nth-child(2) {
+	text-align:left;
+}
+
+.board-table td {
+	padding: 15px;
+}
+
+.write-post{margin: 20px;}
+
+
+.write-post a{
+	text-decoration: none;
+	float: right;
+	background: #13223d;
+	color: white;
+	border-radius: 5px;
+	font-size: 12px;
+	padding: 5px;
+	width: 70px; 
 	text-align: center;
 }
 
-.board-table tr {
-	height: 50px;
-}
+
 /* 헤더 안에 사이드바 css 시작============================================*/
 .box {
 	width: 100px;
@@ -893,6 +912,7 @@ header .logo-img {
 }
 
 .acBtn:hover {
+	background: #dfdfdf;
 	color: #000;
 }
 
@@ -905,8 +925,8 @@ header .logo-img {
 	color: #000;
 }
 
-.acTapBtn>show { #fff;
-	
+.acTapBtn>show { 
+	color:#fff;
 }
 
 .side-logout a:hover {
@@ -917,74 +937,98 @@ header .logo-img {
 /* 사이드바 끝==================================================== */
 
 /*======================게시글 작성폼 CSS======================*/
-.post-frm p {
-	font-size: 36px;
+.post-frm {
+	margin-top : 100px;
+	min-width: 500px;
 }
 
-.post-frm a {
-	line-height: 36px;
+.post-frm > p{
+	font-size: 24px;
+	margin-bottom: 0;
 }
 
-.post-title {
+.board-header{
+	display: flex;
 	justify-content: space-between;
 }
 
-.post-title a {
-	color: red;
-	font-size: 36px;
+.post-area{
+	display: flex;
 }
 
-.post-text textarea {
-	height: 300px;
-	font-size: 24px;
+.post-img{
+	width: 50%;
 }
 
-.reg-date {
-	position: relative;
+.post-img img{
+	width: 90%;
 }
 
-.reg-date p {
-	font-size: 18px;
-	opacity: 50%;
+.post-text{
+	width: 50%;
 }
 
-.post-btns {
-	width: 240px;
-	height: 60px;
-	font-size: 36px;
-	border-radius: 20px;
-	background: #13223D;
-	color: white;
-}
-
-.post-buttons {
-	float: right;
-}
-
-/* boardForm */
-.post-title label {
-	font-size: 36px;
-	margin: 10px;
-}
-
-.board-textarea {
-	border: none;
+.post-text textarea{
+	width: 90%;
+	height: 90%;
+	border : none;
 }
 
 /*boardComment*/
-.comment-list-table {
-	width: 1000px;
+.post-buttons{
+	float: right;
 }
 
-.comment-list tr td {
-	font-size: 24px;
+.post-btns{
+	text-decoration: none;
+	background : #13223D;
+	color: white;
+	padding: 5px;
+	border-radius: 5px;
+	width: 100px;
+	text-align: center;
+}
+
+.comment-input{
+	margin-top: 50px;
+	width: 100%;	
 }
 
 .input-comment {
-	width: 700px;
-	height: 300px;
+	width: 80%;
+}
+
+.comment-list{
+	margin: 30px 0;
+}
+
+.comment-list li {
+	display: flex;
 }
 
 .input-comment textarea {
 	width: 700px;
 }
+
+.comment-submit{
+	border-radius: 10px;
+	padding: 2px;
+}
+
+.comment-writer{
+	width: 10%;
+}
+
+.bar{
+	width: 5%;
+}
+
+.comment-text{
+	width: 60%;
+}
+
+.comment-reg{
+	width: 25%; 
+	
+}
+	
