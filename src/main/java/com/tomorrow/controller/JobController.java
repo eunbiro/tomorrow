@@ -114,23 +114,24 @@ public class JobController {
 		}
     	
     	return "redirect:/admin/job/openingList";
-    	///admin/job/openingList
+ 
     }
 
 
 	// 구인공고뷰 페이지
-//	@GetMapping(value = "/job/view")
-//	public String jobView(HireDto hireDto, Model model, Principal principal) {
-//		
-//		getSideImg(model, principal);
-//
-//		List<HireDto> hireDtoList = jobService.getHireList(hireDto);
-//
-//
-//		model.addAttribute("hireDtoList", hireDtoList);
-//
-//		return "job/jobView";
-//	}
+	@GetMapping(value = "/job/view")
+	public String jobView(HireDto hireDto, Model model, Principal principal) {
+		
+		getSideImg(model, principal);
+
+		//List<HireDto> hireDtoList = hireService.getHire(principal.getName());
+	   List<HireDto> hireDtoList = jobService.getHireList();
+
+
+		model.addAttribute("hireDtoList", hireDtoList);
+
+		return "job/jobView";
+	}
 	
 	@GetMapping(value = "/admin/job/list")
 	public String jobListShow(Model model, Principal principal) {

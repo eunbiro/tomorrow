@@ -116,9 +116,9 @@
 }
 
 .mypage-profile-img {
-	width: 170px;
+	width: 100px;
 	height: 100%;
-	border-radius: 70%;
+	border-radius: 50px;
 	margin-right: 20px;
 	height: 100%;
 }
@@ -262,10 +262,14 @@ table {
 	background: #424E64;
 	color: #fff;
 	border: none;
-	width: 20rem;
-	height: 8.2rem;
+	width: 25rem;
+	height: 12rem;
 }
 
+
+.modal-wrap input{
+	border-radius: 5px;	
+}
 .modal-btn>.btn {
 	background: #13223D;
 	color: #fff;
@@ -352,14 +356,11 @@ table {
 							<div
 								class="modal-dialog modal-dialog-centered justify-content-center ">
 								<div class="modal-content">
-									<div class="modal-body fs-6">현재비밀번호를 입력해주세요</div>
+									<div class="pt-4 pb-2 fs-6">현재비밀번호를 입력해주세요</div>
 									<input type="password" id="typeNowPassword"
-										class="typeNowPassword px-4 mx-4" th:field="*{checkPassword}">
-
-									<input type="hidden" th:value="${member.password}"
-										class="nowPassword">
-									<div class="modal-btn pb-3">
-										<button type="submit" class="btn px-4 mx-4 checkPassword">확인</button>
+										class="typeNowPassword rounded px-4 py-2 my-3 mx-4" th:field="*{checkPassword}">
+									<div class="modal-btn my-1">
+										<button type="submit" class="btn my-auto px-3 w-25   checkPassword">확인</button>
 									</div>
 								</div>
 							</div>
