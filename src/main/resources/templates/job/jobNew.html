@@ -21,7 +21,6 @@
 			$('.jobNew-sel-shop').off().on("change", function() {
 
 				var shopId = $(this).val();
-				alert(shopId);
 				var url = "/admin/job/new/" + shopId;
 
 				$(location).attr('href', url);

@@ -138,10 +138,11 @@ public class JobService {
 		}
 		
 		// 구인공고 리스트
-//		@Transactional(readOnly = true)
-//      	public List<HireDto> getHireList(HireDto hireDto) {
-//			return hireRepository.getHireList(hireDto);
-//		}
+		@Transactional(readOnly = true)
+      	public List<HireDto> getHireList() {
+			List<HireDto> hireList = getJobView();
+			return hireList;		
+		}
 		
 	
 	

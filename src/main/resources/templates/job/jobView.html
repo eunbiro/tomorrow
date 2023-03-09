@@ -49,6 +49,11 @@
 	display: none;
 }
 
+.line {
+   width: 100%;
+   height: 2px;
+   background: gray;
+}
 
 </style>
 </th:block>
@@ -75,14 +80,16 @@
 			<th:block th:each="hire, status : ${hireDtoList}">
 				<div class="posting-info">
 					<div class="posting-info-one">
-						<div class="posting-info-one-text">[[${hire.shopDto.shopNm}]]</div>
-						<div class="posting-info-one-text">[[${hire.shopDto.shopPlace}]]</div>
-						<div class="posting-info-one-text">[[${hire.hirePay}]]</div>
+						<div class="posting-info-one-text" style="font-size: 2rem; font-weight: bold;">[[${hire.shopDto.shopNm}]]</div>
+						<div class="posting-info-one-text" style="text-align: left; font-weight: bold;">[[${hire.shopDto.shopPlace}]]</div>
+						<div class="posting-info-one-text" style="text-align: left; font-weight: bold;"><span style="color:#FCA211;">시급  </span>[[${hire.hirePay}]]</div>
 					</div>
-					<div class="posting-info-hover">
-						<div class="posting-info-one-text">[[${hire.shopDto.shopNm}]]</div>
-						<div class="posting-info-one-text">[[${hire.shopDto.shopType}]]</div>
+					<div class="posting-info-hover" style="text-align: left;">
+						<div class="posting-info-one-text" style="font-size: 2rem; font-weight: bold; text-align: center; ">[[${hire.shopDto.shopNm}]]</div>
+						<div class="line"></div>
 						<div class="posting-info-one-text">[[${hire.shopDto.shopPlace}]]</div>
+						<div class="posting-info-one-text" ><span style="color:#FCA211;">시급  </span>[[${hire.hirePay}]]</div>
+						<div class="posting-info-one-text">[[${hire.shopDto.shopType}]]</div>
 						<div class="posting-info-one-text">[[${hire.hireTime}]]</div>
 						<div class="posting-info-one-text">[[${hire.hireNum}]]</div>
   
