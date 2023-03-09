@@ -76,7 +76,7 @@
 									</div>
 							    </div>
 							</div>
-							<div class="accordion-item acTapBtn" sec:authorize="isAuthenticated()">
+							<div class="accordion-item acTapBtn" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_ALBA')">
 							    <h2 class="accordion-header" id="flush-headingThree">
 									<button class="accordion-button bg-dark acBtn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
 										매장
