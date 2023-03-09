@@ -8,9 +8,48 @@
 
 <th:block layout:fragment="css">
 	<style>
-	.jobView-wrap {
-	   margin-top: 50px;
-	}
+.jobView-wrap {
+	margin-top: 80px;
+}
+
+
+.posting-info {
+   margin-top:30px;
+   width: 50%; 
+   float: left;
+   position: relative;
+   
+}
+
+.posting-info-one{
+   margin:10px;
+   text-align: center;
+   padding: 10px;
+   box-shadow: 0px 3px 5px gray;
+   border-radius: 3px;
+   position: absolute;
+   background-color: white;
+   width: 80%; 
+   height: 300px;
+}
+
+.posting-info-hover {
+   margin:10px;
+   text-align: center;
+   padding: 10px;
+   box-shadow: 0px 3px 5px gray;
+   border-radius: 3px;
+   background-color: white;
+   width: 80%; 
+   height: 300px;
+   border: 1px solid gray;
+}
+
+.posting-info-one:hover {
+	display: none;
+}
+
+
 </style>
 </th:block>
 </head>
@@ -18,14 +57,43 @@
 	<div layout:fragment="content">
 		<div class="jobView-wrap">
 			<!-- 검색폼 -->
-			<div class="jobView-title" style="border: 1px solid gray;">
-				<label class="">
-					<i class="fa-solid fa-magnifying-glass" style="color: #5D5D5D;"></i>
-					<input id="shopCode" class="" type="text" placeholder="회사를 입력하세요" style="border: none;">
+			<div class="jobView-title"
+				style="border-radius: 5px; width: 80%; margin: 0 auto; float: left;">
+				<label class=""> <i
+					class="fa-solid fa-magnifying-glass" style="color: #5D5D5D;"></i> <input
+					id="shopCode" class="" type="text" placeholder="회사를 입력하세요"
+					style="border: none;">
 				</label>
+
 			</div>
-				<button type="button" class="">검색</button>
+
+			<button type="button" class=""
+				style="border-radius: 5px; border: 1px solid gray; background: white; float: left;">검색</button>
 		</div>
+
+		<div class="jobViewList">
+			<th:block th:each="hire, status : ${hireDtoList}">
+				<div class="posting-info">
+					<div class="posting-info-one">
+						<div class="posting-info-one-text">[[${hire.shopDto.shopNm}]]</div>
+						<div class="posting-info-one-text">[[${hire.shopDto.shopPlace}]]</div>
+						<div class="posting-info-one-text">[[${hire.hirePay}]]</div>
+					</div>
+					<div class="posting-info-hover">
+						<div class="posting-info-one-text">[[${hire.shopDto.shopNm}]]</div>
+						<div class="posting-info-one-text">[[${hire.shopDto.shopType}]]</div>
+						<div class="posting-info-one-text">[[${hire.shopDto.shopPlace}]]</div>
+						<div class="posting-info-one-text">[[${hire.hireTime}]]</div>
+						<div class="posting-info-one-text">[[${hire.hireNum}]]</div>
+  
+					</div>
+				</div>
+			</th:block>
+			
+			
+		</div>
+
+
 	</div>
 </body>
 

@@ -13,18 +13,18 @@
 		$(function() {
 			
 			$.LoadingOverlaySetup({
-				background		: "rgba(0, 0, 0, 0.3)",
-				image			: "",
-				maxSize			: 60,
-				fontawesome		: "fas fa-carrot fa-spin",
-				color			: "rgba(252, 162, 17, 0.8)",
+				background			: "rgba(41, 55, 91, 0.25)",
+				image				: "",
+				maxSize				: 60,
+				fontawesome			: "fas fa-carrot fa-spin",
+				fontawesomeColor	: "rgba(255, 150, 53, 1)",
 			});
 			
-			$.LoadingOverlay("show");
+		//	$.LoadingOverlay("show");
 			
-			setTimeout(function(){
-			    $.LoadingOverlay("hide");
-			}, 2000);
+		//	setTimeout(function(){
+		//	    $.LoadingOverlay("hide");
+		//	}, 2000);
 		});
 		
 		$(document).ready(function() {
@@ -59,7 +59,7 @@
 				
 				var chkStatus = $(this).val();
 				
-				if (chkStatus == "") return;
+				if (chkStatus == "") return location.href = '/shop/log';
 				
 				var shopId = $('.noti-sel-shop').val();
 				
@@ -67,7 +67,7 @@
 
 				//	$(location).attr('href', url);
 				
-					$.ajax({
+				$.ajax({
 						
 						url			: url,
 						type 		: "GET",
@@ -84,6 +84,14 @@
 								
 								location.href = '/shop/log/' + shopId;
 							}
+						},
+						beforeSend	: function() {
+							
+							$.LoadingOverlay("show");
+						},
+						complate	: function() {
+							
+							$.LoadingOverlay("hide");
 						},
 						error 		: function(jqXHR, status, error) {
 
@@ -122,6 +130,7 @@
 				beforeSend 	: function(xhr) {
 					
 					xhr.setRequestHeader(header, token)
+					$.LoadingOverlay("show");
 				},
 				dataType 	:"Json",
 				cache 		: false,
@@ -129,6 +138,10 @@
 					
 					alert("기입내용이 삭제되었습니다.");
 					location.href = '/shop/log/' + shopId;
+				},
+				complate	: function() {
+					
+					$.LoadingOverlay("hide");
 				},
 				error 		: function(jqXHR, status, error) {
 
@@ -294,7 +307,7 @@
 <body>
 	<div layout:fragment="content" id="cont-wrap">
 		<div class="container-lg d-flex flex-column text-center noti-wrap">
-			<form class="noti-form my-4 mx-auto container-md w-100" method="post" th:object="${workLogDto}">
+			<form class="noti-form my-4 mx-auto container-md w-100" method="post" action="/shop/log" th:object="${workLogDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">근무일지</a>
 					<!-- TODO : 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
@@ -310,7 +323,7 @@
 				<div class="mx-auto">
 					<div class="work-log mx-auto my-2 d-flex justify-content-around">
 						<textarea class="w-75 py-2 ps-2 work-log-ipt fs-6" th:field="*{logCont}" placeholder="내용을 입력하세요"></textarea>
-						<button type="submit" th:formaction="@{'/shop/log'}" class="work-log-btn fs-6">입력</button>
+						<button th:if="${not #strings.isEmpty(workLogDto.shopDto.shopId)}" type="submit" class="work-log-btn fs-6">입력</button>
 					</div>
 					<p th:if="${#fields.hasErrors('logCont')}" th:errors="*{logCont}" class="fieldError text-start">Incorrect Data</p>
 				</div>

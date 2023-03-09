@@ -1,15 +1,18 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>커뮤니티 게시판</title>
 </head>
 <body>
 	<div layout:fragment="content">	
 	    <div class="container-lg d-flex flex-column noti-wrap">
-            <p class="board-list-title">내 일 물어봐</p>
+	    	<div class="board-list-header">
+            	<p class="board-list-title fw-bold">커뮤니티</p>
+            </div>
             <div class="search">
 	            <form class="d-flex" role="search" th:action="@{/board/list}" method="get">
 					<input name="searchQuery" class="form-control me-2" type="search" placeholder="검색어 입력" aria-label="Search">
@@ -37,7 +40,7 @@
 	            </tbody>
 	        </table>
 	        <div class="write-post">
-	            <button onclick="location.href='/board/new'">글쓰기</button>
+	            <div><a href="/board/new">글쓰기</a></div> 
 	        </div>
 	        <div class="paging">
 	           <nav

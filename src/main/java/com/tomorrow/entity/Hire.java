@@ -46,6 +46,9 @@ public class Hire extends BaseEntity {
 	@Column(nullable = false)
 	private String hireTime;                // 구인공고 근무타임
 	
+	@Column(nullable = false)
+	private String hireNum;                 // 구인공고 전화번호
+	
 	public static Hire createHire(HireDto hireDto, Member member, Shop shop) {
 		Hire hire = new Hire();
 		
@@ -53,6 +56,7 @@ public class Hire extends BaseEntity {
 		hire.setMember(member);
 		hire.setHirePay(hireDto.getHirePay());
 		hire.setHirePeriod(hireDto.getHirePeriod());
+		hire.setHireNum(hireDto.getHireNum());
 		hire.setHireTime(hireDto.getHireTime());
 		
 		return hire;

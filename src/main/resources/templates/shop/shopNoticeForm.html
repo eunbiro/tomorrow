@@ -13,20 +13,20 @@
 		$(function() {
 			
 			$.LoadingOverlaySetup({
-				background		: "rgba(0, 0, 0, 0.3)",
-				image			: "",
-				maxSize			: 60,
-				fontawesome		: "fas fa-carrot fa-spin",
-				color			: "rgba(252, 162, 17, 0.8)",
+				background			: "rgba(41, 55, 91, 0.25)",
+				image				: "",
+				maxSize				: 60,
+				fontawesome			: "fas fa-carrot fa-spin",
+				fontawesomeColor	: "rgba(255, 150, 53, 1)",
 			});
 			
-			$.LoadingOverlay("show");
+		//	$.LoadingOverlay("show");
 			
-			setTimeout(function(){
-			    $.LoadingOverlay("hide");
-			}, 2000);
+		//	setTimeout(function(){
+		//	    $.LoadingOverlay("hide");
+		//	}, 2000);
 		});
-	
+		
 		$(document).ready(function() {
 			
 			var errorMessage = [[${errorMessage}]];
@@ -48,6 +48,7 @@
 					
 					alert("매장을 선택해주세요");
 					$(location).attr('href', url);
+					return;
 				}
 			});
 		});
@@ -58,15 +59,13 @@
 			$('.noti-sel-shop').off().on("change", function() {
 				
 				var chkStatus = $(this).val();
-				console.log(chkStatus);
-				if (chkStatus == "") return;
+				
+				if (chkStatus == "") return location.href = '/shop/info';
 				
 				var shopId = $('.noti-sel-shop').val();
 				
 				var url = "/shop/shopChk/" + shopId;
 				
-			//	$(location).attr('href', url);
-			
 				$.ajax({
 					
 					url			: url,
@@ -84,6 +83,14 @@
 							
 							location.href = '/shop/info/' + shopId;
 						}
+					},
+					beforeSend	: function() {
+						
+						$.LoadingOverlay("show");
+					},
+					complate	: function() {
+						
+						$.LoadingOverlay("hide");
 					},
 					error 		: function(jqXHR, status, error) {
 
@@ -122,6 +129,7 @@
 				beforeSend 	: function(xhr) {
 					
 					xhr.setRequestHeader(header, token)
+					$.LoadingOverlay("show");
 				},
 				dataType 	:"Json",
 				cache 		: false,
@@ -129,6 +137,10 @@
 					
 					alert("기입내용이 삭제되었습니다.");
 					location.href = '/shop/info/' + shopId;
+				},
+				complate	: function() {
+					
+					$.LoadingOverlay("hide");
 				},
 				error 		: function(jqXHR, status, error) {
 
@@ -163,7 +175,6 @@
 			$('#noti-cont-update' + noticeId).children('div').children('textarea').attr('disabled', true);
 			$('#noti-cont-update' + noticeId).hide();
 		}
-		
 		
 	</script>
 </th:block>
@@ -304,7 +315,7 @@
 <body>
 	<div layout:fragment="content" id="cont-wrap">
 		<div class="container-lg d-flex flex-column text-center noti-wrap">
-			<form class="noti-form my-4 mx-auto container-md" method="post" th:object="${noticeDto}">
+			<form class="noti-form my-4 mx-auto container-md" method="post" action="/shop/info" th:object="${noticeDto}">
 				<div class="mx-auto ps-2 my-2 d-flex justify-content-between">
 					<a class="noti-title text-start fs-3 fw-bold">매장공지</a>
 					<!-- 현재 접속한 회원id로 매장list를 뽑아와서 셀렉트 옵션에 넣어줌 -->
@@ -315,11 +326,12 @@
 						</th:block>
 					</select>
 				</div>
-				<!-- create부분  sec:authorize="hasAnyAuthority('ROLE_ADMIN')" -->
+				<!-- create부분 -->
 				<div class="mx-auto" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 					<div class="row notice mx-auto my-2">
 						<textarea class="col-10 py-2 notice-ipt" th:field="*{noticeCont}" placeholder="공지사항 작성"></textarea>
-						<button type="submit" th:formaction="@{'/shop/info'}" class="col-2 notice-icon text-end">
+						<!--  th:formaction="@{'/shop/info'}" -->
+						<button th:if="${not #strings.isEmpty(noticeDto.shopDto.shopId)}" type="submit" class="col-2 notice-icon text-end">
 							<i class="fa-sharp fa-solid fa-file-pen"></i>
 						</button>
 					</div>

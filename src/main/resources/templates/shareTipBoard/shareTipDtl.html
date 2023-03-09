@@ -20,6 +20,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         	bindDomEvent();
     	});
 		
+		$(function() {
+			
+			$.LoadingOverlaySetup({
+				background			: "rgba(41, 55, 91, 0.25)",
+				image				: "",
+				maxSize				: 60,
+				fontawesome			: "fas fa-carrot fa-spin",
+				fontawesomeColor	: "rgba(255, 150, 53, 1)",
+			});
+			
+		//	$.LoadingOverlay("show");
+			
+		//	setTimeout(function(){
+		//	    $.LoadingOverlay("hide");
+		//	}, 2000);
+		});
+		
 		//파일 첨부시 이미지 파일인지 검사를 한다.
         function bindDomEvent(){
 			
@@ -60,6 +77,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				beforeSend 	: function(xhr) {
 					
 					xhr.setRequestHeader(header, token)
+					$.LoadingOverlay("show");
 				},
 				dataType 	:"Json",
 				cache 		: false,
@@ -67,6 +85,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 					
 					alert("게시글이 삭제되었습니다.");
 					location.href = '/sharetip/list';
+				},
+				complate	: function() {
+					
+					$.LoadingOverlay("hide");
 				},
 				error 		: function(jqXHR, status, error) {
 

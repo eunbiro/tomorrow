@@ -10,6 +10,23 @@
 
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
+	$(function() {
+		
+		$.LoadingOverlaySetup({
+			background			: "rgba(41, 55, 91, 0.25)",
+			image				: "",
+			maxSize				: 60,
+			fontawesome			: "fas fa-carrot fa-spin",
+			fontawesomeColor	: "rgba(255, 150, 53, 1)",
+		});
+		
+	//	$.LoadingOverlay("show");
+		
+	//	setTimeout(function(){
+	//	    $.LoadingOverlay("hide");
+	//	}, 2000);
+	});
+	
 	$(document).ready(function() {
 		
 		var errorMessage = [[${errorMessage}]];
@@ -36,14 +53,18 @@
 				url		: url,
 				dataType: 'json',
 				cache 	: false,
+				beforeSend	: function() {
+					
+					$.LoadingOverlay("show");
+				},
 				success : function(result) {
-					console.log(result);
-					console.log(result.shopNm);
+					
 					$('.addShop').hide();
 					
 					if (result.shopNm == null) {
 						
 						alert('잘못된 매장코드입니다.');
+						$.LoadingOverlay("hide");
 						return;
 					} else {
 						
@@ -51,6 +72,7 @@
 						$('.add-ipt').val(result.shopNm).attr('disabled', false);
 						$('.add-pl').text(result.shopPlace);
 						$('.add-btn').val(result.shopId);
+						$.LoadingOverlay("hide");
 					}				
 				},
 				error	: function(a, b, c) {
@@ -81,6 +103,7 @@
 			beforeSend 	: function(xhr) {
 				
 				xhr.setRequestHeader(header, token)
+				$.LoadingOverlay("show");
 			},
 			dataType 	:"Json",
 			cache 		: false,
@@ -95,6 +118,10 @@
 					alert('이미 등록된 매장입니다.');
 					location.href = '/shop/search';
 				}
+			},
+			complate	: function() {
+				
+				$.LoadingOverlay("hide");
 			},
 			error 		: function(jqXHR, status, error) {
 

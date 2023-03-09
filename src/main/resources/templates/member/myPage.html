@@ -18,6 +18,24 @@
 				alert(errorMessage);
 			}
 		});
+		
+		$(function() {
+			
+			$.LoadingOverlaySetup({
+				background			: "rgba(41, 55, 91, 0.25)",
+				image				: "",
+				maxSize				: 60,
+				fontawesome			: "fas fa-carrot fa-spin",
+				fontawesomeColor	: "rgba(255, 150, 53, 1)",
+			});
+			
+		//	$.LoadingOverlay("show");
+			
+		//	setTimeout(function(){
+		//	    $.LoadingOverlay("hide");
+		//	}, 2000);
+		});
+		
 		// 해당 공지 삭제
 		function deleteMemberId(memberId) {
 			
@@ -41,6 +59,7 @@
 				beforeSend 	: function(xhr) {
 					
 					xhr.setRequestHeader(header, token)
+					$.LoadingOverlay("show");
 				},
 				dataType 	:"Json",
 				cache 		: false,
@@ -50,6 +69,10 @@
 					deleteCookie("setCookieYN");
 					alert("회원탈퇴 되었습니다.");
 					location.href = '/member/logout';
+				},
+				complate	: function() {
+					
+					$.LoadingOverlay("hide");
 				},
 				error 		: function(jqXHR, status, error) {
 
@@ -247,7 +270,7 @@ table {
 			</div>
 
 			<div class="profile-basic">
-				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_USER')">[[${member.userNm}]]
+				<a class="profile-name" sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')">[[${member.userNm}]]
 					님</a> <a class="profile-name"
 					sec:authorize="hasAnyAuthority('ROLE_ADMIN')">[[${member.userNm}]]
 					님</a> <a class="profile-mini-id">@[[${member.userId}]]</a> <a
@@ -260,7 +283,7 @@ table {
 				<div class="profile-shop-register w-75 mx-auto ">
 					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"
 						th:onclick="|location.href='@{/shopcreate/createshopp}'|">매장생성</button>
-					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER')"
+					<button type="submit" sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')"
 						th:onclick="|location.href='@{/shop/search}'|">매장등록</button>
 				</div>
 				<form role="form" method="get">

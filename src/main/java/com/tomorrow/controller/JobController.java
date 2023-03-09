@@ -60,25 +60,23 @@ public class JobController {
 		getSideImg(model, principal);
 
 		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("shopDto", new ShopDto());
 		model.addAttribute("hireDto", new HireDto());
 
 		return "job/jobNew";
 	}
 
-	// TODO 셀렉트 선택 안됨, 임의로 shopId 값 넣고 등록 가능
+	// 등록 후 페이지 이동
 	// 구인공고 등록 매장 정보 불러오기
 	@GetMapping(value = "/admin/job/new/{shopId}")
 	public String getShopJobNew(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
 
 		getSideImg(model, principal);
 
-		List<MemShopMappingDto> myShopList = shopInfoService.getMyShop(principal.getName());
+		List<MemShopMappingDto> myShopList = jobService.getMyShop(principal.getName());
 
 		Shop shop = jobService.findShop(shopId);
 		ShopDto shopDto = jobService.getShop(shop);
 
-		shopDto.setShopId(shopId);
 		HireDto hireDto = new HireDto();
 		hireDto.setShopDto(shopDto);
 
@@ -115,32 +113,24 @@ public class JobController {
 			return "job/jobNew";
 		}
     	
-    	return "job/jobOpeningList";
+    	return "redirect:/admin/job/openingList";
+    	///admin/job/openingList
     }
 
-	// 구인공고 수정페이지 보기
-//	@GetMapping(value = "/admin/job/new/{hireId}")
-//	public String jobHireDtl(@PathVariable("hireId") Long hireId, Model model) {
-//		try {
-//
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//
-//		return "job/jobNew";
-//	}
 
 	// 구인공고뷰 페이지
-	@GetMapping(value = "/job/view")
-	public String jobView(Model model, Principal principal) {
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-
-		getSideImg(model, principal);
-
-		model.addAttribute("myShopList", myShopList);
-
-		return "job/jobView";
-	}
+//	@GetMapping(value = "/job/view")
+//	public String jobView(HireDto hireDto, Model model, Principal principal) {
+//		
+//		getSideImg(model, principal);
+//
+//		List<HireDto> hireDtoList = jobService.getHireList(hireDto);
+//
+//
+//		model.addAttribute("hireDtoList", hireDtoList);
+//
+//		return "job/jobView";
+//	}
 	
 	@GetMapping(value = "/admin/job/list")
 	public String jobListShow(Model model, Principal principal) {
