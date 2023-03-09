@@ -86,6 +86,7 @@ public class ShopController {
 		return "shop/shopNoticeForm";
 	}
 
+	
 	// POST매장공지 등록 시
 	@PostMapping(value = "/shop/info")
 	public String shopInfoUpdate(@Valid NoticeDto noticeDto, BindingResult bindingResult, Model model, Principal principal) {

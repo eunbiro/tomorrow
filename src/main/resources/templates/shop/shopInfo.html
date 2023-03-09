@@ -19,6 +19,14 @@
 				$(location).attr('href', url);
 			});
 		});
+		
+		// 사진 팝업 뜨게 만들기 
+		lightbox.option({
+			  resizeDuration: 200,
+			  wrapAround: true,
+			  disableScrolling: false,
+			  fitImagesInViewport: false,
+			});
 	</script>
 </th:block>
 <th:block layout:fragment="css">
@@ -131,7 +139,7 @@ input {
 							<label for="formFile" class="form-label shop-photo">매장 사진</label>
 							<div class="shImgDiv" th:each="shopImg : ${shopDto.shopImgDto}">
 								<img class="rounded repImg" width="400px" height="500px" th:if="${not #strings.isEmpty(shopImg.shImgUrl)}" 
-								th:src="${shopImg.shImgUrl}" onclick="window.open(this.src)">
+								th:src="${shopImg.shImgUrl}" onclick="window.open(this.src)" >
 							</div>
 						</div>
 						<div class="shop-info">

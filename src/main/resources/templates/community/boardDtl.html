@@ -5,6 +5,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Insert title here</title>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
@@ -30,10 +32,52 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
                 $(this).siblings(".custom-file-label").html(fileName);
             });
         }
+				
+		//게시글 삭제
+		function deleteBoardId(boardId){
+			 const deleteConf = confirm("게시글을 삭제하시겠습니까?");
+				
+				if (!deleteConf) return;
+				
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				
+				var url = "/board/delete/" + boardId;
+				var shopId = $('#boardId').val();
+				console.log(noticeId);
+				
+				$.ajax({
+					
+					url			: url,
+					type 		: "DELETE",
+					contentType : "application/json",
+					beforeSend 	: function(xhr) {
+						
+						xhr.setRequestHeader(header, token)
+					},
+					dataType 	:"Json",
+					cache 		: false,
+					success 	: function(result, status) {
+						
+						alert("기입내용이 삭제되었습니다.");
+						location.href = '/board/' + boardId;
+					},
+					error 		: function(jqXHR, status, error) {
+
+						if (jqXHR.status == '401') {
+							
+							alert('로그인 후 이용하시오.');
+							location.href = '/member/login';
+						} else {
+							
+							alert(jqXHR.responseText);
+						}
+					}
+				});
+		 }
+		
 	</script>
 </th:block>
-<meta name="_csrf" th:content="${_csrf.token}"/>
-<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <th:block layout:fragment="css">
 	<style>
 		.input-group {
@@ -50,61 +94,64 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 </head>
 <body> 
 	<div layout:fragment="content">	
-   	   <input type="hidden" id="boardId" th:value="${board.id}">
-	   <div class="post-frm container-lg d-flex flex-column noti-wrap">
-   			<p th:text="'작성자 : '+${board.member.userNm}"></p>
+   	   <!-- <input type="hidden" id="boardId" th:value="${board.id}"> -->
+	   <div class="post-frm container-lg">
+   			<p th:text="'작성자 : '+${board.member.userNm}" class="post_frm_p"></p>
    			<hr>
-			<form th:action="@{'/board/delete/'+${board.id}}" th:method="delete">
-				<button type="submit">삭제</button>
-			</form>
-	   		<form method="post" >
-	   			<div class="post-title d-flex">
+			
+	   		<form method="post">
+	   			<div class="board-header">
 					<p th:text="'제목 : '+${board.boardTitle}+' | 조회수 : ' + ${board.viewCount}"></p>
+					<button type="button" id="boardId" class="btn px-4 mx-4" th:value="${board.id}" onclick="deleteBoardId(this.value)">삭제</button>
 	   			</div>
 	   			<hr>
-	   			<div class="post-text">
-	   				<textarea class="w-100 h-40 board-textarea" th:text="${board.boardCont}" readOnly> 
-	   					 
-	   				</textarea>
-	   			<div class="reg-date">
-	   				<p th:text="'등록일 : '+${board.regTime}"></p>
-	   			</div>
+	   			<div class="post-area">
+	   				<div class="post-img">
+		   				<div th:each="boardImg : ${board.boardImgDtoList}" class="">
+			          		<img th:if="${not #strings.isEmpty(boardImg.boImgUrl)}" th:src="${boardImg.boImgUrl}" class="detail-img" width="800">
+			 			</div>
+		 			</div>
+	   				<div class="post-text">
+		   				<textarea class="w-100 h-40 board-textarea" th:text="${board.boardCont}" readOnly> </textarea>
+			   			<div class="reg-date">
+			   				<p th:text="'등록일 : '+${#temporals.format(board.regTime,'yyyy년 MM월 dd일 HH:mm:ss ')}"></p>
+			   			</div>
+		   			</div>
 		   			<hr>
-	   			</div>
-	   			<div class="post-buttons">
-      			<button class="post-btns m-1" type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정하기</button>	
-	   				<button class="post-btns m-1" type="button" onclick="location.href='/board/list'">목록</button>
 	   			</div>
 	   			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 	   		</form>
 	   		
-	   		<div th:each="boardImg : ${board.boardImgDtoList}" class="">
-          		<img th:if="${not #strings.isEmpty(boardImg.boImgUrl)}" th:src="${boardImg.boImgUrl}" class="detail-img" width="800">
- 			</div>
+	   		
  			<!-------------------------- 댓글 영역 --------------------------->
 			<div class="comment-input">
 				<form method="post" th:object="${boardComment}">
 				    <input type="hidden" id="boardId" th:field="*{board.id}" th:value="${board.id}">
   	   				<input type="hidden" th:field="*{member}" th:value="${member}"/>
 				    
-					<input type="text" placeholder="댓글 입력창" th:field="*{boCmtText}"/>
+					<input class="input-comment"type="text" placeholder="댓글 입력창" th:field="*{boCmtText}"/>
 					<p th:if="${#fields.hasErrors('boCmtText')}" th:errors="*{boCmtText}" class="fieldError">Incorrect Data</p>
-					<button type="submit" th:formaction="@{'/board/comment/' + ${board.id} }">댓글 등록</button>
+					
+					<button class="comment-submit" type="submit" th:formaction="@{'/board/comment/' + ${board.id} }">댓글 등록</button>
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">			
 				</form>
 			</div> 
 			<div class="comment-list">
-				<p>댓글 리스트</p>
-					<div th:each="comment : ${comments}">
-						<ul>
-							<li>
-								<div class="comment-writer" th:text="${comment.member.userNm}"></div>
-								<div class="comment-text" th:text="${comment.boCmtText}"></div>
-								<div class="comment-reg"  th:text="${comment.regTime}"></div>
-							</li>
-						</ul>
-					</div>
+				<div th:each="comment : ${comments}">
+					<ul>
+						<li>
+							<div class="comment-writer" th:text="${comment.member.userNm}"></div>
+							<div class="bar">|</div>
+							<div class="comment-text" th:text="${comment.boCmtText}"></div>
+							<div class="comment-reg"  th:text="'등록일 : ' + ${#temporals.format(comment.regTime, 'yyyy.MM.dd')}"></div>
+						</li>
+					</ul>
+				</div>
 			</div>
+			<div class="post-buttons">
+   				<a class="post-btns m-1" type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정</a>	
+   				<a class="post-btns m-1" type="button" onclick="location.href='/board/list'">목록</a>
+   			</div>
 	   </div>
 	    
     </div>

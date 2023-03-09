@@ -35,6 +35,10 @@ public class HireDto {
 	@Size(min = 1, message = "근무타임은 필수 입력 값입니다.")
 	private String hireTime;
 	
+	@NotNull
+	@Size(min = 1, message = "전화번호는 필수 입력 값입니다.")
+	private String hireNum;
+	
 	private LocalDateTime regTime;
 
 	private LocalDateTime updateTime;

@@ -10,54 +10,41 @@
 		<nav class="navbar fixed-top  navbar-sidebar">
 			<!-- <nav class="navbar navbar-dark bg-white fixed-top  navbar-sidebar"> -->
 			<div class="container-fluid d-flex justify-content-between">
-				<a class="navbar-brand text-center" href="/"
-					style="color: #fff; font-size: 30px; width: 30px;"><i
-					class="fa-solid fa-house"></i></a>
-				<button class="navbar-btn" type="button" data-bs-toggle="offcanvas"
-					data-bs-target="#offcanvasDarkNavbar"
-					aria-controls="offcanvasDarkNavbar">
+				<a class="navbar-brand text-center" href="/" style="color: #fff; font-size: 30px; width: 30px;"><i class="fa-solid fa-house"></i></a>
+				<button class="navbar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
 					<i class="fa-solid fa-bars fa-xl"></i>
 				</button>
-				<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1"
-					id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+				<div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
 					<div class="offcanvas-header justify-content-end">
-						<button type="button" class="bg-dark" style="border: none;"
-							data-bs-dismiss="offcanvas">
+						<button type="button" class="bg-dark" style="border: none;" data-bs-dismiss="offcanvas">
 							<i class="fa-solid fa-x" style="color: white;"></i>
 						</button>
 					</div>
-
 					<div class="offcanvas-body">
 						<ul class="navbar-nav ">
 							<li>
 								<div class="side-profile">
 									<div class="nav-item" style="height: 180px">
 										<div class="box" style="background: #BDBDBD;">
-											<img class="profile"
-												th:if="${not #strings.isEmpty(member.imgUrl)}"
-												th:src="${member.imgUrl}">
+											<img class="profile" th:if="${not #strings.isEmpty(member.imgUrl)}" th:src="${member.imgUrl}">
 										</div>
 									</div>
 									<div class="side-name">
-										<a sec:authorize="hasRole('USER')">[[${member.userNm}]]님<br>오늘
-											하루도 열일하세요. : )
-										</a> <a sec:authorize="hasRole('ADMIN')">[[${member.userNm}]]
-											점주님<br>좋은 하루 보내세요. : )
-										</a>
+										<a sec:authorize="hasRole('USER')">[[${member.userNm}]]님<br>오늘도 내일과 함께해요! : )</a>
+										<a sec:authorize="hasRole('ALBA')">[[${member.userNm}]]님<br>오늘 하루도 열일하세요. : )</a>
+										<a sec:authorize="hasRole('ADMIN')">[[${member.userNm}]]점주님<br>좋은 하루 보내세요. : )</a>
 									</div>
 								</div>
 								<div class="side-logout">
-									<a href="/member/login" sec:authorize="isAnonymous()">로그인</a> <a
-										href="/member/logout" sec:authorize="isAuthenticated()">로그아웃</a>
+									<a href="/member/login" sec:authorize="isAnonymous()">로그인</a>
+									<a href="/member/logout" sec:authorize="isAuthenticated()">로그아웃</a>
 								</div>
 							</li>
 						</ul>
-						<div class="accordion-collapse collapse">
-							<div class="accordion-body bg-dark">
-					      		<a sec:authorize="hasAnyAuthority('ROLE_USER') or hasAnyAuthority('ROLE_ALBA')" class="nav-link acABtn py-2 ps-5" href="/shop/search">매장등록</a>
-					      		<a sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="nav-link acABtn py-2 ps-5" href="/shopcreate/createshopp">매장생성</a>
-							</div>
-					    </div>
+						<div class="bg-dark">
+				      		<a sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')" class="nav-link acBtn" style="padding: 16px 20px;" href="/shop/search">매장등록</a>
+				      		<a sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="nav-link acBtn" style="padding: 16px 20px;" href="/shopcreate/createshopp">매장생성</a>
+						</div>
 						<div class="accordion accordion-flush" id="accordionFlushExample">
 							<div class="accordion-item acTapBtn" sec:authorize="isAuthenticated()">
 							    <h2 class="accordion-header" id="flush-headingOne">
@@ -81,7 +68,7 @@
 							    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
 									<div class="accordion-body bg-dark">
 							      		<a class="nav-link acABtn py-2 ps-5" href="/board/list">자유게시판</a>
-							      		<a class="nav-link acABtn py-2 ps-5" href="/review/list" sec:authorize="hasAnyAuthority('ROLE_USER')">매장리뷰</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/review/list" sec:authorize="hasAnyAuthority('ROLE_USER','ROLE_ALBA')">매장리뷰</a>
 							      		<a class="nav-link acABtn py-2 ps-5" href="/sharetip/list" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">관리자 정보공유</a>
 									</div>
 							    </div>
@@ -110,6 +97,20 @@
 							      		<a class="nav-link acABtn py-2 ps-5" href="/admin/manage/employeeInfo">직원정보</a>
 							      		<a class="nav-link acABtn py-2 ps-5" href="/admin/commute">직원출퇴근조회</a>
 							      		<a class="nav-link acABtn py-2 ps-5" href="/admin/pay">직원급여관리</a>
+									</div>
+							    </div>
+							</div>
+							<div class="accordion-item acTapBtn">
+							    <h2 class="accordion-header" id="flush-headingsix">
+									<button class="accordion-button acBtn bg-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsesix" aria-expanded="false" aria-controls="flush-collapsefour">
+							        	구인공고
+									</button>
+							    </h2>
+							    <div id="flush-collapsesix" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
+									<div class="accordion-body bg-dark">
+							      		<a class="nav-link acABtn py-2 ps-5" href="/job/view">구인공고</a>
+							      		<a class="nav-link acABtn py-2 ps-5" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" href="/admin/job/new">구인공고 등록</a>
+							      		<a class="nav-link acABtn py-2 ps-5" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" href="/admin/job/openingList">구인공고 리스트</a>
 									</div>
 							    </div>
 							</div>

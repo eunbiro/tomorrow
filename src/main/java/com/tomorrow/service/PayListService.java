@@ -1,5 +1,6 @@
 package com.tomorrow.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -38,6 +39,7 @@ public class PayListService {
 	private final MemShopMapRepository memShopMapRepository;
 	private final PayListRepository payListRepository;
 	private final CommuteRepository commuteRepository;
+	private final MemShopMapRepository mapRepository;
 	
 	// 현재 접속해있는 회원정보를 불러옴
 	@Transactional(readOnly = true)
@@ -155,31 +157,40 @@ public class PayListService {
 		return workDayCountList;
 	}
 	
-	//매장별 급여 리스트 가져오기 
-	public List<PayListDto> getPayListByMsm(List<MemShopMapping> msmList){
-	   List<PayListDto> payListDto = new ArrayList<PayListDto>();	
-		
-		for(MemShopMapping memShopMapping : msmList) {
-			PayListDto pld = new PayListDto();
-			MemShopMappingDto memShopMappingDto  = new MemShopMappingDto();
-			memShopMappingDto.setMapId(memShopMapping.getId());
-			memShopMappingDto.setMemberFormDto(MemberFormDto.of(memShopMapping.getMember()));
-			memShopMappingDto.setShopDto(ShopDto.of(memShopMapping.getShop()));
-			memShopMappingDto.setTimePay(memShopMapping.getTimePay());
-			memShopMappingDto.setPartTime(memShopMapping.getPartTime());
-			memShopMappingDto.setWorkStatus(2);
-			pld.setMemShopMappingDto(memShopMappingDto);
-			pld.setWorkDays(getWorkDays(memShopMapping));
-			payListDto.add(pld);
-		}
-		
-		return payListDto;
-	}
 	
 	public int getWorkDays(MemShopMapping msm) {
 		List<Commute> commuteListByMember = commuteRepository.findCommuteByMemberId(msm.getMember().getId(), msm.getShop().getId());
 		int workDays = commuteListByMember.size();
 		
 		return workDays;
+	}
+	
+	public List<PayListDto> getPayListByMonth(Long shopId, int month){
+		List<PayListDto> payListDto = new ArrayList<PayListDto>();
+		List<PayList> payList = payListRepository.findPayListByMonth(shopId, month);		
+		
+		for(PayList pl : payList) {
+			PayListDto pld = new PayListDto();
+			pld.setMemShopMappingDto(getMapById(pl.getMemShopMapping().getId()));
+			pld.setId(pl.getId());
+			pld.setWorkDays(getWorkDays(pl.getMemShopMapping()));
+			pld.setRegTime(pl.getRegTime().toString());
+			pld.setMonthPay(pl.getDayPay() * payList.size());
+			pld.setShopDto(ShopDto.of(pl.getMemShopMapping().getShop()));
+			payListDto.add(pld);
+		}
+	
+		return payListDto;
+	}
+	
+	public MemShopMappingDto getMapById(Long mapId) {
+		MemShopMapping msm = memShopMapRepository.findById(mapId).orElseThrow(EntityNotFoundException::new);
+		MemShopMappingDto msmd = new MemShopMappingDto();
+		msmd.setMapId(msm.getId());
+		msmd.setMemberFormDto(MemberFormDto.of(msm.getMember()));
+		msmd.setTimePay(msm.getTimePay());
+		msmd.setPartTime(msm.getPartTime());
+	
+		return msmd;
 	}
 }

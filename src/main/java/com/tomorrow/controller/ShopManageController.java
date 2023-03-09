@@ -1,5 +1,4 @@
 package com.tomorrow.controller;
-
 import java.security.Principal;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.CommuteDto;
@@ -131,26 +131,27 @@ public class ShopManageController {
 
 		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
 		model.addAttribute("myShopList", myShopList);
-		model.addAttribute("payListDto", new PayListDto());
 		
 		return "manage/managerPayForm";
 	}
 	
-	// 매니저 급여관리 화면
-	@GetMapping(value = "/pay/{shopId}")
-	public String getPayListByShop(@PathVariable("shopId") Long shopId, Model model, Principal principal) {
+	@GetMapping(value = "/pay/{shopId}/{month}")
+	public String getPayListByMonth(@PathVariable("shopId") Long shopId, @PathVariable("month") int month, Model model, Principal principal) {
 		
-		getSideImg(model, principal);
-		
-		//매니저 아이디로 소유중인 매장 목록 띄우기
-		List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
-		model.addAttribute("myShopList", myShopList);	//사용자가 가진 매장 리스트
-		
-		//해당 매장의 전체 직원 급여 리스트
-		List<MemShopMapping> msmList = mapRepository.findByShopId(shopId);
-		List<PayListDto> payListDto = payListService.getPayListByMsm(msmList);
-		//payList엔 msmList로 가져온 mapping정보에 담긴 직원들 각각의 급여
-		model.addAttribute("payListDto", payListDto);
+		try {
+			getSideImg(model, principal);
+			
+			//매니저 아이디로 소유중인 매장 목록 띄우기
+			List<MemShopMappingDto> myShopList = shopService.getMyShop(principal.getName());
+			model.addAttribute("myShopList", myShopList);	//사용자가 가진 매장 리스트
+			
+			List<PayListDto> payListDto = payListService.getPayListByMonth(shopId, month);			
+			model.addAttribute("payListDto", payListDto);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "manage/managerPayForm";
+		}
 		return "manage/managerPayForm";
 	}
 
@@ -185,7 +186,7 @@ public class ShopManageController {
 	}
 	
 	// 직원 정보 삭제
-	@DeleteMapping(value = "/manage/employeeInfo/{mapId}/delete")
+	@DeleteMapping(value = "/admin/manage/employeeInfo/{mapId}/delete")
 	public @ResponseBody ResponseEntity deleteEmployee(@PathVariable("mapId") Long mapId, Principal principal) {
 		MemShopMapping memShopMapping = emplInfoService.findMapping(mapId);
 		emplInfoService.deleteEmployee(memShopMapping);

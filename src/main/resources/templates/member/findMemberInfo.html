@@ -21,12 +21,16 @@
 <script th:inline="javascript">
 	function opneId() {
 		$("#findPassword_div").hide();
+		$(".nav-item-pw").css('background', '#fff');
 		$("#findId_div").show();
+		$(".nav-item-id").css('background', '#13223D');
 	}
 	
 	function opnepw() {
 		$("#findPassword_div").show();
+		$(".nav-item-pw").css('background', '#13223D');
 		$("#findId_div").hide();
+		$(".nav-item-id").css('background', '#fff');
 	}
 	
 	$(document).ready(function(){
@@ -77,6 +81,10 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.nav-item-id {
+	background: #13223D;
+}
 </style>
 </head>
 <body>
@@ -89,10 +97,10 @@
 				<div class="find_total">
 					<div class="buttons">
 						<ul class="nav nav-pills">
-					        <li class="nav-item">
+					        <li class="nav-item nav-item-id rounded-top">
 					        	<a class="nav-link" onclick="opneId()">아이디 찾기</a>
 					        </li>
-					        <li class="nav-item">
+					        <li class="nav-item nav-item-pw rounded-top">
 					        	<a class="nav-link" onclick="opnepw()">비밀번호 찾기</a>
 					        </li>
 				     	</ul>
@@ -139,10 +147,10 @@
 				<div class="find_total">
 					<div class="buttons">
 						<ul class="nav nav-pills">
-					        <li class="nav-item">
+					        <li class="nav-item nav-item-id rounded-top">
 					        	<a class="nav-link" onclick="opneId()">아이디 찾기</a>
 					        </li>
-					        <li class="nav-item">
+					        <li class="nav-item nav-item-pw rounded-top">
 					        	<a class="nav-link" onclick="opnepw()">비밀번호 찾기</a>
 					        </li>
 				     	</ul>
