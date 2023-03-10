@@ -129,9 +129,9 @@ public class MemberService implements UserDetailsService {
 	}
 
 	// 회원아이디 삭제
-	public void deleteMember(Member member) {
+	public void deleteMember(Long memberId) {
 
-		Member memberDel = memberRepository.findById(member.getId()).orElseThrow(EntityNotFoundException::new);
+		Member memberDel = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
 		memberDel.userStatusUpdate(1);
 	}
 }
