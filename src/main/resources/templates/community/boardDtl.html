@@ -43,11 +43,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				var header = $("meta[name='_csrf_header']").attr("content");
 				
 				var url = "/board/delete/" + boardId;
-				var shopId = $('#boardId').val();
-				console.log(noticeId);
 				
 				$.ajax({
-					
 					url			: url,
 					type 		: "DELETE",
 					contentType : "application/json",
@@ -58,18 +55,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 					dataType 	:"Json",
 					cache 		: false,
 					success 	: function(result, status) {
-						
-						alert("기입내용이 삭제되었습니다.");
-						location.href = '/board/' + boardId;
+						alert("게시물이 삭제되었습니다.");
+						location.href = '/board/list';
 					},
-					error 		: function(jqXHR, status, error) {
-
+					error : function(jqXHR, status, error) {
 						if (jqXHR.status == '401') {
-							
 							alert('로그인 후 이용하시오.');
 							location.href = '/member/login';
 						} else {
-							
 							alert(jqXHR.responseText);
 						}
 					}
@@ -101,7 +94,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 			
 	   		<form method="post">
 	   			<div class="board-header">
-					<p th:text="'제목 : '+${board.boardTitle}+' | 조회수 : ' + ${board.viewCount}"></p>
+					<p th:text="'제목 : '+${board.boardTitle}"></p>
 					<button type="button" id="boardId" class="btn px-4 mx-4" th:value="${board.id}" onclick="deleteBoardId(this.value)">삭제</button>
 	   			</div>
 	   			<hr>
@@ -149,7 +142,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				</div>
 			</div>
 			<div class="post-buttons">
-   				<a class="post-btns m-1" type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정</a>	
+   				<a class="post-btns m-1 " type="button" th:onclick="'location.href=\'update/'+ @{${board.id}} + '\''">수정</a>	
    				<a class="post-btns m-1" type="button" onclick="location.href='/board/list'">목록</a>
    			</div>
 	   </div>

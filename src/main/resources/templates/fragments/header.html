@@ -76,7 +76,7 @@
 									</div>
 							    </div>
 							</div>
-							<div class="accordion-item acTapBtn" sec:authorize="isAuthenticated()">
+							<div class="accordion-item acTapBtn" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_ALBA')">
 							    <h2 class="accordion-header" id="flush-headingThree">
 									<button class="accordion-button bg-dark acBtn collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
 										매장
@@ -111,7 +111,7 @@
 							    </h2>
 							    <div id="flush-collapsesix" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
 									<div class="accordion-body bg-dark">
-							      		<a class="nav-link acABtn py-2 ps-5" href="/job/view">구인공고</a>
+							      		<a class="nav-link acABtn py-2 ps-5" href="/job/view">채용정보</a>
 							      		<a class="nav-link acABtn py-2 ps-5" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" href="/admin/job/new">구인공고 등록</a>
 							      		<a class="nav-link acABtn py-2 ps-5" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" href="/admin/job/openingList">구인공고 리스트</a>
 									</div>
@@ -133,8 +133,8 @@
 						</div>
 					</div>
 					<div class="bottom-image">
-						<a onclick="window.open('https://github.com/eunbiro/tomorrow ')"> <img alt=""
-							src="/images/gitimage.png">
+						<a onclick="window.open('https://github.com/eunbiro/tomorrow ')">
+							<i style="cursor: pointer;" class="fa-brands fa-github fs-1 m-2"></i>
 						</a>
 					</div>
 				</div>

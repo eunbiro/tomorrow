@@ -40,8 +40,7 @@ public class ShareTipBoard extends BaseEntity {
 	@Column(length = 50, nullable = false)
 	private String tipTitle;				// 매장리뷰 제목
 	
-	@Lob
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	private String tipCont;				// 매장리뷰 내용
 	
 	public void updateTip(ShareTipBoardDto shareTipBoardDto) {

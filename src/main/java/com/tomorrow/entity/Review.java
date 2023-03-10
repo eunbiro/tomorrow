@@ -40,8 +40,7 @@ public class Review extends BaseEntity {
 	@Column(length = 50, nullable = false)
 	private String reviewTitle;				// 매장리뷰 제목
 	
-	@Lob
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	private String reviewCont;				// 매장리뷰 내용
 	
 	public void updateReview(ReviewDto reviewDto) {

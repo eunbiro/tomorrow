@@ -119,11 +119,10 @@ public class MemberController {
 		return attributes.toString();
 	}
 	
-	@DeleteMapping(value = "/member/{memberId}/delete")
+	@PostMapping(value = "/member/{memberId}/delete")
 	public @ResponseBody ResponseEntity deleteMember(@PathVariable("memberId") Long memberId, Principal principal) {
 
-		Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
-		memberService.deleteMember(member);
+		memberService.deleteMember(memberId);
 		return new ResponseEntity<Long>(memberId, HttpStatus.OK);
 	}
 

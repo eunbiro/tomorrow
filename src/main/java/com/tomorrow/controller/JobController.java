@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tomorrow.dto.HireDto;
 import com.tomorrow.dto.HireListDto;
+import com.tomorrow.dto.HireSearchDto;
 import com.tomorrow.dto.MemShopMappingDto;
 import com.tomorrow.dto.MemberFormDto;
 import com.tomorrow.dto.PayListDto;
@@ -87,7 +88,7 @@ public class JobController {
 		return "job/jobNew";
 	}
 
-	// 구인공고 등록하기
+	// 구인공고 등록하기 //확인
 	@PostMapping(value = "/admin/job/new")
 	public String jobHireNew(@Valid HireDto hireDto, BindingResult bindingResult, Model model, Principal principal) {
 
@@ -114,23 +115,27 @@ public class JobController {
 		}
     	
     	return "redirect:/admin/job/openingList";
-    	///admin/job/openingList
+ 
     }
 
 
+	//TODO 내림차순...
 	// 구인공고뷰 페이지
-//	@GetMapping(value = "/job/view")
-//	public String jobView(HireDto hireDto, Model model, Principal principal) {
-//		
-//		getSideImg(model, principal);
-//
-//		List<HireDto> hireDtoList = jobService.getHireList(hireDto);
-//
-//
-//		model.addAttribute("hireDtoList", hireDtoList);
-//
-//		return "job/jobView";
-//	}
+	@GetMapping(value = "/job/view")
+	public String jobView(HireDto hireDto, Model model, Principal principal) {
+		
+		getSideImg(model, principal);
+
+	    List<HireDto> hireDtoList = jobService.getHireList();
+
+
+		model.addAttribute("hireDtoList", hireDtoList);
+	
+		return "job/jobView";
+	}
+	
+	
+	
 	
 	@GetMapping(value = "/admin/job/list")
 	public String jobListShow(Model model, Principal principal) {

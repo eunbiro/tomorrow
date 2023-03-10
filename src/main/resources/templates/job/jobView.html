@@ -4,51 +4,32 @@
 	layout:decorate="~{layouts/layout1}">
 <head>
 <meta charset="UTF-8">
-<title>공고보기</title>
+<title>채용정보</title>
 
 <th:block layout:fragment="css">
 	<style>
 .jobView-wrap {
 	margin-top: 80px;
+	font-size: 162.5%;
 }
+
 
 
 .posting-info {
    margin-top:30px;
-   width: 50%; 
    float: left;
-   position: relative;
-   
 }
 
-.posting-info-one{
-   margin:10px;
-   text-align: center;
-   padding: 10px;
-   box-shadow: 0px 3px 5px gray;
-   border-radius: 3px;
-   position: absolute;
-   background-color: white;
-   width: 80%; 
-   height: 300px;
+
+.line {
+   width: 100%;
+   height: 2px;
+   background: gray;
 }
 
-.posting-info-hover {
-   margin:10px;
-   text-align: center;
-   padding: 10px;
-   box-shadow: 0px 3px 5px gray;
-   border-radius: 3px;
-   background-color: white;
-   width: 80%; 
-   height: 300px;
-   border: 1px solid gray;
+.dropdown-menu li {
+   padding: 5px;
 }
-
-.posting-info-one:hover {
-	display: none;
-}
-
 
 </style>
 </th:block>
@@ -56,43 +37,42 @@
 <body>
 	<div layout:fragment="content">
 		<div class="jobView-wrap">
-			<!-- 검색폼 -->
-			<div class="jobView-title"
-				style="border-radius: 5px; width: 80%; margin: 0 auto; float: left;">
-				<label class=""> <i
-					class="fa-solid fa-magnifying-glass" style="color: #5D5D5D;"></i> <input
-					id="shopCode" class="" type="text" placeholder="회사를 입력하세요"
-					style="border: none;">
-				</label>
-
-			</div>
-
-			<button type="button" class=""
-				style="border-radius: 5px; border: 1px solid gray; background: white; float: left;">검색</button>
+			<div class="title fs-1" style="font-weight: bold; color: #13223D; border-bottom: 6px solid #fca211; margin-bottom: 20px;">채용정보</div>
+			<div class="title_t" style="font-size: 1.2rem;">지금 등록된 채용정보 입니다.</div>
 		</div>
 
-		<div class="jobViewList">
+ 
+		<div class="jobViewList mx-auto" style="width:100%; justify-content: center;">
 			<th:block th:each="hire, status : ${hireDtoList}">
-				<div class="posting-info">
-					<div class="posting-info-one">
-						<div class="posting-info-one-text">[[${hire.shopDto.shopNm}]]</div>
-						<div class="posting-info-one-text">[[${hire.shopDto.shopPlace}]]</div>
-						<div class="posting-info-one-text">[[${hire.hirePay}]]</div>
-					</div>
-					<div class="posting-info-hover">
-						<div class="posting-info-one-text">[[${hire.shopDto.shopNm}]]</div>
-						<div class="posting-info-one-text">[[${hire.shopDto.shopType}]]</div>
-						<div class="posting-info-one-text">[[${hire.shopDto.shopPlace}]]</div>
-						<div class="posting-info-one-text">[[${hire.hireTime}]]</div>
-						<div class="posting-info-one-text">[[${hire.hireNum}]]</div>
-  
-					</div>
+				<div class="posting-info mx-auto" style="width: 50%;">
+				
+          <div class="row">
+            <div class="col-sm-6">
+             <div class="card"  style="margin-bottom: 20px;">
+              <div class="card-body">
+               <h5 class="card-title">[[${hire.shopDto.shopNm}]]</h5>
+               <p class="card-text">[[${hire.shopDto.shopPlace}]]</p>
+               <p class="card-text"><span>시급  </span>[[${hire.hirePay}]]</p>
+         <div class="dropdown-center">
+              <button class="btn btn-secondary" style="width: 100%; background-color: #13223D; margin-top: 10px;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              공고보기</button>
+          <ul class="dropdown-menu">
+            <li><span style="color:#FCA211;">근무지 </span><br>[[${hire.shopDto.shopPlace}]]</li>
+            <li><span style="color:#FCA211;">업/직종 </span><br>[[${hire.shopDto.shopType}]]</li>
+            <li><span style="color:#FCA211;">시급 </span><br>[[${hire.hirePay}]]</li>
+            <li><span style="color:#FCA211;">기간/요일 </span><br>[[${hire.hirePeriod}]]</li>
+            <li><span style="color:#FCA211;">근무타임 </span><br>[[${hire.hireTime}]]</li>
+            <li><span style="color:#FCA211;">전화번호 </span><br>[[${hire.hireNum}]]</li>
+         </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>  
 				</div>
+				
 			</th:block>
-			
-			
 		</div>
-
 
 	</div>
 </body>

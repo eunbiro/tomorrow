@@ -36,8 +36,7 @@ public class Board extends BaseEntity {
 	@Column(length = 50, nullable = false)
 	private String boardTitle;				// 커뮤니티 제목
 	
-	@Lob
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "LONGTEXT")
 	private String boardCont;				// 커뮤니티 내용
 	
 	@Column(columnDefinition = "integer default 0", nullable = false)	// 조회수의 기본 값을 0으로 지정, null 불가 처리

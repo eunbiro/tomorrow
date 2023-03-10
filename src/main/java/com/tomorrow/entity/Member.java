@@ -60,6 +60,8 @@ public class Member extends BaseEntity {
 	
     private String providerId;  // oauth2를 이용할 경우 아이디값
     
+    private int unregister;		// 회원탈퇴 상태
+    
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "shop_id")
 //	private Shop shop; // 매장코드 FK
@@ -71,7 +73,8 @@ public class Member extends BaseEntity {
 		member.setPNum(memberFormDto.getPNum());
 		member.setHintQ(memberFormDto.getHintQ());
 		member.setHintA(memberFormDto.getHintA());
-
+		member.setUnregister(0);
+		
 		String password = passwordEncoder.encode(memberFormDto.getPassword()); // 비밀번호 암호화
 		member.setPassword(password);
 		member.setRole(role);
@@ -109,5 +112,10 @@ public class Member extends BaseEntity {
 
 	public void updateRole(Role role) {
 		this.role = role;
+	}
+	
+	public void userStatusUpdate(int status) {
+		
+		this.unregister = status;
 	}
 }
