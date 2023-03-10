@@ -1,5 +1,7 @@
 package com.tomorrow.service;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +41,7 @@ public class MemberService implements UserDetailsService {
 
 		Member member = memberRepository.findByUserId(userName);
 
-		if (member == null) {
+		if (member == null || member.getUnregister() == 1) {
 			throw new UsernameNotFoundException(userName);
 		}
 
@@ -129,7 +131,7 @@ public class MemberService implements UserDetailsService {
 	// 회원아이디 삭제
 	public void deleteMember(Member member) {
 
-		shopCreateService.deleteMapId(member.getId());
-		memberRepository.delete(member);
+		Member memberDel = memberRepository.findById(member.getId()).orElseThrow(EntityNotFoundException::new);
+		memberDel.userStatusUpdate(1);
 	}
 }
