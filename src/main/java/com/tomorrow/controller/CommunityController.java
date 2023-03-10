@@ -174,7 +174,7 @@ public class CommunityController {
 	@DeleteMapping(value="/delete/{boardId}")
 	public @ResponseBody ResponseEntity deleteBoard(@PathVariable("boardId") Long boardId, Principal principal) {
 		if(!boardService.validateBoard(boardId, principal.getName())){
-			return new ResponseEntity<String>("주문 삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);		
+			return new ResponseEntity<String>("게시물 삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);		
 		}
 		
 		boardService.deleteBoard(boardId);

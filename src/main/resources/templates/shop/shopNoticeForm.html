@@ -354,7 +354,7 @@
 							<div class="mb-auto text-top" style="color: #A6A6A6; font-size: 0.9rem; padding-left: 1%" id="memberId" th:value="${noti.MemberFormDto.userId}" th:text="'@' + ${noti.MemberFormDto.userId}">@tomorrow</div>
 						</div>
 						
-						<a class="col-1 text-end" style="color: #000; cursor: pointer; font-size: 1rem;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${noti.noticeId}"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+						<a sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="col-1 text-end" style="color: #000; cursor: pointer; font-size: 1rem;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${noti.noticeId}"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 						
 						<!-- Modal -->
 						<div class="modal fade modal-wrap" th:id="'exampleModal' + ${noti.noticeId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

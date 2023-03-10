@@ -211,6 +211,7 @@ public class ShopController {
 		workLogDto.setShopDto(shopDto);
 
 		getSideImg(model, principal);
+		model.addAttribute("idCheck", principal.getName());
 		model.addAttribute("logList", logList);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("workLogDto", workLogDto);
