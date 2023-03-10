@@ -88,7 +88,7 @@ public class JobController {
 		return "job/jobNew";
 	}
 
-	// 구인공고 등록하기
+	// 구인공고 등록하기 //확인
 	@PostMapping(value = "/admin/job/new")
 	public String jobHireNew(@Valid HireDto hireDto, BindingResult bindingResult, Model model, Principal principal) {
 
