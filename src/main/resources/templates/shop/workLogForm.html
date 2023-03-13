@@ -370,7 +370,7 @@
 										</div>
 									</td>
 									<td class="fs-6 align-top">
-										<a th:if="${#strings.equals(member.userId, log.memberFormDto.userId) || #strings.equals(member.role, 'ADMIN')}" class="col-2 text-end" style="color: #000; cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${log.workLogId}"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+										<a th:if="${#strings.equals(member.userId, log.memberFormDto.userId) or #strings.equals(member.role, 'ADMIN')}" class="col-2 text-end" style="color: #000; cursor: pointer;" data-bs-toggle="modal" th:attr="data-bs-target=|#exampleModal${log.workLogId}"><i class="fa-solid fa-ellipsis-vertical"></i></a>
 										
 										<!-- Modal -->
 										<div class="modal fade modal-wrap" th:id="'exampleModal' + ${log.workLogId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

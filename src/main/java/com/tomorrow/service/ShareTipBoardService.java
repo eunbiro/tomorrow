@@ -56,7 +56,6 @@ public class ShareTipBoardService {
 	}
 
 	// 회원 정보가지고 있는 리뷰게시글dto
-	@Transactional(readOnly = true)
 	public ShareTipBoardDto getShareTipUserInfo(String userId) {
 		
 		Member member = findmember(userId);		
@@ -67,7 +66,6 @@ public class ShareTipBoardService {
 	}
 	
 	// 회원 정보가지고 있는 리뷰게시글dto
-	@Transactional(readOnly = true)
 	public ShareTipCommentDto getShareTipCommentUserInfo(String userId) {
 		
 		Member member = findmember(userId);		
@@ -78,6 +76,7 @@ public class ShareTipBoardService {
 	}
 	
 	// 회원 정보가지고 있는 리뷰댓글dto
+	@Transactional(readOnly = true)
 	public ShareTipCommentDto setShareTipCommentUserInfo(Long tipId, String userId) {
 		
 		ShareTipBoard shareTipBoard = shareTipBoardRepository.findById(tipId).orElseThrow(EntityNotFoundException::new);
@@ -151,6 +150,7 @@ public class ShareTipBoardService {
 	}
 	
 	// 멤버가져옴
+	@Transactional(readOnly = true)
 	public Member findmember(String userId) {
 		
 		return memberRepository.findByUserId(userId);

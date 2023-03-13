@@ -243,6 +243,7 @@ public class ShopService {
 	}
 	
 	// shopId랑 memeberId로 mapping 파트타임구하기
+	@Transactional(readOnly = true)
 	public String getPartTime(Member member, Shop shop) {
 		
 		MemShopMapping mapping = mapRepository.findByMemberIdAndShopId(member.getId(), shop.getId());
@@ -284,6 +285,7 @@ public class ShopService {
 	}
 	
 	// 등록이 되어있는지 아닌지 체크
+	@Transactional(readOnly = true)
 	public int chkMemMap(Long shopId, String userId) {
 		
 		Member member = findMember(userId);
@@ -298,6 +300,7 @@ public class ShopService {
 		}
 	}
 	
+	@Transactional(readOnly = true)
 	public int shopChk(Long shopId, Long memberId) {
 		
 		MemShopMapping memShopMapping = mapRepository.findByMemberIdAndShopIdAndWorkStatus(memberId, shopId, 1);
