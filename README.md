@@ -23,7 +23,7 @@
 
 <br /><br />
 
-## 기획 배경 및 목정 : <br />
+## 기획 배경 및 목적 : <br />
 아르바이트를 했을 당시의 경험을 되살려 '이러한 기능이 있으면 편리하지 않을까?' 하는 생각으로부터 기획이 진행되었습니다.<br />
 알바는 알바대로 편리한 급여조회, 출퇴근 등록 및 조회의 기능으로, 사장님은 사장님대로 알바관리, 급여 및 출퇴근 조회의 기능으로 편리하게!<br />
 '<b>내일</b>'을 위해 '<b>내 일</b>'을 하는 사람들을 위한 편리한 기능을 만들어보자!<br />
@@ -59,6 +59,8 @@
 
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/querydsl-4479A1?style=for-the-badge&logo=querydsl&logoColor=white">&nbsp;
+
+<br />
 
 <li><b>배포</b></li><br />
 
