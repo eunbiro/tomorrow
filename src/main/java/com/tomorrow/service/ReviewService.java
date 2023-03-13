@@ -56,7 +56,6 @@ public class ReviewService {
 	}
 
 	// 회원 정보가지고 있는 리뷰게시글dto
-	@Transactional(readOnly = true)
 	public ReviewDto getReviewUserInfo(String userId) {
 		
 		Member member = findmember(userId);		
@@ -67,7 +66,6 @@ public class ReviewService {
 	}
 	
 	// 회원 정보가지고 있는 리뷰게시글dto
-	@Transactional(readOnly = true)
 	public RvCommentDto getReviewCommentUserInfo(String userId) {
 		
 		Member member = findmember(userId);		
@@ -78,6 +76,7 @@ public class ReviewService {
 	}
 	
 	// 회원 정보가지고 있는 리뷰댓글dto
+	@Transactional(readOnly = true)
 	public RvCommentDto setReviewCommentUserInfo(Long reviewId, String userId) {
 		
 		Review review = reviewRepository.findById(reviewId).orElseThrow(EntityNotFoundException::new);
@@ -152,6 +151,7 @@ public class ReviewService {
 	}
 	
 	// 멤버가져옴
+	@Transactional(readOnly = true)
 	public Member findmember(String userId) {
 		
 		return memberRepository.findByUserId(userId);

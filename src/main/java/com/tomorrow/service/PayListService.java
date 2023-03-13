@@ -78,6 +78,7 @@ public class PayListService {
 	}
 	
 	// 접속한 회원 정보로 mapping 불러오기
+	@Transactional(readOnly = true)
 	public List<MemShopMapping> getMappingList(String userId) {
 		
 		return memShopMapRepository.findByMemberId(findMember(userId).getId());
@@ -99,6 +100,7 @@ public class PayListService {
 	}
 	
 	// 매장별로 나눠서 리스트 넣어주기
+	@Transactional(readOnly = true)
 	public List<List<PayListDto>> getMapShopList(String userId) {
 		
 		List<MemShopMapping> memShopMappingList = getMappingList(userId);
@@ -157,7 +159,7 @@ public class PayListService {
 		return workDayCountList;
 	}
 	
-	
+	@Transactional(readOnly = true)
 	public int getWorkDays(MemShopMapping msm) {
 		List<Commute> commuteListByMember = commuteRepository.findCommuteByMemberId(msm.getMember().getId(), msm.getShop().getId());
 		int workDays = commuteListByMember.size();
@@ -165,6 +167,7 @@ public class PayListService {
 		return workDays;
 	}
 	
+	@Transactional(readOnly = true)
 	public List<PayListDto> getPayListByMonth(Long shopId, int month){
 		List<PayListDto> payListDto = new ArrayList<PayListDto>();
 		List<PayList> payList = payListRepository.findPayListByMonth(shopId, month);		
@@ -183,6 +186,7 @@ public class PayListService {
 		return payListDto;
 	}
 	
+	@Transactional(readOnly = true)
 	public MemShopMappingDto getMapById(Long mapId) {
 		MemShopMapping msm = memShopMapRepository.findById(mapId).orElseThrow(EntityNotFoundException::new);
 		MemShopMappingDto msmd = new MemShopMappingDto();
