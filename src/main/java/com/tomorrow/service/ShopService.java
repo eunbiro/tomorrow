@@ -234,6 +234,7 @@ public class ShopService {
 			workLogDto.setRegTime(workLog.getRegTime());
 			workLogDto.setUpdateTime(workLog.getUpDateTime());
 			workLogDto.setPartTime(getPartTime(workLog.getMember(), workLog.getShop()));
+			workLogDto.setMemberFormDto(getMember(workLog.getMember()));
 			
 			workLogDtoList.add(workLogDto);
 		}

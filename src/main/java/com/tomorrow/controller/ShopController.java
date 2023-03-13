@@ -121,27 +121,6 @@ public class ShopController {
 		
 		return "redirect:/shop/info/" + noticeDto.getShopDto().getShopId();
 	}
-
-//	// 좋아요 눌렀을때
-//	@PostMapping(value = "/shop/info/like/{memberId}/like")
-//	public ResponseEntity shopLikeInsert(@PathVariable("memberId") Long memberId, Long noticeId, Model model, Principal principal) {
-//		
-//		Notice notice = shopService.findNotice(noticeId);
-//		Member member = shopService.findMember(principal.getName());
-//		NoticeLike noticeLike = NoticeLike.createNoticeLike(member, notice);
-//		shopService.saveNoticeLike(noticeLike);
-//		
-//		return new ResponseEntity(memberId, HttpStatus.OK);
-//	}
-//	
-//	// 좋아요 또 눌렀을때
-//	@DeleteMapping(value = "/shop/info/{notiLikeId}/likeDel")
-//	public ResponseEntity shopLikeDelete(@PathVariable("notiLikeId") Long notiLikeId, Long noticeId, Model model, Principal principal) {
-//		
-//		NoticeLike noticeLike = shopService.findNoticeLike(notiLikeId);
-//		
-//		return new ResponseEntity(notiLikeId, HttpStatus.OK);
-//	}
 	
 	// 공지 수정 눌렀을때
 	@PostMapping(value = "/shop/notice/{noticeId}/update")
@@ -209,9 +188,8 @@ public class ShopController {
 		ShopDto shopDto = new ShopDto();
 		shopDto.setShopId(shopId);
 		workLogDto.setShopDto(shopDto);
-
+		
 		getSideImg(model, principal);
-		model.addAttribute("idCheck", principal.getName());
 		model.addAttribute("logList", logList);
 		model.addAttribute("myShopList", myShopList);
 		model.addAttribute("workLogDto", workLogDto);

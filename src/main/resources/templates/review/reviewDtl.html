@@ -105,6 +105,54 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				}
 			});
 		}
+		
+     // 해당 게시글 삭제
+		function deleteComment(commentId) {
+			console.log(reviewId);
+			const deleteConf = confirm("삭제하시겠습니까?");
+			
+			if (!deleteConf) return;
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = "/review/comment/" + commentId + "/delete";
+			
+			console.log(reviewId);
+			
+			$.ajax({
+				
+				url			: url,
+				type 		: "DELETE",
+				contentType : "application/json",
+				beforeSend 	: function(xhr) {
+					
+					xhr.setRequestHeader(header, token)
+					$.LoadingOverlay("show");
+				},
+				dataType 	:"Json",
+				cache 		: false,
+				success 	: function(result, status) {
+					
+					location.href = '/review/' + [[${review.id}]];
+				},
+				complate	: function() {
+					
+					$.LoadingOverlay("hide");
+				},
+				error 		: function(jqXHR, status, error) {
+
+					if (jqXHR.status == '401') {
+						
+						alert('로그인 후 이용하시오.');
+						location.href = '/member/login';
+					} else {
+						
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+		}
 	</script>
 </th:block>
 
@@ -206,7 +254,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	   			<hr>
 	   			<div class="rv-title-ipt my-auto mx-2 d-flex justify-content-between">
 					<p class="my-auto fs-5" th:text="'제목 : ' + ${review.reviewTitle}"></p>
-					<button type="button" class="my-auto me-4 rv-del" th:value="${review.id}" onclick="deleteReview(this.value)">삭제</button>
+					<button th:if="${#strings.equals(member.userId, review.member.userId)}" type="button" class="my-auto me-4 rv-del" th:value="${review.id}" onclick="deleteReview(this.value)">삭제</button>
 	   			</div>
 	   			<hr>
 	   			<div class="post-text text-center review-textarea">
@@ -220,7 +268,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	   				<p class="text-end me-3" style="font-size: 0.9rem;" th:text="'등록일 : ' + ${#temporals.format(review.regTime, 'yy-MM-dd HH:mm')}"></p>
 	   			</div>
 	   			<div class="text-end me-2 my-3">
-      				<button class="fs-6 px-4 py-2 rv-saveBtn" type="button" th:onclick="'location.href=\'update/'+ @{${review.id}} + '\''">수정하기</button>	
+      				<button th:if="${#strings.equals(member.userId, review.member.userId)}" class="fs-6 px-4 py-2 rv-saveBtn" type="button" th:onclick="'location.href=\'update/'+ @{${review.id}} + '\''">수정하기</button>	
 	   				<button class="fs-6 px-4 py-2 rv-saveBtn" type="button" onclick="location.href='/review/list'">목록</button>
 	   			</div>
 	   			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
@@ -245,8 +293,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 				<ul class="text-center mx-auto my-3" th:each="comment : ${comments}" style="list-style: none; padding: 0">
 					<li class="row rv-cmt">
 						<div class="col-2" th:text="${comment.member.userNm}"></div>
-						<div class="col-8 text-start" th:text="${comment.rvCmtText}"></div>
+						<div class="col-7 text-start" th:text="${comment.rvCmtText}"></div>
 						<div class="col-2" style="font-size: 0.9rem;" th:text="${#temporals.format(comment.regTime, 'yy-MM-dd HH:mm')}"></div>
+						<button th:if="${#strings.equals(member.userId, comment.member.userId)}" type="button" class="col-1 rv-del" th:value="${comment.id}" onclick="deleteComment(this.value)">x</button>
 					</li>
 				</ul>
 			</div>

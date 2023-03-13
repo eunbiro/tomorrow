@@ -97,6 +97,15 @@ public class ShareTipBoardService {
 		return shareTipComment.getId();
 	}
 	
+	// 댓글삭제
+	public Long deleteShareTipComment(Long commentId) {
+		
+		ShareTipComment shareTipComment = shareTipCommentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
+		shareTipCommentRepository.delete(shareTipComment);
+		
+		return shareTipComment.getId();
+	}
+	
 	// 게시글 가져오기
 	@Transactional(readOnly = true)
 	public ShareTipBoardDto getShareTipDtl(Long tipId) {
