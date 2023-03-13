@@ -97,6 +97,15 @@ public class ReviewService {
 		return rvComment.getId();
 	}
 	
+	// 댓글등록
+	public Long deleteRvComment(Long commentId) {
+		
+		RvComment rvComment = rvCommentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
+		rvCommentRepository.delete(rvComment);
+		
+		return rvComment.getId();
+	}
+	
 	
 	// 게시글 가져오기
 	@Transactional(readOnly = true)

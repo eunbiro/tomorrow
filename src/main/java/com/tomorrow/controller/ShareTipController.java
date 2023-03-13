@@ -198,6 +198,14 @@ public class ShareTipController {
 		return new ResponseEntity<Long>(tipId, HttpStatus.OK);
 	}
 	
+	// 댓글 삭제
+	@DeleteMapping(value = "/comment/{commentId}/delete")
+	public @ResponseBody ResponseEntity deleteComment(@PathVariable("commentId") Long commentId) {
+		
+		shareTipBoardService.deleteShareTipComment(commentId);
+		return new ResponseEntity<Long>(commentId, HttpStatus.OK);
+	}
+	
 	//사이드바 프로필 이미지 가져오기 
 		public Model getSideImg(Model model, Principal principal) {   
 		     MemberFormDto memberFormDto = memberService.getIdImgUrl(principal.getName());
