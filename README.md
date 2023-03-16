@@ -84,5 +84,65 @@
 
 ## 화면설계<br />
 
-<img src="/src/main/resources/static/images/figma-login.JPG" width="600px" height="500px"><img src="/src/main/resources/static/images/figma-main.JPG" width="600px" height="500px">
-<img src="/src/main/resources/static/images/figma-paylist.JPG" width="600px" height="500px"><img src="/src/main/resources/static/images/figma-employees.JPG" width="600px" height="500px">
+<img src="/src/main/resources/static/images/figma-login.JPG" width="33%" height="33%">&nbsp;&nbsp;<img src="/src/main/resources/static/images/figma-main.JPG" width="32%" height="32%">&nbsp;&nbsp;<img src="/src/main/resources/static/images/figma-paylist.JPG" width="31%" height="31%">
+
+<br /><br />
+
+## 요구사항<br />
+> 공통
+* 로그인
+* 회원가입
+* 아이디찾기
+* 비밀번호찾기
+* 메인
+
+> 일반회원
+* 매장찾기
+* 근무
+  - 출퇴근기록
+  - 급여일지
+* 커뮤니티
+  - 자유게시판
+* 구인공고
+  - 채용정보
+* 마이페이지
+  - 매장조회
+  - 비밀번호변경
+  
+> 알바회원
+* 매장찾기
+* 근무
+  - 출퇴근기록
+  - 급여일지
+* 매장
+  - 매장공지
+  - 근무일지
+* 커뮤니티
+  - 자유게시판
+  - 매장리뷰게시판
+* 구인공고
+  - 채용정보
+* 마이페이지
+  - 매장조회
+  - 비밀번호변경
+
+> 관리자회원
+* 매장생성
+* 근무
+  - 출퇴근기록
+  - 급여일지
+* 매장
+  - 매장공지
+  - 근무일지
+* 커뮤니티
+  - 자유게시판
+  - 관리자정보공유게시판
+* 구인공고
+  - 채용정보
+  - 구인공고등록
+  - 구인공고등록 리스트
+* 마이페이지
+  - 매장조회
+  - 비밀번호변경
+  - 매장관리
+
