@@ -33,7 +33,7 @@
 
 ## 개발환경<br />
 
-<li><b>FRONT-END</b></li><br />
+><b>FRONT-END</b><br />
 
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white">&nbsp;
@@ -45,7 +45,7 @@
 
 <br />
 
-<li><b>FRONT-END</b></li><br />
+><b>BACK-END</b><br />
 
 <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white">&nbsp;
@@ -55,15 +55,34 @@
 
 <br />
 
-<li><b>Data-base</b></li><br />
+><b>Data-base</b><br />
 
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/querydsl-4479A1?style=for-the-badge&logo=querydsl&logoColor=white">&nbsp;
 
 <br />
 
-<li><b>배포</b></li><br />
+><b>배포</b><br />
 
 <img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=Slack&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white">&nbsp;
+
+<br /><br />
+
+## 작업분할구도 & 기간<br />
+
+<img src="/src/main/resources/static/images/gant-chart.JPG">
+
+<br /><br />
+
+## ERD<br />
+
+<img src="/src/main/resources/static/images/erd.JPG">
+
+<br /><br />
+
+## 화면설계<br />
+
+<img src="/src/main/resources/static/images/figma-login.JPG" width="600px" height="500px"><img src="/src/main/resources/static/images/figma-main.JPG" width="600px" height="500px">
+<img src="/src/main/resources/static/images/figma-paylist.JPG" width="600px" height="500px"><img src="/src/main/resources/static/images/figma-employees.JPG" width="600px" height="500px">
