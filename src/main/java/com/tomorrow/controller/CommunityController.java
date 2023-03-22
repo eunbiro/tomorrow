@@ -128,12 +128,18 @@ public class CommunityController {
 	}
 	
 	//수정화면 진입
+	@ResponseBody
 	@GetMapping(value = "/update/{boardId}")
 	public String boardDtl(@PathVariable("boardId") Long boardId, Model model, Principal principal) {
 		
 		getSideImg(model, principal);
+		String msg = "";
 		
 		try {
+			if(!boardService.validateBoard(boardId, principal.getName())){
+				msg="<script>alert('게시글 수정 권한이 없습니다.'); location.href='/board/list';</script>";
+				return msg;
+			}
 			BoardFormDto boardFormdto = boardService.getBoardDtl(boardId);
 			model.addAttribute(boardFormdto);
 		} catch(EntityNotFoundException e) {
