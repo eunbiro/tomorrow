@@ -1,7 +1,7 @@
 # TEAM PROJECT<br />
 <br /><br />
 ## 프로젝트 명 : 내일 (알바관리/급여관리/출퇴근관리 웹페이지)
-[<img src="https://img.shields.io/badge/TOMORROW SITE-486AA7?style=for-the-badge&logo=TOMORROW&logoColor=white">](http://15.164.212.27/)<br />
+[<img src="https://img.shields.io/badge/TOMORROW SITE-486AA7?style=for-the-badge&logo=TOMORROW&logoColor=white">](http://15.164.212.27/)(배포종료)<br />
 [<img src="https://img.shields.io/badge/TOMORROW PPT-C01E1E?style=for-the-badge&logo=TOMORROW&logoColor=white">](https://docs.google.com/presentation/d/1JezIL6SI8dUexlXT-SBqzOGHUbAZXybz0whFisT7HAc/edit#slide=id.g203bcd71556_0_169)
 
 <br /><br />
